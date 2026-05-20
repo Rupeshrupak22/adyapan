@@ -3,21 +3,24 @@
  * Downloads the certificate template image for the given type.
  *
  * Auth: JWT cookie required (students must be logged in).
- * Security: user can only download their own session's templates.
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { protectRoute } from '@/lib/auth';
 import CertificateTemplate from '@/models/CertificateTemplate';
-import { readFile } from 'fs/promises';
-import path from 'path';
 
-/* Map type → download filename */
 const DOWNLOAD_NAMES: Record<string, string> = {
   best_performance:      'best-performance-certificate.png',
   course_completion:     'course-completion-certificate.png',
   internship_completion: 'internship-completion-certificate.png',
   project_completion:    'project-completion-certificate.png',
+};
+
+const TEMPLATE_IMAGES: Record<string, string> = {
+  best_performance:      '/certificates/templates/best-performance.png',
+  course_completion:     '/certificates/templates/course-completion.png',
+  internship_completion: '/certificates/templates/internship-completion.png',
+  project_completion:    '/certificates/templates/project-completion.png',
 };
 
 export async function GET(
@@ -31,7 +34,6 @@ export async function GET(
     await connectToDatabase();
     const { type } = await params;
 
-    /* ── Find template ── */
     const template = await CertificateTemplate.findOne({ type, isActive: true }).lean();
     if (!template) {
       return NextResponse.json(
@@ -40,21 +42,25 @@ export async function GET(
       );
     }
 
-    /* ── Read image file from public folder ── */
-    // imageUrl is like /certificates/templates/best-performance.png
-    const relativePath = (template as any).imageUrl.replace(/^\//, '');
-    const filePath = path.join(process.cwd(), 'public', relativePath);
+    const imagePath = TEMPLATE_IMAGES[type] ?? (template as any).imageUrl;
+    if (!imagePath?.startsWith('/certificates/templates/')) {
+      return NextResponse.json(
+        { error: 'Certificate image path is invalid.' },
+        { status: 400 }
+      );
+    }
 
-    let fileBuffer: Buffer;
-    try {
-      fileBuffer = await readFile(filePath);
-    } catch {
+    const imageResponse = await fetch(new URL(imagePath, req.nextUrl.origin), {
+      cache: 'force-cache',
+    });
+    if (!imageResponse.ok) {
       return NextResponse.json(
         { error: 'Certificate image file not found on server.' },
         { status: 404 }
       );
     }
 
+    const fileBuffer = Buffer.from(await imageResponse.arrayBuffer());
     const downloadName = DOWNLOAD_NAMES[type] ?? `${type}-certificate.png`;
 
     return new NextResponse(fileBuffer as unknown as BodyInit, {
