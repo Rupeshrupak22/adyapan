@@ -640,9 +640,9 @@ export default function AboutPageClient() {
                 image: '/images/niranjan-reddy.jpeg'
               },
               {
-                name: 'Gunjan Avasthi',
+                name: 'Monika Y',
                 role: 'Human Resource Manager',
-                image: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg'
+                image: '/images/monika-y.jpeg'
               },
               {
                 name: 'Dr. Dhiraj Singh',
