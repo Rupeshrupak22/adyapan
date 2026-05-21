@@ -29,7 +29,7 @@ import {
   isDuplicatePhoneError,
   normalizeAccountEmail,
 } from '@/lib/account-uniqueness';
-import AuthUser from '@/models/AuthUser';
+import AuthUser, { ensureAuthUserIndexes } from '@/models/AuthUser';
 
 const SIGNUP_LIMIT = 5;
 const SIGNUP_WINDOW = 15 * 60 * 1000;
@@ -74,6 +74,7 @@ export async function POST(request: NextRequest) {
 
   try {
     await connectToDatabase();
+    await ensureAuthUserIndexes();
 
     const body = sanitizeMongoInput(await request.json());
     const { role, ...data } = body;

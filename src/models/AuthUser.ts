@@ -57,7 +57,7 @@ const authUserSchema = new Schema<AuthUserDocument>(
     avatar:           { type: String, trim: true, default: '' },
     companyName:      { type: String, trim: true, default: '' },
     authProvider:     { type: String, default: 'local' },
-    googleId:         { type: String, trim: true, default: '', index: true },
+    googleId:         { type: String, trim: true },
     selectedProgram:  { type: String, trim: true },
     selectedAmount:   { type: Number, min: 0 },
     purchasedCourses: { type: [String], default: [] },
@@ -93,10 +93,65 @@ authUserSchema.index({ role: 1, accountStatus: 1 });
 authUserSchema.index({ role: 1, createdAt: -1 });
 authUserSchema.index({ resetPasswordToken: 1, resetPasswordExpires: 1 });
 authUserSchema.index(
+  { googleId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { googleId: { $type: 'string', $gt: '' } },
+  }
+);
+authUserSchema.index(
   { phone: 1 },
   { partialFilterExpression: { phone: { $type: 'string', $gt: '' } } }
 );
 authUserSchema.index({ createdAt: -1 });
 
 const AuthUser = models.AuthUser || model<AuthUserDocument>('AuthUser', authUserSchema);
+
+let authUserIndexRepairPromise: Promise<void> | null = null;
+
+function isGoogleIdIndex(index: { key?: Record<string, unknown> }) {
+  return index.key?.googleId === 1 && Object.keys(index.key).length === 1;
+}
+
+function isUsableGoogleIdIndex(index: {
+  key?: Record<string, unknown>;
+  unique?: boolean;
+  sparse?: boolean;
+  partialFilterExpression?: unknown;
+}) {
+  return isGoogleIdIndex(index) && index.unique && Boolean(index.sparse || index.partialFilterExpression);
+}
+
+export async function ensureAuthUserIndexes() {
+  if (authUserIndexRepairPromise) return authUserIndexRepairPromise;
+
+  authUserIndexRepairPromise = (async () => {
+    const indexes = await AuthUser.collection.indexes();
+    const googleIdIndex = indexes.find(isGoogleIdIndex);
+
+    if (googleIdIndex?.unique && !isUsableGoogleIdIndex(googleIdIndex)) {
+      await AuthUser.collection.dropIndex(googleIdIndex.name);
+    }
+
+    const refreshedIndexes = await AuthUser.collection.indexes();
+    const hasUsableGoogleIdIndex = refreshedIndexes.some(isUsableGoogleIdIndex);
+
+    if (!hasUsableGoogleIdIndex) {
+      await AuthUser.collection.createIndex(
+        { googleId: 1 },
+        {
+          name: 'googleId_1',
+          unique: true,
+          partialFilterExpression: { googleId: { $type: 'string', $gt: '' } },
+        }
+      );
+    }
+  })().catch((error) => {
+    authUserIndexRepairPromise = null;
+    throw error;
+  });
+
+  return authUserIndexRepairPromise;
+}
+
 export default AuthUser;

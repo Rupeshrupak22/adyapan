@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { connectToDatabase } from '@/lib/mongodb';
 import { normalizeAccountEmail } from '@/lib/account-uniqueness';
 import { authCookieOptions, getClientIp, requireJwtSecret } from '@/lib/security';
-import AuthUser from '@/models/AuthUser';
+import AuthUser, { ensureAuthUserIndexes } from '@/models/AuthUser';
 
 const STATE_COOKIE = 'googleOAuthState';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
@@ -101,6 +101,7 @@ export async function GET(request: NextRequest) {
 
   try {
     await connectToDatabase();
+    await ensureAuthUserIndexes();
 
     const profile = await fetchGoogleProfile(request, code);
     if (!profile.email || !profile.sub) {
