@@ -107,6 +107,13 @@ function SignupContent() {
       .catch(() => setChecking(false));
   }, [router]);
 
+  useEffect(() => {
+    const googleError = searchParams.get('error');
+    if (googleError?.startsWith('google') || googleError === 'account_suspended') {
+      setError('Google sign up failed. Please try again or use email and password.');
+    }
+  }, [searchParams]);
+
   if (checking) return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50">
       <div className="w-10 h-10 border-4 border-[#ffa800] border-t-transparent rounded-full animate-spin" />
@@ -142,6 +149,16 @@ function SignupContent() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSignUp = () => {
+    const p = new URLSearchParams({
+      mode: 'signup',
+      role,
+      redirect: role === 'organization' ? '/dashboard/company' : '/dashboard/student',
+    });
+
+    window.location.href = `/api/auth/google/start?${p.toString()}`;
   };
 
   return (
@@ -303,7 +320,7 @@ function SignupContent() {
                 type="button"
                 whileHover={{ scale: 1.02, backgroundColor: '#f9fafb' }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => alert('Google Sign Up - integration needed')}
+                onClick={handleGoogleSignUp}
                 className="w-full py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-700 text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">

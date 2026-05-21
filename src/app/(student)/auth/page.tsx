@@ -232,6 +232,13 @@ function AuthPageContent() {
     else if (userTypeParam === 'student') setUserType('students');
   }, [router, userTypeParam]);
 
+  useEffect(() => {
+    const googleError = searchParams?.get('error');
+    if (googleError?.startsWith('google') || googleError === 'account_suspended') {
+      setError('Google sign in failed. Please try again or use email and password.');
+    }
+  }, [searchParams]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(p => ({ ...p, [name]: value }));
@@ -313,6 +320,21 @@ function AuthPageContent() {
   const switchMode = () => {
     setIsLogin(v => !v); setError(null); setSuccess(null);
     setFormData({ firstName: '', lastName: '', fullName: '', companyName: '', email: '', password: '', confirmPassword: '' });
+  };
+
+  const handleGoogleAuth = () => {
+    if (isOrg) {
+      router.push('/admin/login');
+      return;
+    }
+
+    const p = new URLSearchParams({
+      mode: showAsLogin ? 'login' : 'signup',
+      role: 'student',
+      redirect: searchParams?.get('redirect') || '/dashboard/student',
+    });
+
+    window.location.href = `/api/auth/google/start?${p.toString()}`;
   };
 
   if (checking) return (
@@ -518,7 +540,7 @@ function AuthPageContent() {
               type="button"
               whileHover={{ scale: 1.02, backgroundColor: '#f9fafb' }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => alert('Google Sign In  integration needed')}
+              onClick={handleGoogleAuth}
               className="w-full py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-700 text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">

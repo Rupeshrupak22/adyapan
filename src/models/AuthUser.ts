@@ -14,6 +14,7 @@ export interface AuthUserDocument {
   avatar?: string;
   companyName?: string;
   authProvider: string;
+  googleId?: string;
   selectedProgram?: string;
   selectedAmount?: number;
   purchasedCourses: string[];
@@ -56,6 +57,7 @@ const authUserSchema = new Schema<AuthUserDocument>(
     avatar:           { type: String, trim: true, default: '' },
     companyName:      { type: String, trim: true, default: '' },
     authProvider:     { type: String, default: 'local' },
+    googleId:         { type: String, trim: true, default: '', index: true },
     selectedProgram:  { type: String, trim: true },
     selectedAmount:   { type: Number, min: 0 },
     purchasedCourses: { type: [String], default: [] },
