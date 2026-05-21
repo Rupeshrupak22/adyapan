@@ -452,12 +452,13 @@ export default function CompanyAboutPage() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8"
           >
             {[
               { name: 'Sai Charan', role: 'Founder', image: '/images/sai-charan.jpeg' },
               { name: 'Niranjan Reddy', role: 'Co-Founder', image: '/images/niranjan-reddy.jpeg' },
-              { name: 'Monika Y', role: 'Human Resource Manager', image: '/images/monika-y.jpeg' },
+              { name: 'Gunjan Avasthi', role: 'Human Resource Manager', image: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg' },
+              { name: 'Monika Y', role: 'Core Team', image: '/images/monika-y.jpeg' },
               { name: 'Dr. Dhiraj Singh', role: 'Head, Training & Placement Cell', image: '/images/Dr. Dhiraj Singh.jpeg' }
             ].map((member, i) => (
               <motion.div key={i} variants={fadeUp} className="text-center group">
