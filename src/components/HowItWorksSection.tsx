@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Square, Volume2, VolumeX } from 'lucide-react';
 import { fadeLeft, fadeRight, staggerContainer } from '@/lib/motion';
@@ -37,8 +37,31 @@ const pillars = [
 
 const HowItWorksSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+
+  const videoSources = [
+    '/videos/final-web-video.mp4',
+    '/videos/1.mp4',
+    '/videos/3.mp4',
+  ];
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) return;
+
+    video.load();
+
+    const playPromise = video.play();
+
+    if (playPromise) {
+      playPromise
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    }
+  }, [activeVideoIndex]);
 
   const togglePlayback = () => {
     const video = videoRef.current;
@@ -46,8 +69,9 @@ const HowItWorksSection = () => {
     if (!video) return;
 
     if (video.paused) {
-      video.play();
-      setIsPlaying(true);
+      video.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
       return;
     }
 
@@ -148,18 +172,30 @@ const HowItWorksSection = () => {
             className="rounded-3xl overflow-hidden aspect-[9/16] bg-[#c8d4d8] relative"
           >
             <video
+              key={videoSources[activeVideoIndex]}
               ref={videoRef}
-              src="/videos/final-web-video.mp4"
               aria-label="Adyapan students and learning experience"
               autoPlay
               loop
               muted={isMuted}
               playsInline
-              preload="metadata"
+              preload="auto"
+              onCanPlay={() => {
+                videoRef.current?.play()
+                  .then(() => setIsPlaying(true))
+                  .catch(() => setIsPlaying(false));
+              }}
+              onError={() => {
+                setActiveVideoIndex((currentIndex) =>
+                  currentIndex < videoSources.length - 1 ? currentIndex + 1 : currentIndex
+                );
+              }}
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
               className="w-full h-full object-cover"
-            />
+            >
+              <source src={videoSources[activeVideoIndex]} type="video/mp4" />
+            </video>
           </motion.div>
 
           {/* Video controls */}
