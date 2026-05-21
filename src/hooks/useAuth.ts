@@ -44,27 +44,35 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch current user on mount
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get('/api/auth/me');
-        setUser(response.data.user);
-        setError(null);
-      } catch (err: any) {
-        setUser(null);
-        // 401 is expected when user is not authenticated - suppress console noise
-        if (err?.response?.status !== 401) {
-          // Only log unexpected errors
-          console.warn('[useAuth] Unexpected error fetching user:', err?.response?.status);
-        }
-      } finally {
-        setLoading(false);
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await axios.get('/api/auth/me');
+      setUser(response.data.user);
+      setError(null);
+    } catch (err: any) {
+      setUser(null);
+      // 401 is expected when user is not authenticated - suppress console noise
+      if (err?.response?.status !== 401) {
+        // Only log unexpected errors
+        console.warn('[useAuth] Unexpected error fetching user:', err?.response?.status);
       }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Fetch current user on mount and whenever login/signup/logout changes the cookie.
+  useEffect(() => {
+    fetchUser();
+
+    const handleAuthChange = () => {
+      setLoading(true);
+      fetchUser();
     };
 
-    fetchUser();
-  }, []);
+    window.addEventListener('auth-change', handleAuthChange);
+    return () => window.removeEventListener('auth-change', handleAuthChange);
+  }, [fetchUser]);
 
   const login = useCallback(async (email: string, password: string) => {
     setLoading(true);
