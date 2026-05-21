@@ -39,8 +39,8 @@ export default function ContactPage() {
       closes: '18:00',
     },
     sameAs: [
-      'https://www.linkedin.com/company/adyapan',
-      'https://www.instagram.com/adyapan',
+      'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
+      'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
     ],
   };
 

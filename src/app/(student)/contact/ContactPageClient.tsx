@@ -22,6 +22,11 @@ const CONTACT_INFO = [
   { icon: Clock,   label: 'Hours',    value: 'Mon–Sat, 9 AM – 6 PM',  href: null },
 ];
 
+const SOCIAL_LINKS = {
+  instagram: 'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
+  linkedin: 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
+};
+
 const FAQS = [
   { q: 'How do I enroll in a course?', a: 'Visit our Programs page, choose your course, and click Enroll Now. Payment is processed securely via Razorpay.' },
   { q: 'Are classes live or recorded?', a: 'All sessions are live and interactive. Recordings are available for revision after each class.' },
@@ -231,13 +236,13 @@ export default function ContactPageClient() {
               <p className="text-white font-bold mb-4">Follow Us</p>
               <div className="flex gap-3">
                 <a
-                  href="https://www.instagram.com/adyapan" target="_blank" rel="noopener noreferrer"
+                  href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-medium transition-colors"
                 >
                   <Instagram className="w-4 h-4" /> Instagram
                 </a>
                 <a
-                  href="https://www.linkedin.com/company/adyapan" target="_blank" rel="noopener noreferrer"
+                  href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-medium transition-colors"
                 >
                   <Linkedin className="w-4 h-4" /> LinkedIn

@@ -118,8 +118,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               logo:       `${APP_URL}/adyapan-logo.png`,
               description:'India\'s leading EdTech platform offering 65+ industry-relevant courses with placement support.',
               sameAs: [
-                'https://www.linkedin.com/company/adyapan',
-                'https://www.instagram.com/adyapan',
+                'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
+                'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
               ],
               contactPoint: {
                 '@type':             'ContactPoint',
