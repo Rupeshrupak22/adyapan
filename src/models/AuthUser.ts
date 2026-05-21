@@ -53,7 +53,7 @@ const authUserSchema = new Schema<AuthUserDocument>(
     passwordHash:     { type: String, required: true },
     role:             { type: String, enum: ['STUDENT', 'COMPANY', 'ADMIN', 'SUPERADMIN'], required: true, index: true },
     accountStatus:    { type: String, enum: ['pending', 'approved', 'active', 'blocked'], default: 'approved', index: true },
-    phone:            { type: String, trim: true, default: '' },
+    phone:            { type: String, trim: true },
     avatar:           { type: String, trim: true, default: '' },
     companyName:      { type: String, trim: true, default: '' },
     authProvider:     { type: String, default: 'local' },

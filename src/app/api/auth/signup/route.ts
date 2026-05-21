@@ -26,6 +26,7 @@ import {
 import {
   findExistingAccountByEmail,
   isDuplicateEmailError,
+  isDuplicatePhoneError,
   normalizeAccountEmail,
 } from '@/lib/account-uniqueness';
 import AuthUser from '@/models/AuthUser';
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
       const d = parsed.data;
 
       const normalizedEmail = normalizeAccountEmail(d.email);
-      const phone = normalizePhone(d.phone);
+      const phone = normalizePhone(d.phone) || undefined;
       const existingEmail = await findExistingAccountByEmail(normalizedEmail);
       const existingPhone = phone ? await AuthUser.findOne({ phone }).select('_id').lean() : null;
       if (existingEmail || existingPhone) {
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
         passwordHash,
         role:             'STUDENT',
         accountStatus:    'approved',
-        phone,
+        ...(phone ? { phone } : {}),
         selectedProgram:  d.selectedProgram || null,
         selectedAmount:   d.selectedAmount  || null,
         purchasedCourses: [],
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
       const d = parsed.data;
 
       const normalizedEmail = normalizeAccountEmail(d.email);
-      const phone = normalizePhone(d.phone);
+      const phone = normalizePhone(d.phone) || undefined;
       const existingEmail = await findExistingAccountByEmail(normalizedEmail);
       const existingPhone = phone ? await AuthUser.findOne({ phone }).select('_id').lean() : null;
       if (existingEmail || existingPhone) {
@@ -185,7 +186,7 @@ export async function POST(request: NextRequest) {
         passwordHash,
         role:           'COMPANY',
         accountStatus:  'approved',
-        phone,
+        ...(phone ? { phone } : {}),
         companyName:    d.companyName.trim(),
         purchasedCourses: [],
         enrolledCourses:  [],
@@ -231,6 +232,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (isDuplicateEmailError(error)) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
+    }
+    if (isDuplicatePhoneError(error)) {
+      return NextResponse.json({ error: 'Phone number already registered' }, { status: 409 });
     }
     if ((error as any)?.name === 'ZodError') {
       return NextResponse.json({ error: (error as any).errors[0].message }, { status: 400 });

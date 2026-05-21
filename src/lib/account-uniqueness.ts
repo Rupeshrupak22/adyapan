@@ -22,3 +22,7 @@ export function isDuplicateEmailError(error: unknown): boolean {
   return err?.code === 11000 && Boolean(err.keyPattern?.email || err.keyValue?.email);
 }
 
+export function isDuplicatePhoneError(error: unknown): boolean {
+  const err = error as { code?: number; keyPattern?: Record<string, unknown>; keyValue?: Record<string, unknown> };
+  return err?.code === 11000 && Boolean(err.keyPattern?.phone || err.keyValue?.phone);
+}
