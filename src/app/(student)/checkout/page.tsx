@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Suspense } from 'react';
 import Link from 'next/link';
@@ -7,12 +7,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getPlan } from '@/lib/planData';
 
-/* ── helpers ── */
+/* â”€â”€ helpers â”€â”€ */
 const fmt = (n: number) => 'Rs. ' + n.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
-/* ── plan data - loaded from centralized planData.ts ── */
+/* â”€â”€ plan data - loaded from centralized planData.ts â”€â”€ */
 
-/* ── coupons ── */
+/* â”€â”€ coupons â”€â”€ */
 const COUPONS: Record<string, { type: 'percent' | 'flat'; value: number; label: string }> = {
   'ADYAPAN5':  { type: 'percent', value: 5,    label: 'Extra 5% Off' },
   'STUDENT10': { type: 'flat',    value: 1000,  label: 'Rs. 1,000 Off' },
@@ -20,69 +20,9 @@ const COUPONS: Record<string, { type: 'percent' | 'flat'; value: number; label: 
 };
 
 const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh'];
-const BANKS = ['State Bank of India','HDFC Bank','ICICI Bank','Axis Bank','Kotak Mahindra Bank','Punjab National Bank','Bank of Baroda','Yes Bank','IndusInd Bank'];
-
-type PayMethod = 'upi' | 'card' | 'netbanking' | 'emi' | 'wallet';
 type Step = 'details' | 'payment' | 'success';
-type UpiAppLogo = 'gpay' | 'phonepe' | 'paytm' | 'bhim' | 'amazonpay' | 'upi';
 
 declare global { interface Window { Razorpay: any } }
-
-function PaymentAppLogo({ app }: { app: UpiAppLogo }) {
-  if (app === 'gpay') {
-    return (
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-white shadow-sm">
-        <span className="text-sm font-black">
-          <span className="text-blue-600">G</span>
-          <span className="text-red-500">P</span>
-        </span>
-      </div>
-    );
-  }
-
-  if (app === 'phonepe') {
-    return (
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#5f259f] shadow-sm">
-        <span className="text-sm font-black text-white">Pe</span>
-      </div>
-    );
-  }
-
-  if (app === 'paytm') {
-    return (
-      <div className="flex h-8 w-12 items-center justify-center rounded-lg border border-sky-100 bg-sky-50 shadow-sm">
-        <span className="text-[11px] font-black tracking-tight">
-          <span className="text-[#002970]">Pay</span>
-          <span className="text-[#00baf2]">tm</span>
-        </span>
-      </div>
-    );
-  }
-
-  if (app === 'bhim') {
-    return (
-      <div className="flex h-8 w-12 flex-col items-center justify-center rounded-lg border border-orange-100 bg-white shadow-sm">
-        <span className="text-[10px] font-black tracking-wide text-gray-900">BHIM</span>
-        <span className="mt-0.5 h-1 w-8 rounded-full bg-gradient-to-r from-orange-500 via-white to-green-600" />
-      </div>
-    );
-  }
-
-  if (app === 'amazonpay') {
-    return (
-      <div className="flex h-8 w-14 flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 shadow-sm">
-        <span className="text-[10px] font-black leading-none text-gray-900">amazon</span>
-        <span className="text-[10px] font-bold leading-none text-[#00a8e1]">pay</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 shadow-sm">
-      <span className="text-[10px] font-black text-gray-600">UPI</span>
-    </div>
-  );
-}
 
 function CheckoutPageInner() {
   const searchParams = useSearchParams();
@@ -90,7 +30,7 @@ function CheckoutPageInner() {
   const planKey = searchParams.get('plan') || 'plan-4-premium';
   const plan = getPlan(planKey);
 
-  /* ── Auth guard: redirect to auth if not logged in ── */
+  /* â”€â”€ Auth guard: redirect to auth if not logged in â”€â”€ */
   const [authChecked, setAuthChecked] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<{ name: string; email: string; phone?: string; state?: string } | null>(null);
 
@@ -113,9 +53,8 @@ function CheckoutPageInner() {
       });
   }, [planKey, router]);
 
-  /* ── state ── */
+  /* â”€â”€ state â”€â”€ */
   const [step, setStep] = useState<Step>('details');
-  const [payMethod, setPayMethod] = useState<PayMethod>('upi');
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState('');
   const [summaryOpen, setSummaryOpen] = useState(false); // mobile accordion
@@ -147,13 +86,6 @@ function CheckoutPageInner() {
   const [couponSuccess, setCouponSuccess] = useState('');
 
   /* card */
-  const [cardNum, setCardNum] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [cardMM, setCardMM] = useState('');
-  const [cardYY, setCardYY] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
-  const [bank, setBank] = useState('');
-
   /* pricing */
   const basePrice = plan.price;
   const couponDiscount = couponApplied ? couponApplied.discount : 0;
@@ -161,7 +93,7 @@ function CheckoutPageInner() {
   const grandTotal = afterCoupon;
   const savings = plan.originalPrice - afterCoupon;
 
-  /* ── countdown timer ── */
+  /* â”€â”€ countdown timer â”€â”€ */
   const [timeLeft, setTimeLeft] = useState(3600);
   useEffect(() => {
     const t = setInterval(() => setTimeLeft(p => Math.max(0, p - 1)), 1000);
@@ -171,7 +103,7 @@ function CheckoutPageInner() {
   const mm = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
   const ss = String(timeLeft % 60).padStart(2, '0');
 
-  /* ── validate step 1 ── */
+  /* â”€â”€ validate step 1 â”€â”€ */
   const validate = () => {
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'Full name is required';
@@ -188,7 +120,7 @@ function CheckoutPageInner() {
     if (validate()) setStep('payment');
   };
 
-  /* ── apply coupon ── */
+  /* â”€â”€ apply coupon â”€â”€ */
   const applyCoupon = (forcedCode?: string) => {
     setCouponError('');
     setCouponSuccess('');
@@ -208,7 +140,7 @@ function CheckoutPageInner() {
     setCouponSuccess('');
   };
 
-  /* ── Razorpay payment ── */
+  /* â”€â”€ Razorpay payment â”€â”€ */
   const loadRazorpay = () => new Promise<boolean>(res => {
     if (window.Razorpay) return res(true);
     const s = document.createElement('script');
@@ -223,7 +155,7 @@ function CheckoutPageInner() {
     setError('');
     setPaying(true);
     try {
-      /* ── 1. Create order via Next.js API route ── */
+      /* â”€â”€ 1. Create order via Next.js API route â”€â”€ */
       const res = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -237,7 +169,7 @@ function CheckoutPageInner() {
       }
       const { orderId, amount, currency, keyId } = await res.json();
 
-      /* ── 2. LIVE MODE (card/netbanking/etc) - open Razorpay checkout ── */
+      /* â”€â”€ 2. LIVE MODE (card/netbanking/etc) - open Razorpay checkout â”€â”€ */
       const loaded = await loadRazorpay();
       if (!loaded) { setError('Payment gateway failed to load.'); setPaying(false); return; }
 
@@ -281,10 +213,10 @@ function CheckoutPageInner() {
     }
   };
 
-  /* ── input class helper ── */
+  /* â”€â”€ input class helper â”€â”€ */
   const inp = (err?: string) => `w-full rounded-xl border ${err ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white'} px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all`;
 
-  /* ── ORDER SUMMARY ── */
+  /* â”€â”€ ORDER SUMMARY â”€â”€ */
   const OrderSummary = ({ compact = false }: { compact?: boolean }) => (
     <div className={`rounded-2xl border border-orange-100 bg-gradient-to-b from-amber-50 to-orange-50 shadow-lg ${compact ? '' : 'sticky top-24'}`}>
       {/* header */}
@@ -320,7 +252,7 @@ function CheckoutPageInner() {
           <div className="space-y-1.5 text-xs text-gray-600 pt-1">
             <div className="flex items-center gap-2">
               <span className="text-base"></span>
-              <span><strong>{plan.startDate}</strong> – <strong>{plan.endDate}</strong></span>
+              <span><strong>{plan.startDate}</strong> â€“ <strong>{plan.endDate}</strong></span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-base"></span>
@@ -373,7 +305,7 @@ function CheckoutPageInner() {
           {couponApplied && (
             <div className="flex items-center justify-between text-sm text-green-700">
               <span>Coupon ({couponApplied.code})</span>
-              <span className="font-semibold">− {fmt(couponApplied.discount)}</span>
+              <span className="font-semibold">âˆ’ {fmt(couponApplied.discount)}</span>
             </div>
           )}
         </div>
@@ -441,7 +373,7 @@ function CheckoutPageInner() {
     </div>
   );
 
-  /* ── Loading / auth check screen ── */
+  /* â”€â”€ Loading / auth check screen â”€â”€ */
   if (!authChecked) {
     return (
       <main className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #fff7ed, #fef3c7)' }}>
@@ -453,7 +385,7 @@ function CheckoutPageInner() {
     );
   }
 
-  /* ── SUCCESS SCREEN ── */
+  /* â”€â”€ SUCCESS SCREEN â”€â”€ */
   if (step === 'success') {
     return (
       <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-white flex items-center justify-center px-4 py-16">
@@ -477,7 +409,7 @@ function CheckoutPageInner() {
           <Link href="/dashboard/student"
             className="block w-full py-3 rounded-xl font-bold text-white text-sm"
             style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-            Go to Dashboard →
+            Go to Dashboard â†’
           </Link>
           <Link href="/programs" className="block mt-3 text-sm text-gray-400 hover:text-gray-600">Browse more courses</Link>
         </motion.div>
@@ -485,12 +417,12 @@ function CheckoutPageInner() {
     );
   }
 
-  /* ── MAIN RENDER ── */
+  /* â”€â”€ MAIN RENDER â”€â”€ */
   return (
     <main className="min-h-screen px-3 sm:px-4 py-6 sm:py-8" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fff 100%)' }}>
       <div className="max-w-6xl mx-auto">
 
-        {/* ── Page header ── */}
+        {/* â”€â”€ Page header â”€â”€ */}
         <div className="mb-6 flex items-center justify-between">
           <Link href="/programs" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-orange-600 transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
@@ -501,7 +433,7 @@ function CheckoutPageInner() {
           </div>
         </div>
 
-        {/* ── Logged-in banner ── */}
+        {/* â”€â”€ Logged-in banner â”€â”€ */}
         {loggedInUser && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
             className="mb-4 rounded-2xl bg-white border border-green-100 shadow-sm px-5 py-3 flex items-center justify-between">
@@ -518,7 +450,7 @@ function CheckoutPageInner() {
           </motion.div>
         )}
 
-        {/* ── Urgency bar ── */}
+        {/* â”€â”€ Urgency bar â”€â”€ */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           className="mb-6 rounded-2xl overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #f97316, #dc2626)' }}>
@@ -537,7 +469,7 @@ function CheckoutPageInner() {
           </div>
         </motion.div>
 
-        {/* ── Mobile summary accordion ── */}
+        {/* â”€â”€ Mobile summary accordion â”€â”€ */}
         <div className="lg:hidden mb-4">
           <button onClick={() => setSummaryOpen(v => !v)}
             className="w-full flex items-center justify-between rounded-2xl bg-white border border-orange-100 shadow-sm px-5 py-4">
@@ -559,10 +491,10 @@ function CheckoutPageInner() {
           </AnimatePresence>
         </div>
 
-        {/* ── Main grid ── */}
+        {/* â”€â”€ Main grid â”€â”€ */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-          {/* ── LEFT: Steps ── */}
+          {/* â”€â”€ LEFT: Steps â”€â”€ */}
           <div className="flex-1 space-y-4 min-w-0">
 
             {/* STEP 1 */}
@@ -662,7 +594,7 @@ function CheckoutPageInner() {
                     <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                       className="w-full sm:w-auto px-10 py-3.5 rounded-xl font-bold text-white text-sm shadow-lg"
                       style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-                      Proceed to Payment →
+                      Proceed to Payment â†’
                     </motion.button>
                   </motion.form>
                 )}
@@ -682,170 +614,50 @@ function CheckoutPageInner() {
                   <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     onSubmit={handlePay} className="p-6">
 
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                      {/* method sidebar */}
-                      <div className="flex flex-row sm:flex-col sm:w-48 shrink-0 gap-1 overflow-x-auto pb-1 sm:pb-0">
-                        <p className="hidden sm:block text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Pay Now</p>
-                        {([
-                          { id: 'upi',        label: 'UPI',          icon: '' },
-                          { id: 'card',       label: 'Credit / Debit Card', icon: '' },
-                          { id: 'netbanking', label: 'Net Banking',  icon: '' },
-                          { id: 'wallet',     label: 'Wallets',      icon: '' },
-                        ] as { id: PayMethod; label: string; icon: string }[]).map(m => (
-                          <button key={m.id} type="button" onClick={() => setPayMethod(m.id)}
-                            className={`w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${payMethod === m.id ? 'bg-orange-50 border border-orange-300 text-orange-700' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}>
-                            <span>{m.icon}</span><span className="flex-1 text-left">{m.label}</span>
-                            {payMethod === m.id && <span className="text-orange-500 text-xs">›</span>}
-                          </button>
-                        ))}
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mt-4 mb-2">Installments</p>
-                        <button type="button" onClick={() => setPayMethod('emi')}
-                          className={`w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${payMethod === 'emi' ? 'bg-orange-50 border border-orange-300 text-orange-700' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}>
-                          <span></span><span className="flex-1 text-left">EMI</span>
-                          {payMethod === 'emi' && <span className="text-orange-500 text-xs">›</span>}
-                        </button>
+                    <div className="grid gap-5 lg:grid-cols-[1fr_0.72fr]">
+                      <div className="rounded-2xl border border-orange-100 bg-orange-50/70 p-5">
+                        <p className="text-xs font-black uppercase tracking-wide text-orange-600">Payment Gateway</p>
+                        <h3 className="mt-2 text-xl font-black text-gray-900">Pay securely with Razorpay</h3>
+                        <p className="mt-2 text-sm leading-6 text-gray-600">
+                          UPI apps, cards, net banking, wallets, EMI, QR and offers will open inside Razorpay's secure checkout.
+                        </p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {['Google Pay', 'PhonePe', 'Paytm', 'BHIM', 'Amazon Pay', 'Cards', 'Net Banking', 'EMI'].map(item => (
+                            <span key={item} className="rounded-full border border-orange-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 shadow-sm">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
                       </div>
 
-                      {/* payment form area */}
-                      <div className="flex-1 min-w-0">
-                        <AnimatePresence mode="wait">
-                          <motion.div key={payMethod} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.15 }}>
-                            {payMethod === 'upi' && (
-                              <div className="space-y-4">
-                                <p className="font-semibold text-gray-800 text-sm">Select UPI App</p>
-
-                                {/* Suggested apps grid */}
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                  {(() => {
-                                    const upiId = process.env.NEXT_PUBLIC_UPI_ID || '';
-                                    const upiEncoded = encodeURIComponent(upiId);
-                                    return [
-                                      { label: 'Google Pay', logo: 'gpay',      link: `gpay://upi/pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'PhonePe',    logo: 'phonepe',   link: `phonepe://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Paytm',      logo: 'paytm',     link: `paytmmp://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'BHIM',       logo: 'bhim',      link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Amazon Pay', logo: 'amazonpay', link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Others',     logo: 'upi',       link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                    ];
-                                  })().map(({ label, logo, link }) => (
-                                    <a
-                                      key={label}
-                                      href={link}
-                                      onClick={(e) => {
-                                        // If app not installed, fallback to Razorpay checkout
-                                        setTimeout(() => {
-                                          if (document.hasFocus()) {
-                                            e.preventDefault();
-                                            handlePay(e as any);
-                                          }
-                                        }, 1500);
-                                      }}
-                                      className="flex min-h-14 items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-3 shadow-sm transition-all hover:border-orange-300 hover:bg-orange-50 hover:shadow-md active:scale-95"
-                                    >
-                                      <PaymentAppLogo app={logo as UpiAppLogo} />
-                                      <span className="text-xs font-semibold text-gray-700">{label}</span>
-                                    </a>
-                                  ))}
-                                </div>
-
-                                {/* Divider */}
-                                <div className="flex items-center gap-2">
-                                  <div className="flex-1 h-px bg-gray-200" />
-                                  <span className="text-[10px] text-gray-400 font-medium">or pay via Razorpay</span>
-                                  <div className="flex-1 h-px bg-gray-200" />
-                                </div>
-
-                                <p className="text-[11px] text-gray-400 text-center leading-relaxed">
-                                  Click an app above to pay directly, or click <strong>"Pay Securely"</strong> below to open Razorpay's full payment gateway.
-                                </p>
-                              </div>
-                            )}
-                            {payMethod === 'card' && (
-                              <div className="space-y-3">
-                                <p className="font-semibold text-gray-700 text-sm">Card Details</p>
-                                <div className="relative">
-                                  <input value={cardNum} onChange={e => setCardNum(e.target.value.replace(/\D/,'').slice(0,16))} placeholder="Card Number" className={`${inp()} pr-24`} />
-                                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/32px-Mastercard-logo.svg.png" alt="MC" className="h-5" />
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/32px-Visa_Inc._logo.svg.png" alt="Visa" className="h-4 mt-0.5" />
-                                  </div>
-                                </div>
-                                <input value={cardName} onChange={e => setCardName(e.target.value)} placeholder="Name on card" className={inp()} />
-                                <div className="flex flex-col sm:flex-row gap-3">
-                                  <input value={cardMM} onChange={e => setCardMM(e.target.value.slice(0,2))} placeholder="MM" className={`${inp()} sm:w-20`} />
-                                  <input value={cardYY} onChange={e => setCardYY(e.target.value.slice(0,4))} placeholder="YYYY" className={`${inp()} w-24`} />
-                                  <input value={cardCvv} onChange={e => setCardCvv(e.target.value.replace(/\D/,'').slice(0,3))} placeholder="CVV" type="password" className={`${inp()} w-20`} />
-                                </div>
-                              </div>
-                            )}
-                            {payMethod === 'netbanking' && (
-                              <div className="space-y-3">
-                                <p className="font-semibold text-gray-700 text-sm">Select Bank</p>
-                                <select value={bank} onChange={e => setBank(e.target.value)} className={inp()}>
-                                  <option value="">-- Select your bank --</option>
-                                  {BANKS.map(b => <option key={b}>{b}</option>)}
-                                </select>
-                              </div>
-                            )}
-                            {payMethod === 'wallet' && (
-                              <div className="space-y-3">
-                                <p className="font-semibold text-gray-700 text-sm">Select Wallet</p>
-                                <div className="grid grid-cols-2 gap-2">
-                                  {['Paytm Wallet','Amazon Pay','Mobikwik','Freecharge'].map(w => (
-                                    <div key={w} className="rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-700 font-medium cursor-pointer hover:border-orange-400 hover:bg-orange-50 transition-colors">{w}</div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            {payMethod === 'emi' && (
-                              <div className="space-y-3">
-                                <p className="font-semibold text-gray-700 text-sm">Choose EMI Plan</p>
-                                {[3,6,9,12].map(m => (
-                                  <label key={m} className="flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3 cursor-pointer hover:border-orange-300 hover:bg-orange-50 transition-colors">
-                                    <input type="radio" name="emi" className="accent-orange-500" />
-                                    <div>
-                                      <p className="text-sm font-semibold text-gray-800">{m} months</p>
-                                      <p className="text-xs text-gray-500">{fmt(Math.ceil(grandTotal / m))}/month - No cost EMI</p>
-                                    </div>
-                                  </label>
-                                ))}
-                              </div>
-                            )}
-                          </motion.div>
-                        </AnimatePresence>
+                      <div className="rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-sm text-gray-600">Grand Total</span>
+                          <span className="text-2xl font-black text-orange-600">{fmt(grandTotal)}</span>
+                        </div>
 
                         {error && (
                           <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
                         )}
 
-                        {/* total + pay button */}
-                        <div className="mt-6 rounded-2xl bg-orange-50 border border-orange-100 p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm text-gray-600">Grand Total</span>
-                            <span className="text-xl font-black text-orange-600">{fmt(grandTotal)}</span>
-                          </div>
-                          <motion.button type="submit" disabled={paying} whileHover={{ scale: paying ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}
-                            className="w-full py-4 rounded-xl font-black text-white text-base shadow-lg disabled:opacity-60 flex items-center justify-center gap-2"
-                            style={{ background: paying ? '#9ca3af' : 'linear-gradient(135deg, #f97316, #dc2626)' }}>
-                            {paying ? (
-                              <><svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Processing...</>
-                            ) : (
-                              <><span></span> Pay Now {fmt(grandTotal)}</>
-                            )}
-                          </motion.button>
-                        </div>
+                        <motion.button type="submit" disabled={paying} whileHover={{ scale: paying ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}
+                          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl py-4 text-base font-black text-white shadow-lg disabled:opacity-60"
+                          style={{ background: paying ? '#9ca3af' : 'linear-gradient(135deg, #f97316, #dc2626)' }}>
+                          {paying ? (
+                            <><svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Opening Razorpay...</>
+                          ) : (
+                            <>Pay Securely {fmt(grandTotal)}</>
+                          )}
+                        </motion.button>
 
-                        {/* trust row */}
                         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-                          <span> SSL Secured</span>
+                          <span>SSL Secured</span>
                           <span>|</span>
-                          <span> PCI-DSS Compliant</span>
+                          <span>PCI-DSS Compliant</span>
                           <span>|</span>
                           <a href="#" className="text-orange-500 hover:underline">Refund Policy</a>
                         </div>
-                        <p className="mt-3 text-xs text-gray-400 leading-relaxed">
+                        <p className="mt-3 text-xs leading-relaxed text-gray-400">
                           By paying, you agree to Adyapan's <a href="#" className="text-orange-500 hover:underline">Terms</a>, <a href="#" className="text-orange-500 hover:underline">Refund</a> & <a href="#" className="text-orange-500 hover:underline">Privacy Policy</a>.
                         </p>
                       </div>
@@ -857,13 +669,13 @@ function CheckoutPageInner() {
 
             {/* bottom links */}
             <div className="flex items-center gap-4 text-sm text-gray-400 pb-4">
-              <Link href="/programs" className="hover:text-orange-600 transition-colors">‹ Go back to program</Link>
+              <Link href="/programs" className="hover:text-orange-600 transition-colors">â€¹ Go back to program</Link>
               <span>|</span>
               <a href="mailto:support@adyapan.com" className="hover:text-orange-600 transition-colors">Contact Support</a>
             </div>
           </div>
 
-          {/* ── RIGHT: Order Summary (desktop) ── */}
+          {/* â”€â”€ RIGHT: Order Summary (desktop) â”€â”€ */}
           <div className="hidden lg:block w-80 shrink-0">
             <OrderSummary />
           </div>
