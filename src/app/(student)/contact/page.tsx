@@ -35,8 +35,8 @@ export default function ContactPage() {
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      opens: '09:00',
-      closes: '18:00',
+      opens: '11:00',
+      closes: '20:00',
     },
     sameAs: [
       'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',

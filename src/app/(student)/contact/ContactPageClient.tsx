@@ -19,7 +19,7 @@ const stagger = {
 const CONTACT_INFO = [
   { icon: Phone,   label: 'Phone',    value: '+91 81791 24566',       href: 'tel:+918179124566' },
   { icon: Mail,    label: 'Email',    value: 'support@adyapan.com',   href: 'mailto:support@adyapan.com' },
-  { icon: Clock,   label: 'Hours',    value: 'Mon–Sat, 9 AM – 6 PM',  href: null },
+  { icon: Clock,   label: 'Hours',    value: 'Mon-Sat, 11 AM - 8 PM',  href: null },
 ];
 
 const SOCIAL_LINKS = {
@@ -30,7 +30,6 @@ const SOCIAL_LINKS = {
 const FAQS = [
   { q: 'How do I enroll in a course?', a: 'Visit our Programs page, choose your course, and click Enroll Now. Payment is processed securely via Razorpay.' },
   { q: 'Are classes live or recorded?', a: 'All sessions are live and interactive. Recordings are available for revision after each class.' },
-  { q: 'What is the refund policy?', a: 'We offer a 7-day refund window from the date of enrollment if you are not satisfied.' },
   { q: 'Do you provide placement support?', a: 'Yes - resume reviews, mock interviews, and direct recruiter connections are included in every program.' },
 ];
 

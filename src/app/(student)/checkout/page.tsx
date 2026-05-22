@@ -364,8 +364,6 @@ function CheckoutPageInner() {
           <span> SSL Secured</span>
           <span>|</span>
           <span> PCI-DSS</span>
-          <span>|</span>
-          <span>Refund Policy</span>
         </div>
       </div>
     </div>
@@ -583,7 +581,7 @@ function CheckoutPageInner() {
                     <div>
                       <label className="flex items-start gap-2 text-sm text-gray-600 cursor-pointer select-none">
                         <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)} className="accent-orange-500 w-4 h-4 mt-0.5 shrink-0" />
-                        <span>I agree to the <a href="#" className="text-orange-600 hover:underline">Terms of Use</a>, <a href="#" className="text-orange-600 hover:underline">Refund Policy</a> and <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a> of ADYAPAN SCHOOL. <span className="text-red-500">*</span></span>
+                        <span>I agree to the <a href="#" className="text-orange-600 hover:underline">Terms of Use</a> and <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a> of ADYAPAN SCHOOL. <span className="text-red-500">*</span></span>
                       </label>
                       {errors.agreed && <p className="text-xs text-red-500 mt-1">{errors.agreed}</p>}
                     </div>
