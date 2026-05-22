@@ -306,7 +306,7 @@ const Navbar = () => {
                   : 'border-[#ffa800] text-[#ffa800] hover:bg-[#ffa800] hover:text-white'
               }`}
             >
-              Recutier
+              Recruiter
             </Link>
           </motion.div>
 
@@ -387,7 +387,7 @@ const Navbar = () => {
                 onClick={() => { setActive('For Companies'); setShowMobile(false); }}
                 className="text-sm font-semibold py-2 text-[#ffa800] hover:text-white transition-colors"
               >
-                Recutier
+                Recruiter
               </Link>
               <div className="border-t border-white/10 pt-3 flex gap-3">
                 {user ? (
