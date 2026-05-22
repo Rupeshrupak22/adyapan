@@ -30,6 +30,23 @@ type Instructor = {
 
 type InstructorProfile = Omit<Instructor, 'id'>;
 
+type CurriculumModule = {
+  id: number;
+  title: string;
+  description: string;
+  badge: string;
+  topics: Record<string, string[]>;
+  lab: string;
+  outcome: string;
+};
+
+type Curriculum = {
+  title: string;
+  summary: string;
+  badges: string[];
+  modules: CurriculumModule[];
+};
+
 const instructorProfiles: Record<string, InstructorProfile[]> = {
   ai: [
     { name: 'Aarav Mehta', role: 'AI Solutions Architect', company: 'Cognitive Systems Lab', experience: '9+ years exp' },
@@ -135,7 +152,7 @@ const instructorProfiles: Record<string, InstructorProfile[]> = {
 
 function getInstructorDomain(courseTitle: string): keyof typeof instructorProfiles {
   const lower = courseTitle.toLowerCase();
-  if (/(ai|artificial|machine learning|generative|genai)/.test(lower)) return 'ai';
+  if (/(\bai\b|artificial|machine learning|generative|genai)/.test(lower)) return 'ai';
   if (/(web|app|python|java|selenium|structures|algorithms)/.test(lower)) return 'software';
   if (/(autocad|catia|car design|quality|safety)/.test(lower)) return 'mechanical';
   if (/(data|analytics|database|dbms|business analytics)/.test(lower)) return 'data';
@@ -157,6 +174,107 @@ const generateInstructors = (courseTitle: string): Instructor[] => {
   }));
 };
 
+function getCurriculumDomain(title: string): keyof typeof curriculumTemplates {
+  const lower = title.toLowerCase();
+  if (/(\bai\b|artificial|machine learning|generative|genai)/.test(lower)) return 'ai';
+  if (/(web|app|python|java|selenium|structures|algorithms)/.test(lower)) return 'software';
+  if (/(autocad|catia|car design|quality|safety)/.test(lower)) return 'mechanical';
+  if (/(data|analytics|database|dbms|business analytics)/.test(lower)) return 'data';
+  if (/(devops|cloud|aws|cyber|security|blockchain|bitcoin)/.test(lower)) return 'cloud';
+  if (/(ui|ux|graphic|vfx|ar\/vr|ar vr|design)/.test(lower)) return 'design';
+  if (/(embedded|hybrid|electric|vlsi|iot|robotics|power systems)/.test(lower)) return 'electronics';
+  if (/(bio|microbiology|molecular|genetic|pharmacovigilance|nano|food|nutrition|sensory|medical coding)/.test(lower)) return 'lifeScience';
+  if (/(construction|civil)/.test(lower)) return 'civil';
+  if (/(finance|investment|economics|marketing|hrm|management|supply|sap|salesforce|stock|acca|cfa|spoken)/.test(lower)) return 'management';
+  return 'software';
+}
+
+const domainIntro: Record<string, string> = {
+  ai: 'model building, intelligent automation, evaluation, and responsible AI practice',
+  data: 'data collection, analytics, dashboards, business interpretation, and portfolio-ready reporting',
+  software: 'practical coding, system design, testing, and production-grade application building',
+  cloud: 'infrastructure, automation, reliability, security, and cloud operations',
+  design: 'research, visual systems, prototyping, critique, and portfolio presentation',
+  management: 'business frameworks, market context, tools, case analysis, and decision-making practice',
+  electronics: 'hardware fundamentals, systems thinking, simulation, testing, and applied engineering practice',
+  mechanical: 'design fundamentals, CAD workflows, manufacturing thinking, safety, and professional documentation',
+  lifeScience: 'scientific foundations, lab workflows, regulatory awareness, analysis, and documented case practice',
+  civil: 'site planning, estimation, scheduling, safety, and project-control documentation',
+};
+
+const curriculumTemplates = {
+  ai: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Foundation', title: 'AI & Python Foundations', description: 'Build the coding and math base needed for intelligent systems.', lab: 'Set up a Python AI notebook and analyze a starter dataset.', outcome: 'You can explain where AI fits and prepare data for model training.', topics: { 'Core Skills': ['Python for AI workflows', 'NumPy, Pandas, and visualization', 'Linear algebra intuition', 'Probability and model thinking'], 'Industry Context': ['AI use cases by sector', 'Data ethics and bias', 'Model lifecycle overview', 'AI project scoping'] } },
+    { id: 2, badge: 'Modeling', title: 'Machine Learning Models', description: 'Train, compare, and tune models for real prediction problems.', lab: 'Build classification and regression models with clear evaluation metrics.', outcome: 'You can choose the right model and justify performance using metrics.', topics: { 'Algorithms': ['Regression and classification', 'Decision trees and ensembles', 'Clustering and segmentation', 'Feature engineering'], 'Evaluation': ['Train/test split', 'Accuracy, precision, recall', 'Cross-validation', 'Error analysis'] } },
+    { id: 3, badge: 'Deep AI', title: 'Deep Learning, NLP & Vision', description: 'Explore neural networks and modern AI tasks through guided labs.', lab: 'Create a text or image intelligence prototype based on the course focus.', outcome: 'You can connect neural network concepts to practical AI applications.', topics: { 'Neural Networks': ['Perceptrons and activations', 'CNN and RNN concepts', 'Transfer learning', 'Prompting and embeddings'], 'Applications': ['NLP workflows', 'Computer vision basics', 'Generative AI use cases', 'Responsible output review'] } },
+    { id: 4, badge: 'Portfolio', title: `${title} Capstone`, description: 'Convert learning into a credible project with documentation and review.', lab: 'Complete an end-to-end AI case study with notebook, findings, and demo.', outcome: 'You leave with a portfolio project that explains problem, method, result, and limits.', topics: { 'Project Work': ['Problem definition', 'Data preparation', 'Model experiment log', 'Result storytelling'], 'Readiness': ['Interview discussion points', 'Model limitations', 'Documentation checklist', 'Presentation review'] } },
+  ],
+  data: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Data Base', title: 'Data Foundations & SQL', description: 'Learn how data is structured, cleaned, queried, and trusted.', lab: 'Clean a messy dataset and answer business questions using SQL.', outcome: 'You can prepare reliable data and write queries for analysis.', topics: { 'Data Handling': ['Data types and quality checks', 'Excel/Sheets cleanup', 'SQL select, joins, groups', 'Window functions basics'], 'Thinking': ['Business question framing', 'Data dictionary reading', 'Missing-value strategy', 'Analysis hygiene'] } },
+    { id: 2, badge: 'Analysis', title: 'Analytics, Statistics & Visualization', description: 'Turn raw numbers into patterns, decisions, and readable visuals.', lab: 'Build an insight report with charts and recommendations.', outcome: 'You can explain trends and support decisions with evidence.', topics: { 'Analytics': ['Descriptive statistics', 'Segmentation', 'Cohort and trend analysis', 'Hypothesis testing basics'], 'Visualization': ['Chart selection', 'Dashboard layout', 'Power BI/Tableau concepts', 'Executive summaries'] } },
+    { id: 3, badge: 'Systems', title: `${title} Tools & Workflow`, description: 'Practice the tools and pipelines used in data teams.', lab: 'Create a repeatable analysis workflow with documented steps.', outcome: 'You understand how data moves from source to report.', topics: { 'Workflow': ['ETL concepts', 'Data modeling basics', 'Python for analysis', 'Quality checks'], 'Collaboration': ['Versioned notebooks', 'Stakeholder notes', 'Metric definitions', 'Review cycles'] } },
+    { id: 4, badge: 'Portfolio', title: 'Business Case Project', description: 'Solve a realistic domain problem and present it professionally.', lab: 'Deliver a dashboard or analysis pack for a real business scenario.', outcome: 'You have a portfolio case with data, insight, and recommendation.', topics: { 'Case Work': ['Problem brief', 'Exploratory analysis', 'Dashboard/report creation', 'Recommendation writing'], 'Career Prep': ['Portfolio polish', 'Analytics interview questions', 'Storytelling practice', 'Data ethics'] } },
+  ],
+  software: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Code Base', title: `${title} Programming Foundations`, description: 'Build clean coding habits and understand the stack behind the course.', lab: 'Create small programs/components using the core language or framework.', outcome: 'You can write, debug, and explain working code confidently.', topics: { 'Core Coding': ['Syntax and control flow', 'Functions and modules', 'OOP or component thinking', 'Debugging techniques'], 'Developer Habits': ['Git basics', 'Readable code', 'Problem decomposition', 'Local setup'] } },
+    { id: 2, badge: 'Build', title: 'Application Architecture', description: 'Learn how real applications are structured beyond isolated examples.', lab: 'Build a feature with data flow, validation, and reusable structure.', outcome: 'You can connect frontend, backend, data, or automation pieces correctly.', topics: { 'Architecture': ['Project structure', 'APIs and routing', 'State/data management', 'Database or file storage'], 'Quality': ['Error handling', 'Input validation', 'Security basics', 'Performance basics'] } },
+    { id: 3, badge: 'Practice', title: 'Testing, Review & Collaboration', description: 'Make your work reliable and ready for team environments.', lab: 'Test and improve a feature using realistic review feedback.', outcome: 'You can ship work that is maintainable and review-ready.', topics: { 'Testing': ['Unit and integration thinking', 'Manual QA checklist', 'Automation where relevant', 'Bug fixing workflow'], 'Team Workflow': ['Pull requests', 'Code review', 'Task breakdown', 'Documentation'] } },
+    { id: 4, badge: 'Portfolio', title: `${title} Capstone Build`, description: 'Create a complete project that demonstrates job-ready skill.', lab: 'Build a polished app, automation flow, or coding portfolio project.', outcome: 'You finish with a project you can explain in interviews.', topics: { 'Capstone': ['Requirement planning', 'Feature implementation', 'Testing and polish', 'Demo walkthrough'], 'Career Prep': ['Resume project bullets', 'GitHub presentation', 'Interview questions', 'Next learning path'] } },
+  ],
+  cloud: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Infra', title: 'Infrastructure Foundations', description: 'Understand servers, networks, cloud services, and operating environments.', lab: 'Map a simple cloud architecture with compute, storage, and network layers.', outcome: 'You can explain how infrastructure supports modern products.', topics: { 'Basics': ['Linux and shell basics', 'Networking essentials', 'Cloud service models', 'Identity and access'], 'Planning': ['Architecture diagrams', 'Cost awareness', 'Region and availability', 'Security boundaries'] } },
+    { id: 2, badge: 'Automation', title: `${title} Tools & Automation`, description: 'Practice the core tools used to provision, secure, and operate systems.', lab: 'Automate a deployment or infrastructure task with a repeatable workflow.', outcome: 'You can reduce manual work and create reliable setup steps.', topics: { 'Tooling': ['Git and CI/CD', 'Containers or cloud services', 'Infrastructure as code concepts', 'Monitoring basics'], 'Security': ['Secrets management', 'Least privilege', 'Vulnerability basics', 'Audit-friendly configuration'] } },
+    { id: 3, badge: 'Reliability', title: 'Operations & Troubleshooting', description: 'Learn how production systems are monitored, debugged, and improved.', lab: 'Investigate a failing service using logs, metrics, and runbook steps.', outcome: 'You can diagnose common operational issues with confidence.', topics: { 'Observability': ['Logs and metrics', 'Alert thinking', 'Incident response', 'Performance bottlenecks'], 'Reliability': ['Backups and recovery', 'Scaling basics', 'Change management', 'Post-incident learning'] } },
+    { id: 4, badge: 'Project', title: 'Cloud Operations Case Study', description: 'Create a realistic infrastructure plan or operational workflow.', lab: 'Deliver an architecture/runbook portfolio case with clear decisions.', outcome: 'You leave with proof of cloud, DevOps, security, or platform thinking.', topics: { 'Case Work': ['Requirement analysis', 'Architecture choice', 'Risk review', 'Runbook writing'], 'Career Prep': ['Scenario interviews', 'Tool vocabulary', 'Troubleshooting drills', 'Portfolio documentation'] } },
+  ],
+  design: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Research', title: 'User, Brand & Visual Foundations', description: 'Understand users, composition, hierarchy, and design goals.', lab: 'Create a moodboard, user notes, and visual direction for a design brief.', outcome: 'You can justify design decisions instead of only decorating screens.', topics: { 'Foundations': ['User research basics', 'Typography and spacing', 'Color systems', 'Visual hierarchy'], 'Briefing': ['Problem framing', 'Audience definition', 'Competitor scan', 'Creative direction'] } },
+    { id: 2, badge: 'Craft', title: `${title} Tools & Production`, description: 'Practice the tools and workflows used by working designers.', lab: 'Create screens, graphics, or immersive assets aligned to the course domain.', outcome: 'You can produce professional, organized design work.', topics: { 'Tools': ['Figma/Adobe workflow', 'Components and assets', 'Responsive thinking', 'Export and handoff'], 'Execution': ['Layout systems', 'Interaction states', 'Brand consistency', 'Accessibility basics'] } },
+    { id: 3, badge: 'Review', title: 'Critique, Iteration & Case Study', description: 'Improve work through feedback, usability thinking, and portfolio logic.', lab: 'Run a structured critique and revise your design using evidence.', outcome: 'You can show process, not just final visuals.', topics: { 'Iteration': ['Feedback capture', 'Usability checks', 'Before/after reasoning', 'Design QA'], 'Case Study': ['Problem, process, outcome', 'Screens and annotations', 'Decision notes', 'Presentation flow'] } },
+    { id: 4, badge: 'Portfolio', title: 'Portfolio-Ready Design Project', description: 'Build a polished project that looks credible to recruiters and clients.', lab: 'Prepare a final design case study with assets, story, and presentation.', outcome: 'You finish with a domain-specific design portfolio piece.', topics: { 'Final Build': ['Project polish', 'Prototype or final asset', 'Handoff file cleanup', 'Portfolio layout'], 'Career Prep': ['Design interview prep', 'Freelance/client language', 'Review checklist', 'Next steps'] } },
+  ],
+  management: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Context', title: `${title} Business Foundations`, description: 'Understand the industry context, vocabulary, and decision frameworks.', lab: 'Analyze a realistic business situation using structured notes.', outcome: 'You can speak the domain language and identify key business levers.', topics: { 'Business Basics': ['Industry overview', 'Key terms and metrics', 'Stakeholder mapping', 'Problem framing'], 'Tools': ['Excel/Sheets workflow', 'Research methods', 'Documentation format', 'Presentation basics'] } },
+    { id: 2, badge: 'Analysis', title: 'Frameworks, Data & Decision Making', description: 'Practice analysis techniques used by business teams.', lab: 'Create a model, plan, campaign, or process map based on the course focus.', outcome: 'You can convert messy business information into a practical recommendation.', topics: { 'Analysis': ['Market and competitor study', 'Financial or operational metrics', 'Risk and assumption mapping', 'Scenario comparison'], 'Execution': ['Planning templates', 'KPI dashboards', 'Communication rhythm', 'Review checkpoints'] } },
+    { id: 3, badge: 'Practice', title: `${title} Applied Workflows`, description: 'Work through domain-specific tasks that mirror real job responsibilities.', lab: 'Complete a role-based workflow such as valuation, campaign planning, HR process, CRM flow, or supply-chain case.', outcome: 'You understand day-to-day work, not just theory.', topics: { 'Domain Practice': ['Case exercises', 'Tool-based assignments', 'Policy/process awareness', 'Decision notes'], 'Professional Skills': ['Email and reporting', 'Meeting notes', 'Stakeholder updates', 'Ethical judgment'] } },
+    { id: 4, badge: 'Case', title: 'Business Case Presentation', description: 'Build a polished case project with data, logic, and presentation quality.', lab: 'Present a final recommendation deck or business report.', outcome: 'You finish with a credible case study for interviews.', topics: { 'Final Case': ['Executive summary', 'Evidence and assumptions', 'Action plan', 'Impact measurement'], 'Career Prep': ['Role-specific interview prep', 'Resume bullets', 'LinkedIn project story', 'Communication review'] } },
+  ],
+  electronics: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Core', title: 'Electronics & Systems Foundations', description: 'Build the foundation needed to understand hardware behavior.', lab: 'Analyze a circuit/system block diagram and identify key signals.', outcome: 'You can read technical diagrams and explain system-level function.', topics: { 'Foundations': ['Circuit basics', 'Signals and sensors', 'Microcontroller concepts', 'Power and safety basics'], 'Tools': ['Simulation overview', 'Datasheet reading', 'Measurement methods', 'Debugging mindset'] } },
+    { id: 2, badge: 'Build', title: `${title} Design Workflow`, description: 'Practice design, simulation, integration, or verification for the domain.', lab: 'Create a small design/simulation/test workflow aligned to the course.', outcome: 'You can move from concept to tested engineering output.', topics: { 'Engineering Workflow': ['Requirement capture', 'Component selection', 'Simulation or firmware flow', 'Interface planning'], 'Validation': ['Test cases', 'Measurement logs', 'Fault isolation', 'Documentation'] } },
+    { id: 3, badge: 'Industry', title: 'Standards, Reliability & Use Cases', description: 'Learn what makes electronic systems industry-ready.', lab: 'Review a real use case for reliability, safety, and maintainability.', outcome: 'You can think beyond prototypes and discuss engineering trade-offs.', topics: { 'Industry Practice': ['Reliability basics', 'EMI/thermal awareness', 'Manufacturing constraints', 'Compliance vocabulary'], 'Applications': ['Automotive/IoT/power examples', 'System integration', 'Failure modes', 'Maintenance thinking'] } },
+    { id: 4, badge: 'Project', title: 'Engineering Mini Project', description: 'Document a realistic solution with calculations, diagrams, and test notes.', lab: 'Prepare a mini project report with architecture, workflow, and validation.', outcome: 'You leave with a technical project story for interviews.', topics: { 'Project': ['Architecture diagram', 'Build or simulation', 'Test results', 'Improvement plan'], 'Career Prep': ['Technical interview topics', 'Project explanation', 'Tool vocabulary', 'Report formatting'] } },
+  ],
+  mechanical: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Design', title: 'Engineering Drawing & Design Basics', description: 'Learn the design language used in mechanical teams.', lab: 'Create or interpret a part drawing with dimensions and constraints.', outcome: 'You can read and communicate mechanical design intent.', topics: { 'Fundamentals': ['Engineering drawing', 'Dimensions and tolerances', 'Material basics', 'Assembly thinking'], 'Tools': ['CAD workspace setup', 'Sketch constraints', 'Reference geometry', 'File organization'] } },
+    { id: 2, badge: 'CAD', title: `${title} Modeling Workflow`, description: 'Practice domain-specific modeling, drafting, or design workflows.', lab: 'Build a modeled part, assembly, or process document based on the course.', outcome: 'You can produce clean mechanical work with professional structure.', topics: { 'Modeling': ['Parametric modeling', 'Assemblies and constraints', 'Surface or sheet workflows', 'Drawing generation'], 'Review': ['Design checks', 'Manufacturing feasibility', 'Revision control', 'Peer review'] } },
+    { id: 3, badge: 'Quality', title: 'Manufacturing, Quality & Safety', description: 'Connect design decisions to shop-floor and quality realities.', lab: 'Inspect a design/process for quality risks and safety considerations.', outcome: 'You understand how design translates into reliable production.', topics: { 'Manufacturing': ['Process selection', 'CNC/manufacturing basics', 'Inspection methods', 'Cost awareness'], 'Quality & Safety': ['ISO/quality concepts', 'FMEA thinking', 'Safety checklists', 'Root-cause analysis'] } },
+    { id: 4, badge: 'Portfolio', title: 'Mechanical Design Portfolio Project', description: 'Prepare a final technical package for a realistic engineering problem.', lab: 'Submit drawings, model screenshots, checks, and a design explanation.', outcome: 'You finish with a portfolio-ready engineering document.', topics: { 'Final Package': ['Problem statement', 'CAD model or workflow', 'Drawing pack', 'Design review notes'], 'Career Prep': ['Interview explanation', 'Tool proficiency proof', 'Resume project bullets', 'Portfolio polish'] } },
+  ],
+  lifeScience: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Science', title: `${title} Scientific Foundations`, description: 'Build the biological and healthcare context needed for the field.', lab: 'Create a concept map of the core biological process or healthcare workflow.', outcome: 'You can explain the science behind the domain clearly.', topics: { 'Core Concepts': ['Cell and molecular basics', 'Terminology and pathways', 'Disease or product context', 'Research question framing'], 'Professional Practice': ['Lab safety awareness', 'Scientific documentation', 'Ethics and data integrity', 'Reading research papers'] } },
+    { id: 2, badge: 'Methods', title: 'Lab Methods, Tools & Documentation', description: 'Learn workflows used in labs, quality teams, and healthcare operations.', lab: 'Document a protocol, sample workflow, coding case, or safety report.', outcome: 'You can follow and document professional scientific processes.', topics: { 'Methods': ['Sample handling concepts', 'Assay or analysis workflow', 'Instrument/data output basics', 'Quality control checks'], 'Documentation': ['SOP structure', 'Observation records', 'Regulatory vocabulary', 'Error prevention'] } },
+    { id: 3, badge: 'Analysis', title: `${title} Case Analysis`, description: 'Apply concepts to realistic scientific, clinical, or industry cases.', lab: 'Analyze a case study and prepare structured findings.', outcome: 'You can connect theory to decisions in research, healthcare, or biotech settings.', topics: { 'Case Work': ['Problem background', 'Evidence review', 'Risk and limitation notes', 'Interpretation of results'], 'Industry Readiness': ['GLP/GMP awareness', 'Pharma/biotech workflows', 'Reporting formats', 'Team communication'] } },
+    { id: 4, badge: 'Capstone', title: 'Scientific Portfolio Report', description: 'Build a credible final report rooted in scientific evidence and documentation.', lab: 'Prepare a final case report with workflow, observations, analysis, and conclusion.', outcome: 'You leave with a science-domain portfolio artifact that feels relevant.', topics: { 'Final Report': ['Aim and scope', 'Workflow diagram', 'Findings and interpretation', 'References and limitations'], 'Career Prep': ['Lab/clinical interview prep', 'Documentation review', 'Domain terminology', 'Portfolio presentation'] } },
+  ],
+  civil: (title: string): CurriculumModule[] => [
+    { id: 1, badge: 'Site', title: 'Construction Planning Foundations', description: 'Understand how construction work is scoped, sequenced, and controlled.', lab: 'Break down a sample project into activities and dependencies.', outcome: 'You can read a project brief and convert it into planning logic.', topics: { 'Planning Basics': ['Work breakdown structure', 'Activity sequencing', 'Resource planning', 'Site constraints'], 'Documentation': ['Drawings and BOQ basics', 'Daily reports', 'RFI awareness', 'Safety documentation'] } },
+    { id: 2, badge: 'Schedule', title: 'Scheduling, Cost & Project Controls', description: 'Practice schedule and cost-control tools used on real projects.', lab: 'Prepare a basic schedule with milestones, dependencies, and risk notes.', outcome: 'You can track project movement and communicate delays or risks.', topics: { 'Project Controls': ['CPM basics', 'Milestones and baselines', 'Cost estimation', 'Progress tracking'], 'Tools': ['Excel planning templates', 'Primavera/MS Project concepts', 'Dashboards', 'Variance reporting'] } },
+    { id: 3, badge: 'Execution', title: 'Site Coordination & Quality', description: 'Learn how plans translate into site execution and quality checks.', lab: 'Review a site scenario and prepare coordination notes.', outcome: 'You can discuss site execution with practical awareness.', topics: { 'Execution': ['Material coordination', 'Contractor communication', 'Inspection checklists', 'Safety risk review'], 'Quality': ['Method statements', 'Snag tracking', 'Measurement records', 'Handover readiness'] } },
+    { id: 4, badge: 'Report', title: 'Planning Case Portfolio', description: 'Create a final project-control report for a realistic construction scenario.', lab: 'Deliver a planning pack with WBS, schedule, risk notes, and progress report.', outcome: 'You finish with a civil planning document suitable for interviews.', topics: { 'Final Pack': ['WBS and schedule', 'Cost and resource notes', 'Risk register', 'Progress summary'], 'Career Prep': ['Site interview prep', 'Planning vocabulary', 'Report presentation', 'Portfolio review'] } },
+  ],
+};
+
+function createCurriculum(title: string, category: string): Curriculum {
+  const domain = getCurriculumDomain(title);
+  return {
+    title: `${title} curriculum built for ${category.toLowerCase()}`,
+    summary: `A practical path through ${domainIntro[domain]} with guided labs, review checkpoints, and a final portfolio artifact.`,
+    badges: ['Live guided practice', 'Industry case work', 'Portfolio output'],
+    modules: curriculumTemplates[domain](title),
+  };
+}
+
 const generateCourseData = (title: string, category: string) => ({
   title,
   category,
@@ -171,38 +289,7 @@ const generateCourseData = (title: string, category: string) => ({
     `Earn prestigious ${title} certification`,
     'Work on real projects and build industry-ready portfolio'
   ],
-  curriculum: {
-    title: `Advanced ${title} Curriculum To Help You Master Industry Skills`,
-    modules: [
-      {
-        id: 1,
-        title: `${title} Fundamentals`,
-        description: `Introduction to ${title} concepts and core principles`,
-        topics: {
-          'Basics': [`What is ${title}`, 'Key Concepts', 'Applications', 'Industry Use Cases'],
-          'Foundations': ['Core Principles', 'Best Practices', 'Tools & Technologies', 'Getting Started']
-        }
-      },
-      {
-        id: 2,
-        title: `${title} Advanced Topics`,
-        description: `Advanced concepts and real-world applications of ${title}.`,
-        topics: {
-          'Advanced Concepts': ['Complex Scenarios & Problem Solving', 'Optimization Techniques', 'Scalability & Architecture', 'Security & Best Practices'],
-          'Practical Applications': ['Real-world Project Implementation', 'Case Studies', 'Enterprise Solutions', 'Performance Optimization']
-        }
-      },
-      {
-        id: 3,
-        title: `${title} Projects & Deployment`,
-        description: `Hands-on project development and deployment of ${title} solutions.`,
-        topics: {
-          'Project Development': ['Project Planning', 'System Design', 'Implementation', 'Testing & QA'],
-          'Deployment': ['CI/CD Pipelines', 'Production Setup', 'Monitoring', 'Scaling']
-        }
-      }
-    ]
-  }
+  curriculum: createCurriculum(title, category),
 });
 
 function addYouTubeParams(url: string): string {
@@ -285,6 +372,7 @@ export default function CoursePageClient() {
     else if (['civil', 'construction'].some(k => slug.includes(k))) category = 'CIVIL ENGINEERING';
     course = generateCourseData(courseTitle, category);
   }
+  course = { ...course, curriculum: createCurriculum(course.title, course.category) };
 
   const instructors = generateInstructors(course.title);
   const brochureHref = getBrochureHref(course.title);
@@ -406,43 +494,88 @@ export default function CoursePageClient() {
       {/* Curriculum */}
       <section className="py-16 bg-[#f5f0eb]">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">{course.curriculum.title}</h2>
-          <div className="space-y-4">
+          <div className="mx-auto mb-10 max-w-4xl text-center">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-orange-600">Curriculum Roadmap</p>
+            <h2 className="text-3xl font-bold leading-tight text-gray-900 md:text-4xl">{course.curriculum.title}</h2>
+            <p className="mt-4 text-base leading-7 text-gray-600">{course.curriculum.summary}</p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {course.curriculum.badges.map((badge: string) => (
+                <span key={badge} className="rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-5">
             {course.curriculum.modules.map((module: any, index: number) => (
-              <motion.div key={module.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+              <motion.div
+                key={module.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-lg"
+              >
                 <button
                   onClick={() => setActiveModule(activeModule === index ? -1 : index)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full p-5 text-left transition-colors hover:bg-orange-50/40 sm:p-6"
                   aria-expanded={activeModule === index}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
-                      <span className="text-orange-600 font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex min-w-0 gap-4">
+                      <div className="flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
+                        <span className="text-xs font-bold uppercase">Step</span>
+                        <span className="text-lg font-black leading-none">{String(index + 1).padStart(2, '0')}</span>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
+                          <span className="rounded-full bg-gray-900 px-3 py-1 text-xs font-bold text-white">{module.badge}</span>
+                          <span className="text-xs font-semibold uppercase tracking-wide text-orange-600">Hands-on module</span>
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900">{module.title}</h3>
+                        <p className="mt-1 max-w-3xl text-sm leading-6 text-gray-600">{module.description}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900">{module.title}</h3>
-                      <p className="text-sm text-gray-500 mt-0.5">{module.description}</p>
-                    </div>
+                    {activeModule === index ? <ChevronUp className="mt-4 h-5 w-5 flex-shrink-0 text-gray-400" /> : <ChevronDown className="mt-4 h-5 w-5 flex-shrink-0 text-gray-400" />}
                   </div>
-                  {activeModule === index ? <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />}
                 </button>
                 <AnimatePresence>
                   {activeModule === index && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="border-t border-gray-100">
-                      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {Object.entries(module.topics).map(([topicTitle, items]) => (
-                          <div key={topicTitle}>
-                            <h4 className="font-semibold text-gray-800 mb-3 text-sm uppercase tracking-wide">{topicTitle}</h4>
-                            <ul className="space-y-2">
-                              {(items as string[]).map((item, i) => (
-                                <li key={i} className="flex items-center space-x-2 text-sm text-gray-600">
-                                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28 }}
+                      className="border-t border-gray-100 bg-white"
+                    >
+                      <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1fr_0.75fr]">
+                        <div className="grid gap-5 md:grid-cols-2">
+                          {Object.entries(module.topics).map(([topicTitle, items]) => (
+                            <div key={topicTitle} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                              <h4 className="mb-3 text-sm font-bold uppercase tracking-wide text-gray-900">{topicTitle}</h4>
+                              <ul className="space-y-2.5">
+                                {(items as string[]).map((item, i) => (
+                                  <li key={i} className="flex items-start gap-2 text-sm leading-6 text-gray-600">
+                                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
+                                    <span>{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="rounded-xl border border-orange-100 bg-orange-50 p-4">
+                            <p className="text-xs font-bold uppercase tracking-wide text-orange-700">Practical Lab</p>
+                            <p className="mt-2 text-sm leading-6 text-gray-700">{module.lab}</p>
                           </div>
-                        ))}
+                          <div className="rounded-xl border border-green-100 bg-green-50 p-4">
+                            <p className="text-xs font-bold uppercase tracking-wide text-green-700">What You Can Show</p>
+                            <p className="mt-2 text-sm leading-6 text-gray-700">{module.outcome}</p>
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
                   )}
