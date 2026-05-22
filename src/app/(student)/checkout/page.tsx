@@ -24,8 +24,65 @@ const BANKS = ['State Bank of India','HDFC Bank','ICICI Bank','Axis Bank','Kotak
 
 type PayMethod = 'upi' | 'card' | 'netbanking' | 'emi' | 'wallet';
 type Step = 'details' | 'payment' | 'success';
+type UpiAppLogo = 'gpay' | 'phonepe' | 'paytm' | 'bhim' | 'amazonpay' | 'upi';
 
 declare global { interface Window { Razorpay: any } }
+
+function PaymentAppLogo({ app }: { app: UpiAppLogo }) {
+  if (app === 'gpay') {
+    return (
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-white shadow-sm">
+        <span className="text-sm font-black">
+          <span className="text-blue-600">G</span>
+          <span className="text-red-500">P</span>
+        </span>
+      </div>
+    );
+  }
+
+  if (app === 'phonepe') {
+    return (
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#5f259f] shadow-sm">
+        <span className="text-sm font-black text-white">Pe</span>
+      </div>
+    );
+  }
+
+  if (app === 'paytm') {
+    return (
+      <div className="flex h-8 w-12 items-center justify-center rounded-lg border border-sky-100 bg-sky-50 shadow-sm">
+        <span className="text-[11px] font-black tracking-tight">
+          <span className="text-[#002970]">Pay</span>
+          <span className="text-[#00baf2]">tm</span>
+        </span>
+      </div>
+    );
+  }
+
+  if (app === 'bhim') {
+    return (
+      <div className="flex h-8 w-12 flex-col items-center justify-center rounded-lg border border-orange-100 bg-white shadow-sm">
+        <span className="text-[10px] font-black tracking-wide text-gray-900">BHIM</span>
+        <span className="mt-0.5 h-1 w-8 rounded-full bg-gradient-to-r from-orange-500 via-white to-green-600" />
+      </div>
+    );
+  }
+
+  if (app === 'amazonpay') {
+    return (
+      <div className="flex h-8 w-14 flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 shadow-sm">
+        <span className="text-[10px] font-black leading-none text-gray-900">amazon</span>
+        <span className="text-[10px] font-bold leading-none text-[#00a8e1]">pay</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 shadow-sm">
+      <span className="text-[10px] font-black text-gray-600">UPI</span>
+    </div>
+  );
+}
 
 function CheckoutPageInner() {
   const searchParams = useSearchParams();
@@ -663,14 +720,14 @@ function CheckoutPageInner() {
                                     const upiId = process.env.NEXT_PUBLIC_UPI_ID || '';
                                     const upiEncoded = encodeURIComponent(upiId);
                                     return [
-                                      { label: 'Google Pay',  icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/48px-Google_Pay_Logo.svg.png',   link: `gpay://upi/pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'PhonePe',     icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.png/48px-PhonePe_Logo.png',              link: `phonepe://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Paytm',       icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/48px-Paytm_Logo_%28standalone%29.svg.png', link: `paytmmp://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'BHIM',        icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/BHIM_logo.png/48px-BHIM_logo.png',                    link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Amazon Pay',  icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/48px-Amazon_logo.svg.png',            link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
-                                      { label: 'Others',      icon: null,                                                                                                             link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'Google Pay', logo: 'gpay',      link: `gpay://upi/pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'PhonePe',    logo: 'phonepe',   link: `phonepe://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'Paytm',      logo: 'paytm',     link: `paytmmp://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'BHIM',       logo: 'bhim',      link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'Amazon Pay', logo: 'amazonpay', link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
+                                      { label: 'Others',     logo: 'upi',       link: `upi://pay?pa=${upiEncoded}&pn=Adyapan&am=${grandTotal.toFixed(2)}&cu=INR&tn=Adyapan+Course` },
                                     ];
-                                  })().map(({ label, icon, link }) => (
+                                  })().map(({ label, logo, link }) => (
                                     <a
                                       key={label}
                                       href={link}
@@ -683,17 +740,9 @@ function CheckoutPageInner() {
                                           }
                                         }, 1500);
                                       }}
-                                      className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-3 hover:border-orange-300 hover:bg-orange-50 active:scale-95 transition-all cursor-pointer"
+                                      className="flex min-h-14 items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-3 shadow-sm transition-all hover:border-orange-300 hover:bg-orange-50 hover:shadow-md active:scale-95"
                                     >
-                                      {icon ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img src={icon} alt={label} className="w-7 h-7 object-contain rounded-md flex-shrink-0"
-                                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                                      ) : (
-                                        <div className="w-7 h-7 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                          <span className="text-xs font-bold text-gray-500">UPI</span>
-                                        </div>
-                                      )}
+                                      <PaymentAppLogo app={logo as UpiAppLogo} />
                                       <span className="text-xs font-semibold text-gray-700">{label}</span>
                                     </a>
                                   ))}
