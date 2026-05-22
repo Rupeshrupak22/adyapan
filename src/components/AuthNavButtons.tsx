@@ -50,19 +50,20 @@ export default function AuthNavButtons({ theme = 'light', authType = 'student' }
     );
   }
 
-  const authHref = authType === 'organization' ? '/auth?type=organization' : '/auth';
+  const loginHref = authType === 'organization' ? '/auth?type=organization&mode=login' : '/auth?mode=login';
+  const signupHref = authType === 'organization' ? '/auth?type=organization&mode=login' : '/auth?mode=signup';
   const textCls = theme === 'light'
     ? 'text-white hover:text-gray-300'
     : 'text-gray-700 hover:text-gray-900';
 
   return (
     <div className="flex items-center gap-4">
-      <Link href={authHref} className={`text-sm font-medium transition-colors ${textCls}`}>
+      <Link href={loginHref} className={`text-sm font-medium transition-colors ${textCls}`}>
         Login
       </Link>
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Link
-          href={authHref}
+          href={signupHref}
           className="px-5 py-2 bg-[#ffa800] text-white rounded-full text-sm font-semibold hover:bg-[#e69500] transition-colors"
         >
           Sign Up

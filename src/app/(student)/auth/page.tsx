@@ -195,8 +195,9 @@ function AuthPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const userTypeParam = searchParams?.get('type');
+  const authModeParam = searchParams?.get('mode');
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(authModeParam === 'login');
   const [checking, setChecking] = useState(true);
   const [userType, setUserType] = useState<'students' | 'organizations'>(
     userTypeParam === 'organization' ? 'organizations' : 'students'
@@ -231,6 +232,11 @@ function AuthPageContent() {
     if (userTypeParam === 'organization') router.replace('/admin/login');
     else if (userTypeParam === 'student') setUserType('students');
   }, [router, userTypeParam]);
+
+  useEffect(() => {
+    if (authModeParam === 'login') setIsLogin(true);
+    else if (authModeParam === 'signup') setIsLogin(false);
+  }, [authModeParam]);
 
   useEffect(() => {
     const googleError = searchParams?.get('error');
@@ -318,8 +324,12 @@ function AuthPageContent() {
   };
 
   const switchMode = () => {
-    setIsLogin(v => !v); setError(null); setSuccess(null);
+    const nextIsLogin = !isLogin;
+    setIsLogin(nextIsLogin); setError(null); setSuccess(null);
     setFormData({ firstName: '', lastName: '', fullName: '', companyName: '', email: '', password: '', confirmPassword: '' });
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set('mode', nextIsLogin ? 'login' : 'signup');
+    router.replace(`/auth?${params.toString()}`, { scroll: false });
   };
 
   const handleGoogleAuth = () => {
