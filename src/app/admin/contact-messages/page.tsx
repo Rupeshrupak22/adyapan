@@ -161,21 +161,23 @@ export default function AdminContactMessagesPage() {
   const [filter,    setFilter]    = useState('');
   const [page,      setPage]      = useState(1);
   const [total,     setTotal]     = useState(0);
+  const [statusCounts, setStatusCounts] = useState({ new: 0, read: 0, replied: 0 });
   const [selected,  setSelected]  = useState<ContactMsg | null>(null);
   const LIMIT = 20;
 
-  const fetchMessages = useCallback(async () => {
-    setLoading(true);
+  const fetchMessages = useCallback(async (showLoader = true) => {
+    if (showLoader) setLoading(true);
     try {
       const params = new URLSearchParams({
         page: String(page), limit: String(LIMIT),
         ...(search.trim() && { search }),
         ...(filter        && { status: filter }),
       });
-      const res  = await fetch(`/api/admin/contact-messages?${params}`, { credentials: 'include' });
+      const res  = await fetch(`/api/admin/contact-messages?${params}`, { credentials: 'include', cache: 'no-store' });
       const data = await res.json();
       setMessages(data.messages || []);
       setTotal(data.total || 0);
+      setStatusCounts(data.statusCounts || { new: 0, read: 0, replied: 0 });
     } catch (e) {
       console.error(e);
     } finally {
@@ -183,20 +185,36 @@ export default function AdminContactMessagesPage() {
     }
   }, [page, search, filter]);
 
-  useEffect(() => { fetchMessages(); }, [fetchMessages]);
+  useEffect(() => { fetchMessages(true); }, [fetchMessages]);
+  useEffect(() => {
+    const id = window.setInterval(() => fetchMessages(false), 15000);
+    const onFocus = () => fetchMessages(false);
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('portal-data-updated', onFocus);
+    return () => {
+      window.clearInterval(id);
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('portal-data-updated', onFocus);
+    };
+  }, [fetchMessages]);
   useEffect(() => { setPage(1); }, [search, filter]);
 
   const handleStatusChange = (id: string, status: ContactMsg['status']) => {
+    const previous = messages.find(m => m._id === id)?.status;
     setMessages(prev => prev.map(m => m._id === id ? { ...m, status } : m));
+    if (previous && previous !== status) {
+      setStatusCounts(prev => ({
+        ...prev,
+        [previous]: Math.max(0, prev[previous] - 1),
+        [status]: prev[status] + 1,
+      }));
+    }
+    window.dispatchEvent(new Event('portal-data-updated'));
     if (selected?._id === id) setSelected(prev => prev ? { ...prev, status } : null);
   };
 
   const pages = Math.ceil(total / LIMIT);
-  const counts = {
-    new:     messages.filter(m => m.status === 'new').length,
-    read:    messages.filter(m => m.status === 'read').length,
-    replied: messages.filter(m => m.status === 'replied').length,
-  };
+  const counts = statusCounts;
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">

@@ -10,6 +10,7 @@ import Course from '@/models/Course';
 import Plan from '@/models/Plan';
 import OfflineInternshipLead from '@/models/OfflineInternshipLead';
 import ProjectRequest from '@/models/ProjectRequest';
+import ContactMessage from '@/models/ContactMessage';
 
 export async function GET(request: NextRequest) {
   const auth = protectRouteByRole(request, ['ADMIN', 'SUPERADMIN']);
@@ -33,6 +34,8 @@ export async function GET(request: NextRequest) {
       totalLeads,
       totalProjectRequests,
       purchasedCourses,
+      totalContactMessages,
+      newContactMessages,
     ] = await Promise.all([
       AuthUser.countDocuments({ role: 'STUDENT' }),
       Enrollment.countDocuments({ enrollmentStatus: 'active' }),
@@ -44,6 +47,8 @@ export async function GET(request: NextRequest) {
       OfflineInternshipLead.countDocuments(),
       ProjectRequest.countDocuments(),
       Enrollment.countDocuments({ enrollmentStatus: { $in: ['active', 'completed'] } }),
+      ContactMessage.countDocuments(),
+      ContactMessage.countDocuments({ status: 'new' }),
     ]);
 
     const totalRevenue = successPayments.reduce((s: number, p: any) => s + (p.totalAmount || 0), 0);
@@ -52,9 +57,14 @@ export async function GET(request: NextRequest) {
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-    const [recentPayments, recentEnrollments] = await Promise.all([
+    const [recentPayments, recentEnrollments, recentContactMessages] = await Promise.all([
       Payment.find({ status: 'success', paidAt: { $gte: sixMonthsAgo } }).lean(),
       Enrollment.find({ enrolledAt: { $gte: sixMonthsAgo } }).lean(),
+      ContactMessage.find()
+        .sort({ createdAt: -1 })
+        .limit(6)
+        .select('name email phone subject message status createdAt')
+        .lean(),
     ]);
 
     // Build revenue chart
@@ -100,6 +110,8 @@ export async function GET(request: NextRequest) {
         totalLeads,
         totalProjectRequests,
         purchasedCourses,
+        totalContactMessages,
+        newContactMessages,
       },
       revenueChart,
       enrollmentChart,
@@ -110,6 +122,16 @@ export async function GET(request: NextRequest) {
         courseName:  p.courseName,
         amount:      p.totalAmount,
         paidAt:      p.paidAt,
+      })),
+      recentContactMessages: recentContactMessages.map((m: any) => ({
+        id:        m._id.toString(),
+        name:      m.name,
+        email:     m.email,
+        phone:     m.phone || '',
+        subject:   m.subject,
+        message:   m.message,
+        status:    m.status,
+        createdAt: m.createdAt,
       })),
     });
   } catch (err: any) {

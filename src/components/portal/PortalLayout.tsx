@@ -8,6 +8,7 @@ import {
   LayoutDashboard, Users, CreditCard, BookOpen, Package,
   Award, Settings, LogOut, Menu, X, ChevronRight,
   Bell, Shield, Building2, TrendingUp, ExternalLink, UserPlus, FolderKanban, Briefcase, GraduationCap,
+  MessageSquare,
 } from 'lucide-react';
 
 export type PortalType = 'admin' | 'organization';
@@ -42,6 +43,7 @@ function getNavItems(base: string, isAdmin: boolean = false): NavItem[] {
     items.push({ href: `${base}/project-requests`,    label: 'Project Requests',    icon: FolderKanban });
     items.push({ href: `${base}/purchased-courses`,   label: 'Purchased Courses',   icon: BookOpen });
     items.push({ href: `${base}/certification-enrollments`, label: 'Certification Leads', icon: Award });
+    items.push({ href: `${base}/contact-messages`, label: 'Contact Messages', icon: MessageSquare });
     items.push({ href: `${base}/invites`,             label: 'Admin Invites',       icon: UserPlus });
     items.push({ href: `${base}/offline-leads`,       label: 'Offline Leads',       icon: TrendingUp });
     items.push({ href: `${base}/manual-leads`,        label: 'Manual Leads',        icon: UserPlus });

@@ -54,6 +54,7 @@ export default function ContactPageClient() {
       if (res.ok) {
         setStatus('success');
         setForm({ name: '', email: '', phone: '', subject: '', message: '' });
+        window.dispatchEvent(new Event('portal-data-updated'));
       } else {
         setStatus('error');
       }

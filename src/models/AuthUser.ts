@@ -129,7 +129,7 @@ export async function ensureAuthUserIndexes() {
     const indexes = await AuthUser.collection.indexes();
     const googleIdIndex = indexes.find(isGoogleIdIndex);
 
-    if (googleIdIndex?.unique && !isUsableGoogleIdIndex(googleIdIndex)) {
+    if (googleIdIndex?.unique && googleIdIndex.name && !isUsableGoogleIdIndex(googleIdIndex)) {
       await AuthUser.collection.dropIndex(googleIdIndex.name);
     }
 

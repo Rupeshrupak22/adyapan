@@ -35,12 +35,20 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    const [messages, total] = await Promise.all([
+    const [messages, total, statusCounts] = await Promise.all([
       ContactMessage.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
       ContactMessage.countDocuments(filter),
+      ContactMessage.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+      ]),
     ]);
 
-    return NextResponse.json({ success: true, messages, total, page, limit });
+    const counts = statusCounts.reduce((acc: Record<string, number>, item: any) => {
+      acc[item._id] = item.count;
+      return acc;
+    }, { new: 0, read: 0, replied: 0 });
+
+    return NextResponse.json({ success: true, messages, total, page, limit, statusCounts: counts });
   } catch (err: any) {
     console.error('[ContactMessages GET]', err.message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
