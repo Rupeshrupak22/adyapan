@@ -12,24 +12,6 @@ import {
 import { getBrochureFile, getBrochureHref, getThumbnail, getYouTubeEmbedUrl } from '@/lib/courseData';
 import PricingModal from '@/components/PricingModal';
 
-const generateInstructors = (courseTitle: string) => {
-  const firstNames = ['Simran', 'Kalyan', 'Sanket', 'Gaurav', 'Ashish', 'Mudita', 'Manish', 'Priya', 'Rajesh', 'Neha'];
-  const lastNames = ['Bindra', 'Reddy', 'Patel', 'Sinha', 'Prasad', 'Sharma', 'Garg', 'Kumar', 'Singh', 'Verma'];
-  const companies = ['Google', 'Microsoft', 'Amazon', 'Mastercard', 'Philips', 'Samsung', 'Fractal', 'Meta', 'Apple', 'Netflix'];
-  const roles = ['Engineer', 'Data Engineer', 'Senior Engineer', 'Tech Lead', 'Architect', 'Manager', 'Specialist', 'Developer'];
-  const experiences = ['4+ years exp', '6+ years exp', '7+ years exp', '5+ years exp', '10+ years exp', '8+ years exp', '3+ years exp', '9+ years exp'];
-
-  return Array.from({ length: 8 }, (_, i) => ({
-    id: i + 1,
-    name: `${firstNames[i % firstNames.length]} ${lastNames[(i + 1) % lastNames.length]}`,
-    role: `${roles[i % roles.length]}, ${companies[i % companies.length]}`,
-    company: companies[i % companies.length],
-    experience: experiences[i % experiences.length],
-    image: `https://images.unsplash.com/photo-${1500000000000 + i * 100000}?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0`,
-    linkedIn: true,
-  }));
-};
-
 function seededHash(str: string): number {
   let h = 0;
   for (let i = 0; i < str.length; i++) {
@@ -37,6 +19,143 @@ function seededHash(str: string): number {
   }
   return Math.abs(h) / 2147483647;
 }
+
+type Instructor = {
+  id: number;
+  name: string;
+  role: string;
+  company: string;
+  experience: string;
+};
+
+type InstructorProfile = Omit<Instructor, 'id'>;
+
+const instructorProfiles: Record<string, InstructorProfile[]> = {
+  ai: [
+    { name: 'Aarav Mehta', role: 'AI Solutions Architect', company: 'Cognitive Systems Lab', experience: '9+ years exp' },
+    { name: 'Nisha Rao', role: 'Machine Learning Engineer', company: 'VisionAI Studio', experience: '7+ years exp' },
+    { name: 'Ritvik Sen', role: 'NLP Specialist', company: 'Language Intelligence Hub', experience: '8+ years exp' },
+    { name: 'Meera Kulkarni', role: 'Computer Vision Mentor', company: 'Applied AI Works', experience: '6+ years exp' },
+    { name: 'Kabir Anand', role: 'MLOps Consultant', company: 'ModelOps Cloud', experience: '10+ years exp' },
+    { name: 'Tanya Bhatia', role: 'AI Product Lead', company: 'Automation Research Co.', experience: '8+ years exp' },
+    { name: 'Dev Arora', role: 'Deep Learning Engineer', company: 'Neural Systems Studio', experience: '7+ years exp' },
+    { name: 'Ishita Kapoor', role: 'GenAI Workflow Trainer', company: 'PromptOps Lab', experience: '6+ years exp' },
+  ],
+  data: [
+    { name: 'Rohan Iyer', role: 'Data Science Lead', company: 'Insight Analytics Co.', experience: '9+ years exp' },
+    { name: 'Ananya Bose', role: 'Data Engineer', company: 'Pipeline DataWorks', experience: '7+ years exp' },
+    { name: 'Karan Malhotra', role: 'BI Consultant', company: 'Dashboard Labs', experience: '8+ years exp' },
+    { name: 'Shruti Menon', role: 'Analytics Manager', company: 'Decision Science Studio', experience: '10+ years exp' },
+    { name: 'Nikhil Jain', role: 'SQL & Data Modeling Mentor', company: 'DataOps Collective', experience: '6+ years exp' },
+    { name: 'Aditi Nair', role: 'Power BI Specialist', company: 'MetricWorks', experience: '7+ years exp' },
+    { name: 'Pranav Shah', role: 'ETL Architect', company: 'Cloud Data Foundry', experience: '11+ years exp' },
+    { name: 'Sneha Rathi', role: 'Python Analytics Trainer', company: 'Analytics Bridge', experience: '5+ years exp' },
+  ],
+  software: [
+    { name: 'Vikram Sethi', role: 'Full Stack Architect', company: 'Product Engineering Works', experience: '10+ years exp' },
+    { name: 'Pooja Saxena', role: 'Frontend Engineer', company: 'Interface Labs', experience: '7+ years exp' },
+    { name: 'Harsh Vardhan', role: 'Backend Developer', company: 'API Systems Co.', experience: '8+ years exp' },
+    { name: 'Ritika Chopra', role: 'Mobile App Mentor', company: 'AppCraft Studio', experience: '6+ years exp' },
+    { name: 'Aditya Joshi', role: 'Java Full Stack Lead', company: 'Enterprise Stack Lab', experience: '9+ years exp' },
+    { name: 'Mansi Verma', role: 'Python Developer', company: 'BackendWorks', experience: '7+ years exp' },
+    { name: 'Sahil Grover', role: 'QA Automation Engineer', company: 'TestGrid Systems', experience: '8+ years exp' },
+    { name: 'Charu Jain', role: 'DSA Interview Mentor', company: 'Code Practice Lab', experience: '6+ years exp' },
+  ],
+  cloud: [
+    { name: 'Arjun Pillai', role: 'Cloud Solutions Architect', company: 'CloudOps India', experience: '11+ years exp' },
+    { name: 'Neha Bansal', role: 'AWS Mentor', company: 'InfraScale Cloud', experience: '8+ years exp' },
+    { name: 'Yash Tandon', role: 'DevOps Engineer', company: 'ReleaseWorks', experience: '7+ years exp' },
+    { name: 'Kavya Suresh', role: 'Kubernetes Specialist', company: 'ContainerOps Lab', experience: '9+ years exp' },
+    { name: 'Raghav Khanna', role: 'Site Reliability Engineer', company: 'Uptime Systems', experience: '10+ years exp' },
+    { name: 'Sonal Mehta', role: 'CI/CD Consultant', company: 'PipelineOps Studio', experience: '6+ years exp' },
+    { name: 'Tanmay Ghosh', role: 'Cloud Security Trainer', company: 'SecureCloud Works', experience: '8+ years exp' },
+    { name: 'Disha Pandey', role: 'Infrastructure Automation Lead', company: 'Terraform Practice Lab', experience: '7+ years exp' },
+  ],
+  design: [
+    { name: 'Maya Krishnan', role: 'UX Research Lead', company: 'Human Interface Studio', experience: '9+ years exp' },
+    { name: 'Rhea Arora', role: 'UI Designer', company: 'PixelCraft Design', experience: '6+ years exp' },
+    { name: 'Omkar Patil', role: 'Brand Designer', company: 'Creative Identity Lab', experience: '8+ years exp' },
+    { name: 'Sanya Dutta', role: 'Product Design Mentor', company: 'Design Systems Co.', experience: '7+ years exp' },
+    { name: 'Neil Thomas', role: 'AR/VR Experience Designer', company: 'Immersive Media Works', experience: '8+ years exp' },
+    { name: 'Ira Kapoor', role: 'Motion Graphics Specialist', company: 'Visual Effects Studio', experience: '6+ years exp' },
+    { name: 'Reyansh Kulkarni', role: 'Figma Workflow Trainer', company: 'Prototype Lab', experience: '5+ years exp' },
+    { name: 'Avni Shah', role: 'Portfolio Review Mentor', company: 'Creative Careers Studio', experience: '7+ years exp' },
+  ],
+  management: [
+    { name: 'Rachit Agarwal', role: 'Investment Banking Analyst', company: 'Capital Advisory Desk', experience: '8+ years exp' },
+    { name: 'Surbhi Jain', role: 'Finance Mentor', company: 'Valuation Practice Lab', experience: '9+ years exp' },
+    { name: 'Aman Bedi', role: 'Marketing Strategy Consultant', company: 'Growth Strategy Co.', experience: '10+ years exp' },
+    { name: 'Kritika Sood', role: 'HR Business Partner', company: 'PeopleOps Consulting', experience: '7+ years exp' },
+    { name: 'Dhruv Goyal', role: 'Supply Chain Analyst', company: 'Logistics Intelligence Hub', experience: '8+ years exp' },
+    { name: 'Pari Mathur', role: 'Salesforce Consultant', company: 'CRM Solutions Desk', experience: '6+ years exp' },
+    { name: 'Rishi Kapoor', role: 'SAP FICA Specialist', company: 'ERP Finance Systems', experience: '9+ years exp' },
+    { name: 'Meghna Roy', role: 'Business Communication Coach', company: 'Workplace English Studio', experience: '7+ years exp' },
+  ],
+  electronics: [
+    { name: 'Siddharth Menon', role: 'Embedded Systems Engineer', company: 'FirmwareWorks Lab', experience: '9+ years exp' },
+    { name: 'Keerthi Ramesh', role: 'VLSI Design Mentor', company: 'Chip Design Studio', experience: '8+ years exp' },
+    { name: 'Abhinav Nair', role: 'IoT Solutions Engineer', company: 'Connected Devices Lab', experience: '7+ years exp' },
+    { name: 'Tara Kulkarni', role: 'Robotics Trainer', company: 'Automation Systems Hub', experience: '6+ years exp' },
+    { name: 'Varun Shetty', role: 'EV Systems Specialist', company: 'E-Mobility Engineering', experience: '10+ years exp' },
+    { name: 'Lavanya Iyer', role: 'Power Systems Consultant', company: 'GridTech Solutions', experience: '9+ years exp' },
+    { name: 'Naveen Rao', role: 'PCB Design Mentor', company: 'Electronics Prototyping Lab', experience: '7+ years exp' },
+    { name: 'Diya Sinha', role: 'Sensor Integration Engineer', company: 'Smart Hardware Works', experience: '6+ years exp' },
+  ],
+  mechanical: [
+    { name: 'Akhil Deshmukh', role: 'CAD Design Engineer', company: 'Precision Design Studio', experience: '9+ years exp' },
+    { name: 'Nandini Verma', role: 'CATIA Specialist', company: 'Product Modeling Lab', experience: '7+ years exp' },
+    { name: 'Rohit Balan', role: 'Automotive Design Mentor', company: 'Mobility Design Works', experience: '10+ years exp' },
+    { name: 'Isha Chawla', role: 'Quality Systems Lead', company: 'Manufacturing Excellence Co.', experience: '8+ years exp' },
+    { name: 'Sameer Kulkarni', role: 'Safety Engineering Consultant', company: 'Industrial Safety Desk', experience: '9+ years exp' },
+    { name: 'Bhavya Narang', role: 'CNC Process Trainer', company: 'Advanced Manufacturing Lab', experience: '6+ years exp' },
+    { name: 'Tejas Nambiar', role: 'Product Development Engineer', company: 'Mechanical Prototyping Works', experience: '8+ years exp' },
+    { name: 'Mrunal Shah', role: 'Lean Manufacturing Mentor', company: 'Process Improvement Studio', experience: '7+ years exp' },
+  ],
+  lifeScience: [
+    { name: 'Dr. Ira Banerjee', role: 'Bioinformatics Scientist', company: 'Genomics Research Lab', experience: '10+ years exp' },
+    { name: 'Dr. Kunal Basu', role: 'Microbiology Mentor', company: 'Clinical Micro Lab', experience: '9+ years exp' },
+    { name: 'Dr. Ayesha Khan', role: 'Molecular Biology Specialist', company: 'Molecular Diagnostics Hub', experience: '8+ years exp' },
+    { name: 'Dr. Rohan Dey', role: 'Genetic Engineering Trainer', company: 'Biotech Innovation Studio', experience: '7+ years exp' },
+    { name: 'Dr. Nivedita Rao', role: 'Pharmacovigilance Consultant', company: 'Drug Safety Desk', experience: '9+ years exp' },
+    { name: 'Dr. Pratik Saha', role: 'Nanotechnology Research Mentor', company: 'NanoBio Materials Lab', experience: '8+ years exp' },
+    { name: 'Dr. Kavita Menon', role: 'Food Science Specialist', company: 'Food Quality Lab', experience: '10+ years exp' },
+    { name: 'Dr. Tanvi Arora', role: 'Medical Coding Trainer', company: 'Healthcare Documentation Co.', experience: '6+ years exp' },
+  ],
+  civil: [
+    { name: 'Prakash Reddy', role: 'Construction Planning Engineer', company: 'BuildPlan Consultants', experience: '11+ years exp' },
+    { name: 'Shalini Gupta', role: 'Project Controls Specialist', company: 'Infra Scheduling Desk', experience: '9+ years exp' },
+    { name: 'Mohit Narayan', role: 'Site Planning Mentor', company: 'CivilWorks Studio', experience: '8+ years exp' },
+    { name: 'Farah Khan', role: 'Cost Estimation Consultant', company: 'Quantity Survey Lab', experience: '7+ years exp' },
+    { name: 'Nitesh Yadav', role: 'Structural Coordination Lead', company: 'Urban Infra Works', experience: '10+ years exp' },
+    { name: 'Vaidehi Shah', role: 'Primavera Planning Trainer', company: 'Project Timeline Co.', experience: '8+ years exp' },
+    { name: 'Armaan Singh', role: 'Safety & Quality Engineer', company: 'Site Compliance Hub', experience: '6+ years exp' },
+    { name: 'Leena Thomas', role: 'BIM Coordination Mentor', company: 'Digital Construction Lab', experience: '7+ years exp' },
+  ],
+};
+
+function getInstructorDomain(courseTitle: string): keyof typeof instructorProfiles {
+  const lower = courseTitle.toLowerCase();
+  if (/(ai|artificial|machine learning|generative|genai)/.test(lower)) return 'ai';
+  if (/(web|app|python|java|selenium|structures|algorithms)/.test(lower)) return 'software';
+  if (/(autocad|catia|car design|quality|safety)/.test(lower)) return 'mechanical';
+  if (/(data|analytics|database|dbms|business analytics)/.test(lower)) return 'data';
+  if (/(devops|cloud|aws|cyber|security|blockchain|bitcoin)/.test(lower)) return 'cloud';
+  if (/(ui|ux|graphic|vfx|ar\/vr|ar vr|design)/.test(lower)) return 'design';
+  if (/(finance|investment|marketing|hrm|management|supply|sap|salesforce|stock|acca|cfa|spoken)/.test(lower)) return 'management';
+  if (/(embedded|hybrid|electric|vlsi|iot|robotics|power systems)/.test(lower)) return 'electronics';
+  if (/(bio|microbiology|molecular|genetic|pharmacovigilance|nano|food|nutrition|sensory|medical coding)/.test(lower)) return 'lifeScience';
+  if (/(construction|civil)/.test(lower)) return 'civil';
+  return 'software';
+}
+
+const generateInstructors = (courseTitle: string): Instructor[] => {
+  const profiles = instructorProfiles[getInstructorDomain(courseTitle)];
+  const offset = Math.floor(seededHash(`${courseTitle}-instructors`) * profiles.length);
+  return profiles.map((_, index) => ({
+    id: index + 1,
+    ...profiles[(index + offset) % profiles.length],
+  }));
+};
 
 const generateCourseData = (title: string, category: string) => ({
   title,
@@ -345,7 +464,7 @@ export default function CoursePageClient() {
                   <span className="text-2xl font-bold text-orange-600">{instructor.name.charAt(0)}</span>
                 </div>
                 <p className="font-semibold text-gray-900 text-sm">{instructor.name}</p>
-                <p className="text-xs text-gray-500 mt-1">{instructor.role}</p>
+                <p className="text-xs text-gray-500 mt-1">{instructor.role}, {instructor.company}</p>
                 <p className="text-xs text-orange-500 mt-1">{instructor.experience}</p>
               </div>
             ))}
