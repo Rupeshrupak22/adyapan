@@ -20,7 +20,7 @@ const COUPONS: Record<string, { type: 'percent' | 'flat'; value: number; label: 
 };
 
 const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh'];
-type Step = 'details' | 'payment' | 'success';
+type Step = 'details' | 'success';
 
 declare global { interface Window { Razorpay: any } }
 
@@ -115,9 +115,9 @@ function CheckoutPageInner() {
     return Object.keys(e).length === 0;
   };
 
-  const handleProceed = (e: React.FormEvent) => {
+  const handleProceed = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) setStep('payment');
+    if (validate()) await handlePay();
   };
 
   /* â”€â”€ apply coupon â”€â”€ */
@@ -150,8 +150,7 @@ function CheckoutPageInner() {
     document.body.appendChild(s);
   });
 
-  const handlePay = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePay = async () => {
     setError('');
     setPaying(true);
     try {
@@ -225,7 +224,6 @@ function CheckoutPageInner() {
           <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
           Order Summary
         </div>
-        {step === 'payment' && <button onClick={() => setStep('details')} className="text-xs text-orange-600 hover:underline font-medium">Edit</button>}
       </div>
 
       <div className="p-5 space-y-4">
@@ -505,7 +503,6 @@ function CheckoutPageInner() {
                   {step !== 'details' ? '' : '1'}
                 </span>
                 <h2 className={`font-bold text-base ${step === 'details' ? 'text-white' : 'text-gray-700'}`}>Basic Details</h2>
-                {step === 'payment' && <span className="ml-auto text-xs text-gray-400">{email} </span>}
               </div>
 
               <AnimatePresence>
@@ -591,77 +588,15 @@ function CheckoutPageInner() {
                       {errors.agreed && <p className="text-xs text-red-500 mt-1">{errors.agreed}</p>}
                     </div>
 
-                    <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                      className="w-full sm:w-auto px-10 py-3.5 rounded-xl font-bold text-white text-sm shadow-lg"
-                      style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-                      Proceed to Payment â†’
+                    {error && (
+                      <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+                    )}
+
+                    <motion.button type="submit" disabled={paying} whileHover={{ scale: paying ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}
+                      className="w-full sm:w-auto px-10 py-3.5 rounded-xl font-bold text-white text-sm shadow-lg disabled:opacity-60"
+                      style={{ background: paying ? '#9ca3af' : 'linear-gradient(135deg, #f97316, #ea580c)' }}>
+                      {paying ? 'Opening Razorpay...' : 'Proceed to Payment'}
                     </motion.button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            {/* STEP 2 */}
-            <motion.div layout className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
-              <div className={`px-6 py-4 flex items-center gap-3 ${step === 'payment' ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-white border-b border-gray-100'}`}>
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${step === 'payment' ? 'bg-white text-orange-600' : 'bg-gray-200 text-gray-400'}`}>2</span>
-                <h2 className={`font-bold text-base ${step === 'payment' ? 'text-white' : 'text-gray-400'}`}>Secure Payment</h2>
-                {step === 'payment' && <span className="ml-auto flex items-center gap-1 text-white/80 text-xs"><span></span> SSL Protected</span>}
-              </div>
-
-              <AnimatePresence>
-                {step === 'payment' && (
-                  <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    onSubmit={handlePay} className="p-6">
-
-                    <div className="grid gap-5 lg:grid-cols-[1fr_0.72fr]">
-                      <div className="rounded-2xl border border-orange-100 bg-orange-50/70 p-5">
-                        <p className="text-xs font-black uppercase tracking-wide text-orange-600">Payment Gateway</p>
-                        <h3 className="mt-2 text-xl font-black text-gray-900">Pay securely with Razorpay</h3>
-                        <p className="mt-2 text-sm leading-6 text-gray-600">
-                          UPI apps, cards, net banking, wallets, EMI, QR and offers will open inside Razorpay's secure checkout.
-                        </p>
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {['Google Pay', 'PhonePe', 'Paytm', 'BHIM', 'Amazon Pay', 'Cards', 'Net Banking', 'EMI'].map(item => (
-                            <span key={item} className="rounded-full border border-orange-200 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 shadow-sm">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
-                        <div className="flex items-center justify-between gap-4">
-                          <span className="text-sm text-gray-600">Grand Total</span>
-                          <span className="text-2xl font-black text-orange-600">{fmt(grandTotal)}</span>
-                        </div>
-
-                        {error && (
-                          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-                        )}
-
-                        <motion.button type="submit" disabled={paying} whileHover={{ scale: paying ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}
-                          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl py-4 text-base font-black text-white shadow-lg disabled:opacity-60"
-                          style={{ background: paying ? '#9ca3af' : 'linear-gradient(135deg, #f97316, #dc2626)' }}>
-                          {paying ? (
-                            <><svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Opening Razorpay...</>
-                          ) : (
-                            <>Pay Securely {fmt(grandTotal)}</>
-                          )}
-                        </motion.button>
-
-                        <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-                          <span>SSL Secured</span>
-                          <span>|</span>
-                          <span>PCI-DSS Compliant</span>
-                          <span>|</span>
-                          <a href="#" className="text-orange-500 hover:underline">Refund Policy</a>
-                        </div>
-                        <p className="mt-3 text-xs leading-relaxed text-gray-400">
-                          By paying, you agree to Adyapan's <a href="#" className="text-orange-500 hover:underline">Terms</a>, <a href="#" className="text-orange-500 hover:underline">Refund</a> & <a href="#" className="text-orange-500 hover:underline">Privacy Policy</a>.
-                        </p>
-                      </div>
-                    </div>
                   </motion.form>
                 )}
               </AnimatePresence>
