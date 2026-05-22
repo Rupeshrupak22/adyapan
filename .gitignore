@@ -56,6 +56,3 @@ Thumbs.db
 *.cert
 *.p12
 *.pfx
-
-# Large generated/public artifacts
-public/brochures/
