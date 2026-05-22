@@ -49,7 +49,7 @@ const enrollmentRoutes     = require('./routes/enrollmentRoutes');
 const adminRoutes          = require('./routes/adminRoutes');
 
 const app  = express();
-const PORT = process.env.BACKEND_PORT || 5000;
+const PORT = process.env.PORT || process.env.BACKEND_PORT || 5000;
 const isProd = process.env.NODE_ENV === 'production';
 
 // ── Allowed CORS origins ──────────────────────────────────────
