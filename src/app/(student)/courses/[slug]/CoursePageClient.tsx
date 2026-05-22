@@ -9,7 +9,7 @@ import {
   Users, Clock, Award, BookOpen, Briefcase, TrendingUp,
   Phone, Mail, MessageCircle, X,
 } from 'lucide-react';
-import { getThumbnail, getYouTubeEmbedUrl } from '@/lib/courseData';
+import { getBrochureFile, getBrochureHref, getThumbnail, getYouTubeEmbedUrl } from '@/lib/courseData';
 import PricingModal from '@/components/PricingModal';
 
 const generateInstructors = (courseTitle: string) => {
@@ -168,6 +168,8 @@ export default function CoursePageClient() {
   }
 
   const instructors = generateInstructors(course.title);
+  const brochureHref = getBrochureHref(course.title);
+  const brochureFile = getBrochureFile(course.title);
 
   return (
     <div className="min-h-screen bg-[#f5f0eb]">
@@ -207,40 +209,30 @@ export default function CoursePageClient() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col w-full sm:w-auto">
-                  <motion.button
+                  <motion.a
+                    href={brochureHref || undefined}
+                    download={brochureFile || undefined}
                     whileHover={{ scale: brochureLoading ? 1 : 1.05 }}
                     whileTap={{ scale: brochureLoading ? 1 : 0.95 }}
-                    disabled={brochureLoading}
-                    onClick={async () => {
+                    aria-disabled={brochureLoading || !brochureHref}
+                    onClick={(event) => {
                       setBrochureError('');
+                      if (!brochureHref) {
+                        event.preventDefault();
+                        setBrochureError('Brochure not available for this course.');
+                        return;
+                      }
                       setBrochureLoading(true);
-                      try {
-                        const res = await fetch(`/api/courses/brochure?title=${encodeURIComponent(course.title)}`);
-                        if (!res.ok) {
-                          const data = await res.json().catch(() => ({}));
-                          setBrochureError(data.error || 'Brochure not available for this course.');
-                          return;
-                        }
-                        const blob = await res.blob();
-                        const disposition = res.headers.get('Content-Disposition') || '';
-                        const match = disposition.match(/filename="(.+?)"/);
-                        const filename = match ? match[1] : `${course.title} Brochure.pdf`;
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url; a.download = filename;
-                        document.body.appendChild(a); a.click(); a.remove();
-                        URL.revokeObjectURL(url);
-                      } catch { setBrochureError('Something went wrong. Please try again.'); }
-                      finally { setBrochureLoading(false); }
+                      window.setTimeout(() => setBrochureLoading(false), 800);
                     }}
-                    className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 ${brochureLoading ? 'bg-orange-100 text-orange-400 cursor-not-allowed border border-orange-200' : 'bg-gradient-to-r from-[#ffa800] to-[#ff6b00] text-white shadow-md hover:shadow-orange-300'}`}
+                    className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 ${brochureLoading || !brochureHref ? 'bg-orange-100 text-orange-400 cursor-not-allowed border border-orange-200' : 'bg-gradient-to-r from-[#ffa800] to-[#ff6b00] text-white shadow-md hover:shadow-orange-300'}`}
                   >
                     {brochureLoading ? (
                       <><svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg><span>Downloading...</span></>
                     ) : (
                       <><Download className="w-4 h-4" /><span>Download Brochure</span></>
                     )}
-                  </motion.button>
+                  </motion.a>
                   {brochureError && <p className="text-xs text-red-500 mt-1.5 text-center">{brochureError}</p>}
                 </div>
                 <motion.button

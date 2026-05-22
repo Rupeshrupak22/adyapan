@@ -155,6 +155,110 @@ export function getYouTubeEmbedUrl(title: string): string {
 
 // ─── Thumbnail mapping: course name keywords → local thumbnail file ───────────
 // Filenames match exactly what's in public/course-thumbnails/
+// Course brochure mapping: course name keywords -> PDF file in public/brochures/
+export const BROCHURE_MAP: Record<string, string> = {
+  'artificial intelligence':        'Artificial Intelligence.pdf',
+  'ai engineering':                 'AI ML Blended (3 months).pdf',
+  'generative ai':                  'Gen AI.pdf',
+  'machine learning':               'Machine Learning .pdf',
+  'data science':                   'Data Science.pdf',
+  'data engineering':               'Data Engineering .pdf',
+  'data analytics':                 'Data Analytics.pdf',
+  'database management':            'Data Science.pdf',
+  'data structures':                'C++ with DSA.pdf',
+  'data structure':                 'C++ with DSA.pdf',
+  'web development':                'Web Development (Java) 8 weeks.pdf',
+  'web 3.0':                        'Web 3.0 with Blockchain.pdf',
+  'web 3':                          'Web 3.0 with Blockchain.pdf',
+  'app development':                'Android App Development.pdf',
+  'python full stack':              'Web Development (Python) 8 weeks.pdf',
+  'python programming':             'Python.pdf',
+  'java programming':               'Java Full Stack Development.pdf',
+  'java full stack':                'Java Full Stack Development.pdf',
+  'selenium testing':               'Selenium Testing with Java.pdf',
+  'devops engineering':             'DevOps.pdf',
+  'devops':                         'DevOps.pdf',
+  'cloud computing':                'Cloud Computing.pdf',
+  'aws':                            'AWS.pdf',
+  'cyber security':                 'Cyber Security.pdf',
+  'blockchain & bitcoin':           'Blockchain & Bitcoin.pdf',
+  'blockchain':                     'Blockchain & Bitcoin.pdf',
+  'bitcoin':                        'Blockchain & Bitcoin.pdf',
+  'ar/vr development':              'AR_VR.pdf',
+  'ar/vr':                          'AR_VR.pdf',
+  'ar vr':                          'AR_VR.pdf',
+  'ui/ux design':                   'UI_UX Design.pdf',
+  'ui/ux':                          'UI_UX Design.pdf',
+  'ui ux':                          'UI_UX Design.pdf',
+  'graphic design':                 'Graphic design.pdf',
+  'vfx':                            'Graphic design.pdf',
+  'investment banking':             'Investment Banking.pdf',
+  'investment analysis':            'Investment Banking.pdf',
+  'business analytics':             'Business Analytics (8weeks).pdf',
+  'financial economics':            'Finance (Advanced).pdf',
+  'business & financial economics': 'Finance (Advanced).pdf',
+  'data analysis for economics':    'Data Analytics.pdf',
+  'chartered accountancy':          'ACCA F4 (Corporate Law).pdf',
+  'cfa':                            'Finance (Advanced).pdf',
+  'acca f4':                        'ACCA F4 (Corporate Law).pdf',
+  'acca':                           'ACCA F4 (Corporate Law).pdf',
+  'marketing management':           'Marketing Management .pdf',
+  'digital marketing':              'Digital marketing.pdf',
+  'social media marketing':         'Social Media Marketing .pdf',
+  'hrm':                            'HR Management.pdf',
+  'human resource':                 'HR Management.pdf',
+  'management consultancy':         'Management consulting.pdf',
+  'management consulting':          'Management consulting.pdf',
+  'supply chain':                   'Supply Chain Management.pdf',
+  'sap fica':                       'SAP FICA.pdf',
+  'salesforce':                     'Business Analytics (8weeks).pdf',
+  'stock marketing':                'Stock Market.pdf',
+  'spoken english':                 'Spoken English.pdf',
+  'finance':                        'Finance (Beginner).pdf',
+  'embedded systems':               'Embedded Systems.pdf',
+  'hybrid & electric vehicle':      'Hybrid and electric vehicle.pdf',
+  'hybrid':                         'Hybrid and electric vehicle.pdf',
+  'electric vehicle':               'Electric Vehicles.pdf',
+  'vlsi':                           'VLSI.pdf',
+  'iot & robotics':                 'Robotics.pdf',
+  'iot':                            'Robotics.pdf',
+  'robotics':                       'Robotics.pdf',
+  'power systems':                  'Power System.pdf',
+  'autocad':                        'Auto CAD.pdf',
+  'catia':                          'CATIA.pdf',
+  'car design':                     'Car Design.pdf',
+  'quality':                        'CNC.pdf',
+  'bioinformatics':                 'Bioinformatics Algorithms.pdf',
+  'microbiology':                   'Microbiology.pdf',
+  'molecular biology':              'Molecular Biology.pdf',
+  'genetic engineering':            'Genetic engineering.pdf',
+  'pharmacovigilance':              'Pharmacovigilence.pdf',
+  'nanotechnology':                 'Nanotechnology Program.pdf',
+  'nano technology':                'Nanotechnology Program.pdf',
+  'nano tech':                      'Nanotechnology Program.pdf',
+  'food science':                   'Microbiology.pdf',
+  'nutrition':                      'Microbiology.pdf',
+  'sensory science':                'Microbiology.pdf',
+  'medical coding':                 'Medical Coding.pdf',
+  'construction planning':          'Construction Planning.pdf',
+  'construction':                   'Construction Planning.pdf',
+  'civil':                          'Construction Planning.pdf',
+};
+
+export function getBrochureFile(title: string): string | null {
+  const lower = title.toLowerCase();
+  const keys = Object.keys(BROCHURE_MAP).sort((a, b) => b.length - a.length);
+  for (const key of keys) {
+    if (lower.includes(key)) return BROCHURE_MAP[key];
+  }
+  return null;
+}
+
+export function getBrochureHref(title: string): string | null {
+  const file = getBrochureFile(title);
+  return file ? `/brochures/${encodeURIComponent(file)}` : null;
+}
+
 const courseThumb = (file: string) => `/course-thumbnails/${file}.webp`;
 
 export const THUMBNAIL_MAP: Record<string, string> = {
