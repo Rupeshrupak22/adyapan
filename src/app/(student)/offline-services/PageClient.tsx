@@ -17,7 +17,6 @@ import {
   CheckCircle,
   ChevronDown,
   Shirt,
-  BookOpen,
   Star,
   Sparkles,
   ArrowRight,
@@ -246,7 +245,7 @@ const kit = [
     icon: Shirt,
     title: 'Adyapan T-Shirt',
     desc: 'Premium program merchandise for offline interns.',
-    img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80',
+    img: 'https://images.unsplash.com/photo-1779880437508-34fc25ce495c?w=400&q=80',
     alt: 'Orange branded t-shirt',
   },
   {
@@ -262,13 +261,6 @@ const kit = [
     desc: 'Device support and digital practice access.',
     img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&q=80',
     alt: 'Digital tablet device',
-  },
-  {
-    icon: BookOpen,
-    title: 'Learning Materials',
-    desc: 'Notes, recordings, tasks, and guided resources.',
-    img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=80',
-    alt: 'Study books and learning materials',
   },
   {
     icon: Award,
@@ -306,71 +298,61 @@ const faqs = [
 const companies = [
   {
     name: 'TCS',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Tata_Consultancy_Services_Logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/tcs.png',       
     color: 'from-blue-500 to-blue-700',
     bg: 'from-blue-500/20 to-blue-700/20',
   },
   {
     name: 'Infosys',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/infosys.png',        
     color: 'from-indigo-500 to-indigo-700',
     bg: 'from-indigo-500/20 to-indigo-700/20',
   },
   {
     name: 'Wipro',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/wipro.png',          
     color: 'from-purple-500 to-purple-700',
     bg: 'from-purple-500/20 to-purple-700/20',
   },
   {
     name: 'HCL',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/50/HCL_Technologies_logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/hcl.png',           
     color: 'from-green-500 to-green-700',
     bg: 'from-green-500/20 to-green-700/20',
   },
   {
     name: 'Tech Mahindra',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/Tech_Mahindra_New_Logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/techmahindra.png', 
     color: 'from-red-500 to-red-700',
     bg: 'from-red-500/20 to-red-700/20',
   },
   {
     name: 'Accenture',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/accenture.png',      
     color: 'from-violet-500 to-violet-700',
     bg: 'from-violet-500/20 to-violet-700/20',
   },
   {
     name: 'Cognizant',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Cognizant_logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/cognizant.png',     
     color: 'from-blue-400 to-cyan-600',
     bg: 'from-blue-400/20 to-cyan-600/20',
   },
   {
     name: 'Capgemini',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Capgemini_Logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/capgemini.png',      
     color: 'from-sky-500 to-sky-700',
     bg: 'from-sky-500/20 to-sky-700/20',
   },
   {
     name: 'IBM',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/ibm.png',            
     color: 'from-blue-600 to-blue-900',
     bg: 'from-blue-600/20 to-blue-900/20',
   },
   {
     name: 'Deloitte',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg',
-    logoBg: 'bg-white',
+    logo: '/logos/companies/deloitte.png',      
     color: 'from-emerald-500 to-emerald-700',
     bg: 'from-emerald-500/20 to-emerald-700/20',
   },
@@ -388,7 +370,7 @@ const initialForm = {
   city: '',
 };
 
-function SectionIntro({ kicker, title, desc }: { kicker: string; title: string; desc?: string }) {
+function SectionIntro({ kicker, title, desc, titleClassName, descClassName }: { kicker: string; title: string; desc?: string; titleClassName?: string; descClassName?: string }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -398,8 +380,8 @@ function SectionIntro({ kicker, title, desc }: { kicker: string; title: string; 
       className="mx-auto mb-12 max-w-3xl text-center"
     >
       <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-orange-500">{kicker}</p>
-      <h2 className="text-3xl font-black leading-tight text-[#111827] sm:text-4xl lg:text-5xl">{title}</h2>
-      {desc && <p className="mt-4 text-base leading-7 text-gray-600 sm:text-lg">{desc}</p>}
+      <h2 className={`text-3xl font-black leading-tight sm:text-4xl lg:text-5xl ${titleClassName ?? 'text-[#111827]'}`}>{title}</h2>
+      {desc && <p className={`mt-4 text-base leading-7 sm:text-lg ${descClassName ?? 'text-gray-600'}`}>{desc}</p>}
     </motion.div>
   );
 }
@@ -572,8 +554,8 @@ export default function OfflineServicesPage() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500">Support</p>
-                  <p className="text-base font-black">Till Placement</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-orange-500">Support</p>
+                  <p className="text-base font-semibold text-white">Till Placement</p>
                 </div>
               </div>
             </motion.div>
@@ -695,8 +677,8 @@ export default function OfflineServicesPage() {
 
       <section className="bg-[#11121f] px-4 py-20 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro kicker="Internship Kit" title="A premium offline starter kit" desc="Everything feels more official when your program gives you tools, identity, and proof." />
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <SectionIntro kicker="Internship Kit" title="A premium offline starter kit" desc="Everything feels more official when your program gives you tools, identity, and proof." titleClassName="text-white" descClassName="text-white/80" />
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {kit.map(({ icon: Icon, title, desc, img, alt }) => (
               <motion.div
                 key={title}
@@ -880,6 +862,16 @@ export default function OfflineServicesPage() {
       </section>
 
       <section className="bg-[#11121f] px-4 py-14 text-white sm:px-6 lg:px-8 overflow-hidden">
+        <style>{`
+          @keyframes company-left {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes company-right {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+        `}</style>
         <div className="mx-auto max-w-7xl">
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -898,20 +890,16 @@ export default function OfflineServicesPage() {
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#11121f] to-transparent z-10 pointer-events-none" />
             
             {/* Row 1 - scrolls left */}
-            <div className="flex overflow-hidden group/marquee">
-              <motion.div
-                animate={{ x: [0, -1920] }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 30,
-                    ease: "linear",
-                  },
-                }}
+            <div className="flex overflow-hidden">
+              <div
                 className="flex gap-4 pr-4"
+                style={{
+                  width: 'max-content',
+                  animation: 'company-left 50s linear infinite',
+                  willChange: 'transform',
+                }}
               >
-                {[...companies, ...companies].map((company, index) => (
+                {[...companies, ...companies, ...companies, ...companies].map((company, index) => (
                   <div
                     key={`${company.name}-${index}`}
                     className="group relative flex-shrink-0 w-52 h-32 rounded-2xl border border-white/10 bg-white/6 backdrop-blur overflow-hidden transition-all duration-300 hover:border-orange-400/60 hover:bg-white/10 hover:scale-105 hover:shadow-[0_0_32px_rgba(255,168,0,0.30)] cursor-pointer"
@@ -930,6 +918,17 @@ export default function OfflineServicesPage() {
                           alt={`${company.name} logo`}
                           className="h-full w-full object-contain"
                           loading="lazy"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent && !parent.querySelector('span')) {
+                              const span = document.createElement('span');
+                              span.className = 'text-sm font-black text-gray-700';
+                              span.textContent = company.name;
+                              parent.appendChild(span);
+                            }
+                          }}
                         />
                       </div>
                       {/* Name */}
@@ -941,24 +940,20 @@ export default function OfflineServicesPage() {
                     </div>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
             {/* Row 2 - scrolls right (reverse) */}
             <div className="mt-4 flex overflow-hidden">
-              <motion.div
-                animate={{ x: [-1920, 0] }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 35,
-                    ease: "linear",
-                  },
-                }}
+              <div
                 className="flex gap-4 pr-4"
+                style={{
+                  width: 'max-content',
+                  animation: 'company-right 60s linear infinite',
+                  willChange: 'transform',
+                }}
               >
-                {[...companies].reverse().concat([...companies].reverse()).map((company, index) => (
+                {[...companies].reverse().concat([...companies].reverse(), [...companies].reverse(), [...companies].reverse()).map((company, index) => (
                   <div
                     key={`rev-${company.name}-${index}`}
                     className="group relative flex-shrink-0 w-44 h-20 rounded-2xl border border-white/8 bg-white/5 backdrop-blur overflow-hidden transition-all duration-300 hover:border-orange-400/40 hover:bg-white/10 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,168,0,0.2)] cursor-pointer"
@@ -982,7 +977,7 @@ export default function OfflineServicesPage() {
                     </div>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </div>
           

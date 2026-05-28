@@ -44,6 +44,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'chart.googleapis.com',   pathname: '/**' },
       { protocol: 'https', hostname: 'res.cloudinary.com',     pathname: '/**' },
       { protocol: 'https', hostname: 'upload.wikimedia.org',   pathname: '/**' },
+      { protocol: 'https', hostname: 'logo.clearbit.com',      pathname: '/**' },
       { protocol: 'https', hostname: 'videos.pexels.com',      pathname: '/**' },
       { protocol: 'https', hostname: 'static.vecteezy.com',    pathname: '/**' },
     ],

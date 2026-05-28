@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
       <div className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3">
         {/* Chat bubble */}
         {isOpen && (
-          <div className="absolute bottom-20 right-0 bg-white rounded-2xl shadow-2xl p-4 w-80 mb-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="absolute bottom-[9.5rem] right-0 bg-white rounded-2xl shadow-2xl p-4 w-80 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">

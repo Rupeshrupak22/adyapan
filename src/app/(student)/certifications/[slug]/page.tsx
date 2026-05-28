@@ -12,7 +12,7 @@ const certificationCompanies = [
   {
     id: 1,
     name: 'Adobe',
-    logo: '/logos/Adobe_Corporate_wordmark.svg.png',
+    logo: '/logos/adobe.webp',
     certifications: [
       'Adobe Certified Professional - Photoshop',
       'Adobe Certified Professional - Illustrator',
@@ -26,7 +26,7 @@ const certificationCompanies = [
   {
     id: 2,
     name: 'Apple',
-    logo: '/logos/applelogo.jpg',
+    logo: '/logos/apple.png',
     certifications: [
       'App Development with Swift - Certified User',
       'App Development with Swift - Associate'
@@ -35,7 +35,7 @@ const certificationCompanies = [
   {
     id: 3,
     name: 'Autodesk',
-    logo: '/logos/autodesklogo.jpg',
+    logo: '/logos/Autodesklogo.png',
     certifications: [
       'Autodesk Certified User - AutoCAD',
       'Autodesk Certified User - Fusion 360',
@@ -49,7 +49,7 @@ const certificationCompanies = [
   {
     id: 4,
     name: 'Cisco',
-    logo: '/logos/ciscologo.jpg',
+    logo: '/logos/cisco.png',
     certifications: [
       'Cisco Certified Support Technician - Networking',
       'Cisco Certified Support Technician - Cybersecurity'
@@ -75,7 +75,7 @@ const certificationCompanies = [
   {
     id: 7,
     name: 'IC3 Digital Literacy',
-    logo: '/logos/IC3logo.webp',
+    logo: '/logos/IC3logo.png',
     certifications: [
       'IC3 Digital Literacy - Global Standard 6',
       'IC3 Digital Literacy - Global Standard 5',
@@ -109,7 +109,7 @@ const certificationCompanies = [
   {
     id: 9,
     name: 'Intuit',
-    logo: '/logos/intuit-logo-chief-executive-management-idlogo.jpg',
+    logo: '/logos/intuit.png',
     certifications: [
       'Intuit - QuickBooks Certified User Online',
       'Intuit - Design for Delight Innovator',
@@ -162,7 +162,7 @@ const certificationCompanies = [
   {
     id: 14,
     name: 'Unity',
-    logo: '/logos/unitylogo.png',
+    logo: '/logos/unity.png',
     certifications: [
       'Unity Certified User: Programmer',
       'Unity Certified User: VR Developer',
@@ -172,7 +172,7 @@ const certificationCompanies = [
   {
     id: 15,
     name: 'Meta',
-    logo: '/logos/Meta-Logo.png',
+    logo: '/logos/Meta.png',
     certifications: [
       'Meta Certified: Digital Marketing Associate'
     ]
@@ -180,7 +180,7 @@ const certificationCompanies = [
   {
     id: 16,
     name: 'Critical Career Skills',
-    logo: '/logos/criticalcareerskillsLOGO.webp',
+    logo: '/logos/ccs.png',
     certifications: [
       'CCS Generative AI Foundations'
     ]

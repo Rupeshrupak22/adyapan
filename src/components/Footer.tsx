@@ -253,28 +253,48 @@ const Footer = () => {
 
               {/* Address */}
               <li>
-                <div className="flex items-start gap-3">
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.12))',
-                      border: '1px solid rgba(249,115,22,0.3)',
-                    }}
-                    aria-hidden="true"
-                  >
-                    <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <address className="text-gray-400 text-sm leading-relaxed not-italic">
-                    Sattva Magnus, behind Reliance Bazaar Shaikpet,
-                    Sabza Colony, Ambedkar Nagar,
-                    Hyderabad, Telangana 500008
-                  </address>
-                </div>
-              </li>
+  <div className="flex items-start gap-3">
+    <div
+      className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+      style={{
+        background: 'linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.12))',
+        border: '1px solid rgba(249,115,22,0.3)',
+      }}
+      aria-hidden="true"
+    >
+      <svg
+        className="w-4 h-4 text-orange-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 11a3 3 0 11-6 0 3 0 016 0z"
+        />
+      </svg>
+    </div>
 
+    <a
+      href="https://maps.google.com/?q=Sattva+Magnus+behind+Reliance+Bazaar+Shaikpet+Sabza+Colony+Ambedkar+Nagar+Hyderabad+Telangana+500008"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-400 text-sm leading-relaxed hover:text-orange-400 transition-colors duration-300"
+    >
+      Sattva Magnus, behind Reliance Bazaar Shaikpet,
+      Sabza Colony, Ambedkar Nagar,
+      Hyderabad, Telangana 500008
+    </a>
+  </div>
+</li>
             </ul>
           </div>
         </div>

@@ -113,11 +113,12 @@ export default function CampusAmbassadorPage() {
               </motion.div>
             </motion.div>
 
-            {/* CTA Button */}
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
@@ -127,6 +128,15 @@ export default function CampusAmbassadorPage() {
                   className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-full font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all duration-300 shadow-lg"
                 >
                   Apply Now on Unstop
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </a>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a
+                  href="/campus-ambassador/apply"
+                  className="inline-flex items-center px-10 py-4 bg-white text-[#ff8c00] border-2 border-[#ffa800] rounded-full font-bold text-lg hover:bg-[#fff4e0] transition-all duration-300 shadow-lg"
+                >
+                  Apply Directly
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </a>
               </motion.div>
@@ -440,17 +450,28 @@ export default function CampusAmbassadorPage() {
               Join our community of campus ambassadors and become the bridge between students and industry. Earn competitive incentives while making a real difference on your campus.
             </p>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <a
-                href="https://unstop.com/internships/campus-ambassador-srs-adyapan-private-limited-1677071"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-12 py-5 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-full font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all duration-300 shadow-xl"
-              >
-                Apply Now on Unstop
-                <ChevronRight className="w-6 h-6 ml-2" />
-              </a>
-            </motion.div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a
+                  href="https://unstop.com/internships/campus-ambassador-srs-adyapan-private-limited-1677071"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-12 py-5 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-full font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all duration-300 shadow-xl"
+                >
+                  Apply Now on Unstop
+                  <ChevronRight className="w-6 h-6 ml-2" />
+                </a>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a
+                  href="/campus-ambassador/apply"
+                  className="inline-flex items-center px-12 py-5 bg-white text-[#ff8c00] border-2 border-[#ffa800] rounded-full font-bold text-lg hover:bg-[#fff4e0] transition-all duration-300 shadow-xl"
+                >
+                  Apply Directly
+                  <ChevronRight className="w-6 h-6 ml-2" />
+                </a>
+              </motion.div>
+            </div>
 
             <p className="text-gray-600 text-sm mt-8">
               Stipend: Rs. 1,000 - Rs. 15,000/Month (Incentive Based) | Flexible Schedule | Remote Friendly

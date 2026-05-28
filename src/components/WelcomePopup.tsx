@@ -171,6 +171,8 @@ const WelcomePopup = () => {
                       'Pre-assessed, job-ready students',
                       'See real project portfolios',
                       'Direct-to-hire pipeline',
+                      'Faster hiring with curated candidates',
+                      'Connect directly with skilled freshers',
                     ].map((item) => (
                       <motion.li
                         key={item}
@@ -208,7 +210,9 @@ const WelcomePopup = () => {
                 onClick={closePopup}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#1a1a2e] font-bold hover:bg-gray-100 transition-colors z-[1001]"
               >
-                
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </motion.button>
             </div>
           </motion.div>

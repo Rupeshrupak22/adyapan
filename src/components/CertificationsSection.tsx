@@ -1,98 +1,74 @@
 ﻿'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 
-/* ── SVG Brand Logos ── */
-const MicrosoftLogo = () => (
-  <svg viewBox="0 0 21 21" className="w-10 h-10">
-    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
-    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
-    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
-    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
-  </svg>
-);
-
-const AdobeLogo = () => (
-  <svg viewBox="0 0 240 234" className="w-10 h-10">
-    <path d="M42.5 0h155C221 0 240 19 240 42.5v149c0 23.5-19 42.5-42.5 42.5h-155C19 234 0 215 0 191.5v-149C0 19 19 0 42.5 0z" fill="#FF0000"/>
-    <path d="M186 178h-32l-14-35H100l-14 35H54l62-140h8l62 140zm-52-60l-16-40-16 40h32z" fill="white"/>
-  </svg>
-);
-
-const MetaLogo = () => (
-  <svg viewBox="0 0 60 60" className="w-10 h-10">
-    <defs>
-      <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#0064E0"/>
-        <stop offset="100%" stopColor="#00C7FF"/>
-      </linearGradient>
-    </defs>
-    <ellipse cx="15" cy="30" rx="8" ry="14" fill="none" stroke="url(#metaGrad)" strokeWidth="4"/>
-    <path d="M23 30 Q30 16 37 30 Q44 44 51 30" fill="none" stroke="url(#metaGrad)" strokeWidth="4" strokeLinecap="round"/>
-  </svg>
-);
-
-const GoogleLogo = () => (
-  <svg viewBox="0 0 48 48" className="w-10 h-10">
-    <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
-    <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
-    <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"/>
-    <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
-  </svg>
-);
-
-const AppleLogo = () => (
-  <svg viewBox="0 0 814 1000" className="w-9 h-9" fill="#1d1d1f">
-    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.7 0 248.7 0 126.8c0-70.3 22.9-143.3 72.5-192.8 49.7-49.5 122.3-82.5 198.5-82.5 76.2 0 141.4 33.4 190.3 33.4 46.9 0 120.9-35.4 209.4-35.4 33.5 0 138.3 3.2 209.4 107.5zm-199.6-107.5c-31.1-36.9-75.4-64.8-124.1-64.8-7.1 0-14.3.6-21.3 1.9 1.9 37.5 17.6 75 41.1 100.8 23.4 25.7 67.1 54.6 112.4 54.6 6.4 0 12.8-.6 19.1-1.9-1.9-37.5-18.9-75.6-27.2-90.6z"/>
-  </svg>
-);
-
-const CiscoLogo = () => (
-  <svg viewBox="0 0 100 40" className="w-14 h-8">
-    <g fill="#1BA0D7">
-      <rect x="0" y="15" width="8" height="10" rx="2"/>
-      <rect x="11" y="8" width="8" height="24" rx="2"/>
-      <rect x="22" y="3" width="8" height="34" rx="2"/>
-      <rect x="33" y="8" width="8" height="24" rx="2"/>
-      <rect x="44" y="15" width="8" height="10" rx="2"/>
-      <rect x="55" y="8" width="8" height="24" rx="2"/>
-      <rect x="66" y="3" width="8" height="34" rx="2"/>
-      <rect x="77" y="8" width="8" height="24" rx="2"/>
-      <rect x="88" y="15" width="8" height="10" rx="2"/>
-    </g>
-  </svg>
-);
-
-const AWSLogo = () => (
-  <svg viewBox="0 0 80 48" className="w-14 h-10">
-    <path d="M22.3 19.8c0 .8.1 1.4.2 1.8.2.4.4.9.8 1.4.1.2.2.4.2.5 0 .2-.1.4-.4.6l-1.3.9c-.2.1-.4.2-.5.2-.2 0-.4-.1-.6-.3-.3-.3-.5-.6-.7-1-.2-.4-.4-.8-.6-1.4-1.5 1.8-3.4 2.7-5.7 2.7-1.6 0-2.9-.5-3.8-1.4-.9-.9-1.4-2.2-1.4-3.7 0-1.6.6-2.9 1.7-3.9 1.1-1 2.6-1.5 4.5-1.5.6 0 1.3.1 2 .2.7.1 1.4.3 2.2.5v-1.4c0-1.4-.3-2.4-.9-3-.6-.6-1.6-.9-3-.9-.6 0-1.3.1-2 .3-.7.2-1.4.4-2 .7-.3.1-.5.2-.6.2-.2 0-.3-.1-.3-.4v-.9c0-.2 0-.4.1-.5.1-.1.3-.2.5-.3.6-.3 1.4-.6 2.2-.8.9-.2 1.8-.3 2.8-.3 2.1 0 3.7.5 4.7 1.5 1 1 1.5 2.5 1.5 4.5v5.9zm-7.9 3c.6 0 1.2-.1 1.9-.4.7-.3 1.3-.7 1.8-1.3.3-.4.5-.8.6-1.2.1-.4.2-1 .2-1.7v-.8c-.5-.1-1.1-.2-1.7-.3-.6-.1-1.2-.1-1.7-.1-1.2 0-2.1.2-2.7.7-.6.5-.9 1.2-.9 2.1 0 .8.2 1.5.7 1.9.4.5 1 .7 1.8.7zm14.6 2c-.2 0-.4 0-.5-.1-.1-.1-.2-.3-.3-.6l-3.4-11.2c-.1-.3-.1-.5-.1-.6 0-.2.1-.4.4-.4h1.6c.2 0 .4 0 .5.1.1.1.2.3.3.6l2.4 9.5 2.3-9.5c.1-.3.2-.5.3-.6.1-.1.3-.1.5-.1h1.3c.2 0 .4 0 .5.1.1.1.2.3.3.6l2.3 9.6 2.5-9.6c.1-.3.2-.5.3-.6.1-.1.3-.1.5-.1h1.5c.2 0 .4.1.4.4 0 .1 0 .2-.1.4l-3.5 11.2c-.1.3-.2.5-.3.6-.1.1-.3.1-.5.1h-1.4c-.2 0-.4 0-.5-.1-.1-.1-.2-.3-.3-.6l-2.3-9.3-2.3 9.3c-.1.3-.2.5-.3.6-.1.1-.3.1-.5.1h-1.4zm18.7.4c-.9 0-1.7-.1-2.5-.3-.8-.2-1.4-.4-1.9-.7-.3-.2-.5-.4-.5-.6v-.9c0-.3.1-.4.3-.4.1 0 .2 0 .3.1.1.1.3.1.4.2.6.3 1.2.5 1.9.6.7.1 1.3.2 2 .2 1.1 0 1.9-.2 2.5-.6.6-.4.9-.9.9-1.6 0-.5-.1-.9-.4-1.2-.3-.3-.9-.6-1.7-.9l-2.4-.7c-1.2-.4-2.1-.9-2.7-1.6-.6-.7-.9-1.5-.9-2.4 0-.7.1-1.3.4-1.8.3-.5.7-1 1.2-1.4.5-.4 1.1-.7 1.7-.9.7-.2 1.4-.3 2.1-.3.4 0 .7 0 1.1.1.4.1.7.1 1 .2.3.1.6.2.9.3.3.1.5.2.6.3.2.1.3.2.4.3.1.1.1.3.1.5v.9c0 .3-.1.4-.3.4-.1 0-.3-.1-.6-.2-.9-.4-1.9-.6-3-.6-1 0-1.7.2-2.3.5-.6.3-.8.8-.8 1.5 0 .5.2.9.5 1.2.3.3 1 .6 1.9.9l2.4.7c1.2.4 2 .9 2.6 1.5.6.7.8 1.5.8 2.4 0 .7-.1 1.4-.4 2-.3.6-.7 1.1-1.2 1.5-.5.4-1.1.7-1.8.9-.8.2-1.6.3-2.5.3z" fill="#FF9900"/>
-    <path d="M67.3 29.5c-5.5 4.1-13.5 6.2-20.4 6.2-9.6 0-18.3-3.6-24.9-9.5-.5-.5-.1-1.1.6-.7 7.1 4.1 15.8 6.6 24.9 6.6 6.1 0 12.8-1.3 18.9-3.9 1-.3 1.7.7.9 1.3z" fill="#FF9900"/>
-    <path d="M69.6 26.9c-.7-.9-4.6-.4-6.3-.2-.5.1-.6-.4-.1-.7 3.1-2.2 8.2-1.5 8.7-.8.6.7-.2 5.8-3 8.2-.4.4-.9.2-.7-.3.7-1.6 2.1-5.3 1.4-6.2z" fill="#FF9900"/>
-  </svg>
-);
-
-const IBMLogo = () => (
-  <svg viewBox="0 0 80 32" className="w-14 h-8">
-    <g fill="#1F70C1">
-      <rect x="0" y="0" width="80" height="4"/>
-      <rect x="0" y="7" width="80" height="4"/>
-      <rect x="0" y="14" width="80" height="4"/>
-      <rect x="0" y="21" width="80" height="4"/>
-      <rect x="0" y="28" width="80" height="4"/>
-    </g>
-  </svg>
-);
-
+/* ── Partner logo image paths ── */
 const partners = [
-  { name: 'Microsoft', Logo: MicrosoftLogo, bg: '#f3f4f6', color: '#737373' },
-  { name: 'Adobe',     Logo: AdobeLogo,     bg: '#fff1f0', color: '#FF0000' },
-  { name: 'Meta',      Logo: MetaLogo,      bg: '#eff6ff', color: '#0064E0' },
-  { name: 'Google',    Logo: GoogleLogo,    bg: '#f0fdf4', color: '#4285F4' },
-  { name: 'Apple',     Logo: AppleLogo,     bg: '#f9fafb', color: '#1d1d1f' },
-  { name: 'Cisco',     Logo: CiscoLogo,     bg: '#eff6ff', color: '#1BA0D7' },
-  { name: 'AWS',       Logo: AWSLogo,       bg: '#fffbeb', color: '#FF9900' },
+  {
+    name: 'Google',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg',
+    bg: '#f0fdf4',
+    color: '#4285F4',
+  },
+  {
+    name: 'Apple',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+    bg: '#f9fafb',
+    color: '#1d1d1f',
+  },
+  {
+    name: 'Microsoft',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg',
+    bg: '#f3f4f6',
+    color: '#737373',
+  },
+  {
+    name: 'AWS',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+    bg: '#fffbeb',
+    color: '#FF9900',
+  },
+  {
+    name: 'Adobe',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Corporate_Logo.png',
+    bg: '#fff1f0',
+    color: '#FF0000',
+  },
+  {
+    name: 'Meta',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg',
+    bg: '#eff6ff',
+    color: '#0064E0',
+  },
+  {
+    name: 'Cisco',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg',
+    bg: '#eff6ff',
+    color: '#1BA0D7',
+  },
 ];
+
+/* ── CSS keyframes injected once ── */
+const marqueeStyles = `
+  @keyframes marquee-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+  .marquee-left {
+    animation: marquee-left 30s linear infinite;
+    will-change: transform;
+  }
+  .marquee-right {
+    animation: marquee-right 36s linear infinite;
+    will-change: transform;
+  }
+
+`;
 
 const certifications = [
   {
@@ -149,14 +125,17 @@ const certifications = [
 
 export default function CertificationsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
 
-  const row1 = [...partners, ...partners];
-  const row2 = [...partners.slice().reverse(), ...partners.slice().reverse()];
+  /* Duplicate each row so the seam is invisible */
+  const row1 = [...partners, ...partners, ...partners, ...partners];
+  const row2 = [...partners.slice().reverse(), ...partners.slice().reverse(), ...partners.slice().reverse(), ...partners.slice().reverse()];
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden py-24" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f5f0eb 40%, #f5f0eb 100%)' }}>
+
+      {/* Inject CSS keyframes */}
+      <style>{marqueeStyles}</style>
 
       {/* Decorative background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -242,25 +221,22 @@ export default function CertificationsSection() {
           style={{ background: 'linear-gradient(90deg, #f5f0eb, transparent)' }} />
         <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
           style={{ background: 'linear-gradient(270deg, #f5f0eb, transparent)' }} />
-        <motion.div
-          className="flex gap-4 items-center"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        {/* Track: width must be exactly 2× the unique content so -50% lands on the seam */}
+        <div
+          className="marquee-left flex gap-4 items-center"
           style={{ width: 'max-content' }}
         >
-          {row1.map(({ name, Logo, bg, color }, i) => (
-            <motion.div
+          {row1.map(({ name, img, bg, color }, i) => (
+            <div
               key={`r1-${i}`}
-              whileHover={{ y: -6, scale: 1.05, boxShadow: '0 16px 40px rgba(0,0,0,0.12)' }}
-              transition={{ duration: 0.25 }}
-              className="flex-shrink-0 w-36 h-20 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-default border border-gray-100"
+              className="flex-shrink-0 w-36 h-20 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-default border border-gray-100 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
               style={{ background: bg }}
             >
-              <Logo />
+              <img src={img} alt={name} className="w-16 h-8 object-contain" />
               <span className="text-xs font-bold" style={{ color }}>{name}</span>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Infinite scroll row 2 (right) ── */}
@@ -269,25 +245,21 @@ export default function CertificationsSection() {
           style={{ background: 'linear-gradient(90deg, #f5f0eb, transparent)' }} />
         <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
           style={{ background: 'linear-gradient(270deg, #f5f0eb, transparent)' }} />
-        <motion.div
-          className="flex gap-4 items-center"
-          animate={{ x: ['-50%', '0%'] }}
-          transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
+        <div
+          className="marquee-right flex gap-4 items-center"
           style={{ width: 'max-content' }}
         >
-          {row2.map(({ name, Logo, bg, color }, i) => (
-            <motion.div
+          {row2.map(({ name, img, bg, color }, i) => (
+            <div
               key={`r2-${i}`}
-              whileHover={{ y: -6, scale: 1.05, boxShadow: '0 16px 40px rgba(0,0,0,0.12)' }}
-              transition={{ duration: 0.25 }}
-              className="flex-shrink-0 w-36 h-20 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-default border border-gray-100"
+              className="flex-shrink-0 w-36 h-20 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-default border border-gray-100 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
               style={{ background: bg }}
             >
-              <Logo />
+              <img src={img} alt={name} className="w-16 h-8 object-contain" />
               <span className="text-xs font-bold" style={{ color }}>{name}</span>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Stats strip */}

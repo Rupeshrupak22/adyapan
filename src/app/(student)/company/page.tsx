@@ -73,7 +73,7 @@ export default function CompanyPage() {
     <div className='min-h-screen bg-white overflow-x-hidden'>
 
       {/* HERO */}
-      <section ref={heroRef} className='relative min-h-screen flex items-center overflow-hidden' style={{background:'linear-gradient(135deg,#fff8f0 0%,#ffffff 50%,#fff3e0 100%)'}}>
+      <section ref={heroRef} className='relative flex items-center overflow-hidden' style={{background:'linear-gradient(135deg,#fff8f0 0%,#ffffff 50%,#fff3e0 100%)'}}>
         <video autoPlay muted loop playsInline className='absolute inset-0 w-full h-full object-cover opacity-[0.07] pointer-events-none'>
           <source src='/videos/8126367-hd_1920_1080_25fps.mp4' type='video/mp4' />
         </video>
@@ -86,7 +86,7 @@ export default function CompanyPage() {
         <div className='absolute inset-0 pointer-events-none opacity-20'
           style={{backgroundImage:'radial-gradient(circle, #f9731620 1px, transparent 1px)', backgroundSize:'40px 40px'}} />
 
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 py-16 sm:py-24'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 pt-6 pb-6 sm:pt-8 sm:pb-8'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center'>
             <motion.div initial={{ opacity:0, x:-60 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.9, ease:[0.22,1,0.36,1] }}>
               <motion.div initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.1 }}
@@ -96,12 +96,12 @@ export default function CompanyPage() {
                 <span className='text-xs font-bold text-orange-700 uppercase tracking-widest'>Connecting Talent with Opportunity</span>
               </motion.div>
               <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2, duration:0.8 }}
-                className='text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.05] mb-6'>
+                className='text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.05] mb-4'>
                 <span className='text-orange-500'>Hire</span> <span className='text-gray-900'>Job-Ready</span><br />
                 <span className='text-orange-500'>Talent</span>
               </motion.h1>
-              <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.3 }}
-                className='text-gray-500 text-xl leading-relaxed mb-10 max-w-lg'>
+              <motion.p initial={{ opacity:0, y:15 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.3, duration:0.7 }}
+                className='text-gray-500 text-base sm:text-lg leading-relaxed mb-5 max-w-md border-l-4 border-orange-400 pl-4 py-1'>
                 Find and hire skilled, job-ready students trained in in-demand skills for your team.
               </motion.p>
               <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.4 }}
@@ -109,15 +109,14 @@ export default function CompanyPage() {
                 {/* Hire Talent Card */}
                 <MovingBorderCard className='shadow-xl shadow-orange-200 flex-1'>
                   <motion.div whileHover={{ scale:1.01 }}
-                    className='p-6 rounded-2xl bg-orange-50 h-full'>
-                    <div className='flex items-center gap-3 mb-3'>
-                      <div className='w-12 h-12 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center'>
-                        <Users className='w-6 h-6 text-orange-500' />
+                    className='p-4 rounded-2xl bg-orange-50 h-full flex flex-col'>
+                    <div className='flex items-center gap-3 mb-2'>
+                      <div className='w-10 h-10 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center'>
+                        <Users className='w-5 h-5 text-orange-500' />
                       </div>
                       <h3 className='font-bold text-gray-900 text-lg'>Hire <span className='text-orange-500'>Talent</span></h3>
                     </div>
-                    <p className='text-sm text-gray-500 mb-4 leading-relaxed'>Find and hire job-ready students trained in in-demand skills.</p>
-                    <ul className='space-y-2 mb-5'>
+                    <ul className='space-y-1.5 mb-4 flex-1'>
                       {hireBenefits.map(b => (
                         <li key={b} className='flex items-center gap-2 text-sm text-gray-600'>
                           <CheckCircle className='w-4 h-4 text-orange-500 flex-shrink-0' />{b}
@@ -125,7 +124,7 @@ export default function CompanyPage() {
                       ))}
                     </ul>
                     <Link href='/company/find-employee'
-                      className='inline-flex items-center gap-2 text-sm font-bold text-orange-500 border-2 border-orange-500 rounded-xl px-6 py-3 hover:bg-orange-500 hover:text-white transition-all'>
+                      className='inline-flex items-center gap-2 text-sm font-bold text-orange-500 border-2 border-orange-500 rounded-xl px-5 py-2.5 hover:bg-orange-500 hover:text-white transition-all'>
                       Find Employee <ArrowRight className='w-4 h-4' />
                     </Link>
                   </motion.div>
@@ -134,29 +133,30 @@ export default function CompanyPage() {
                 {/* Post Work Card */}
                 <MovingBorderCard className='shadow-xl shadow-orange-200 flex-1'>
                   <motion.div whileHover={{ scale:1.01 }}
-                    className='p-6 rounded-2xl bg-white h-full'>
-                    <div className='flex items-center gap-3 mb-3'>
-                      <div className='w-12 h-12 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center'>
-                        <Send className='w-6 h-6 text-orange-500' />
+                    className='p-4 rounded-2xl bg-white h-full flex flex-col'>
+                    <div className='flex items-center gap-3 mb-2'>
+                      <div className='w-10 h-10 rounded-xl bg-orange-100 border-2 border-orange-300 flex items-center justify-center'>
+                        <Send className='w-5 h-5 text-orange-500' />
                       </div>
                       <h3 className='font-bold text-gray-900 text-lg'>Post <span className='text-orange-500'>Work</span></h3>
                     </div>
-                    <p className='text-sm text-gray-500 mb-4 leading-relaxed'>Post tasks or projects and get it done by our talented students.</p>
-                    <ul className='space-y-2 mb-5'>
+                    <ul className='space-y-1.5 mb-4 flex-1'>
                       {postWorkBenefits.map(b => (
                         <li key={b} className='flex items-center gap-2 text-sm text-gray-600'>
                           <CheckCircle className='w-4 h-4 text-orange-500 flex-shrink-0' />{b}
                         </li>
                       ))}
                     </ul>
-                    <Link href='/company/post-work'
-                      className='inline-flex items-center gap-2 text-sm font-bold text-orange-500 border-2 border-orange-500 rounded-xl px-6 py-3 hover:bg-orange-500 hover:text-white transition-all'>
-                      Post Work <ArrowRight className='w-4 h-4' />
-                    </Link>
-                    <Link href='/company/my-projects'
-                      className='inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-orange-500 transition-colors mt-3'>
-                      Track my projects →
-                    </Link>
+                    <div className='flex flex-col gap-2'>
+                      <Link href='/company/post-work'
+                        className='inline-flex items-center gap-2 text-sm font-bold text-orange-500 border-2 border-orange-500 rounded-xl px-5 py-2.5 hover:bg-orange-500 hover:text-white transition-all'>
+                        Post Work <ArrowRight className='w-4 h-4' />
+                      </Link>
+                      <Link href='/company/my-projects'
+                        className='inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-orange-500 transition-colors'>
+                        Track my projects →
+                      </Link>
+                    </div>
                   </motion.div>
                 </MovingBorderCard>
               </motion.div>

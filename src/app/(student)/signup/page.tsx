@@ -184,8 +184,9 @@ function SignupContent() {
           <div className="px-8 py-8">
             {/* Logo + heading */}
             <div className="text-center mb-6">
-              <Link href="/" className="inline-block mb-4">
-                <Image src="/adyapan-logo.png" alt="Adyapan" width={120} height={40} className="h-10 w-auto mx-auto hover:scale-105 transition-transform" />
+              <Link href="/" className="inline-flex items-center justify-center gap-2 mb-4 group">
+                <Image src="/adyapan-logo.png" alt="Adyapan" width={40} height={40} className="h-10 w-auto group-hover:scale-105 transition-transform" />
+                <span className="text-2xl font-extrabold text-gray-900 tracking-tight">Adyapan</span>
               </Link>
               <h1 className="text-2xl font-extrabold text-gray-900">Create your account </h1>
               <p className="text-gray-500 text-sm mt-1">Join 10,000+ learners and companies</p>

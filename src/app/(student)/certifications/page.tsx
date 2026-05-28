@@ -8,22 +8,22 @@ import CertificationEnrollModal from '@/components/CertificationEnrollModal';
 
 /* ─── Partner data ─────────────────────────────────────────────── */
 const certificationPartners = [
-  { name: 'Adobe',                          abbr: 'Ado', logo: '/logos/Adobe_Corporate_wordmark.svg.png',                    neon: '#FF0000' },
-  { name: 'Apple',                          abbr: 'App', logo: '/logos/applelogo.jpg',                                        neon: '#a0a0a0' },
-  { name: 'Autodesk',                       abbr: 'Aut', logo: '/logos/autodesklogo.jpg',                                     neon: '#0696D7' },
-  { name: 'Cisco',                          abbr: 'Cis', logo: '/logos/ciscologo.jpg',                                        neon: '#049FD9' },
+  { name: 'Adobe',                          abbr: 'Ado', logo: '/logos/adobe.webp',                    neon: '#FF0000' },
+  { name: 'Apple',                          abbr: 'App', logo: '/logos/apple.png',                                        neon: '#a0a0a0' },
+  { name: 'Autodesk',                       abbr: 'Aut', logo: '/logos/Autodesklogo.png',                                     neon: '#0696D7' },
+  { name: 'Cisco',                          abbr: 'Cis', logo: '/logos/cisco.png',                                        neon: '#049FD9' },
   { name: 'Communication Skills\nfor Business', abbr: 'Com', logo: '/logos/communicationskillsforbusinesslogo.png',          neon: '#f97316' },
   { name: 'ESB',                            abbr: 'ESB', logo: '',                                                           neon: '#2563eb' },
-  { name: 'IC3',                            abbr: 'IC3', logo: '/logos/IC3logo.webp',                                        neon: '#003087' },
+  { name: 'IC3',                            abbr: 'IC3', logo: '/logos/IC3logo.png',                                        neon: '#003087' },
   { name: 'ITS',                            abbr: 'ITS', logo: '/logos/informationtechnologyspecialist.png',                 neon: '#f97316' },
-  { name: 'Intuit',                         abbr: 'Int', logo: '/logos/intuit-logo-chief-executive-management-idlogo.jpg',   neon: '#2CA01C' },
+  { name: 'Intuit',                         abbr: 'Int', logo: '/logos/intuit.png',   neon: '#2CA01C' },
   { name: 'Microsoft',                      abbr: 'MS',  logo: '/logos/microsoftcertifiedfundamentalslogo.png',              neon: '#00A4EF' },
   { name: 'Microsoft Office\nSpecialist',   abbr: 'MOS', logo: '/logos/microsoft-office-specialist-microsoft-officelogo.png', neon: '#D83B01' },
   { name: 'Microsoft Certified\nEducator',  abbr: 'MCE', logo: '/logos/MicrosoftCertifiedEducator_Logo.jpg',                 neon: '#0078D4' },
   { name: 'PMI',                            abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',                 neon: '#FF6B00' },
-  { name: 'Unity',                          abbr: 'Uni', logo: '/logos/unitylogo.png',                                       neon: '#ffffff' },
-  { name: 'Meta',                           abbr: 'Met', logo: '/logos/Meta-Logo.png',                                       neon: '#0668E1' },
-  { name: 'CCS Generative AI',              abbr: 'CCS', logo: '/logos/criticalcareerskillsLOGO.webp',                       neon: '#f97316' },
+  { name: 'Unity',                          abbr: 'Uni', logo: '/logos/unity.png',                                       neon: '#ffffff' },
+  { name: 'Meta',                           abbr: 'Met', logo: '/logos/Meta.png',                                       neon: '#0668E1' },
+  { name: 'CCS Generative AI',              abbr: 'CCS', logo: '/logos/ccs.png',                       neon: '#f97316' },
 ];
 
 /* ─── Interactive Partner Explorer data ────────────────────────── */
@@ -31,7 +31,7 @@ const partnerExplorerData = [
   {
     name: 'Adobe',
     abbr: 'Ado',
-    logo: '/logos/Adobe_Corporate_wordmark.svg.png',
+    logo: '/logos/adobe.webp',
     count: 7,
     certifications: [
       'Adobe Certified Professional - Photoshop',
@@ -46,7 +46,7 @@ const partnerExplorerData = [
   {
     name: 'Apple',
     abbr: 'App',
-    logo: '/logos/applelogo.jpg',
+    logo: '/logos/apple.png',
     count: 2,
     certifications: [
       'App Development with Swift - Certified User',
@@ -56,7 +56,7 @@ const partnerExplorerData = [
   {
     name: 'Autodesk',
     abbr: 'Aut',
-    logo: '/logos/autodesklogo.jpg',
+    logo: '/logos/Autodesklogo.png',
     count: 7,
     certifications: [
       'Autodesk Certified User - AutoCAD',
@@ -71,7 +71,7 @@ const partnerExplorerData = [
   {
     name: 'Cisco',
     abbr: 'Cis',
-    logo: '/logos/ciscologo.jpg',
+    logo: '/logos/cisco.png',
     count: 2,
     certifications: [
       'Cisco Certified Support Technician - Networking',
@@ -98,7 +98,7 @@ const partnerExplorerData = [
   {
     name: 'IC3 Digital Literacy',
     abbr: 'IC3',
-    logo: '/logos/IC3logo.webp',
+    logo: '/logos/IC3logo.png',
     count: 5,
     certifications: [
       'IC3 Digital Literacy - Global Standard 6',
@@ -134,7 +134,7 @@ const partnerExplorerData = [
   {
     name: 'Intuit',
     abbr: 'Int',
-    logo: '/logos/intuit-logo-chief-executive-management-idlogo.jpg',
+    logo: '/logos/intuit.png',
     count: 3,
     certifications: [
       'Intuit - QuickBooks Certified User Online',
@@ -188,7 +188,7 @@ const partnerExplorerData = [
   {
     name: 'Unity',
     abbr: 'Uni',
-    logo: '/logos/unitylogo.png',
+    logo: '/logos/unity.png',
     count: 3,
     certifications: [
       'Unity Certified User: Programmer',
@@ -199,14 +199,14 @@ const partnerExplorerData = [
   {
     name: 'Meta',
     abbr: 'Met',
-    logo: '/logos/Meta-Logo.png',
+    logo: '/logos/Meta.png',
     count: 1,
     certifications: ['Meta Certified: Digital Marketing Associate'],
   },
   {
     name: 'Critical Career Skills',
     abbr: 'CCS',
-    logo: '/logos/criticalcareerskillsLOGO.webp',
+    logo: '/logos/ccs.png',
     count: 1,
     certifications: ['CCS Generative AI Foundations'],
   },

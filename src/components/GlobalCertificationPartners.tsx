@@ -6,32 +6,41 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const partners = [
-  { name: 'Adobe',             abbr: 'Ado', logo: '/logos/Adobe_Corporate_wordmark.svg.png',                  neon: '#FF0000' },
-  { name: 'Apple',             abbr: 'App', logo: '/logos/applelogo.jpg',                                      neon: '#a0a0a0' },
-  { name: 'Autodesk',          abbr: 'Aut', logo: '/logos/autodesklogo.jpg',                                   neon: '#0696D7' },
-  { name: 'Cisco',             abbr: 'Cis', logo: '/logos/ciscologo.jpg',                                      neon: '#049FD9' },
-  { name: 'Microsoft',         abbr: 'MS',  logo: '/logos/microsoftcertifiedfundamentalslogo.png',            neon: '#00A4EF' },
-  { name: 'Meta',              abbr: 'Met', logo: '/logos/Meta-Logo.png',                                     neon: '#0668E1' },
-  { name: 'Intuit',            abbr: 'Int', logo: '/logos/intuit-logo-chief-executive-management-idlogo.jpg', neon: '#2CA01C' },
-  { name: 'Unity',             abbr: 'Uni', logo: '/logos/unitylogo.png',                                     neon: '#ffffff' },
-  { name: 'PMI',               abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',               neon: '#FF6B00' },
-  { name: 'IC3',               abbr: 'IC3', logo: '/logos/IC3logo.webp',                                      neon: '#003087' },
-  { name: 'ESB',               abbr: 'ESB', logo: '',                                                         neon: '#2563eb' },
-  { name: 'CCS Generative AI', abbr: 'CCS', logo: '/logos/criticalcareerskillsLOGO.webp',                     neon: '#f97316' },
+  { name: 'Adobe',             abbr: 'Ado', logo: '/logos/adobe.webp',                              neon: '#FF0000' },
+  { name: 'Apple',             abbr: 'App', logo: '/logos/apple.png',                               neon: '#a0a0a0' },
+  { name: 'Autodesk',          abbr: 'Aut', logo: '/logos/Autodesklogo.png',                        neon: '#0696D7' },
+  { name: 'Cisco',             abbr: 'Cis', logo: '/logos/cisco.png',                               neon: '#049FD9' },
+  { name: 'Microsoft',         abbr: 'MS',  logo: '/logos/microsoftlogo.png',                       neon: '#00A4EF' },
+  { name: 'Meta',              abbr: 'Met', logo: '/logos/Meta-Logo.png',                           neon: '#0668E1' },
+  { name: 'Intuit',            abbr: 'Int', logo: '/logos/intuit.png',                              neon: '#2CA01C' },
+  { name: 'Unity',             abbr: 'Uni', logo: '/logos/unity.png',                               neon: '#f97316' },
+  { name: 'PMI',               abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',     neon: '#FF6B00' },
+  { name: 'IC3',               abbr: 'IC3', logo: '/logos/IC3logo.png',                             neon: '#003087' },
+  { name: 'ESB',               abbr: 'ESB', logo: '',                                               neon: '#2563eb' },
+  { name: 'CCS Generative AI', abbr: 'CCS', logo: '/logos/ccs.png',                                neon: '#f97316' },
 ];
+
+/* CSS-driven fade-in so it never depends on JS intersection timing */
+const cardAnimStyles = `
+  @keyframes cert-card-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.93); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  }
+  .cert-card {
+    opacity: 0;
+    animation: cert-card-in 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+`;
 
 function PartnerCard({ partner, i }: { partner: typeof partners[0]; i: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.85, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="relative cursor-pointer"
+    <div
+      className="cert-card relative cursor-pointer"
+      style={{ animationDelay: `${i * 0.05}s` }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Neon glow */}
       <AnimatePresence>
@@ -60,7 +69,7 @@ function PartnerCard({ partner, i }: { partner: typeof partners[0]; i: number })
         {/* Shimmer */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
-          animate={{ x: hovered ? ['−100%', '200%'] : '-100%' }}
+          animate={{ x: hovered ? ['-100%', '200%'] : '-100%' }}
           transition={{ duration: 0.55, ease: 'easeInOut' }}
           style={{ background: `linear-gradient(105deg, transparent 40%, ${partner.neon}15 50%, transparent 60%)` }}
         />
@@ -77,7 +86,8 @@ function PartnerCard({ partner, i }: { partner: typeof partners[0]; i: number })
               width={96}
               height={48}
               className="max-h-12 max-w-24 object-contain"
-              loading="lazy"
+              loading="eager"
+              priority={i < 6}
             />
           ) : (
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-900 text-xs font-black text-white">
@@ -96,20 +106,21 @@ function PartnerCard({ partner, i }: { partner: typeof partners[0]; i: number })
           style={{ background: `linear-gradient(90deg, ${partner.neon}, ${partner.neon}66)` }}
         />
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function GlobalCertificationPartners() {
   return (
     <section className="py-20 bg-white">
+      <style>{cardAnimStyles}</style>
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
@@ -133,7 +144,7 @@ export default function GlobalCertificationPartners() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.5 }}
           className="text-center"
         >
