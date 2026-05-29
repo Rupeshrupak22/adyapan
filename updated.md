@@ -572,7 +572,44 @@ Result:
 
 - Passed.
 
-## 14. Verification Commands
+## 14. Admin Access Key Deployment Env Fix
+
+Issue found:
+
+- The admin portal itself was loading correctly.
+- The sidebar was correct and should remain.
+- The backend rejected admin login because the deployed server did not see a valid 64-character SHA-256 admin access-key hash.
+- This happens when `ADMIN_ACCESS_KEY_HASH` is missing, has the wrong name, has the wrong length, or was copied with spaces/quotes.
+
+Fix:
+
+- Admin access-key hash reading now trims whitespace.
+- It also removes accidental surrounding quotes from the configured hash.
+- The error message now clearly says the deployment environment hash is missing or invalid.
+- The admin sidebar and `View Student Site` link were not removed.
+
+Updated files:
+
+- `src/lib/adminAccessKey.ts`
+- `src/app/api/admin/login/route.ts`
+
+Deployment reminder:
+
+- Vercel must contain `ADMIN_ACCESS_KEY_HASH`.
+- The value must be the SHA-256 hash of the raw access key, exactly 64 hex characters.
+- After changing Vercel environment variables, redeploy the project.
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+```
+
+Result:
+
+- Passed.
+
+## 15. Verification Commands
 
 The following checks were run after updates:
 

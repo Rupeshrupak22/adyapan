@@ -52,8 +52,11 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
 
     if (!hasConfiguredAdminAccessKeyHash()) {
-      console.error('[AdminLogin] Missing ADMIN_ACCESS_KEY_HASH.');
-      return NextResponse.json({ error: 'Admin access key is not configured.' }, { status: 503 });
+      console.error('[AdminLogin] ADMIN_ACCESS_KEY_HASH is missing or is not a 64-character SHA-256 hex hash.');
+      return NextResponse.json(
+        { error: 'Admin access key hash is not configured in deployment environment.' },
+        { status: 503 }
+      );
     }
 
     const body   = sanitizeMongoInput(await request.json());

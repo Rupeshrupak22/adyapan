@@ -15,13 +15,20 @@ function safeHexEqual(leftHex: string, rightHex: string) {
   );
 }
 
+function cleanConfiguredHash(value: string | undefined) {
+  return (value || '').trim().replace(/^['"]|['"]$/g, '');
+}
+
+function getConfiguredAdminAccessKeyHash() {
+  return cleanConfiguredHash(process.env.ADMIN_ACCESS_KEY_HASH || process.env.ADMIN_ACCESS_KEY);
+}
+
 export function hasConfiguredAdminAccessKeyHash() {
-  const configured = process.env.ADMIN_ACCESS_KEY_HASH || process.env.ADMIN_ACCESS_KEY || '';
-  return /^[a-f0-9]{64}$/i.test(configured);
+  return /^[a-f0-9]{64}$/i.test(getConfiguredAdminAccessKeyHash());
 }
 
 export function verifyAdminAccessKey(accessKey: string) {
-  const configuredHash = process.env.ADMIN_ACCESS_KEY_HASH || process.env.ADMIN_ACCESS_KEY || '';
+  const configuredHash = getConfiguredAdminAccessKeyHash();
   const submittedHash = sha256Hex(accessKey.trim());
-  return safeHexEqual(submittedHash, configuredHash.trim());
+  return safeHexEqual(submittedHash, configuredHash);
 }
