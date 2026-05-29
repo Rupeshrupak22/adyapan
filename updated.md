@@ -652,7 +652,44 @@ Result:
 
 - Passed.
 
-## 16. Verification Commands
+## 16. Admin Sidebar Navigation Fix
+
+Issue found:
+
+- Admin sidebar links were correct.
+- Admin pages such as Students and Payments call `/api/admin/...` after navigation.
+- Some existing sessions were created before `clientType` was added to `AuthSession`.
+- New validation compared missing DB `clientType` with token `clientType: web` and treated it as a session mismatch.
+- The admin API returned `401`.
+- The frontend redirected to `/admin/login`, and the login page immediately sent the still-authenticated admin back to dashboard.
+- This made sidebar clicks look like they were always redirecting to dashboard.
+
+Fix:
+
+- Existing sessions without `clientType` are now treated as `web`.
+- Existing sessions without `deviceId` are treated as an empty device id.
+- Backend middleware uses the same fallback.
+- `/admin/login?reason=session_expired` no longer auto-redirects to dashboard, making real expired sessions visible instead of confusing.
+
+Updated files:
+
+- `src/lib/session.ts`
+- `backend/middleware/auth.js`
+- `src/app/admin/login/page.tsx`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 17. Verification Commands
 
 The following checks were run after updates:
 

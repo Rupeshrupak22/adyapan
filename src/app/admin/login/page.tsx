@@ -2,7 +2,7 @@
 
 import api from '@/lib/api';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +10,7 @@ import { Eye, EyeOff, Shield, AlertCircle, Lock, Mail, ArrowRight, CheckCircle, 
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail]         = useState('');
   const [password, setPassword]   = useState('');
@@ -22,9 +23,15 @@ export default function AdminLoginPage() {
   const [success, setSuccess]     = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const reason = searchParams?.get('reason');
 
   /* Redirect if already logged in as ADMIN */
   useEffect(() => {
+    if (reason === 'session_expired') {
+      setChecking(false);
+      return;
+    }
+
     api.get('/api/auth/me')
       .then(r => {
         const role = r.data?.user?.role;
@@ -35,7 +42,7 @@ export default function AdminLoginPage() {
         }
       })
       .catch(() => setChecking(false));
-  }, [router]);
+  }, [reason, router]);
 
   /* Email validation */
   const validateEmail = (email: string): boolean => {

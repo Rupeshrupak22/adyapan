@@ -239,7 +239,7 @@ export async function validateRequestSession(
   if (
     session.userId !== decoded.userId ||
     session.role !== decoded.role ||
-    session.clientType !== (decoded.clientType || 'web') ||
+    (session.clientType || 'web') !== (decoded.clientType || 'web') ||
     (session.deviceId || '') !== (decoded.deviceId || '') ||
     session.fingerprintHash !== decoded.fpHash ||
     !accessTokenHashMatches(session, sha256(token)) ||

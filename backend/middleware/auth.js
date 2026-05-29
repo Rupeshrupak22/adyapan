@@ -84,6 +84,8 @@ async function authenticate(req, res, next) {
     if (
       session.userId !== decoded.userId ||
       session.role !== decoded.role ||
+      (session.clientType || 'web') !== (decoded.clientType || 'web') ||
+      (session.deviceId || '') !== (decoded.deviceId || '') ||
       session.fingerprintHash !== fpHash ||
       !accessTokenHashMatches(session, sha256(token)) ||
       session.userAgentHash !== sha256(req.get('user-agent') || 'unknown') ||
