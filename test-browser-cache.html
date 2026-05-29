@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login Cache Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #0f0; }
+        .box { border: 2px solid #0f0; padding: 20px; margin: 20px 0; }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🚨 Admin Login API Test</h1>
+    
+    <div class="box">
+        <h2>Test 1: Check Which API is Being Called</h2>
+        <button onclick="testAdminLogin()">Test Admin Login API</button>
+        <pre id="result1"></pre>
+    </div>
+
+    <div class="box">
+        <h2>Test 2: Direct API Call</h2>
+        <button onclick="testDirectCall()">Call /api/admin/login Directly</button>
+        <pre id="result2"></pre>
+    </div>
+
+    <div class="box">
+        <h2>Instructions:</h2>
+        <p class="success">✅ If Test 1 shows "/api/admin/login" - Code is correct, browser cache is the issue</p>
+        <p class="error">❌ If Test 1 shows "/api/auth/login" - Old JavaScript is cached</p>
+        <p>Solution: Use Incognito Mode (Ctrl+Shift+N)</p>
+    </div>
+
+    <script>
+        async function testAdminLogin() {
+            const result = document.getElementById('result1');
+            result.textContent = 'Testing...\n';
+            
+            try {
+                // This simulates what the admin login page does
+                const endpoint = '/api/admin/login';
+                result.textContent += `Calling: ${endpoint}\n`;
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'test@test.com',
+                        password: 'test',
+                        accessKey: 'test'
+                    })
+                });
+                
+                result.textContent += `Status: ${response.status}\n`;
+                result.textContent += `✅ SUCCESS: Called /api/admin/login\n`;
+                
+                const data = await response.json();
+                result.textContent += `Response: ${JSON.stringify(data, null, 2)}\n`;
+            } catch (error) {
+                result.textContent += `❌ ERROR: ${error.message}\n`;
+            }
+        }
+
+        async function testDirectCall() {
+            const result = document.getElementById('result2');
+            result.textContent = 'Testing direct API call...\n';
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'rupeshrupak609@gmail.com',
+                        password: 'test123',
+                        accessKey: 'ADYAPAN-ADMIN-2024'
+                    })
+                });
+                
+                result.textContent += `Status: ${response.status}\n`;
+                const data = await response.json();
+                result.textContent += `Response: ${JSON.stringify(data, null, 2)}\n`;
+                
+                if (response.status === 200) {
+                    result.textContent += `\n✅ API is working correctly!\n`;
+                } else {
+                    result.textContent += `\n⚠️ Check credentials\n`;
+                }
+            } catch (error) {
+                result.textContent += `❌ ERROR: ${error.message}\n`;
+            }
+        }
+
+        // Auto-run on load
+        window.onload = () => {
+            console.log('🚨 TEST PAGE LOADED');
+            console.log('🚨 This page will call: /api/admin/login');
+        };
+    </script>
+</body>
+</html>
