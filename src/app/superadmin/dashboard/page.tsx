@@ -38,8 +38,9 @@ export default function SuperAdminDashboard() {
   };
 
   const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/superadmin/login');
+    window.dispatchEvent(new Event('auth-manual-logout'));
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    window.location.assign('/');
   };
 
   return (

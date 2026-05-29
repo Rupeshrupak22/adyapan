@@ -132,10 +132,13 @@ export function useAuth() {
   const logout = useCallback(async () => {
     setLoading(true);
     setError(null);
+    hadUserRef.current = false;
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('auth-manual-logout'));
+    }
     try {
       await axios.post('/api/auth/logout');
       setUser(null);
-      hadUserRef.current = false;
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Logout failed';
       setError(errorMessage);

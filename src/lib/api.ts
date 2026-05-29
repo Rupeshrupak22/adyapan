@@ -14,6 +14,15 @@ const JSON_HEADERS = { 'Content-Type': 'application/json' };
 function redirectOnUnauthorized(url: string, status: number) {
   if (typeof window === 'undefined' || status !== 401) return;
   if (url.includes('/api/auth/login') || url.includes('/api/auth/signup')) return;
+  if (
+    window.location.pathname === '/auth' ||
+    window.location.pathname === '/login' ||
+    window.location.pathname === '/signup' ||
+    window.location.pathname === '/admin/login' ||
+    window.location.pathname === '/organization/login'
+  ) {
+    return;
+  }
   if (window.location.pathname.startsWith('/admin')) {
     window.location.replace('/admin/login?reason=session_expired');
     return;

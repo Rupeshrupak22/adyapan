@@ -262,7 +262,7 @@ function AuthPageContent() {
           return;
         }
 
-        await api.post('/api/auth/login', { email: formData.email, password: formData.password });
+        const loginResponse = await api.post('/api/auth/login', { email: formData.email, password: formData.password });
         // Save email to localStorage for future suggestions
         try {
           const stored = JSON.parse(localStorage.getItem('adyapan_saved_emails') || '[]') as string[];
@@ -272,9 +272,7 @@ function AuthPageContent() {
         } catch { /* ignore */ }
         setSuccess('Login successful! Redirecting...');
         window.dispatchEvent(new Event('auth-change'));
-        // Role-based redirect
-        const loginRes = await api.get('/api/auth/me');
-        const loginRole = loginRes.data?.user?.role;
+        const loginRole = loginResponse.data?.user?.role;
         let redirectTo = searchParams?.get('redirect') || '/';
         if (loginRole === 'ADMIN') {
           redirectTo = '/admin';
@@ -294,7 +292,7 @@ function AuthPageContent() {
           firstName: formData.firstName,
           lastName: formData.lastName,
         };
-        await api.post('/api/auth/signup', signupData);
+        const signupResponse = await api.post('/api/auth/signup', signupData);
         // Save email to localStorage for future suggestions
         try {
           const stored = JSON.parse(localStorage.getItem('adyapan_saved_emails') || '[]') as string[];
@@ -304,9 +302,7 @@ function AuthPageContent() {
         } catch { /* ignore */ }
         setSuccess('Account created! Redirecting...');
         window.dispatchEvent(new Event('auth-change'));
-        // Role-based redirect after signup
-        const signupRes = await api.get('/api/auth/me');
-        const signupRole = signupRes.data?.user?.role;
+        const signupRole = signupResponse.data?.user?.role;
         let signupRedirect = searchParams?.get('redirect') || '/';
         if (signupRole === 'ADMIN') {
           signupRedirect = '/admin';

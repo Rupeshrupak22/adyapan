@@ -389,10 +389,9 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
   }, []);
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    window.dispatchEvent(new Event('auth-change'));
-    router.push('/');
-    router.refresh();
+    window.dispatchEvent(new Event('auth-manual-logout'));
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    window.location.assign('/');
   };
 
   const initials = user.name

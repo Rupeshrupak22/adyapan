@@ -160,8 +160,9 @@ export default function PortalLayout({ children, portalType }: PortalLayoutProps
   }, [pathname]);
 
   const handleLogout = async () => {
+    window.dispatchEvent(new Event('auth-manual-logout'));
     try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch {}
-    router.push('/');
+    window.location.assign('/');
   };
 
   const markNotificationsRead = () => {

@@ -97,8 +97,9 @@ export default function SuperAdminDashboard() {
   const throttledFetch = useCallback(throttle(fetchAll, 3000), [fetchAll]);
 
   const handleLogout = async () => {
+    window.dispatchEvent(new Event('auth-manual-logout'));
     await api.post('/api/auth/logout').catch(() => {});
-    router.push('/superadmin/login');
+    window.location.assign('/');
   };
 
   const handleDeleteAdmin = async (id: string, name: string) => {

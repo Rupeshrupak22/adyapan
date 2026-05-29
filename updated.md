@@ -413,7 +413,47 @@ Result:
 
 - Passed.
 
-## 10. Verification Commands
+## 10. Manual Logout And Login Flow Fix
+
+Fixed manual logout behavior:
+
+- User-clicked logout is now treated separately from session expiry.
+- Manual logout broadcasts `auth-manual-logout`.
+- Session monitoring stops before cookies are cleared.
+- Manual logout redirects to `/` instead of `/auth?reason=session_expired`.
+
+Fixed login/signup flow:
+
+- Student login no longer depends on an immediate extra `/api/auth/me` request after successful login.
+- Student signup no longer depends on an immediate extra `/api/auth/me` request after successful signup.
+- Login/signup redirects now use the user role returned by the login/signup API response.
+- Public auth/login pages do not auto-redirect to session-expired when their initial `/api/auth/me` check gets `401`.
+
+Updated files:
+
+- `src/app/(student)/auth/page.tsx`
+- `src/components/SessionIdleManager.tsx`
+- `src/components/ProfileDropdown.tsx`
+- `src/components/portal/PortalLayout.tsx`
+- `src/app/(student)/dashboard/company/page.tsx`
+- `src/app/superadmin/dashboard/page.tsx`
+- `src/components/superadmin/SuperAdminDashboard.tsx`
+- `src/hooks/useAuth.ts`
+- `src/lib/api.ts`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/routes/authRoutes.js
+```
+
+Result:
+
+- Passed.
+
+## 11. Verification Commands
 
 The following checks were run after updates:
 

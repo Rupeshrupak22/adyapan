@@ -46,9 +46,10 @@ export default function CompanyDashboard() {
   }, [router]);
 
   const handleLogout = async () => {
+    window.dispatchEvent(new Event('auth-manual-logout'));
     try {
       await api.post('/api/auth/logout');
-      router.push('/');
+      window.location.assign('/');
     } catch (err) {
       console.error('Logout failed:', err);
     }

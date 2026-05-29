@@ -46,8 +46,17 @@ export default function SessionIdleManager({
     };
 
     checkSession();
+    const stopMonitoring = () => {
+      loggingOutRef.current = true;
+      setMonitoring(false);
+      if (idleTimerRef.current) window.clearTimeout(idleTimerRef.current);
+    };
     window.addEventListener('auth-change', checkSession);
-    return () => window.removeEventListener('auth-change', checkSession);
+    window.addEventListener('auth-manual-logout', stopMonitoring);
+    return () => {
+      window.removeEventListener('auth-change', checkSession);
+      window.removeEventListener('auth-manual-logout', stopMonitoring);
+    };
   }, []);
 
   useEffect(() => {
