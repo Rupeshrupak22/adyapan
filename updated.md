@@ -550,15 +550,14 @@ Fixed admin portal login configuration behavior:
 - `ADMIN_ACCESS_KEY_HASH` remains required for admin login.
 - The error now correctly says `Admin access key is not configured` only when the access-key hash is missing.
 
-Fixed admin login page layout:
+Kept admin sidebar layout:
 
-- `/admin/login` no longer renders inside the admin portal sidebar layout.
-- `/admin/invite/*` also stays outside the portal sidebar layout.
+- `/admin/login` continues to render with the admin portal sidebar.
+- The sidebar still includes `View Student Site`, pointing to the student website root.
 
 Updated files:
 
 - `src/app/api/admin/login/route.ts`
-- `src/app/admin/layout.tsx`
 
 Latest verification:
 
