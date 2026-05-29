@@ -62,30 +62,6 @@ export default function SessionIdleManager({
   useEffect(() => {
     if (!monitoring) return;
 
-    const logoutOnPageClose = () => {
-      if (loggingOutRef.current) return;
-      loggingOutRef.current = true;
-      if (idleTimerRef.current) window.clearTimeout(idleTimerRef.current);
-
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon('/api/auth/logout');
-        return;
-      }
-
-      fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-        keepalive: true,
-      }).catch(() => {});
-    };
-
-    window.addEventListener('pagehide', logoutOnPageClose);
-    return () => window.removeEventListener('pagehide', logoutOnPageClose);
-  }, [monitoring]);
-
-  useEffect(() => {
-    if (!monitoring) return;
-
     const logout = async () => {
       if (loggingOutRef.current) return;
       loggingOutRef.current = true;
