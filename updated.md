@@ -540,7 +540,40 @@ Result:
 
 - Passed.
 
-## 13. Verification Commands
+## 13. Admin Login Configuration Fix
+
+Fixed admin portal login configuration behavior:
+
+- `ADMIN_LOGIN_EMAIL` / `ADMIN_EMAIL` is now an optional email whitelist.
+- If the whitelist is configured, only that email can use admin login.
+- If the whitelist is not configured, any valid `ADMIN` or `SUPERADMIN` account can login with correct password and access key.
+- `ADMIN_ACCESS_KEY_HASH` remains required for admin login.
+- The error now correctly says `Admin access key is not configured` only when the access-key hash is missing.
+
+Fixed admin login page layout:
+
+- `/admin/login` no longer renders inside the admin portal sidebar layout.
+- `/admin/invite/*` also stays outside the portal sidebar layout.
+
+Updated files:
+
+- `src/app/api/admin/login/route.ts`
+- `src/app/admin/layout.tsx`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/routes/authRoutes.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 14. Verification Commands
 
 The following checks were run after updates:
 

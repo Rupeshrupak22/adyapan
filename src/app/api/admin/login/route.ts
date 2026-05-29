@@ -2,7 +2,7 @@
  * POST /api/admin/login
  *
  * Secure admin-only login with 3-factor verification:
- *  1. Email must match ADMIN_LOGIN_EMAIL env var
+ *  1. Email must match ADMIN_LOGIN_EMAIL env var when that whitelist is configured
  *  2. Password must be correct (Argon2id with bcrypt migration)
  *  3. Access key SHA-256 must match ADMIN_ACCESS_KEY_HASH env var
  *
@@ -51,9 +51,9 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    if (!ALLOWED_ADMIN_EMAIL || !hasConfiguredAdminAccessKeyHash()) {
-      console.error('[AdminLogin]  Missing env vars - ADMIN_EMAIL:', !!ALLOWED_ADMIN_EMAIL, 'ADMIN_ACCESS_KEY_HASH:', hasConfiguredAdminAccessKeyHash());
-      return NextResponse.json({ error: 'Admin login is not configured.' }, { status: 503 });
+    if (!hasConfiguredAdminAccessKeyHash()) {
+      console.error('[AdminLogin] Missing ADMIN_ACCESS_KEY_HASH.');
+      return NextResponse.json({ error: 'Admin access key is not configured.' }, { status: 503 });
     }
 
     const body   = sanitizeMongoInput(await request.json());
