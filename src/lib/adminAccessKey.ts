@@ -29,6 +29,19 @@ export function hasConfiguredAdminAccessKeyHash() {
 
 export function verifyAdminAccessKey(accessKey: string) {
   const configuredHash = getConfiguredAdminAccessKeyHash();
+  return verifyAdminAccessKeyAgainstHash(accessKey, configuredHash);
+}
+
+export function isValidAdminAccessKeyHash(value: unknown) {
+  return /^[a-f0-9]{64}$/i.test(cleanConfiguredHash(typeof value === 'string' ? value : ''));
+}
+
+export function hashAdminAccessKey(accessKey: string) {
+  return sha256Hex(accessKey.trim());
+}
+
+export function verifyAdminAccessKeyAgainstHash(accessKey: string, configuredHash: string | undefined) {
+  const hash = cleanConfiguredHash(configuredHash);
   const submittedHash = sha256Hex(accessKey.trim());
-  return safeHexEqual(submittedHash, configuredHash);
+  return safeHexEqual(submittedHash, hash);
 }

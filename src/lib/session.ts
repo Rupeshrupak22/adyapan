@@ -15,6 +15,13 @@ export const IDLE_TIMEOUT_SECONDS = 15 * 60;
 export const ACCESS_TOKEN_SECONDS = 15 * 60;
 const TOKEN_REFRESH_THRESHOLD_SECONDS = 5 * 60;
 const TOKEN_ROTATION_GRACE_SECONDS = 30;
+export type SessionClientType = 'web' | 'mobile';
+
+export type SessionClientInfo = {
+  clientType?: SessionClientType;
+  platform?: string;
+  deviceId?: string;
+};
 
 type SessionUser = {
   _id: { toString(): string };
@@ -30,6 +37,8 @@ export type SessionTokenPayload = {
   name?: string;
   sid: string;
   fpHash: string;
+  clientType?: SessionClientType;
+  deviceId?: string;
   iat: number;
   exp: number;
 };
@@ -59,6 +68,15 @@ function accessTokenHashMatches(session: { accessTokenHash?: string; previousAcc
   return Date.now() - rotatedAt <= TOKEN_ROTATION_GRACE_SECONDS * 1000;
 }
 
+export function normalizeSessionClientInfo(info: SessionClientInfo = {}): Required<SessionClientInfo> {
+  const clientType = info.clientType === 'mobile' ? 'mobile' : 'web';
+  return {
+    clientType,
+    platform: String(info.platform || clientType).trim().slice(0, 40),
+    deviceId: String(info.deviceId || '').trim().slice(0, 200),
+  };
+}
+
 function unauthorizedSession(message: string) {
   const response = NextResponse.json(
     { error: message },
@@ -72,7 +90,12 @@ async function revokeSessionById(sessionId: string) {
   await AuthSession.findByIdAndUpdate(sessionId, { revokedAt: new Date() });
 }
 
-function signAccessToken(user: SessionUser, sessionId: string, fingerprintHash: string) {
+function signAccessToken(
+  user: SessionUser,
+  sessionId: string,
+  fingerprintHash: string,
+  clientInfo: Required<SessionClientInfo>
+) {
   return jwt.sign(
     {
       userId: user._id.toString(),
@@ -81,6 +104,8 @@ function signAccessToken(user: SessionUser, sessionId: string, fingerprintHash: 
       name: user.name,
       sid: sessionId,
       fpHash: fingerprintHash,
+      clientType: clientInfo.clientType,
+      deviceId: clientInfo.deviceId,
     },
     requireJwtSecret(),
     { expiresIn: ACCESS_TOKEN_SECONDS }
@@ -91,10 +116,12 @@ export async function attachLoginSession(
   response: NextResponse,
   request: NextRequest,
   user: SessionUser,
-  absoluteMaxAgeSeconds: number
+  absoluteMaxAgeSeconds: number,
+  clientInfoInput: SessionClientInfo = {}
 ) {
   await connectToDatabase();
 
+  const clientInfo = normalizeSessionClientInfo(clientInfoInput);
   const now = new Date();
   const fingerprint = randomSecret();
   const fingerprintHash = sha256(fingerprint);
@@ -104,6 +131,9 @@ export async function attachLoginSession(
   const session = await AuthSession.create({
     userId: user._id.toString(),
     role: user.role,
+    clientType: clientInfo.clientType,
+    platform: clientInfo.platform,
+    deviceId: clientInfo.deviceId,
     fingerprintHash,
     userAgentHash: userAgentHash(request),
     ipAddress: getClientIp(request),
@@ -112,7 +142,7 @@ export async function attachLoginSession(
     expiresAt,
   });
 
-  const token = signAccessToken(user, session._id.toString(), fingerprintHash);
+  const token = signAccessToken(user, session._id.toString(), fingerprintHash, clientInfo);
   session.accessTokenHash = sha256(token);
   await session.save();
 
@@ -142,11 +172,13 @@ export async function revokeRequestSession(request: NextRequest) {
   }
 }
 
-export async function hasActiveUserSessions(userId: string) {
+export async function hasActiveUserSessions(userId: string, clientInfoInput: SessionClientInfo = {}) {
   await connectToDatabase();
+  const clientInfo = normalizeSessionClientInfo(clientInfoInput);
   const now = new Date();
   const session = await AuthSession.findOne({
     userId,
+    clientType: clientInfo.clientType,
     $or: [{ revokedAt: { $exists: false } }, { revokedAt: null }],
     expiresAt: { $gt: now },
     idleExpiresAt: { $gt: now },
@@ -155,12 +187,14 @@ export async function hasActiveUserSessions(userId: string) {
   return Boolean(session);
 }
 
-export async function revokeActiveUserSessions(userId: string) {
+export async function revokeActiveUserSessions(userId: string, clientInfoInput: SessionClientInfo = {}) {
   await connectToDatabase();
+  const clientInfo = normalizeSessionClientInfo(clientInfoInput);
   const now = new Date();
   await AuthSession.updateMany(
     {
       userId,
+      clientType: clientInfo.clientType,
       $or: [{ revokedAt: { $exists: false } }, { revokedAt: null }],
       expiresAt: { $gt: now },
       idleExpiresAt: { $gt: now },
@@ -205,6 +239,8 @@ export async function validateRequestSession(
   if (
     session.userId !== decoded.userId ||
     session.role !== decoded.role ||
+    session.clientType !== (decoded.clientType || 'web') ||
+    (session.deviceId || '') !== (decoded.deviceId || '') ||
     session.fingerprintHash !== decoded.fpHash ||
     !accessTokenHashMatches(session, sha256(token)) ||
     session.userAgentHash !== userAgentHash(request) ||
@@ -257,7 +293,8 @@ export async function refreshRequestSession(request: NextRequest) {
       name: auth.name,
     },
     auth.sid,
-    auth.fpHash
+    auth.fpHash,
+    normalizeSessionClientInfo({ clientType: auth.clientType || 'web', deviceId: auth.deviceId || '' })
   );
 
   const session = await AuthSession.findById(auth.sid).select('accessTokenHash');

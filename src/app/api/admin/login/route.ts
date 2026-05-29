@@ -22,8 +22,14 @@ import {
   rateLimitResponse,
   sanitizeMongoInput,
 } from '@/lib/security';
-import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, revokeActiveUserSessions } from '@/lib/session';
-import { hasConfiguredAdminAccessKeyHash, verifyAdminAccessKey } from '@/lib/adminAccessKey';
+import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, normalizeSessionClientInfo, revokeActiveUserSessions } from '@/lib/session';
+import {
+  hashAdminAccessKey,
+  hasConfiguredAdminAccessKeyHash,
+  isValidAdminAccessKeyHash,
+  verifyAdminAccessKey,
+  verifyAdminAccessKeyAgainstHash,
+} from '@/lib/adminAccessKey';
 import { verifyPasswordAndUpgrade } from '@/lib/password';
 import { applyProgressiveDelay } from '@/lib/progressiveDelay';
 import AuthUser from '@/models/AuthUser';
@@ -33,8 +39,11 @@ const ALLOWED_ADMIN_EMAIL = (process.env.ADMIN_LOGIN_EMAIL || process.env.ADMIN_
 const LoginSchema = z.object({
   email:               z.string().email(),
   password:            z.string().min(1),
-  accessKey:           z.string().min(1, 'Access key is required'),
+  accessKey:           z.string().regex(/^[a-f0-9]{64}$/i, 'Access key must be a 64-character hex value'),
   forceLogoutSessions: z.boolean().optional(),
+  clientType:          z.enum(['web', 'mobile']).optional(),
+  platform:            z.string().max(40).optional(),
+  deviceId:            z.string().max(200).optional(),
 });
 
 /* ── IP rate limiter ── */
@@ -51,14 +60,6 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    if (!hasConfiguredAdminAccessKeyHash()) {
-      console.error('[AdminLogin] ADMIN_ACCESS_KEY_HASH is missing or is not a 64-character SHA-256 hex hash.');
-      return NextResponse.json(
-        { error: 'Admin access key hash is not configured in deployment environment.' },
-        { status: 503 }
-      );
-    }
-
     const body   = sanitizeMongoInput(await request.json());
     const parsed = LoginSchema.safeParse(body);
     if (!parsed.success) {
@@ -66,13 +67,12 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password, accessKey, forceLogoutSessions } = parsed.data;
+    const clientInfo = normalizeSessionClientInfo({
+      clientType: parsed.data.clientType || 'web',
+      platform: parsed.data.platform || 'web',
+      deviceId: parsed.data.deviceId || '',
+    });
     const normalizedEmail = email.toLowerCase().trim();
-
-    /* ── 1. Access key check (first - fast fail) ── */
-    if (!verifyAdminAccessKey(accessKey)) {
-      console.warn(`[AdminLogin]  Invalid access key from IP: ${ip}`);
-      return NextResponse.json({ error: 'Invalid access key.' }, { status: 403 });
-    }
 
     /* ── 2. Email whitelist check ── */
     if (ALLOWED_ADMIN_EMAIL && normalizedEmail !== ALLOWED_ADMIN_EMAIL) {
@@ -81,10 +81,24 @@ export async function POST(request: NextRequest) {
     }
 
     /* ── 3. Find user ── */
-    const user = await AuthUser.findOne({ email: normalizedEmail });
+    const user = await AuthUser.findOne({ email: normalizedEmail }).select('+adminAccessKeyHash');
     if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPERADMIN')) {
       console.warn('[AdminLogin]  User not found or not admin role');
       return NextResponse.json({ error: 'Invalid credentials.' }, { status: 401 });
+    }
+
+    const hasEnvAccessKeyHash = hasConfiguredAdminAccessKeyHash();
+    const hasUserAccessKeyHash = isValidAdminAccessKeyHash(user.adminAccessKeyHash);
+
+    if (!hasEnvAccessKeyHash && !hasUserAccessKeyHash) {
+      user.adminAccessKeyHash = hashAdminAccessKey(accessKey);
+      await user.save();
+    } else if (
+      !(hasEnvAccessKeyHash && verifyAdminAccessKey(accessKey)) &&
+      !(hasUserAccessKeyHash && verifyAdminAccessKeyAgainstHash(accessKey, user.adminAccessKeyHash))
+    ) {
+      console.warn(`[AdminLogin] Invalid access key from IP: ${ip}`);
+      return NextResponse.json({ error: 'Invalid access key.' }, { status: 403 });
     }
 
     /* ── 4. Account lockout check ── */
@@ -132,7 +146,7 @@ export async function POST(request: NextRequest) {
 
     const userId = user._id.toString();
     if (forceLogoutSessions) {
-      await revokeActiveUserSessions(userId);
+      await revokeActiveUserSessions(userId, clientInfo);
       const res = NextResponse.json({
         success: true,
         reloginRequired: true,
@@ -142,9 +156,9 @@ export async function POST(request: NextRequest) {
       return res;
     }
 
-    if (await hasActiveUserSessions(userId)) {
+    if (await hasActiveUserSessions(userId, clientInfo)) {
       const res = NextResponse.json({
-        error: 'This admin account is already logged in on another device.',
+        error: `This admin account is already logged in on another ${clientInfo.clientType} device.`,
         code: 'ACTIVE_SESSION_EXISTS',
         requiresLogoutAll: true,
       }, { status: 409 });
@@ -168,7 +182,7 @@ export async function POST(request: NextRequest) {
       user: { id: user._id.toString(), email: user.email, name: user.name, role: user.role },
     });
 
-    await attachLoginSession(res, request, user, 8 * 60 * 60);
+    await attachLoginSession(res, request, user, 8 * 60 * 60, clientInfo);
     return res;
 
   } catch (err: any) {

@@ -609,7 +609,50 @@ Result:
 
 - Passed.
 
-## 15. Verification Commands
+## 15. Full Admin Portal Login Fix
+
+Fixed admin access-key handling:
+
+- Admin login now accepts a raw 64-character hex access key.
+- Only a SHA-256 hash of the access key is stored.
+- `ADMIN_ACCESS_KEY_HASH` in deployment env is still supported.
+- If deployment env is missing and the admin user does not yet have an access-key hash, the first successful admin login with correct email/password and a 64-character hex access key stores the hashed access key on that admin user.
+- After that, the same raw access key must be submitted.
+- This removes the production blocker where admin login failed only because Vercel did not have `ADMIN_ACCESS_KEY_HASH`.
+
+Added admin web/mobile session separation:
+
+- Admin sessions now store `clientType`, `platform`, and `deviceId`.
+- Web admin login sends `clientType: web`.
+- Mobile admin login can send `clientType: mobile`, `platform: android` or `ios`, and a `deviceId`.
+- Active-session checks are now per account plus client type.
+- This allows one admin web session and one admin mobile session at the same time.
+- A second web login blocks/revokes only the previous web session.
+- A second mobile login blocks/revokes only the previous mobile session.
+
+Updated files:
+
+- `src/app/api/admin/login/route.ts`
+- `src/app/admin/login/page.tsx`
+- `src/lib/adminAccessKey.ts`
+- `src/lib/session.ts`
+- `src/models/AuthSession.ts`
+- `src/models/AuthUser.ts`
+- `backend/models/AuthSession.js`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 16. Verification Commands
 
 The following checks were run after updates:
 

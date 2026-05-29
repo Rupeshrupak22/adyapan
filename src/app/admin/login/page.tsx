@@ -88,7 +88,13 @@ export default function AdminLoginPage() {
         return;
       }
 
-      const res = await api.post('/api/admin/login', { email, password, accessKey });
+      const res = await api.post('/api/admin/login', {
+        email,
+        password,
+        accessKey,
+        clientType: 'web',
+        platform: 'web',
+      });
       const role = res.data?.user?.role;
 
       if (role !== 'ADMIN' && role !== 'SUPERADMIN') {
@@ -117,6 +123,8 @@ export default function AdminLoginPage() {
             password,
             accessKey,
             forceLogoutSessions: true,
+            clientType: 'web',
+            platform: 'web',
           });
           setSuccess('Previous sessions logged out. Please enter your password and access key again.');
           setPassword('');
