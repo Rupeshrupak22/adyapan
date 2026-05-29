@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { requireJwtSecret } from '@/lib/security';
-import { validateRequestSession } from '@/lib/session';
+import { AUTH_TOKEN_COOKIE, validateRequestSession } from '@/lib/session';
 
 export interface DecodedToken {
   userId: string;
@@ -21,7 +21,7 @@ export function verifyToken(token: string): DecodedToken | null {
 }
 
 export function getTokenFromRequest(request: NextRequest): string | null {
-  const cookieToken = request.cookies.get('authToken')?.value;
+  const cookieToken = request.cookies.get(AUTH_TOKEN_COOKIE)?.value;
   if (cookieToken) return cookieToken;
   return null;
 }

@@ -11,6 +11,20 @@
 const BASE = { credentials: 'include' as RequestCredentials };
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 
+function redirectOnUnauthorized(url: string, status: number) {
+  if (typeof window === 'undefined' || status !== 401) return;
+  if (url.includes('/api/auth/login') || url.includes('/api/auth/signup')) return;
+  if (window.location.pathname.startsWith('/admin')) {
+    window.location.replace('/admin/login?reason=session_expired');
+    return;
+  }
+  if (window.location.pathname.startsWith('/organization')) {
+    window.location.replace('/organization/login?reason=session_expired');
+    return;
+  }
+  window.location.replace('/auth?reason=session_expired');
+}
+
 async function request(method: string, url: string, body?: unknown, opts?: RequestInit) {
   const res = await fetch(url, {
     ...BASE,
@@ -31,6 +45,7 @@ async function request(method: string, url: string, body?: unknown, opts?: Reque
 
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    redirectOnUnauthorized(url, res.status);
     const err: any = new Error(data?.error || data?.message || `HTTP ${res.status}`);
     err.response = { data, status: res.status };
     throw err;

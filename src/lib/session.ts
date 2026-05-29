@@ -5,8 +5,12 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { authCookieOptions, getClientIp, requireJwtSecret } from '@/lib/security';
 import AuthSession from '@/models/AuthSession';
 
-export const AUTH_TOKEN_COOKIE = 'authToken';
-export const AUTH_SESSION_COOKIE = 'authSession';
+const HOST_COOKIE_PREFIX = process.env.NODE_ENV === 'production' ? '__Host-' : '';
+
+export const AUTH_TOKEN_COOKIE = `${HOST_COOKIE_PREFIX}adyapanToken`;
+export const AUTH_SESSION_COOKIE = `${HOST_COOKIE_PREFIX}adyapanSession`;
+export const LEGACY_AUTH_TOKEN_COOKIE = 'authToken';
+export const LEGACY_AUTH_SESSION_COOKIE = 'authSession';
 export const IDLE_TIMEOUT_SECONDS = 15 * 60;
 export const ACCESS_TOKEN_SECONDS = 15 * 60;
 
@@ -45,10 +49,16 @@ function sessionIpMatches(storedIp: string, currentIp: string) {
 }
 
 function unauthorizedSession(message: string) {
-  return NextResponse.json(
+  const response = NextResponse.json(
     { error: message },
     { status: 401, headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
   );
+  clearSessionCookies(response);
+  return response;
+}
+
+async function revokeSessionById(sessionId: string) {
+  await AuthSession.findByIdAndUpdate(sessionId, { revokedAt: new Date() });
 }
 
 function signAccessToken(user: SessionUser, sessionId: string, fingerprintHash: string) {
@@ -92,7 +102,10 @@ export async function attachLoginSession(
   });
 
   const token = signAccessToken(user, session._id.toString(), fingerprintHash);
+  session.accessTokenHash = sha256(token);
+  await session.save();
 
+  clearSessionCookies(response);
   response.cookies.set(AUTH_TOKEN_COOKIE, token, authCookieOptions(ACCESS_TOKEN_SECONDS));
   response.cookies.set(AUTH_SESSION_COOKIE, fingerprint, authCookieOptions(absoluteMaxAgeSeconds));
 }
@@ -100,6 +113,8 @@ export async function attachLoginSession(
 export function clearSessionCookies(response: NextResponse) {
   response.cookies.set(AUTH_TOKEN_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
   response.cookies.set(AUTH_SESSION_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
+  response.cookies.set(LEGACY_AUTH_TOKEN_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
+  response.cookies.set(LEGACY_AUTH_SESSION_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
 }
 
 export async function revokeRequestSession(request: NextRequest) {
@@ -135,6 +150,9 @@ export async function validateRequestSession(
   }
 
   if (!decoded.sid || !decoded.fpHash || decoded.fpHash !== sha256(fingerprint)) {
+    if (decoded.sid) {
+      await revokeSessionById(decoded.sid);
+    }
     return unauthorizedSession('Unauthorized - session binding failed');
   }
 
@@ -150,9 +168,11 @@ export async function validateRequestSession(
     session.userId !== decoded.userId ||
     session.role !== decoded.role ||
     session.fingerprintHash !== decoded.fpHash ||
+    (session.accessTokenHash && session.accessTokenHash !== sha256(token)) ||
     session.userAgentHash !== userAgentHash(request) ||
     !sessionIpMatches(session.ipAddress, getClientIp(request))
   ) {
+    await revokeSessionById(decoded.sid);
     return unauthorizedSession('Unauthorized - session mismatch');
   }
 
@@ -195,6 +215,7 @@ export async function refreshRequestSession(request: NextRequest) {
     expiresIn: ACCESS_TOKEN_SECONDS,
     idleTimeout: IDLE_TIMEOUT_SECONDS,
   });
+  await AuthSession.findByIdAndUpdate(auth.sid, { accessTokenHash: sha256(token) });
   res.cookies.set(AUTH_TOKEN_COOKIE, token, authCookieOptions(ACCESS_TOKEN_SECONDS));
   res.cookies.set(AUTH_SESSION_COOKIE, fingerprint, authCookieOptions(7 * 24 * 60 * 60));
   return res;

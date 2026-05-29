@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 
 export interface User {
@@ -43,14 +43,34 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hadUserRef = useRef(false);
+
+  const redirectToLogin = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    const path = window.location.pathname;
+    if (path.startsWith('/admin')) {
+      window.location.replace('/admin/login?reason=session_expired');
+      return;
+    }
+    if (path.startsWith('/organization')) {
+      window.location.replace('/organization/login?reason=session_expired');
+      return;
+    }
+    window.location.replace('/auth?reason=session_expired');
+  }, []);
 
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get('/api/auth/me');
       setUser(response.data.user);
+      hadUserRef.current = true;
       setError(null);
     } catch (err: any) {
       setUser(null);
+      if (err?.response?.status === 401 && hadUserRef.current) {
+        hadUserRef.current = false;
+        redirectToLogin();
+      }
       // 401 is expected when user is not authenticated - suppress console noise
       if (err?.response?.status !== 401) {
         // Only log unexpected errors
@@ -59,7 +79,7 @@ export function useAuth() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [redirectToLogin]);
 
   // Fetch current user on mount and whenever login/signup/logout changes the cookie.
   useEffect(() => {
@@ -83,6 +103,7 @@ export function useAuth() {
         password,
       });
       setUser(response.data.user);
+      hadUserRef.current = true;
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Login failed';
       setError(errorMessage);
@@ -98,6 +119,7 @@ export function useAuth() {
     try {
       const response = await axios.post('/api/auth/signup', data);
       setUser(response.data.user);
+      hadUserRef.current = true;
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Signup failed';
       setError(errorMessage);
@@ -113,6 +135,7 @@ export function useAuth() {
     try {
       await axios.post('/api/auth/logout');
       setUser(null);
+      hadUserRef.current = false;
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Logout failed';
       setError(errorMessage);

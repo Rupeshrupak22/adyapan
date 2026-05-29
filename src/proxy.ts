@@ -63,8 +63,9 @@ async function sha256(value: string): Promise<string> {
 }
 
 async function getRole(request: NextRequest): Promise<string | null> {
-  const token = request.cookies.get('authToken')?.value;
-  const fingerprint = request.cookies.get('authSession')?.value;
+  const cookiePrefix = process.env.NODE_ENV === 'production' ? '__Host-' : '';
+  const token = request.cookies.get(`${cookiePrefix}adyapanToken`)?.value;
+  const fingerprint = request.cookies.get(`${cookiePrefix}adyapanSession`)?.value;
   if (!token || !fingerprint) return null;
   const secret = process.env.JWT_SECRET;
   if (!secret || secret.length < 32 || secret.includes('fallback') || secret.includes('your_')) {

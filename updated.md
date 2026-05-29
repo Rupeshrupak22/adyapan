@@ -321,7 +321,99 @@ Result:
 
 - Passed.
 
-## 8. Verification Commands
+## 8. HTTPS Session Hijacking Hardening Update
+
+Changed the production cookie strategy:
+
+- Production auth cookies now use `__Host-` names:
+  - `__Host-adyapanToken`
+  - `__Host-adyapanSession`
+- Local development uses:
+  - `adyapanToken`
+  - `adyapanSession`
+- The old `authToken` and `authSession` cookies are no longer accepted.
+- Login and logout clear old legacy cookies.
+- After deployment, users must log in again to receive the new cookies.
+
+Added current-token hash validation:
+
+- `AuthSession` now stores `accessTokenHash`.
+- The server checks that the submitted token hash matches the current DB session token hash.
+- Heartbeat rotates the access token and updates the stored hash.
+- A previously copied token becomes invalid after the real browser refreshes the session.
+
+Fixed session-expired choice buttons:
+
+- `Sign In` and `Create Account` are now normal links with explicit `mode` query params.
+- This avoids router state issues on `/auth?reason=session_expired`.
+
+Files to inspect:
+
+- `src/lib/session.ts`
+- `src/models/AuthSession.ts`
+- `src/lib/security.ts`
+- `src/lib/auth.ts`
+- `src/proxy.ts`
+- `middleware.ts`
+- `src/components/SessionIdleManager.tsx`
+- `src/app/(student)/auth/page.tsx`
+- `src/app/api/auth/me/route.ts`
+- `src/app/api/admin/me/route.ts`
+- `src/app/api/organization/me/route.ts`
+- `backend/routes/authRoutes.js`
+- `backend/middleware/auth.js`
+- `backend/models/AuthSession.js`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/routes/authRoutes.js
+node -c backend/middleware/auth.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 9. Token Replacement Logout Enforcement
+
+Implemented the requested behavior for manual token replacement:
+
+- If the submitted token does not match the DB session token hash, the backend treats it as a session mismatch.
+- The matching DB session is revoked by setting `revokedAt`.
+- Auth cookies are cleared in the response.
+- The API returns `401`.
+- Frontend API handling redirects authenticated users to the correct login page after a protected `401`.
+
+Redirect targets:
+
+- Student/public portal: `/auth?reason=session_expired`
+- Admin portal: `/admin/login?reason=session_expired`
+- Organization portal: `/organization/login?reason=session_expired`
+
+Updated files:
+
+- `src/lib/session.ts`
+- `src/lib/api.ts`
+- `src/hooks/useAuth.ts`
+- `backend/middleware/auth.js`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/routes/authRoutes.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 10. Verification Commands
 
 The following checks were run after updates:
 

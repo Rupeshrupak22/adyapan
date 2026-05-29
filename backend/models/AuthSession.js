@@ -5,6 +5,7 @@ const authSessionSchema = new mongoose.Schema(
     userId:          { type: String, required: true, index: true },
     role:            { type: String, required: true, index: true },
     fingerprintHash: { type: String, required: true },
+    accessTokenHash: { type: String },
     userAgentHash:   { type: String, required: true },
     ipAddress:       { type: String, default: '' },
     lastSeenAt:      { type: Date, required: true, default: Date.now },

@@ -27,6 +27,11 @@ const COOKIE_OPTS = {
 
 const ABSOLUTE_SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 const IDLE_SESSION_MS = 15 * 60 * 1000;
+const COOKIE_PREFIX = process.env.NODE_ENV === 'production' ? '__Host-' : '';
+const AUTH_TOKEN_COOKIE = `${COOKIE_PREFIX}adyapanToken`;
+const AUTH_SESSION_COOKIE = `${COOKIE_PREFIX}adyapanSession`;
+const LEGACY_AUTH_TOKEN_COOKIE = 'authToken';
+const LEGACY_AUTH_SESSION_COOKIE = 'authSession';
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -65,8 +70,18 @@ async function issueSession(req, res, user) {
     JWT_SECRET,
     { expiresIn: '15m' }
   );
-  res.cookie('authToken', token, COOKIE_OPTS);
-  res.cookie('authSession', fingerprint, { ...COOKIE_OPTS, maxAge: ABSOLUTE_SESSION_MS });
+  session.accessTokenHash = sha256(token);
+  await session.save();
+  clearAuthCookies(res);
+  res.cookie(AUTH_TOKEN_COOKIE, token, COOKIE_OPTS);
+  res.cookie(AUTH_SESSION_COOKIE, fingerprint, { ...COOKIE_OPTS, maxAge: ABSOLUTE_SESSION_MS });
+}
+
+function clearAuthCookies(res) {
+  res.clearCookie(AUTH_TOKEN_COOKIE, { path: '/' });
+  res.clearCookie(AUTH_SESSION_COOKIE, { path: '/' });
+  res.clearCookie(LEGACY_AUTH_TOKEN_COOKIE, { path: '/' });
+  res.clearCookie(LEGACY_AUTH_SESSION_COOKIE, { path: '/' });
 }
 
 // POST /api/auth/signup
@@ -125,15 +140,14 @@ router.post('/login', validate(loginSchema), async (req, res, next) => {
 
 // POST /api/auth/logout
 router.post('/logout', async (req, res) => {
-  const token = req.cookies?.authToken;
+  const token = req.cookies?.[AUTH_TOKEN_COOKIE];
   if (token) {
     try {
       const decoded = jwt.verify(token, JWT_SECRET);
       if (decoded.sid) await AuthSession.findByIdAndUpdate(decoded.sid, { revokedAt: new Date() });
     } catch {}
   }
-  res.clearCookie('authToken', { path: '/' });
-  res.clearCookie('authSession', { path: '/' });
+  clearAuthCookies(res);
   res.json({ success: true, message: 'Logged out successfully' });
 });
 

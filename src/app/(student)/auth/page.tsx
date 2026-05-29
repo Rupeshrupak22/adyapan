@@ -333,14 +333,10 @@ function AuthPageContent() {
     router.replace(`/auth?${params.toString()}`, { scroll: false });
   };
 
-  const chooseMode = (mode: 'login' | 'signup') => {
-    setIsLogin(mode === 'login');
-    setError(null);
-    setSuccess(null);
-    setFormData({ firstName: '', lastName: '', fullName: '', companyName: '', email: '', password: '', confirmPassword: '' });
+  const getModeHref = (mode: 'login' | 'signup') => {
     const params = new URLSearchParams(searchParams?.toString());
     params.set('mode', mode);
-    router.replace(`/auth?${params.toString()}`, { scroll: false });
+    return `/auth?${params.toString()}`;
   };
 
   const handleGoogleAuth = () => {
@@ -450,23 +446,21 @@ function AuthPageContent() {
 
           {showSessionExpiredChoice ? (
             <div className="space-y-3.5">
-              <button
-                type="button"
-                onClick={() => chooseMode('login')}
+              <Link
+                href={getModeHref('login')}
                 className="w-full py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all duration-300"
                 style={{ background: 'linear-gradient(135deg, #ffa800 0%, #ff6b00 100%)' }}
               >
                 <span>Sign In</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
 
-              <button
-                type="button"
-                onClick={() => chooseMode('signup')}
+              <Link
+                href={getModeHref('signup')}
                 className="w-full py-3.5 rounded-xl border-2 border-gray-200 bg-white text-gray-800 text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:border-[#ffa800] hover:text-orange-600"
               >
                 Create Account
-              </button>
+              </Link>
             </div>
           ) : (
           <form onSubmit={handleSubmit} className="space-y-3.5">

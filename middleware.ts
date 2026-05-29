@@ -4,9 +4,10 @@ import { jwtVerify } from 'jose';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const cookiePrefix = process.env.NODE_ENV === 'production' ? '__Host-' : '';
 
-  const authToken = request.cookies.get('authToken')?.value;
-  const authSession = request.cookies.get('authSession')?.value;
+  const authToken = request.cookies.get(`${cookiePrefix}adyapanToken`)?.value;
+  const authSession = request.cookies.get(`${cookiePrefix}adyapanSession`)?.value;
 
   // Admin routes that need protection (all /admin/* except /admin/login)
   const isAdminRoute = pathname.startsWith('/admin') && pathname !== '/admin/login';
