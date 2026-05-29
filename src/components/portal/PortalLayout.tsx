@@ -22,6 +22,27 @@ interface NavItem {
 }
 
 function getNavItems(base: string, isAdmin: boolean = false): NavItem[] {
+  if (isAdmin) {
+    return [
+      { href: '/admin/dashboard',            label: 'Dashboard',          icon: LayoutDashboard, exact: true },
+      { href: '/admin/students',             label: 'Students',           icon: Users },
+      { href: '/admin/payments',             label: 'Payments',           icon: CreditCard },
+      { href: '/admin/courses',              label: 'Courses',            icon: BookOpen },
+      { href: '/admin/plans',                label: 'Plans',              icon: Package },
+      { href: '/admin/certificates',         label: 'Certificates',       icon: Award },
+      { href: '/admin/online-enrollments',   label: 'Online Enrollments', icon: GraduationCap },
+      { href: '/admin/offline-enrollments',  label: 'Offline Enrollments', icon: Users },
+      { href: '/admin/project-requests',     label: 'Project Requests',   icon: FolderKanban },
+      { href: '/admin/purchased-courses',    label: 'Purchased Courses',  icon: BookOpen },
+      { href: '/admin/certification-leads',  label: 'Certification Leads', icon: Award },
+      { href: '/admin/contact-messages',     label: 'Contact Messages',   icon: MessageSquare },
+      { href: '/admin/admin-invites',        label: 'Admin Invites',      icon: UserPlus },
+      { href: '/admin/offline-leads',        label: 'Offline Leads',      icon: TrendingUp },
+      { href: '/admin/manual-leads',         label: 'Manual Leads',       icon: UserPlus },
+      { href: '/admin/settings',             label: 'Settings',           icon: Settings },
+    ];
+  }
+
   const items: NavItem[] = [
     { href: base,                    label: 'Dashboard',     icon: LayoutDashboard, exact: true },
     { href: `${base}/students`,      label: 'Students',     icon: Users },
@@ -35,19 +56,6 @@ function getNavItems(base: string, isAdmin: boolean = false): NavItem[] {
   if (!isAdmin) {
     items.push({ href: `${base}/jobs`,    label: 'Job Postings',    icon: Briefcase });
     items.push({ href: `${base}/profile`, label: 'Company Profile', icon: Building2 });
-  }
-
-  // Admin-only items
-  if (isAdmin) {
-    items.push({ href: `${base}/online-enrollments`,  label: 'Online Enrollments',  icon: GraduationCap });
-    items.push({ href: `${base}/offline-enrollments`, label: 'Offline Enrollments', icon: Users });
-    items.push({ href: `${base}/project-requests`,    label: 'Project Requests',    icon: FolderKanban });
-    items.push({ href: `${base}/purchased-courses`,   label: 'Purchased Courses',   icon: BookOpen });
-    items.push({ href: `${base}/certification-enrollments`, label: 'Certification Leads', icon: Award });
-    items.push({ href: `${base}/contact-messages`, label: 'Contact Messages', icon: MessageSquare });
-    items.push({ href: `${base}/invites`,             label: 'Admin Invites',       icon: UserPlus });
-    items.push({ href: `${base}/offline-leads`,       label: 'Offline Leads',       icon: TrendingUp });
-    items.push({ href: `${base}/manual-leads`,        label: 'Manual Leads',        icon: UserPlus });
   }
 
   items.push({ href: `${base}/settings`, label: 'Settings', icon: Settings });
