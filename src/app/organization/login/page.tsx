@@ -42,6 +42,24 @@ export default function OrganizationLoginPage() {
       setSuccess('Login successful! Redirecting...');
       setTimeout(() => router.push('/organization'), 900);
     } catch (err: any) {
+      if (err.response?.status === 409 && err.response?.data?.requiresLogoutAll) {
+        const shouldLogoutAll = window.confirm(
+          'This organization account is already logged in on another device. Do you want to logout all previous sessions?'
+        );
+
+        if (shouldLogoutAll) {
+          await api.post('/api/organization/login', {
+            email,
+            password,
+            forceLogoutSessions: true,
+          });
+          setSuccess('Previous sessions logged out. Please enter your password and sign in again.');
+          setPassword('');
+          setShowPw(false);
+        }
+        setLoading(false);
+        return;
+      }
       setError(err.response?.data?.error || 'Login failed. Please try again.');
       setLoading(false);
     }

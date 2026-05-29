@@ -22,7 +22,7 @@ import {
   rateLimitResponse,
   sanitizeMongoInput,
 } from '@/lib/security';
-import { attachLoginSession } from '@/lib/session';
+import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, revokeActiveUserSessions } from '@/lib/session';
 import { hasConfiguredAdminAccessKeyHash, verifyAdminAccessKey } from '@/lib/adminAccessKey';
 import { verifyPasswordAndUpgrade } from '@/lib/password';
 import { applyProgressiveDelay } from '@/lib/progressiveDelay';
@@ -31,9 +31,10 @@ import AuthUser from '@/models/AuthUser';
 const ALLOWED_ADMIN_EMAIL = (process.env.ADMIN_LOGIN_EMAIL || process.env.ADMIN_EMAIL || '').toLowerCase().trim();
 
 const LoginSchema = z.object({
-  email:     z.string().email(),
-  password:  z.string().min(1),
-  accessKey: z.string().min(1, 'Access key is required'),
+  email:               z.string().email(),
+  password:            z.string().min(1),
+  accessKey:           z.string().min(1, 'Access key is required'),
+  forceLogoutSessions: z.boolean().optional(),
 });
 
 /* ── IP rate limiter ── */
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
     }
 
-    const { email, password, accessKey } = parsed.data;
+    const { email, password, accessKey, forceLogoutSessions } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
     /* ── 1. Access key check (first - fast fail) ── */
@@ -124,6 +125,28 @@ export async function POST(request: NextRequest) {
     }
     if (!user.isActive) {
       return NextResponse.json({ error: 'This admin account has been deactivated.' }, { status: 403 });
+    }
+
+    const userId = user._id.toString();
+    if (forceLogoutSessions) {
+      await revokeActiveUserSessions(userId);
+      const res = NextResponse.json({
+        success: true,
+        reloginRequired: true,
+        message: 'Previous sessions have been logged out. Please sign in again.',
+      });
+      clearSessionCookies(res);
+      return res;
+    }
+
+    if (await hasActiveUserSessions(userId)) {
+      const res = NextResponse.json({
+        error: 'This admin account is already logged in on another device.',
+        code: 'ACTIVE_SESSION_EXISTS',
+        requiresLogoutAll: true,
+      }, { status: 409 });
+      clearSessionCookies(res);
+      return res;
     }
 
     /* ── 7. Success ── */

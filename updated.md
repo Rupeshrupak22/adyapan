@@ -453,7 +453,54 @@ Result:
 
 - Passed.
 
-## 11. Verification Commands
+## 11. Single Active Session And Session-Expired Login Fix
+
+Implemented single active session enforcement:
+
+- If an account already has an active DB session, a second login attempt is blocked with `409`.
+- The login UI asks whether to logout all previous sessions.
+- If the user selects `No`, nothing happens.
+- If the user selects `Yes`, all previous active sessions for that account are revoked.
+- After revoking previous sessions, the current browser is not logged in automatically.
+- The user must enter the email/password again to login, as requested.
+
+Applied to:
+
+- Student login
+- Admin login
+- Organization login
+
+Fixed session-expired login loop:
+
+- Auth/login pages no longer keep redirecting themselves to `reason=session_expired`.
+- After session expiry, a valid login can now create a fresh session and open the portal normally.
+- Session-expired mode is removed when the user chooses login/signup mode.
+
+Updated files:
+
+- `src/lib/session.ts`
+- `src/app/api/auth/login/route.ts`
+- `src/app/api/admin/login/route.ts`
+- `src/app/api/organization/login/route.ts`
+- `src/app/(student)/auth/page.tsx`
+- `src/app/admin/login/page.tsx`
+- `src/app/organization/login/page.tsx`
+- `src/hooks/useAuth.ts`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/routes/authRoutes.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 12. Verification Commands
 
 The following checks were run after updates:
 

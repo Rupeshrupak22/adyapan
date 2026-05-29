@@ -24,7 +24,7 @@ import {
   rateLimitResponse,
   sanitizeMongoInput,
 } from '@/lib/security';
-import { attachLoginSession } from '@/lib/session';
+import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, revokeActiveUserSessions } from '@/lib/session';
 import { verifyPasswordAndUpgrade } from '@/lib/password';
 import { applyProgressiveDelay } from '@/lib/progressiveDelay';
 import AuthUser from '@/models/AuthUser';
@@ -35,8 +35,9 @@ const ALLOWED_ADMIN_EMAIL = (
 ).toLowerCase().trim();
 
 const LoginSchema = z.object({
-  email:    z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email:                  z.string().email('Invalid email address'),
+  password:               z.string().min(1, 'Password is required'),
+  forceLogoutSessions:    z.boolean().optional(),
 });
 
 /* ── IP-level rate limiter ── */
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
     }
-    const { email, password } = parsed.data;
+    const { email, password, forceLogoutSessions } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
     /* ── Find user ── */
@@ -133,6 +134,28 @@ export async function POST(request: NextRequest) {
         { error: 'This account has been deactivated. Contact support.' },
         { status: 403 }
       );
+    }
+
+    const userId = user._id.toString();
+    if (forceLogoutSessions) {
+      await revokeActiveUserSessions(userId);
+      const res = NextResponse.json({
+        success: true,
+        reloginRequired: true,
+        message: 'Previous sessions have been logged out. Please sign in again.',
+      }, { status: 200 });
+      clearSessionCookies(res);
+      return res;
+    }
+
+    if (await hasActiveUserSessions(userId)) {
+      const res = NextResponse.json({
+        error: 'This account is already logged in on another device.',
+        code: 'ACTIVE_SESSION_EXISTS',
+        requiresLogoutAll: true,
+      }, { status: 409 });
+      clearSessionCookies(res);
+      return res;
     }
 
     /* ── Success - reset lockout, update stats ── */

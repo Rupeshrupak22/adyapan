@@ -314,6 +314,24 @@ function AuthPageContent() {
         setTimeout(() => router.push(signupRedirect), 900);
       }
     } catch (err: any) {
+      if (err.response?.status === 409 && err.response?.data?.requiresLogoutAll) {
+        const shouldLogoutAll = window.confirm(
+          'This account is already logged in on another device. Do you want to logout all previous sessions?'
+        );
+
+        if (shouldLogoutAll) {
+          await api.post('/api/auth/login', {
+            email: formData.email,
+            password: formData.password,
+            forceLogoutSessions: true,
+          });
+          setSuccess('Previous sessions logged out. Please enter your password and sign in again.');
+          setFormData(p => ({ ...p, password: '', confirmPassword: '' }));
+          setShowPassword(false);
+          setShowConfirmPassword(false);
+        }
+        return;
+      }
       setError(err.response?.data?.error || 'Something went wrong. Please try again.');
     } finally {
       setLoading(false);
@@ -326,12 +344,14 @@ function AuthPageContent() {
     setFormData({ firstName: '', lastName: '', fullName: '', companyName: '', email: '', password: '', confirmPassword: '' });
     const params = new URLSearchParams(searchParams?.toString());
     params.set('mode', nextIsLogin ? 'login' : 'signup');
+    params.delete('reason');
     router.replace(`/auth?${params.toString()}`, { scroll: false });
   };
 
   const getModeHref = (mode: 'login' | 'signup') => {
     const params = new URLSearchParams(searchParams?.toString());
     params.set('mode', mode);
+    params.delete('reason');
     return `/auth?${params.toString()}`;
   };
 

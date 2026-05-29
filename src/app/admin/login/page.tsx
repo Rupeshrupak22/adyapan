@@ -105,7 +105,29 @@ export default function AdminLoginPage() {
         router.refresh();
       }, 900);
     } catch (err) {
-      const errorMsg = (err as any)?.response?.data?.error || 'Login failed. Please check your credentials.';
+      const response = (err as any)?.response;
+      if (response?.status === 409 && response?.data?.requiresLogoutAll) {
+        const shouldLogoutAll = window.confirm(
+          'This admin account is already logged in on another device. Do you want to logout all previous sessions?'
+        );
+
+        if (shouldLogoutAll) {
+          await api.post('/api/admin/login', {
+            email,
+            password,
+            accessKey,
+            forceLogoutSessions: true,
+          });
+          setSuccess('Previous sessions logged out. Please enter your password and access key again.');
+          setPassword('');
+          setAccessKey('');
+          setShowPw(false);
+          setShowKey(false);
+        }
+        setLoading(false);
+        return;
+      }
+      const errorMsg = response?.data?.error || 'Login failed. Please check your credentials.';
       setError(errorMsg);
       setLoading(false);
     }

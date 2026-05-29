@@ -48,6 +48,15 @@ export function useAuth() {
   const redirectToLogin = useCallback(() => {
     if (typeof window === 'undefined') return;
     const path = window.location.pathname;
+    if (
+      path === '/auth' ||
+      path === '/login' ||
+      path === '/signup' ||
+      path === '/admin/login' ||
+      path === '/organization/login'
+    ) {
+      return;
+    }
     if (path.startsWith('/admin')) {
       window.location.replace('/admin/login?reason=session_expired');
       return;

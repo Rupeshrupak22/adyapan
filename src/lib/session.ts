@@ -131,6 +131,33 @@ export async function revokeRequestSession(request: NextRequest) {
   }
 }
 
+export async function hasActiveUserSessions(userId: string) {
+  await connectToDatabase();
+  const now = new Date();
+  const session = await AuthSession.findOne({
+    userId,
+    $or: [{ revokedAt: { $exists: false } }, { revokedAt: null }],
+    expiresAt: { $gt: now },
+    idleExpiresAt: { $gt: now },
+  }).select('_id');
+
+  return Boolean(session);
+}
+
+export async function revokeActiveUserSessions(userId: string) {
+  await connectToDatabase();
+  const now = new Date();
+  await AuthSession.updateMany(
+    {
+      userId,
+      $or: [{ revokedAt: { $exists: false } }, { revokedAt: null }],
+      expiresAt: { $gt: now },
+      idleExpiresAt: { $gt: now },
+    },
+    { $set: { revokedAt: now } }
+  );
+}
+
 export async function validateRequestSession(
   request: NextRequest,
   options: { extendIdle?: boolean } = {}

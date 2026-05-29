@@ -22,14 +22,15 @@ import {
   rateLimitResponse,
   sanitizeMongoInput,
 } from '@/lib/security';
-import { attachLoginSession } from '@/lib/session';
+import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, revokeActiveUserSessions } from '@/lib/session';
 import { verifyPasswordAndUpgrade } from '@/lib/password';
 import { applyProgressiveDelay } from '@/lib/progressiveDelay';
 import OrganizationUser from '@/models/OrganizationUser';
 
 const LoginSchema = z.object({
-  email:    z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email:               z.string().email('Invalid email address'),
+  password:            z.string().min(1, 'Password is required'),
+  forceLogoutSessions: z.boolean().optional(),
 });
 
 /* ── IP rate limiter ── */
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
     }
-    const { email, password } = parsed.data;
+    const { email, password, forceLogoutSessions } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
     /* ── Look up ONLY in organizationusers collection ── */
@@ -117,6 +118,28 @@ export async function POST(request: NextRequest) {
         { error: `Invalid email or password. ${remaining} attempt${remaining > 1 ? 's' : ''} remaining before lockout.` },
         { status: 401 }
       );
+    }
+
+    const userId = user._id.toString();
+    if (forceLogoutSessions) {
+      await revokeActiveUserSessions(userId);
+      const res = NextResponse.json({
+        success: true,
+        reloginRequired: true,
+        message: 'Previous sessions have been logged out. Please sign in again.',
+      }, { status: 200 });
+      clearSessionCookies(res);
+      return res;
+    }
+
+    if (await hasActiveUserSessions(userId)) {
+      const res = NextResponse.json({
+        error: 'This organization account is already logged in on another device.',
+        code: 'ACTIVE_SESSION_EXISTS',
+        requiresLogoutAll: true,
+      }, { status: 409 });
+      clearSessionCookies(res);
+      return res;
     }
 
     /* ── Success ── */
