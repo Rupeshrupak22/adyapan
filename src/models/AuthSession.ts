@@ -6,6 +6,8 @@ export interface AuthSessionDocument {
   role: string;
   fingerprintHash: string;
   accessTokenHash?: string;
+  previousAccessTokenHash?: string;
+  tokenRotatedAt?: Date;
   userAgentHash: string;
   ipAddress: string;
   lastSeenAt: Date;
@@ -22,6 +24,8 @@ const authSessionSchema = new Schema<AuthSessionDocument>(
     role:            { type: String, required: true, index: true },
     fingerprintHash: { type: String, required: true },
     accessTokenHash: { type: String },
+    previousAccessTokenHash: { type: String },
+    tokenRotatedAt:  { type: Date },
     userAgentHash:   { type: String, required: true },
     ipAddress:       { type: String, default: '' },
     lastSeenAt:      { type: Date, required: true, default: Date.now },

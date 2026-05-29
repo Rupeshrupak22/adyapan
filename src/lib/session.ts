@@ -13,6 +13,8 @@ export const LEGACY_AUTH_TOKEN_COOKIE = 'authToken';
 export const LEGACY_AUTH_SESSION_COOKIE = 'authSession';
 export const IDLE_TIMEOUT_SECONDS = 15 * 60;
 export const ACCESS_TOKEN_SECONDS = 15 * 60;
+const TOKEN_REFRESH_THRESHOLD_SECONDS = 5 * 60;
+const TOKEN_ROTATION_GRACE_SECONDS = 30;
 
 type SessionUser = {
   _id: { toString(): string };
@@ -46,6 +48,15 @@ function userAgentHash(request: NextRequest) {
 
 function sessionIpMatches(storedIp: string, currentIp: string) {
   return !storedIp || storedIp === 'unknown' || !currentIp || currentIp === 'unknown' || storedIp === currentIp;
+}
+
+function accessTokenHashMatches(session: { accessTokenHash?: string; previousAccessTokenHash?: string; tokenRotatedAt?: Date }, tokenHash: string) {
+  if (!session.accessTokenHash) return true;
+  if (session.accessTokenHash === tokenHash) return true;
+  if (session.previousAccessTokenHash !== tokenHash || !session.tokenRotatedAt) return false;
+
+  const rotatedAt = new Date(session.tokenRotatedAt).getTime();
+  return Date.now() - rotatedAt <= TOKEN_ROTATION_GRACE_SECONDS * 1000;
 }
 
 function unauthorizedSession(message: string) {
@@ -195,7 +206,7 @@ export async function validateRequestSession(
     session.userId !== decoded.userId ||
     session.role !== decoded.role ||
     session.fingerprintHash !== decoded.fpHash ||
-    (session.accessTokenHash && session.accessTokenHash !== sha256(token)) ||
+    !accessTokenHashMatches(session, sha256(token)) ||
     session.userAgentHash !== userAgentHash(request) ||
     !sessionIpMatches(session.ipAddress, getClientIp(request))
   ) {
@@ -226,6 +237,18 @@ export async function refreshRequestSession(request: NextRequest) {
     return unauthorizedSession('Unauthorized - missing session');
   }
 
+  const res = NextResponse.json({
+    success: true,
+    expiresIn: ACCESS_TOKEN_SECONDS,
+    idleTimeout: IDLE_TIMEOUT_SECONDS,
+  });
+
+  const secondsUntilExpiry = auth.exp - Math.floor(Date.now() / 1000);
+  if (secondsUntilExpiry > TOKEN_REFRESH_THRESHOLD_SECONDS) {
+    res.cookies.set(AUTH_SESSION_COOKIE, fingerprint, authCookieOptions(7 * 24 * 60 * 60));
+    return res;
+  }
+
   const token = signAccessToken(
     {
       _id: { toString: () => auth.userId },
@@ -237,12 +260,12 @@ export async function refreshRequestSession(request: NextRequest) {
     auth.fpHash
   );
 
-  const res = NextResponse.json({
-    success: true,
-    expiresIn: ACCESS_TOKEN_SECONDS,
-    idleTimeout: IDLE_TIMEOUT_SECONDS,
+  const session = await AuthSession.findById(auth.sid).select('accessTokenHash');
+  await AuthSession.findByIdAndUpdate(auth.sid, {
+    previousAccessTokenHash: session?.accessTokenHash,
+    accessTokenHash: sha256(token),
+    tokenRotatedAt: new Date(),
   });
-  await AuthSession.findByIdAndUpdate(auth.sid, { accessTokenHash: sha256(token) });
   res.cookies.set(AUTH_TOKEN_COOKIE, token, authCookieOptions(ACCESS_TOKEN_SECONDS));
   res.cookies.set(AUTH_SESSION_COOKIE, fingerprint, authCookieOptions(7 * 24 * 60 * 60));
   return res;

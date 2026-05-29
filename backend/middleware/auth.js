@@ -17,6 +17,7 @@ const AUTH_TOKEN_COOKIE = `${COOKIE_PREFIX}adyapanToken`;
 const AUTH_SESSION_COOKIE = `${COOKIE_PREFIX}adyapanSession`;
 const LEGACY_AUTH_TOKEN_COOKIE = 'authToken';
 const LEGACY_AUTH_SESSION_COOKIE = 'authSession';
+const TOKEN_ROTATION_GRACE_MS = 30 * 1000;
 
 /**
  * Verify JWT from the auth cookie.
@@ -36,6 +37,13 @@ function getIp(req) {
 
 function ipMatches(storedIp, currentIp) {
   return !storedIp || storedIp === 'unknown' || !currentIp || currentIp === 'unknown' || storedIp === currentIp;
+}
+
+function accessTokenHashMatches(session, tokenHash) {
+  if (!session.accessTokenHash) return true;
+  if (session.accessTokenHash === tokenHash) return true;
+  if (session.previousAccessTokenHash !== tokenHash || !session.tokenRotatedAt) return false;
+  return Date.now() - new Date(session.tokenRotatedAt).getTime() <= TOKEN_ROTATION_GRACE_MS;
 }
 
 function clearAuthCookies(res) {
@@ -77,7 +85,7 @@ async function authenticate(req, res, next) {
       session.userId !== decoded.userId ||
       session.role !== decoded.role ||
       session.fingerprintHash !== fpHash ||
-      (session.accessTokenHash && session.accessTokenHash !== sha256(token)) ||
+      !accessTokenHashMatches(session, sha256(token)) ||
       session.userAgentHash !== sha256(req.get('user-agent') || 'unknown') ||
       !ipMatches(session.ipAddress, getIp(req))
     ) {

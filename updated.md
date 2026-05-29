@@ -500,7 +500,47 @@ Result:
 
 - Passed.
 
-## 12. Verification Commands
+## 12. Session-Expired Video Bug Fix
+
+Reviewed `/home/vsaidaiwik/out.ogv`.
+
+Root cause:
+
+- Login succeeded.
+- Immediately after login, multiple authenticated requests ran at the same time.
+- Heartbeat rotated the access token too early.
+- A parallel `/api/auth/me` request still carried the just-issued previous token.
+- The server treated that in-flight previous token as session hijacking and redirected to session expired.
+
+Fix:
+
+- Heartbeat no longer rotates the access token on every request.
+- Token rotation now happens only when the access token is close to expiry.
+- After a token rotation, the immediately previous token is accepted for a short 30-second grace window.
+- Older copied tokens outside that grace window still fail and revoke the session.
+- Backend middleware uses the same previous-token grace check.
+
+Updated files:
+
+- `src/lib/session.ts`
+- `src/models/AuthSession.ts`
+- `backend/middleware/auth.js`
+- `backend/models/AuthSession.js`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/routes/authRoutes.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.
+
+## 13. Verification Commands
 
 The following checks were run after updates:
 
