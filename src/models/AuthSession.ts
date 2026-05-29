@@ -13,6 +13,8 @@ export interface AuthSessionDocument {
   lastSeenAt: Date;
   idleExpiresAt: Date;
   expiresAt: Date;
+  tabCloseStartedAt?: Date;
+  tabCloseExpiresAt?: Date;
   revokedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -31,6 +33,8 @@ const authSessionSchema = new Schema<AuthSessionDocument>(
     lastSeenAt:      { type: Date, required: true, default: Date.now },
     idleExpiresAt:   { type: Date, required: true, index: true },
     expiresAt:       { type: Date, required: true, index: true },
+    tabCloseStartedAt:{ type: Date },
+    tabCloseExpiresAt:{ type: Date, index: true },
     revokedAt:       { type: Date },
   },
   { timestamps: true }

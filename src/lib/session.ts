@@ -15,6 +15,7 @@ export const IDLE_TIMEOUT_SECONDS = 15 * 60;
 export const ACCESS_TOKEN_SECONDS = 15 * 60;
 const TOKEN_REFRESH_THRESHOLD_SECONDS = 5 * 60;
 const TOKEN_ROTATION_GRACE_SECONDS = 30;
+const TAB_CLOSE_GRACE_SECONDS = 12;
 
 type SessionUser = {
   _id: { toString(): string };
@@ -142,6 +143,25 @@ export async function revokeRequestSession(request: NextRequest) {
   }
 }
 
+export async function markRequestSessionTabClosing(request: NextRequest) {
+  const token = request.cookies.get(AUTH_TOKEN_COOKIE)?.value;
+  if (!token) return;
+
+  try {
+    const decoded = jwt.verify(token, requireJwtSecret()) as SessionTokenPayload;
+    if (!decoded.sid) return;
+
+    await connectToDatabase();
+    const now = new Date();
+    await AuthSession.findByIdAndUpdate(decoded.sid, {
+      tabCloseStartedAt: now,
+      tabCloseExpiresAt: new Date(now.getTime() + TAB_CLOSE_GRACE_SECONDS * 1000),
+    });
+  } catch {
+    // Best effort only. Normal auth validation will handle invalid sessions.
+  }
+}
+
 export async function hasActiveUserSessions(userId: string) {
   await connectToDatabase();
   const now = new Date();
@@ -150,6 +170,15 @@ export async function hasActiveUserSessions(userId: string) {
     $or: [{ revokedAt: { $exists: false } }, { revokedAt: null }],
     expiresAt: { $gt: now },
     idleExpiresAt: { $gt: now },
+    $and: [
+      {
+        $or: [
+          { tabCloseExpiresAt: { $exists: false } },
+          { tabCloseExpiresAt: null },
+          { tabCloseExpiresAt: { $gt: now } },
+        ],
+      },
+    ],
   }).select('_id');
 
   return Boolean(session);
@@ -202,6 +231,16 @@ export async function validateRequestSession(
     return unauthorizedSession('Unauthorized - session expired');
   }
 
+  if (session.tabCloseExpiresAt) {
+    if (session.tabCloseExpiresAt <= now) {
+      await revokeSessionById(decoded.sid);
+      return unauthorizedSession('Unauthorized - session closed');
+    }
+
+    session.tabCloseStartedAt = undefined;
+    session.tabCloseExpiresAt = undefined;
+  }
+
   if (
     session.userId !== decoded.userId ||
     session.role !== decoded.role ||
@@ -217,6 +256,9 @@ export async function validateRequestSession(
   if (options.extendIdle) {
     session.lastSeenAt = now;
     session.idleExpiresAt = new Date(now.getTime() + IDLE_TIMEOUT_SECONDS * 1000);
+  }
+
+  if (options.extendIdle || session.isModified('tabCloseStartedAt') || session.isModified('tabCloseExpiresAt')) {
     await session.save();
   }
 

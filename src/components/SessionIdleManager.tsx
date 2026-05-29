@@ -62,6 +62,28 @@ export default function SessionIdleManager({
   useEffect(() => {
     if (!monitoring) return;
 
+    const markPossibleTabClose = () => {
+      if (loggingOutRef.current) return;
+
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/auth/tab-close');
+        return;
+      }
+
+      fetch('/api/auth/tab-close', {
+        method: 'POST',
+        credentials: 'include',
+        keepalive: true,
+      }).catch(() => {});
+    };
+
+    window.addEventListener('pagehide', markPossibleTabClose);
+    return () => window.removeEventListener('pagehide', markPossibleTabClose);
+  }, [monitoring]);
+
+  useEffect(() => {
+    if (!monitoring) return;
+
     const logout = async () => {
       if (loggingOutRef.current) return;
       loggingOutRef.current = true;

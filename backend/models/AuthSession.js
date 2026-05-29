@@ -13,6 +13,8 @@ const authSessionSchema = new mongoose.Schema(
     lastSeenAt:      { type: Date, required: true, default: Date.now },
     idleExpiresAt:   { type: Date, required: true, index: true },
     expiresAt:       { type: Date, required: true, index: true },
+    tabCloseStartedAt:{ type: Date },
+    tabCloseExpiresAt:{ type: Date, index: true },
     revokedAt:       { type: Date },
   },
   { timestamps: true }

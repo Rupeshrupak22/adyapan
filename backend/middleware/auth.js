@@ -81,6 +81,14 @@ async function authenticate(req, res, next) {
     if (!session || session.revokedAt || session.expiresAt <= now || session.idleExpiresAt <= now) {
       return rejectSession(res, 'Unauthorized - session expired', decoded.sid);
     }
+    if (session.tabCloseExpiresAt) {
+      if (session.tabCloseExpiresAt <= now) {
+        return rejectSession(res, 'Unauthorized - session closed', decoded.sid);
+      }
+      session.tabCloseStartedAt = undefined;
+      session.tabCloseExpiresAt = undefined;
+      await session.save();
+    }
     if (
       session.userId !== decoded.userId ||
       session.role !== decoded.role ||
