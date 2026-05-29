@@ -713,3 +713,66 @@ Result:
 
 - Passed.
 - `npm run build` compiled successfully, then stopped because `MONGODB_URI` was not loaded in the current shell during Next.js page-data collection.
+
+## 18. Public Auth, Admin Routing, and Session Limit Cleanup
+
+Changes made:
+
+- Kept public home/student navbar Login and Sign Up access:
+  - Login: `/auth?mode=login`
+  - Sign Up: `/auth?mode=signup`
+- Confirmed public navbar/footer does not expose an admin portal link.
+- Admin portal remains accessible only by directly opening `/admin`.
+- Updated admin sidebar items to use the exact requested admin paths:
+  - `/admin/dashboard`
+  - `/admin/students`
+  - `/admin/payments`
+  - `/admin/courses`
+  - `/admin/plans`
+  - `/admin/certificates`
+  - `/admin/online-enrollments`
+  - `/admin/offline-enrollments`
+  - `/admin/project-requests`
+  - `/admin/purchased-courses`
+  - `/admin/certification-leads`
+  - `/admin/contact-messages`
+  - `/admin/admin-invites`
+  - `/admin/offline-leads`
+  - `/admin/manual-leads`
+  - `/admin/settings`
+- Added working route aliases for:
+  - `/admin/certification-leads`
+  - `/admin/admin-invites`
+- Added a functional Admin Invites page so the sidebar item opens correctly.
+- Removed the temporary `1 web + 1 mobile` session split.
+- Restored strict one active session total per account for student, admin, and organization accounts.
+- Removed `clientType`, `platform`, and `deviceId` from active-session enforcement.
+- Kept secure tab-close logout through `SessionIdleManager`, so closing the logged-in tab sends logout immediately.
+- Kept the View Student Site item in the admin sidebar.
+
+Updated files:
+
+- `src/components/Navbar.tsx` checked and kept student Login/Sign Up links.
+- `src/components/portal/PortalLayout.tsx`
+- `src/components/portal/AdminInvitesPage.tsx`
+- `src/components/SessionIdleManager.tsx`
+- `src/app/admin/admin-invites/page.tsx`
+- `src/app/admin/certification-leads/page.tsx`
+- `src/app/admin/login/page.tsx`
+- `src/app/api/admin/login/route.ts`
+- `src/lib/session.ts`
+- `src/models/AuthSession.ts`
+- `backend/models/AuthSession.js`
+- `backend/middleware/auth.js`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+node -c backend/middleware/auth.js
+node -c backend/models/AuthSession.js
+```
+
+Result:
+
+- Passed.

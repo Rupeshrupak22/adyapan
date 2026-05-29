@@ -22,7 +22,7 @@ import {
   rateLimitResponse,
   sanitizeMongoInput,
 } from '@/lib/security';
-import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, normalizeSessionClientInfo, revokeActiveUserSessions } from '@/lib/session';
+import { attachLoginSession, clearSessionCookies, hasActiveUserSessions, revokeActiveUserSessions } from '@/lib/session';
 import {
   hashAdminAccessKey,
   hasConfiguredAdminAccessKeyHash,
@@ -41,9 +41,6 @@ const LoginSchema = z.object({
   password:            z.string().min(1),
   accessKey:           z.string().regex(/^[a-f0-9]{64}$/i, 'Access key must be a 64-character hex value'),
   forceLogoutSessions: z.boolean().optional(),
-  clientType:          z.enum(['web', 'mobile']).optional(),
-  platform:            z.string().max(40).optional(),
-  deviceId:            z.string().max(200).optional(),
 });
 
 /* ── IP rate limiter ── */
@@ -67,11 +64,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password, accessKey, forceLogoutSessions } = parsed.data;
-    const clientInfo = normalizeSessionClientInfo({
-      clientType: parsed.data.clientType || 'web',
-      platform: parsed.data.platform || 'web',
-      deviceId: parsed.data.deviceId || '',
-    });
     const normalizedEmail = email.toLowerCase().trim();
 
     /* ── 2. Email whitelist check ── */
@@ -146,7 +138,7 @@ export async function POST(request: NextRequest) {
 
     const userId = user._id.toString();
     if (forceLogoutSessions) {
-      await revokeActiveUserSessions(userId, clientInfo);
+      await revokeActiveUserSessions(userId);
       const res = NextResponse.json({
         success: true,
         reloginRequired: true,
@@ -156,9 +148,9 @@ export async function POST(request: NextRequest) {
       return res;
     }
 
-    if (await hasActiveUserSessions(userId, clientInfo)) {
+    if (await hasActiveUserSessions(userId)) {
       const res = NextResponse.json({
-        error: `This admin account is already logged in on another ${clientInfo.clientType} device.`,
+        error: 'This admin account is already logged in on another device.',
         code: 'ACTIVE_SESSION_EXISTS',
         requiresLogoutAll: true,
       }, { status: 409 });
@@ -182,7 +174,7 @@ export async function POST(request: NextRequest) {
       user: { id: user._id.toString(), email: user.email, name: user.name, role: user.role },
     });
 
-    await attachLoginSession(res, request, user, 8 * 60 * 60, clientInfo);
+    await attachLoginSession(res, request, user, 8 * 60 * 60);
     return res;
 
   } catch (err: any) {

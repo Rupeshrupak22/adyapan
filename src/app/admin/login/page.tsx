@@ -99,8 +99,6 @@ export default function AdminLoginPage() {
         email,
         password,
         accessKey,
-        clientType: 'web',
-        platform: 'web',
       });
       const role = res.data?.user?.role;
 
@@ -130,8 +128,6 @@ export default function AdminLoginPage() {
             password,
             accessKey,
             forceLogoutSessions: true,
-            clientType: 'web',
-            platform: 'web',
           });
           setSuccess('Previous sessions logged out. Please enter your password and access key again.');
           setPassword('');

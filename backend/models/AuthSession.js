@@ -4,9 +4,6 @@ const authSessionSchema = new mongoose.Schema(
   {
     userId:          { type: String, required: true, index: true },
     role:            { type: String, required: true, index: true },
-    clientType:      { type: String, enum: ['web', 'mobile'], default: 'web', index: true },
-    platform:        { type: String, trim: true, default: 'web' },
-    deviceId:        { type: String, trim: true, default: '' },
     fingerprintHash: { type: String, required: true },
     accessTokenHash: { type: String },
     previousAccessTokenHash: { type: String },
@@ -23,6 +20,5 @@ const authSessionSchema = new mongoose.Schema(
 
 authSessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 authSessionSchema.index({ userId: 1, revokedAt: 1, idleExpiresAt: 1 });
-authSessionSchema.index({ userId: 1, clientType: 1, revokedAt: 1, idleExpiresAt: 1 });
 
 module.exports = mongoose.models.AuthSession || mongoose.model('AuthSession', authSessionSchema);

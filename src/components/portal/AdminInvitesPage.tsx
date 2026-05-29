@@ -3,7 +3,7 @@
 import api from '@/lib/api';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Mail, Phone, Shield, Clock, CheckCircle, XCircle, Copy, ExternalLink, Trash2, AlertCircle, Search, UserPlus, Calendar, Link2, Check, RefreshCw, Key, Filter } from 'lucide-react';
+import { Plus, Mail, Phone, Shield, Clock, CheckCircle, XCircle, Copy, ExternalLink, Trash2, AlertCircle, Search, UserPlus, Calendar, Link2, Check, RefreshCw, Key } from 'lucide-react';
 
 /* ─── Types ─────────────────────────────────────────────────── */
 interface Invite {
@@ -339,6 +339,169 @@ function InviteCard({
         )}
       </div>
     </motion.div>
+  );
+}
+
+export default function AdminInvitesPage() {
+  const { toasts, addToast, removeToast } = useToast();
+  const [invites, setInvites] = useState<Invite[]>([]);
+  const [filter, setFilter] = useState<FilterType>('all');
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showCreate, setShowCreate] = useState(false);
+  const [revokeInvite, setRevokeInvite] = useState<Invite | null>(null);
+  const [revokeLoading, setRevokeLoading] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+
+  const loadInvites = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [inviteRes, meRes] = await Promise.all([
+        api.get(`/api/admin/invites?filter=${filter}`),
+        api.get('/api/admin/me').catch(() => null),
+      ]);
+      setInvites(inviteRes.data?.invites || []);
+      setIsSuperAdmin(meRes?.data?.user?.role === 'SUPERADMIN');
+    } catch (err) {
+      setError((err as any)?.response?.data?.error || 'Unable to load admin invites.');
+    } finally {
+      setLoading(false);
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    loadInvites();
+  }, [loadInvites]);
+
+  const filteredInvites = invites.filter(invite => {
+    const q = search.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      invite.email.toLowerCase().includes(q) ||
+      invite.role.toLowerCase().includes(q) ||
+      invite.invitedByEmail.toLowerCase().includes(q)
+    );
+  });
+
+  const stats = {
+    all: invites.length,
+    active: invites.filter(i => i.isActive).length,
+    used: invites.filter(i => i.used).length,
+    expired: invites.filter(i => i.isExpired && !i.isRevoked && !i.used).length,
+    revoked: invites.filter(i => i.isRevoked).length,
+  };
+
+  const handleRevoke = async () => {
+    if (!revokeInvite) return;
+    setRevokeLoading(true);
+    try {
+      await api.post(`/api/admin/invites/${revokeInvite.id}/revoke`);
+      addToast('Invite revoked successfully.');
+      setRevokeInvite(null);
+      await loadInvites();
+    } catch (err) {
+      addToast((err as any)?.response?.data?.error || 'Unable to revoke invite.', 'error');
+    } finally {
+      setRevokeLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold text-gray-900">Admin Invites</h1>
+          <p className="text-sm text-gray-500 mt-1">Create and monitor secure admin invitation links.</p>
+        </div>
+        {isSuperAdmin && (
+          <button
+            type="button"
+            onClick={() => setShowCreate(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ffa800] px-4 py-2.5 text-sm font-bold text-white hover:bg-orange-600 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            New Invite
+          </button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <StatCard label="All" value={stats.all} icon={Shield} color="bg-slate-500" active={filter === 'all'} onClick={() => setFilter('all')} />
+        <StatCard label="Active" value={stats.active} icon={Clock} color="bg-green-500" active={filter === 'active'} onClick={() => setFilter('active')} />
+        <StatCard label="Used" value={stats.used} icon={CheckCircle} color="bg-purple-500" active={filter === 'used'} onClick={() => setFilter('used')} />
+        <StatCard label="Expired" value={stats.expired} icon={AlertCircle} color="bg-orange-500" active={filter === 'expired'} onClick={() => setFilter('expired')} />
+        <StatCard label="Revoked" value={stats.revoked} icon={XCircle} color="bg-red-500" active={filter === 'revoked'} onClick={() => setFilter('revoked')} />
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search invites"
+            className="w-full rounded-xl border-2 border-gray-200 bg-white py-3 pl-10 pr-4 text-sm focus:border-[#ffa800] focus:outline-none"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={loadInvites}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
+        </button>
+      </div>
+
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="rounded-2xl border border-gray-100 bg-white p-10 text-center text-sm font-semibold text-gray-500">
+          Loading invites...
+        </div>
+      ) : filteredInvites.length ? (
+        <div className="space-y-4">
+          {filteredInvites.map(invite => (
+            <InviteCard key={invite.id} invite={invite} onRevoke={setRevokeInvite} isSuperAdmin={isSuperAdmin} />
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-gray-100 bg-white p-10 text-center">
+          <UserPlus className="mx-auto mb-3 h-9 w-9 text-gray-300" />
+          <p className="text-sm font-bold text-gray-700">No invites found</p>
+          <p className="mt-1 text-xs text-gray-400">Try another filter or create a new invite.</p>
+        </div>
+      )}
+
+      <AnimatePresence>
+        {showCreate && (
+          <CreateInviteModal
+            onClose={() => setShowCreate(false)}
+            onCreated={() => {
+              setShowCreate(false);
+              addToast('Invite created successfully.');
+              loadInvites();
+            }}
+          />
+        )}
+        {revokeInvite && (
+          <RevokeModal
+            invite={revokeInvite}
+            onCancel={() => setRevokeInvite(null)}
+            onConfirm={handleRevoke}
+            loading={revokeLoading}
+          />
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
