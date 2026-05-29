@@ -196,6 +196,7 @@ function AuthPageContent() {
   const router = useRouter();
   const userTypeParam = searchParams?.get('type');
   const authModeParam = searchParams?.get('mode');
+  const reasonParam = searchParams?.get('reason');
 
   const [isLogin, setIsLogin] = useState(authModeParam === 'login');
   const [checking, setChecking] = useState(true);
@@ -332,6 +333,16 @@ function AuthPageContent() {
     router.replace(`/auth?${params.toString()}`, { scroll: false });
   };
 
+  const chooseMode = (mode: 'login' | 'signup') => {
+    setIsLogin(mode === 'login');
+    setError(null);
+    setSuccess(null);
+    setFormData({ firstName: '', lastName: '', fullName: '', companyName: '', email: '', password: '', confirmPassword: '' });
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set('mode', mode);
+    router.replace(`/auth?${params.toString()}`, { scroll: false });
+  };
+
   const handleGoogleAuth = () => {
     if (isOrg) {
       router.push('/admin/login');
@@ -356,6 +367,7 @@ function AuthPageContent() {
   // Organization tab  login only, no public signup
   const isOrg        = userType === 'organizations';
   const showAsLogin  = isLogin || isOrg;   // org always shows login form
+  const showSessionExpiredChoice = reasonParam === 'session_expired' && !authModeParam;
 
   const features = isOrg
     ? ['Manage student enrollments', 'Track payments & revenue', 'Handle project requests', 'View offline leads & analytics']
@@ -382,14 +394,14 @@ function AuthPageContent() {
 
           {/* Heading */}
           <motion.div
-            key={`${showAsLogin}-${userType}`}
+            key={`${showSessionExpiredChoice}-${showAsLogin}-${userType}`}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
             className="mb-7"
           >
             <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">
-              {showAsLogin ? (
+              {showSessionExpiredChoice ? 'Session expired' : showAsLogin ? (
                 <span className="flex items-center gap-2">
                   Welcome back
                   <svg className="w-8 h-8 inline-block" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -402,7 +414,9 @@ function AuthPageContent() {
               ) : 'Start your journey'}
             </h1>
             <p className="text-gray-500 text-sm mt-1.5">
-              {showAsLogin
+              {showSessionExpiredChoice
+                ? 'Your inactive session was closed. Choose how you want to continue.'
+                : showAsLogin
                 ? (isOrg ? 'Sign in to access the Admin portal' : 'Sign in to continue learning')
                 : 'Learn, earn & get placed with Adyapan'}
             </p>
@@ -434,7 +448,27 @@ function AuthPageContent() {
             )}
           </AnimatePresence>
 
-          {/* Form */}
+          {showSessionExpiredChoice ? (
+            <div className="space-y-3.5">
+              <button
+                type="button"
+                onClick={() => chooseMode('login')}
+                className="w-full py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all duration-300"
+                style={{ background: 'linear-gradient(135deg, #ffa800 0%, #ff6b00 100%)' }}
+              >
+                <span>Sign In</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => chooseMode('signup')}
+                className="w-full py-3.5 rounded-xl border-2 border-gray-200 bg-white text-gray-800 text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:border-[#ffa800] hover:text-orange-600"
+              >
+                Create Account
+              </button>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <AnimatePresence mode="wait">
               {!showAsLogin && (
@@ -562,9 +596,10 @@ function AuthPageContent() {
               Continue with Google
             </motion.button>
           </form>
+          )}
 
           {/* Switch mode  students only, org is login-only */}
-          {!isOrg && (
+          {!isOrg && !showSessionExpiredChoice && (
             <p className="text-center text-sm text-gray-500 mt-6">
               {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button onClick={switchMode}

@@ -29,6 +29,8 @@ This file lists the security updates applied to the Adyapan project.
 - `/api/auth/me` now requires a full valid bound session.
 - Unauthenticated requests get `401`.
 - Added `no-store` cache headers.
+- Direct browser/address-bar navigation to identity APIs is blocked.
+- The app frontend can still call identity APIs through JavaScript fetch requests.
 
 ### Payment Auth Hardening
 
@@ -251,7 +253,75 @@ Key files:
 - `backend/models/AuthSession.js`
 - `src/app/api/auth/heartbeat/route.ts`
 
-## 6. Verification Commands
+## 6. Direct Browser Blocking For Identity APIs
+
+Added a direct-navigation guard for identity endpoints, so opening these URLs from the browser address bar no longer exposes account JSON:
+
+- `/api/auth/me`
+- `/api/admin/me`
+- `/api/organization/me`
+
+New helper:
+
+```ts
+// src/lib/apiGuards.ts
+export function blockDirectBrowserNavigation(request: NextRequest) {
+  const fetchMode = request.headers.get('sec-fetch-mode');
+  const fetchDest = request.headers.get('sec-fetch-dest');
+  const accept = request.headers.get('accept') || '';
+
+  if (
+    fetchMode === 'navigate' ||
+    fetchDest === 'document' ||
+    accept.includes('text/html')
+  ) {
+    return NextResponse.json(
+      { error: 'Not found' },
+      { status: 404, headers: NO_STORE_HEADERS }
+    );
+  }
+
+  return null;
+}
+```
+
+This blocks direct address-bar access while still allowing the frontend app to call the endpoint normally.
+
+## 7. Session Expiry UX And Idle Logout Fix
+
+Updated the session-expired auth flow:
+
+- `/auth?reason=session_expired` no longer opens the login or signup form immediately.
+- It now shows a session-expired choice screen first.
+- The login form opens only after clicking `Sign In`.
+- The signup form opens only after clicking `Create Account`.
+
+Updated idle logout behavior:
+
+- Session monitoring starts only after a valid logged-in session is detected.
+- Public visitors are not redirected just because the global student layout is mounted.
+- Added a real 15-minute client logout timer.
+- The timer resets only on user activity.
+- Automated heartbeats no longer keep inactive sessions alive.
+- Heartbeat is sent only when the user was recently active or when a student learning/video surface is visible.
+- This applies to student, admin, organization, and superadmin layouts where `SessionIdleManager` is mounted.
+
+Updated files:
+
+- `src/app/(student)/auth/page.tsx`
+- `src/components/SessionIdleManager.tsx`
+
+Latest verification:
+
+```bash
+npx tsc --noEmit
+```
+
+Result:
+
+- Passed.
+
+## 8. Verification Commands
 
 The following checks were run after updates:
 
@@ -264,3 +334,14 @@ node -c backend/models/User.js
 node -c backend/utils/password.js
 node -c backend/utils/progressiveDelay.js
 ```
+
+Latest direct-navigation update verification:
+
+```bash
+npx tsc --noEmit
+```
+
+Result:
+
+- Passed.
+- `npm run build` compiled successfully, then stopped because `MONGODB_URI` was not loaded in the current shell during Next.js page-data collection.

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
@@ -26,10 +26,63 @@ export default function SessionIdleManager({
   const pathname = usePathname();
   const lastActivityRef = useRef(Date.now());
   const loggingOutRef = useRef(false);
+  const idleTimerRef = useRef<number | null>(null);
+  const [monitoring, setMonitoring] = useState(false);
 
   useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await fetch('/api/auth/me', { credentials: 'include' });
+        if (response.ok) {
+          lastActivityRef.current = Date.now();
+          loggingOutRef.current = false;
+          setMonitoring(true);
+        } else {
+          setMonitoring(false);
+        }
+      } catch {
+        setMonitoring(false);
+      }
+    };
+
+    checkSession();
+    window.addEventListener('auth-change', checkSession);
+    return () => window.removeEventListener('auth-change', checkSession);
+  }, []);
+
+  useEffect(() => {
+    if (!monitoring) return;
+
+    const logout = async () => {
+      if (loggingOutRef.current) return;
+      loggingOutRef.current = true;
+      try {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      } catch {}
+      setMonitoring(false);
+      router.replace(`${loginPath}?reason=session_expired`);
+    };
+
+    const resetIdleTimer = () => {
+      if (idleTimerRef.current) window.clearTimeout(idleTimerRef.current);
+      idleTimerRef.current = window.setTimeout(() => {
+        const learningActive =
+          learningExemption &&
+          document.visibilityState === 'visible' &&
+          hasLearningSurface(window.location.pathname);
+
+        if (learningActive) {
+          resetIdleTimer();
+          return;
+        }
+
+        logout();
+      }, IDLE_TIMEOUT_MS);
+    };
+
     const markActive = () => {
       lastActivityRef.current = Date.now();
+      resetIdleTimer();
     };
 
     const events: Array<keyof WindowEventMap> = [
@@ -41,17 +94,24 @@ export default function SessionIdleManager({
       'focus',
     ];
 
+    resetIdleTimer();
     events.forEach(event => window.addEventListener(event, markActive, { passive: true }));
-    return () => events.forEach(event => window.removeEventListener(event, markActive));
-  }, []);
+    return () => {
+      if (idleTimerRef.current) window.clearTimeout(idleTimerRef.current);
+      events.forEach(event => window.removeEventListener(event, markActive));
+    };
+  }, [learningExemption, loginPath, monitoring, router]);
 
   useEffect(() => {
+    if (!monitoring) return;
+
     const logout = async () => {
       if (loggingOutRef.current) return;
       loggingOutRef.current = true;
       try {
         await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
       } catch {}
+      setMonitoring(false);
       router.replace(`${loginPath}?reason=session_expired`);
     };
 
@@ -64,6 +124,11 @@ export default function SessionIdleManager({
 
       if (!learningActive && idleFor >= IDLE_TIMEOUT_MS) {
         await logout();
+        return;
+      }
+
+      const recentlyActive = idleFor < HEARTBEAT_MS * 2;
+      if (!recentlyActive && !learningActive) {
         return;
       }
 
@@ -81,7 +146,7 @@ export default function SessionIdleManager({
     heartbeat();
     const id = window.setInterval(heartbeat, HEARTBEAT_MS);
     return () => window.clearInterval(id);
-  }, [learningExemption, loginPath, pathname, router]);
+  }, [learningExemption, loginPath, monitoring, pathname, router]);
 
   return null;
 }

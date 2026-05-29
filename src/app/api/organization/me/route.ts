@@ -8,9 +8,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { protectRoute } from '@/lib/auth';
+import { blockDirectBrowserNavigation } from '@/lib/apiGuards';
 import OrganizationUser from '@/models/OrganizationUser';
 
 export async function GET(request: NextRequest) {
+  const directNavigation = blockDirectBrowserNavigation(request);
+  if (directNavigation) {
+    return directNavigation;
+  }
+
   const auth = await protectRoute(request);
   if (auth instanceof NextResponse) {
     auth.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
