@@ -95,8 +95,14 @@ export default function PortalLayout({ children, portalType }: PortalLayoutProps
   const portalLabel = portalType === 'admin' ? 'Admin Portal' : 'Org Portal';
   const PortalIcon  = portalType === 'admin' ? Shield : Building2;
   const allowedRoles = portalType === 'admin' ? ['ADMIN', 'SUPERADMIN'] : ['ADMIN', 'SUPERADMIN', 'COMPANY'];
+  const isLoginPage = pathname === `${base}/login`;
 
   useEffect(() => {
+    if (isLoginPage) {
+      setLoading(false);
+      return;
+    }
+
     // Use /api/auth/me for organization portal (works for all roles),
     // and /api/admin/me for admin portal (ADMIN/SUPERADMIN only).
     const meEndpoint = portalType === 'admin' ? '/api/admin/me' : '/api/auth/me';
@@ -122,7 +128,7 @@ export default function PortalLayout({ children, portalType }: PortalLayoutProps
       })
       .catch(() => router.replace(loginPath))
       .finally(() => setLoading(false));
-  }, [portalType, router]);
+  }, [isLoginPage, portalType, router]);
 
   const notificationStorageKey = user?.email
     ? `adyapan:${portalType}:notifications:lastSeen:${user.email}`
@@ -212,7 +218,9 @@ export default function PortalLayout({ children, portalType }: PortalLayoutProps
 
   return (
     <div className="min-h-screen bg-[#f8f9fb] flex">
-      <SessionIdleManager loginPath={portalType === 'admin' ? '/admin/login' : '/organization/login'} />
+      {!isLoginPage && (
+        <SessionIdleManager loginPath={portalType === 'admin' ? '/admin/login' : '/organization/login'} />
+      )}
 
       {/* Mobile overlay */}
       <AnimatePresence>

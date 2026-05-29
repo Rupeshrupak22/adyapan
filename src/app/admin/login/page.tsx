@@ -24,6 +24,7 @@ export default function AdminLoginPage() {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const reason = searchParams?.get('reason');
+  const redirectParam = searchParams?.get('redirect');
 
   /* Redirect if already logged in as ADMIN */
   useEffect(() => {
@@ -109,12 +110,18 @@ export default function AdminLoginPage() {
         return;
       }
 
-      setSuccess('Login successful! Redirecting to admin dashboard...');
+      const redirectTarget =
+        redirectParam?.startsWith('/admin') && !redirectParam.startsWith('/admin/login')
+          ? redirectParam
+          : '/admin/dashboard';
 
-      setTimeout(() => {
-        router.push('/admin/dashboard');
-        router.refresh();
-      }, 900);
+      setSuccess('Login successful! Redirecting to admin dashboard...');
+      router.replace(redirectTarget);
+      window.setTimeout(() => {
+        if (window.location.pathname.startsWith('/admin/login')) {
+          window.location.assign(redirectTarget);
+        }
+      }, 1200);
     } catch (err) {
       const response = (err as any)?.response;
       if (response?.status === 409 && response?.data?.requiresLogoutAll) {
