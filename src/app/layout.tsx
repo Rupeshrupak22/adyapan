@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     description: 'Industry-relevant courses with live classes, real internship experience, and placement support.',
     images: [
       {
-        url:    '/icon.png',
+        url:    '/icon-web-new.png',
         width:  512,
         height: 512,
         alt:    'Adyapan Logo',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     creator:     '@adyapan',
     title:       'Adyapan - Learn, Earn & Get Placed',
     description: 'Industry-relevant courses with live classes, real internship experience, and placement support.',
-    images:      ['/icon.png'],
+    images:      ['/icon-web-new.png'],
   },
 
   alternates: {
@@ -83,11 +83,11 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: '/icon.png', type: 'image/png', sizes: 'any' },
-      { url: '/adyapan-logo.png', type: 'image/png' },
+      { url: '/icon-web-new.png', type: 'image/png', sizes: 'any' },
+      { url: '/icon-web-new.png', type: 'image/png' },
     ],
-    shortcut: '/icon.png',
-    apple:    '/icon.png',
+    shortcut: '/icon-web-new.png',
+    apple:    '/icon-web-new.png',
   },
 
   manifest: '/site.webmanifest',
@@ -118,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type':    'EducationalOrganization',
               name:       'Adyapan Edutech Pvt. Ltd.',
               url:        APP_URL,
-              logo:       `${APP_URL}/icon.png`,
+              logo:       `${APP_URL}/icon-web-new.png`,
               description:'India\'s leading EdTech platform offering 65+ industry-relevant courses with placement support.',
               sameAs: [
                 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',

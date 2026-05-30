@@ -22,7 +22,7 @@ const certificationPartners = [
   { name: 'Microsoft Certified\nEducator',  abbr: 'MCE', logo: '/logos/MicrosoftCertifiedEducator_Logo.jpg',                 neon: '#0078D4' },
   { name: 'PMI',                            abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',                 neon: '#FF6B00' },
   { name: 'Unity',                          abbr: 'Uni', logo: '/logos/unity.png',                                       neon: '#ffffff' },
-  { name: 'Meta',                           abbr: 'Met', logo: '/logos/Meta.png',                                       neon: '#0668E1' },
+  { name: 'Meta',                           abbr: 'Met', logo: '/logos/meta.png',                                       neon: '#0668E1' },
   { name: 'CCS Generative AI',              abbr: 'CCS', logo: '/logos/ccs.png',                       neon: '#f97316' },
 ];
 

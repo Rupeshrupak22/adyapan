@@ -46,9 +46,10 @@ export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   'ar/vr development':              'https://youtu.be/xIHZD3YoW3g',
   'ar/vr':                          'https://youtu.be/xIHZD3YoW3g',
   'ar vr':                          'https://youtu.be/xIHZD3YoW3g',
-  'ui/ux design':                   'https://youtu.be/jCaAYmHnnHw',
-  'ui/ux':                          'https://youtu.be/jCaAYmHnnHw',
-  'ui ux':                          'https://youtu.be/jCaAYmHnnHw',
+  'ui/ux design':                   'https://youtu.be/jCaAYmHnnHw?si=Z9DSYqz9Yhv_Jjse',
+  'ui/ux':                          'https://youtu.be/jCaAYmHnnHw?si=Z9DSYqz9Yhv_Jjse',
+  'ui ux design':                   'https://youtu.be/jCaAYmHnnHw?si=Z9DSYqz9Yhv_Jjse',
+  'ui ux':                          'https://youtu.be/jCaAYmHnnHw?si=Z9DSYqz9Yhv_Jjse',
   'graphic design':                 'https://www.youtube.com/@adyapan21',
   'vfx':                            'https://www.youtube.com/@adyapan21',
   // Management / Commerce

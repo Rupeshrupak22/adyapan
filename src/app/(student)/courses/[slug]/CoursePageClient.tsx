@@ -349,6 +349,32 @@ const courseData: Record<string, any> = {
       ]
     }
   },
+  'ui-ux-design': {
+    title: 'UI/UX Design',
+    category: 'CSE / IT DOMAINS',
+    duration: '2-3 Months',
+    rating: 4.8,
+    totalRatings: '8,320',
+    image: getThumbnail('UI/UX'),
+    videoUrl: 'https://youtu.be/jCaAYmHnnHw?si=Z9DSYqz9Yhv_Jjse',
+    description: 'Design user-centered interfaces with Figma, wireframing, prototyping, and usability testing.',
+    highlights: [
+      'Live online interactive sessions from industry design experts',
+      'Hands-on projects with Figma, Adobe XD, and prototyping tools',
+      'Build a professional design portfolio for job readiness',
+      'Learn user research, wireframing, and usability testing'
+    ],
+    curriculum: {
+      title: 'Complete UI/UX Design Curriculum',
+      modules: [
+        { id: 1, title: 'Design Fundamentals', description: 'Core design principles and theory', topics: { 'Design Principles': ['Color Theory', 'Typography', 'Layout', 'Visual Hierarchy'], 'Design Thinking': ['Empathize', 'Define', 'Ideate', 'Prototype', 'Test'] } },
+        { id: 2, title: 'User Research', description: 'Understanding users and their needs', topics: { 'Research Methods': ['User Interviews', 'Surveys', 'Personas', 'Journey Mapping'], 'Analysis': ['Affinity Diagrams', 'Card Sorting', 'Usability Testing'] } },
+        { id: 3, title: 'Wireframing & Prototyping', description: 'From sketches to interactive prototypes', topics: { 'Wireframing': ['Low-fidelity', 'High-fidelity', 'Information Architecture'], 'Prototyping': ['Interactive Prototypes', 'Micro-interactions', 'Animation'] } },
+        { id: 4, title: 'UI Design with Figma', description: 'Master Figma for professional design', topics: { 'Figma': ['Components', 'Auto Layout', 'Design Systems', 'Variants'], 'Advanced': ['Responsive Design', 'Design Tokens', 'Collaboration'] } },
+        { id: 5, title: 'Portfolio & Career', description: 'Build portfolio and prepare for jobs', topics: { 'Portfolio': ['Case Studies', 'Presentation', 'Personal Branding'], 'Career': ['Interview Prep', 'Design Challenges', 'Freelancing'] } }
+      ]
+    }
+  },
 };
 
 export default function CoursePageClient() {
@@ -457,7 +483,7 @@ export default function CoursePageClient() {
                 <div className="relative w-full h-80 bg-black">
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src={addYouTubeParams(getYouTubeEmbedUrl(course.title))}
+                    src={addYouTubeParams(course.videoUrl || getYouTubeEmbedUrl(course.title))}
                     title={`${course.title} demo video`}
                     frameBorder="0"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

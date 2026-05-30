@@ -131,11 +131,12 @@ const Navbar = () => {
   };
 
   const [selectedCategory, setSelectedCategory] = useState('CSE / IT DOMAINS');
+  const [courseSearch, setCourseSearch] = useState('');
 
   /* ── Close programs dropdown on outside click ── */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setShowPrograms(false);
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) { setShowPrograms(false); setCourseSearch(''); }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -192,6 +193,28 @@ const Navbar = () => {
                   transition={{ duration: 0.2 }}
                   className="fixed left-3 right-3 top-16 mt-2 bg-white rounded-2xl shadow-2xl p-4 sm:p-6 w-auto z-50 max-h-[80vh] overflow-y-auto xl:absolute xl:left-0 xl:right-auto xl:top-full xl:w-[min(1000px,calc(100vw-2rem))] xl:max-w-[1000px]"
                 >
+                {/* Search bar */}
+                <div className="mb-4">
+                  <div className="relative">
+                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Search courses..."
+                      value={courseSearch}
+                      onChange={(e) => setCourseSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#ffa800] focus:ring-1 focus:ring-[#ffa800] transition-all"
+                    />
+                    {courseSearch && (
+                      <button onClick={() => setCourseSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                   {/* Categories */}
                   <div className="col-span-1 md:border-r border-gray-200 md:pr-4 max-h-[300px] md:max-h-[500px] overflow-y-auto">
@@ -220,7 +243,21 @@ const Navbar = () => {
                   {/* Courses grid */}
                   <div className="col-span-1 md:col-span-2 max-h-[400px] md:max-h-[500px] overflow-y-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      {(coursesByCategory[selectedCategory] || []).map((course, i) => {
+                      {(() => {
+                        const courses = courseSearch.trim()
+                          ? Object.values(coursesByCategory).flat().filter(c => c.name.toLowerCase().includes(courseSearch.toLowerCase()))
+                          : (coursesByCategory[selectedCategory] || []);
+                        if (courses.length === 0) {
+                          return (
+                            <div className="col-span-2 flex flex-col items-center justify-center py-12 text-gray-400">
+                              <svg className="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                              <p className="text-sm">No courses found for &ldquo;{courseSearch}&rdquo;</p>
+                            </div>
+                          );
+                        }
+                        return courses.map((course, i) => {
                         const slug = course.name.toLowerCase()
                           .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
                         return (
@@ -249,7 +286,8 @@ const Navbar = () => {
                             </Link>
                           </motion.div>
                         );
-                      })}
+                      });
+                      })()}
                     </div>
                   </div>
                 </div>
