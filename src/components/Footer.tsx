@@ -305,7 +305,7 @@ const Footer = () => {
           aria-hidden="true"
         >
           <div className="flex items-center justify-center flex-wrap px-4">
-            {'adyapanschool'.split('').map((letter, i) => (
+            {'ADYAPAN'.split('').map((letter, i) => (
               <motion.span
                 key={i}
                 whileHover={{
