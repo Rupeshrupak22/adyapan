@@ -174,7 +174,7 @@ function CheckoutPageInner() {
 
       const rzp = new window.Razorpay({
         key: keyId, amount, currency, order_id: orderId,
-        name: 'ADYAPAN SCHOOL', description: plan.name,
+        name: 'ADYAPAN', description: plan.name,
         prefill: { name, email, contact: phone },
         theme: { color: '#f97316' },
         handler: async (response: any) => {
@@ -394,7 +394,7 @@ function CheckoutPageInner() {
             </svg>
           </motion.div>
           <h1 className="text-2xl font-black text-gray-900 mb-2">Payment Successful! </h1>
-          <p className="text-gray-500 mb-1">Welcome to <span className="text-orange-600 font-bold">ADYAPAN SCHOOL</span></p>
+          <p className="text-gray-500 mb-1">Welcome to <span className="text-orange-600 font-bold">ADYAPAN</span></p>
           <p className="text-sm text-gray-400 mb-2">A confirmation has been sent to <strong>{email}</strong></p>
           <p className="text-xs text-orange-500 font-semibold mb-6 animate-pulse">Redirecting to your dashboard...</p>
           <div className="rounded-2xl bg-orange-50 border border-orange-100 p-4 mb-6 text-left space-y-2 text-sm">
@@ -581,7 +581,7 @@ function CheckoutPageInner() {
                     <div>
                       <label className="flex items-start gap-2 text-sm text-gray-600 cursor-pointer select-none">
                         <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)} className="accent-orange-500 w-4 h-4 mt-0.5 shrink-0" />
-                        <span>I agree to the <a href="#" className="text-orange-600 hover:underline">Terms of Use</a> and <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a> of ADYAPAN SCHOOL. <span className="text-red-500">*</span></span>
+                        <span>I agree to the <a href="#" className="text-orange-600 hover:underline">Terms of Use</a> and <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a> of ADYAPAN. <span className="text-red-500">*</span></span>
                       </label>
                       {errors.agreed && <p className="text-xs text-red-500 mt-1">{errors.agreed}</p>}
                     </div>

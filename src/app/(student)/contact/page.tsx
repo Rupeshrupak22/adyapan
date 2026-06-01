@@ -27,7 +27,7 @@ export default function ContactPage() {
     url: BASE_URL,
     telephone: '+91-8179124566',
     email: 'support@adyapan.com',
-    image: `${BASE_URL}/adyapan-logo.png`,
+    image: `${BASE_URL}/adyapan-updatedd-logo.png`,
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'IN',

@@ -705,7 +705,7 @@ function Step4({
         key:         orderData.keyId,
         amount:      orderData.amount,
         currency:    orderData.currency || 'INR',
-        name:        'ADYAPAN SCHOOL',
+        name:        'ADYAPAN',
         description: `Build My Project - ${form.projectTitle}`,
         order_id:    orderData.orderId,
         image:       '/logo.png',

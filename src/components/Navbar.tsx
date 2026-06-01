@@ -162,7 +162,7 @@ const Navbar = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="/adyapan-logo.png"
+                src="/adyapan-updatedd-logo.png"
                 alt="Adyapan Logo"
                 width={120}
                 height={40}

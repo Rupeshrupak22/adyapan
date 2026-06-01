@@ -401,7 +401,7 @@ function AuthPageContent() {
         >
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2 mb-8 group">
-            <Image src="/adyapan-logo.png" alt="Adyapan" width={120} height={40} className="h-9 w-auto group-hover:scale-105 transition-transform" />
+            <Image src="/adyapan-updatedd-logo.png" alt="Adyapan" width={120} height={40} className="h-9 w-auto group-hover:scale-105 transition-transform" />
           </Link>
 
           {/* Heading */}

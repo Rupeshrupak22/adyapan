@@ -10,7 +10,7 @@ const certificates = [
     title: 'Certificate of Completion',
     subtitle: 'Programme Completion',
     image: '/images/Sample Course Completion.png',
-    description: 'Awarded to students who successfully complete a programme at ADYAPAN SCHOOLS. Certifies academic excellence, skill development, and career-oriented learning.',
+    description: 'Awarded to students who successfully complete a programme at ADYAPAN. Certifies academic excellence, skill development, and career-oriented learning.',
     points: [
       'Validates successful programme completion',
       'Recognised by 300+ hiring partners',
@@ -24,7 +24,7 @@ const certificates = [
     title: 'Certificate of Internship Completion',
     subtitle: 'Internship Completion',
     image: '/images/Sample Internship.png',
-    description: 'Awarded to interns who successfully complete their internship within the ADYAPAN SCHOOLS framework by SR\'S ADYAPAN EDUTECH PVT. LTD.',
+    description: 'Awarded to interns who successfully complete their internship within the ADYAPAN framework by SR\'S ADYAPAN EDUTECH PVT. LTD.',
     points: [
       'Certifies real-world internship experience',
       'Includes internship role, domain & duration',
@@ -38,7 +38,7 @@ const certificates = [
     title: 'Certificate of Project Completion',
     subtitle: 'Project Completion',
     image: '/images/Sample Project.png',
-    description: 'Awarded to students who successfully deliver a project within ADYAPAN SCHOOLS. Certifies practical learning and project execution expertise.',
+    description: 'Awarded to students who successfully deliver a project within ADYAPAN. Certifies practical learning and project execution expertise.',
     points: [
       'Certifies successful project delivery',
       'Includes project name, timeline & domain',
@@ -52,7 +52,7 @@ const certificates = [
     title: 'Certificate of Achievement - Best Performance',
     subtitle: 'Best Performance',
     image: '/images/Sample Best Performance.png',
-    description: 'Awarded to top-performing students recognised as Best Performer at ADYAPAN SCHOOLS. Certifies exceptional dedication, leadership, and outstanding results.',
+    description: 'Awarded to top-performing students recognised as Best Performer at ADYAPAN. Certifies exceptional dedication, leadership, and outstanding results.',
     points: [
       'Recognises exceptional performance & leadership',
       'Highlights outstanding results in relevant domain',
@@ -80,7 +80,7 @@ export default function CertificateShowcaseSection() {
           transition={{ duration: 0.6, ease }}
           className="text-center mb-14"
         >
-          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Adyapan Schools</span>
+          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Adyapan</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1a1a2e] mt-2 mb-3">
             Work-Ready Certification
           </h2>

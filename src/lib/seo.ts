@@ -114,7 +114,7 @@ export function organizationSchema() {
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: `${BASE_URL}/adyapan-logo.png`,
+      url: `${BASE_URL}/adyapan-updatedd-logo.png`,
       width: 200,
       height: 60,
     },
@@ -294,7 +294,7 @@ export function articleSchema({
       name: ORGANIZATION_NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${BASE_URL}/adyapan-logo.png`,
+        url: `${BASE_URL}/adyapan-updatedd-logo.png`,
       },
     },
     ...(readingTime && {

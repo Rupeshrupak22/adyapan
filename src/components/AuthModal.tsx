@@ -137,7 +137,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, planLabel, planP
 
             {/* header */}
             <div className="px-6 pt-5 pb-2 text-center">
-              <Image src="/adyapan-logo.png" alt="Adyapan" width={80} height={32} className="h-8 w-auto mx-auto mb-3" />
+              <Image src="/adyapan-updatedd-logo.png" alt="Adyapan" width={80} height={32} className="h-8 w-auto mx-auto mb-3" />
               <h2 className="text-xl font-black text-gray-900">
                 {tab === 'login' ? 'Welcome Back' : 'Create Your Account'}
               </h2>
