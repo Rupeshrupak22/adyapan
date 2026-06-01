@@ -11,7 +11,7 @@ const partners = [
   { name: 'Autodesk',          abbr: 'Aut', logo: '/logos/Autodesklogo.png',                        neon: '#0696D7' },
   { name: 'Cisco',             abbr: 'Cis', logo: '/logos/cisco.png',                               neon: '#049FD9' },
   { name: 'Microsoft',         abbr: 'MS',  logo: '/logos/microsoftlogo.png',                       neon: '#00A4EF' },
-  { name: 'Meta',              abbr: 'Met', logo: '/logos/Meta-Logo.png',                           neon: '#0668E1' },
+  { name: 'Meta',              abbr: 'Met', logo: '/logos/meta.png',                           neon: '#0668E1' },
   { name: 'Intuit',            abbr: 'Int', logo: '/logos/intuit.png',                              neon: '#2CA01C' },
   { name: 'Unity',             abbr: 'Uni', logo: '/logos/unity.png',                               neon: '#f97316' },
   { name: 'PMI',               abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',     neon: '#FF6B00' },
