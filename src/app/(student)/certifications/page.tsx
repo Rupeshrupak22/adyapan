@@ -199,7 +199,7 @@ const partnerExplorerData = [
   {
     name: 'Meta',
     abbr: 'Met',
-    logo: '/logos/Meta.png',
+    logo: '/logos/meta.png',
     count: 1,
     certifications: ['Meta Certified: Digital Marketing Associate'],
   },
