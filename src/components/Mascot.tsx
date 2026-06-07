@@ -141,6 +141,15 @@ export default function Mascot() {
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
     cancelAnimationFrame(rafRef.current);
+
+    // SAFARI FIX: Pre-fill canvas to prevent black screen
+    if (canvas.width === 0 || canvas.height === 0) {
+      canvas.width = 400;
+      canvas.height = 300;
+      ctx.fillStyle = 'rgba(240, 240, 240, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
     const draw = () => {
       if (video.readyState >= 2 && video.videoWidth > 0) {
         const w = video.videoWidth, h = video.videoHeight;
@@ -159,18 +168,30 @@ export default function Mascot() {
   const loadVideo = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
-    // Try webm first (better browser support), fall back to mp4
+
+    // SAFARI FIX: Wait for metadata before playing
+    const onMetadata = () => {
+      v.play().catch(() => {
+        v.src = ASSETS.juggleMp4;
+        v.load();
+        v.play().catch(() => {});
+      });
+      v.removeEventListener('loadedmetadata', onMetadata);
+    };
+
     v.src   = ASSETS.juggle;
     v.loop  = true;
     v.muted = true;
     v.playsInline = true;
-    v.load();
-    v.play().catch(() => {
-      // Fallback to mp4 if webm fails
-      v.src = ASSETS.juggleMp4;
-      v.load();
-      v.play().catch(() => {});
-    });
+    v.preload = 'auto';  // CRITICAL FOR SAFARI
+    v.crossOrigin = 'anonymous';
+
+    if (v.readyState >= 1) {
+      onMetadata();  // Already loaded
+    } else {
+      v.addEventListener('loadedmetadata', onMetadata);
+    }
+
     v.addEventListener('playing', startRenderLoop, { once: true });
   }, [startRenderLoop]);
 
@@ -182,6 +203,18 @@ export default function Mascot() {
     const t = setTimeout(() => setMounted(true), 500);
     return () => { clearTimeout(t); cancelAnimationFrame(rafRef.current); };
   }, [loadVideo]);
+
+  /* ── Safari pageshow handler (back-forward cache) ── */
+  useEffect(() => {
+    const handlePageShow = () => {
+      if (videoRef.current && videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+        startRenderLoop();
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, [startRenderLoop]);
 
   /* ── Update ball diameter on resize ── */
   useEffect(() => {
