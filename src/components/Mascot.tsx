@@ -142,9 +142,6 @@ export default function Mascot() {
     if (!ctx) return;
     cancelAnimationFrame(rafRef.current);
 
-    // SAFARI FIX: Keep canvas fully transparent until video is ready
-    canvas.style.opacity = '0';
-
     const draw = () => {
       if (video.readyState >= 2 && video.videoWidth > 0) {
         const w = video.videoWidth, h = video.videoHeight;
@@ -153,15 +150,13 @@ export default function Mascot() {
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(video, 0, 0, w, h);
         removeWhiteBg(ctx, w, h);
-        // Show canvas only after first successful draw
-        if (canvas.style.opacity === '0') {
-          canvas.style.opacity = '1';
-        }
+        // SAFARI FIX: Only show mascot after first successful frame draw
+        if (!mounted) setMounted(true);
       }
       rafRef.current = requestAnimationFrame(draw);
     };
     rafRef.current = requestAnimationFrame(draw);
-  }, []);
+  }, [mounted]);
 
   /* ── Load juggle video ── */
   const loadVideo = useCallback(() => {
@@ -199,8 +194,7 @@ export default function Mascot() {
     loadVideo();
     getKickPoseCanvas();
     getBallCanvas();
-    const t = setTimeout(() => setMounted(true), 500);
-    return () => { clearTimeout(t); cancelAnimationFrame(rafRef.current); };
+    return () => { cancelAnimationFrame(rafRef.current); };
   }, [loadVideo]);
 
   /* ── Safari pageshow handler (back-forward cache) ── */
@@ -372,9 +366,6 @@ export default function Mascot() {
               objectFit: 'contain', objectPosition: 'center bottom',
               pointerEvents: 'none',
               display: kicking ? 'none' : 'block',
-              background: 'transparent',
-              opacity: 0,
-              transition: 'opacity 0.3s ease',
             }}
           />
 
