@@ -10,7 +10,12 @@ const COOKIE_HANDLED_EVENT = 'adyapan_cookie_handled';
 
 const WelcomePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { isAuthenticated, loading } = useAuthContext();
+
+  useEffect(() => {
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+  }, []);
 
   useEffect(() => {
     // Wait for auth to resolve before deciding whether to show popup
@@ -25,24 +30,42 @@ const WelcomePopup = () => {
 
     // Check if cookies have already been handled
     const cookieConsent = localStorage.getItem(COOKIE_STORAGE_KEY);
+
+    const showPopup = () => {
+      if (isMobile) {
+        // MOBILE: Show popup only after first user interaction (prevents black screen)
+        const handleFirstInteraction = () => {
+          setIsOpen(true);
+          document.removeEventListener('click', handleFirstInteraction);
+          document.removeEventListener('touchstart', handleFirstInteraction);
+        };
+        document.addEventListener('click', handleFirstInteraction);
+        document.addEventListener('touchstart', handleFirstInteraction);
+        return () => {
+          document.removeEventListener('click', handleFirstInteraction);
+          document.removeEventListener('touchstart', handleFirstInteraction);
+        };
+      } else {
+        // DESKTOP: Show after delay (original behavior)
+        const t = setTimeout(() => setIsOpen(true), 1000);
+        return () => clearTimeout(t);
+      }
+    };
+
     if (cookieConsent) {
-      // Cookies already handled on a previous visit, show popup after delay
-      const t = setTimeout(() => setIsOpen(true), 1000);
-      return () => clearTimeout(t);
+      return showPopup();
     }
 
     // Cookies not yet handled - wait for the cookie consent event
     const handleCookieConsent = () => {
-      // Show welcome popup shortly after cookie consent is given
-      const t = setTimeout(() => setIsOpen(true), 600);
-      return () => clearTimeout(t);
+      showPopup();
     };
 
     window.addEventListener(COOKIE_HANDLED_EVENT, handleCookieConsent);
     return () => {
       window.removeEventListener(COOKIE_HANDLED_EVENT, handleCookieConsent);
     };
-  }, [loading, isAuthenticated]);
+  }, [loading, isAuthenticated, isMobile]);
 
   const closePopup = () => {
     setIsOpen(false);
@@ -67,7 +90,11 @@ const WelcomePopup = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={closePopup}
-            className="fixed inset-0 bg-black/50 backdrop-blur-md z-[999]"
+            className={`fixed inset-0 z-[999] ${
+              isMobile
+                ? 'bg-black/30'
+                : 'bg-black/50 backdrop-blur-md'
+            }`}
           />
 
           {/* Modal */}
