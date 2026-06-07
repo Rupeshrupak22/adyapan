@@ -142,13 +142,8 @@ export default function Mascot() {
     if (!ctx) return;
     cancelAnimationFrame(rafRef.current);
 
-    // SAFARI FIX: Pre-fill canvas to prevent black screen
-    if (canvas.width === 0 || canvas.height === 0) {
-      canvas.width = 400;
-      canvas.height = 300;
-      ctx.fillStyle = 'rgba(240, 240, 240, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
+    // SAFARI FIX: Keep canvas fully transparent until video is ready
+    canvas.style.opacity = '0';
 
     const draw = () => {
       if (video.readyState >= 2 && video.videoWidth > 0) {
@@ -158,6 +153,10 @@ export default function Mascot() {
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(video, 0, 0, w, h);
         removeWhiteBg(ctx, w, h);
+        // Show canvas only after first successful draw
+        if (canvas.style.opacity === '0') {
+          canvas.style.opacity = '1';
+        }
       }
       rafRef.current = requestAnimationFrame(draw);
     };
@@ -373,6 +372,9 @@ export default function Mascot() {
               objectFit: 'contain', objectPosition: 'center bottom',
               pointerEvents: 'none',
               display: kicking ? 'none' : 'block',
+              background: 'transparent',
+              opacity: 0,
+              transition: 'opacity 0.3s ease',
             }}
           />
 
