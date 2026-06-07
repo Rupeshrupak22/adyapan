@@ -7,6 +7,7 @@ const KICK_RELEASE_MS     = 160;
 const BALL_DIAMETER_RATIO = 0.19;
 const TOE_X               = 0.56;
 const TOE_Y               = 0.90;
+const MAX_CANVAS_DPR       = 1.5;
 
 const ASSETS = {
   juggle:   '/mascot/assets/mascot_juggle.webm',
@@ -122,6 +123,7 @@ export default function Mascot() {
   // Ball canvas is always mounted (never conditionally rendered) so ref is always valid
   const ballCanvasRef   = useRef<HTMLCanvasElement>(null);
   const rafRef          = useRef<number>(0);
+  const videoFrameRef   = useRef<number>(0);
   const firstFrameDrawnRef = useRef(false);
 
   const [kicking, setKicking] = useState(false);
@@ -135,21 +137,35 @@ export default function Mascot() {
   const lockedRef = useRef(false);
   const aidRef    = useRef(0);
 
+  const stopRenderLoop = useCallback(() => {
+    cancelAnimationFrame(rafRef.current);
+    const video = videoRef.current;
+    if (videoFrameRef.current && video?.cancelVideoFrameCallback) {
+      video.cancelVideoFrameCallback(videoFrameRef.current);
+    }
+    videoFrameRef.current = 0;
+  }, []);
+
   /* ── Juggle video render loop ── */
   const startRenderLoop = useCallback(() => {
     const video  = videoRef.current;
     const canvas = juggleCanvasRef.current;
-    if (!video || !canvas) return;
+    const stage  = stageRef.current;
+    if (!video || !canvas || !stage) return;
     const ctx = canvas.getContext('2d', {
       alpha: true,
       willReadFrequently: true,
     });
     if (!ctx) return;
-    cancelAnimationFrame(rafRef.current);
+    stopRenderLoop();
 
     const draw = () => {
       if (video.readyState >= 2 && video.videoWidth > 0) {
-        const w = video.videoWidth, h = video.videoHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, MAX_CANVAS_DPR);
+        const renderedWidth = Math.max(1, Math.round(stage.clientWidth * dpr));
+        const scale = Math.min(1, renderedWidth / video.videoWidth);
+        const w = Math.max(1, Math.round(video.videoWidth * scale));
+        const h = Math.max(1, Math.round(video.videoHeight * scale));
         if (canvas.width !== w)  canvas.width  = w;
         if (canvas.height !== h) canvas.height = h;
         ctx.clearRect(0, 0, w, h);
@@ -160,10 +176,20 @@ export default function Mascot() {
           setMounted(true);
         }
       }
-      rafRef.current = requestAnimationFrame(draw);
+
+      if (video.requestVideoFrameCallback) {
+        videoFrameRef.current = video.requestVideoFrameCallback(draw);
+      } else {
+        rafRef.current = requestAnimationFrame(draw);
+      }
     };
-    rafRef.current = requestAnimationFrame(draw);
-  }, []);
+
+    if (video.requestVideoFrameCallback) {
+      videoFrameRef.current = video.requestVideoFrameCallback(draw);
+    } else {
+      rafRef.current = requestAnimationFrame(draw);
+    }
+  }, [stopRenderLoop]);
 
   /* ── Load juggle video ── */
   const loadVideo = useCallback(() => {
@@ -213,8 +239,8 @@ export default function Mascot() {
     loadVideo();
     getKickPoseCanvas();
     getBallCanvas();
-    return () => { cancelAnimationFrame(rafRef.current); };
-  }, [loadVideo]);
+    return stopRenderLoop;
+  }, [loadVideo, stopRenderLoop]);
 
   /* ── Safari pageshow handler (back-forward cache) ── */
   useEffect(() => {
@@ -270,7 +296,7 @@ export default function Mascot() {
     const toeVY = sr.top  + shell.clientHeight * TOE_Y;
 
     // Stop juggle, show kick pose
-    cancelAnimationFrame(rafRef.current);
+    stopRenderLoop();
     videoRef.current?.pause();
     await showKickPose();
     setKicking(true);
@@ -331,7 +357,7 @@ export default function Mascot() {
     setKicking(false);
     loadVideo();
     lockedRef.current = false;
-  }, [loadVideo, showKickPose]);
+  }, [loadVideo, showKickPose, stopRenderLoop]);
 
   /* ── Pointer event listener (handles mouse + touch + stylus) ── */
   useEffect(() => {
