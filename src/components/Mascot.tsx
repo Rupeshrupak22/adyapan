@@ -25,14 +25,15 @@ interface BallState {
   opacity: number; visible: boolean;
 }
 
-/* ── Remove white/near-white pixels from canvas ── */
+/* Remove transparent or white edge-connected pixels without touching the mascot. */
 function removeWhiteBg(ctx: CanvasRenderingContext2D, w: number, h: number) {
   const id   = ctx.getImageData(0, 0, w, h);
   const data = id.data;
 
   const isBgCandidate = (idx: number) => {
     const offset = idx * 4;
-    return data[offset] > 224 && data[offset + 1] > 224 && data[offset + 2] > 224;
+    return data[offset + 3] < 16
+      || (data[offset] > 224 && data[offset + 1] > 224 && data[offset + 2] > 224);
   };
 
   const visited = new Uint8Array(w * h);
@@ -121,6 +122,7 @@ export default function Mascot() {
   // Ball canvas is always mounted (never conditionally rendered) so ref is always valid
   const ballCanvasRef   = useRef<HTMLCanvasElement>(null);
   const rafRef          = useRef<number>(0);
+  const firstFrameDrawnRef = useRef(false);
 
   const [kicking, setKicking] = useState(false);
   const [facing,  setFacing]  = useState<'left' | 'right'>('right');
@@ -138,7 +140,10 @@ export default function Mascot() {
     const video  = videoRef.current;
     const canvas = juggleCanvasRef.current;
     if (!video || !canvas) return;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext('2d', {
+      alpha: true,
+      willReadFrequently: true,
+    });
     if (!ctx) return;
     cancelAnimationFrame(rafRef.current);
 
@@ -150,22 +155,26 @@ export default function Mascot() {
         ctx.clearRect(0, 0, w, h);
         ctx.drawImage(video, 0, 0, w, h);
         removeWhiteBg(ctx, w, h);
-        // SAFARI FIX: Only show mascot after first successful frame draw
-        if (!mounted) setMounted(true);
+        if (!firstFrameDrawnRef.current) {
+          firstFrameDrawnRef.current = true;
+          setMounted(true);
+        }
       }
       rafRef.current = requestAnimationFrame(draw);
     };
     rafRef.current = requestAnimationFrame(draw);
-  }, [mounted]);
+  }, []);
 
   /* ── Load juggle video ── */
   const loadVideo = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
+    const isSafari = /^((?!chrome|crios|android).)*safari/i.test(navigator.userAgent);
+    const primarySource = isSafari ? ASSETS.juggleMp4 : ASSETS.juggle;
 
-    // SAFARI FIX: Wait for metadata before playing
     const onMetadata = () => {
       v.play().catch(() => {
+        if (v.currentSrc.endsWith(ASSETS.juggleMp4)) return;
         v.src = ASSETS.juggleMp4;
         v.load();
         v.play().catch(() => {});
@@ -173,7 +182,9 @@ export default function Mascot() {
       v.removeEventListener('loadedmetadata', onMetadata);
     };
 
-    v.src   = ASSETS.juggle;
+    // Safari gets the H.264 source directly; its VP9 canvas frames can turn
+    // transparent pixels into an opaque black rectangle.
+    v.src   = primarySource;
     v.loop  = true;
     v.muted = true;
     v.playsInline = true;
@@ -187,6 +198,14 @@ export default function Mascot() {
     }
 
     v.addEventListener('playing', startRenderLoop, { once: true });
+
+    const onError = () => {
+      if (v.currentSrc.endsWith(ASSETS.juggleMp4)) return;
+      v.src = ASSETS.juggleMp4;
+      v.load();
+      v.play().catch(() => {});
+    };
+    v.addEventListener('error', onError, { once: true });
   }, [startRenderLoop]);
 
   /* ── Pre-load kick pose + ball on mount ── */
