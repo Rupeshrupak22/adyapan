@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   description:
     'Adyapan offers 65+ industry-relevant courses, real internship experience, live classes, and placement support to help students launch their careers in India.',
   keywords: [
-    'online courses india', 'internship program', 'placement support',
+    'adyapan','online courses india', 'internship program', 'placement support',
     'data science course', 'machine learning', 'web development',
-    'adyapan', 'edtech india', 'live online classes', 'career guidance',
+    'edtech india', 'live online classes', 'career guidance',
   ],
   authors:  [{ name: 'Adyapan Edutech Pvt. Ltd.', url: APP_URL }],
   creator:  'Adyapan Edutech Pvt. Ltd.',
@@ -50,6 +50,8 @@ export const metadata: Metadata = {
       'max-snippet':       -1,
     },
   },
+
+  applicationName: 'Adyapan',
 
   openGraph: {
     type:        'website',
@@ -109,7 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://checkout.razorpay.com" />
-        {/* Schema.org WebSite markup – controls site name in Google search results */}
+        {/* Schema.org WebSite markup — tells Google to use "Adyapan" as site name */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
