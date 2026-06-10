@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Shield, AlertCircle, Lock, Mail, ArrowRight, CheckCircle, Key, Loader2 } from 'lucide-react';
 
+const STRICT_EMAIL_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)+$/;
+const ACCESS_KEY_REGEX = /^[a-f0-9]{64}$/i;
+
 export default function AdminLoginPage() {
   const router = useRouter();
 
@@ -39,13 +42,12 @@ export default function AdminLoginPage() {
 
   /* Email validation */
   const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
       setEmailError('Email is required');
       return false;
     }
-    if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid email address');
+    if (!STRICT_EMAIL_REGEX.test(email.trim())) {
+      setEmailError('Email may contain only letters and numbers, with one @ and domain dots.');
       return false;
     }
     setEmailError(null);
@@ -82,13 +84,13 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      if (!accessKey) {
-        setError('Access key is required for admin login');
+      if (!ACCESS_KEY_REGEX.test(accessKey.trim())) {
+        setError('Access key must be a 64-character hex value');
         setLoading(false);
         return;
       }
 
-      const res = await api.post('/api/admin/login', { email, password, accessKey });
+      const res = await api.post('/api/admin/login', { email: email.trim(), password, accessKey: accessKey.trim() });
       const role = res.data?.user?.role;
 
       if (role !== 'ADMIN' && role !== 'SUPERADMIN') {

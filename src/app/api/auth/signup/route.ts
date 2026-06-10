@@ -9,18 +9,17 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { hashPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
-  authCookieOptions,
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   normalizePhone,
   rateLimitResponse,
-  requireJwtSecret,
   sanitizeMongoInput,
+  strictEmailMessage,
   verifyTurnstileToken,
 } from '@/lib/security';
 import {
@@ -29,17 +28,47 @@ import {
   isDuplicatePhoneError,
   normalizeAccountEmail,
 } from '@/lib/account-uniqueness';
+import {
+  createEmailVerificationToken,
+  getEmailVerificationUrl,
+  sendEmailVerificationEmail,
+} from '@/lib/email-verification';
 import AuthUser, { ensureAuthUserIndexes } from '@/models/AuthUser';
 
 const SIGNUP_LIMIT = 5;
 const SIGNUP_WINDOW = 15 * 60 * 1000;
+
+async function resendPendingVerification(user: any, request: NextRequest) {
+  const verification = createEmailVerificationToken();
+  user.emailVerificationToken = verification.tokenHash;
+  user.emailVerificationExpires = verification.expiresAt;
+  await user.save();
+
+  const sent = await sendEmailVerificationEmail({
+    name: user.name,
+    email: user.email,
+    verificationUrl: getEmailVerificationUrl(verification.token, new URL(request.url).origin),
+  });
+
+  if (!sent) {
+    return NextResponse.json(
+      { error: 'Email verification is not configured or the email could not be sent. Please try again later.' },
+      { status: 503 }
+    );
+  }
+
+  return NextResponse.json(
+    { success: true, message: 'Verification email sent. Please verify your email before signing in.' },
+    { status: 200 }
+  );
+}
 
 /* ── Validation schemas ── */
 const StudentSchema = z
   .object({
     firstName:       z.string().min(2, 'First name must be at least 2 characters'),
     lastName:        z.string().min(2, 'Last name must be at least 2 characters'),
-    email:           z.string().email('Invalid email address'),
+    email:           z.string().refine(isStrictEmail, strictEmailMessage()),
     password:        z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
     phone:           z.string().optional(),
@@ -55,7 +84,7 @@ const OrgSchema = z
   .object({
     fullName:        z.string().min(2, 'Full name must be at least 2 characters'),
     companyName:     z.string().min(2, 'Company name must be at least 2 characters'),
-    email:           z.string().email('Invalid email address'),
+    email:           z.string().refine(isStrictEmail, strictEmailMessage()),
     password:        z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
     phone:           z.string().optional(),
@@ -113,10 +142,20 @@ export async function POST(request: NextRequest) {
       const existingEmail = await findExistingAccountByEmail(normalizedEmail);
       const existingPhone = phone ? await AuthUser.findOne({ phone }).select('_id').lean() : null;
       if (existingEmail || existingPhone) {
+        const pendingUser = await AuthUser.findOne({ email: normalizedEmail });
+        if (
+          pendingUser &&
+          pendingUser.role === 'STUDENT' &&
+          pendingUser.isEmailVerified !== true &&
+          !existingPhone
+        ) {
+          return resendPendingVerification(pendingUser, request);
+        }
         return NextResponse.json({ error: 'Email or phone already registered' }, { status: 409 });
       }
 
-      const passwordHash = await bcrypt.hash(d.password, 10);
+      const passwordHash = await hashPassword(d.password);
+      const verification = createEmailVerificationToken();
       const user = await AuthUser.create({
         email:            normalizedEmail,
         name:             `${d.firstName.trim()} ${d.lastName.trim()}`,
@@ -133,33 +172,31 @@ export async function POST(request: NextRequest) {
         signupIp:         ip,
         userAgent,
         signupAt:         now,
+        isEmailVerified:  false,
+        emailVerificationToken: verification.tokenHash,
+        emailVerificationExpires: verification.expiresAt,
       });
 
       console.log(`[Signup] STUDENT account created | User: ${user._id.toString()} | IP: ${ip}`);
 
-      // Welcome email (non-blocking)
-      Promise.all([import('@/lib/email'), import('@/lib/db-service')]).then(
-        async ([{ sendWelcomeEmail }, { logEmail }]) => {
-          try {
-            const sent = await sendWelcomeEmail({ name: user.name, email: user.email, role: 'student' });
-            await logEmail({ userId: user._id.toString(), email: user.email, emailType: 'welcome', subject: 'Welcome to Adyapan Skills!', status: sent ? 'sent' : 'failed', provider: 'sendgrid' });
-          } catch (e: any) { console.warn('[Signup] Welcome email failed:', e?.message); }
-        }
-      );
+      const sent = await sendEmailVerificationEmail({
+        name: user.name,
+        email: user.email,
+        verificationUrl: getEmailVerificationUrl(verification.token, new URL(request.url).origin),
+      });
+      if (!sent) {
+        await AuthUser.deleteOne({ _id: user._id });
+        return NextResponse.json(
+          { error: 'Email verification is not configured or the email could not be sent. Please try again later.' },
+          { status: 503 }
+        );
+      }
 
-      const token = jwt.sign(
-        { userId: user._id.toString(), email: user.email, role: user.role },
-        requireJwtSecret(),
-        { expiresIn: '7d' }
-      );
-
-      const res = NextResponse.json({
+      return NextResponse.json({
         success: true,
+        message: 'Account created. Please verify your email before signing in.',
         user: { id: user._id.toString(), email: user.email, name: user.name, role: user.role, accountStatus: user.accountStatus },
       }, { status: 201 });
-
-      res.cookies.set('authToken', token, authCookieOptions(7 * 24 * 60 * 60));
-      return res;
     }
 
     /* ══════════════════════════════════════════
@@ -177,10 +214,20 @@ export async function POST(request: NextRequest) {
       const existingEmail = await findExistingAccountByEmail(normalizedEmail);
       const existingPhone = phone ? await AuthUser.findOne({ phone }).select('_id').lean() : null;
       if (existingEmail || existingPhone) {
+        const pendingUser = await AuthUser.findOne({ email: normalizedEmail });
+        if (
+          pendingUser &&
+          pendingUser.role === 'COMPANY' &&
+          pendingUser.isEmailVerified !== true &&
+          !existingPhone
+        ) {
+          return resendPendingVerification(pendingUser, request);
+        }
         return NextResponse.json({ error: 'Email or phone already registered' }, { status: 409 });
       }
 
-      const passwordHash = await bcrypt.hash(d.password, 10);
+      const passwordHash = await hashPassword(d.password);
+      const verification = createEmailVerificationToken();
       const user = await AuthUser.create({
         email:          normalizedEmail,
         name:           d.fullName.trim(),
@@ -196,33 +243,31 @@ export async function POST(request: NextRequest) {
         signupIp:         ip,
         userAgent,
         signupAt:         now,
+        isEmailVerified:  false,
+        emailVerificationToken: verification.tokenHash,
+        emailVerificationExpires: verification.expiresAt,
       });
 
       console.log(`[Signup] COMPANY account created | User: ${user._id.toString()} | IP: ${ip}`);
 
-      // Welcome email (non-blocking)
-      Promise.all([import('@/lib/email'), import('@/lib/db-service')]).then(
-        async ([{ sendWelcomeEmail }, { logEmail }]) => {
-          try {
-            const sent = await sendWelcomeEmail({ name: user.name, email: user.email, role: 'organization' });
-            await logEmail({ userId: user._id.toString(), email: user.email, emailType: 'welcome', subject: 'Welcome to Adyapan Portal!', status: sent ? 'sent' : 'failed', provider: 'sendgrid' });
-          } catch (e: any) { console.warn('[Signup] Welcome email failed:', e?.message); }
-        }
-      );
+      const sent = await sendEmailVerificationEmail({
+        name: user.name,
+        email: user.email,
+        verificationUrl: getEmailVerificationUrl(verification.token, new URL(request.url).origin),
+      });
+      if (!sent) {
+        await AuthUser.deleteOne({ _id: user._id });
+        return NextResponse.json(
+          { error: 'Email verification is not configured or the email could not be sent. Please try again later.' },
+          { status: 503 }
+        );
+      }
 
-      const token = jwt.sign(
-        { userId: user._id.toString(), email: user.email, role: user.role },
-        requireJwtSecret(),
-        { expiresIn: '7d' }
-      );
-
-      const res = NextResponse.json({
+      return NextResponse.json({
         success: true,
+        message: 'Account created. Please verify your email before signing in.',
         user: { id: user._id.toString(), email: user.email, name: user.name, role: user.role, accountStatus: user.accountStatus },
       }, { status: 201 });
-
-      res.cookies.set('authToken', token, authCookieOptions(7 * 24 * 60 * 60));
-      return res;
     }
 
     return NextResponse.json(

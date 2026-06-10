@@ -56,3 +56,6 @@ Thumbs.db
 *.cert
 *.p12
 *.pfx
+
+.vercel
+.env*

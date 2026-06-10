@@ -7,6 +7,8 @@ import { Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
 
 // Cache buster - force reload
 const CACHE_BUSTER = Date.now();
+const STRICT_EMAIL_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)+$/;
+const ACCESS_KEY_REGEX = /^[a-f0-9]{64}$/i;
 
 export default function SuperAdminLogin() {
   const router = useRouter();
@@ -24,13 +26,24 @@ export default function SuperAdminLogin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(''); setLoading(true);
+    setError('');
+
+    if (!STRICT_EMAIL_REGEX.test(email.trim())) {
+      setError('Email may contain only letters and numbers, with one @ and domain dots.');
+      return;
+    }
+    if (!ACCESS_KEY_REGEX.test(accessKey.trim())) {
+      setError('Access key must be a 64-character hex value');
+      return;
+    }
+
+    setLoading(true);
     
     try {
       const res  = await fetch('/api/admin/login', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email, password, accessKey }),
+        body:    JSON.stringify({ email: email.trim(), password, accessKey: accessKey.trim() }),
       });
       const data = await res.json();
       

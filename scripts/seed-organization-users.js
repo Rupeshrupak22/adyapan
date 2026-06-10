@@ -12,10 +12,15 @@
 
 require('dotenv').config({ path: '.env' });
 const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt');
+const argon2   = require('argon2');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/adyapan_users';
-const SALT_ROUNDS = 12;
+const ARGON2ID_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+};
 
 /* ── Pre-approved organization accounts ── */
 // Passwords are loaded from environment variables — never hardcode credentials here.
@@ -54,7 +59,7 @@ async function main() {
   console.log('\n📋 Seeding organization users...\n');
 
   for (const u of ORG_USERS) {
-    const passwordHash = await bcrypt.hash(u.password, SALT_ROUNDS);
+    const passwordHash = await argon2.hash(u.password, ARGON2ID_OPTIONS);
     const existing     = await OrgUser.findOne({ email: u.email.toLowerCase() });
 
     if (existing) {

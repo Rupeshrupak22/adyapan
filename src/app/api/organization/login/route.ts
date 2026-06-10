@@ -8,28 +8,31 @@
  * Security:
  *  - IP rate limit: 5 attempts / 15 min
  *  - Account lockout: 5 failed attempts → locked 30 min
- *  - bcrypt password verification
+ *  - Argon2id password verification
  *  - JWT in httpOnly secure cookie (orgToken - separate from authToken)
  *  - Only isApproved + active accounts can login
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { hashPassword, verifyPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
   authCookieOptions,
+  delayAfterFailedPassword,
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   rateLimitResponse,
   requireJwtSecret,
   sanitizeMongoInput,
+  strictEmailMessage,
 } from '@/lib/security';
 import OrganizationUser from '@/models/OrganizationUser';
 
 const LoginSchema = z.object({
-  email:    z.string().email('Invalid email address'),
+  email:    z.string().refine(isStrictEmail, strictEmailMessage()),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -95,19 +98,22 @@ export async function POST(request: NextRequest) {
     }
 
     /* ── Password check ── */
-    const isValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isValid) {
+    const passwordCheck = await verifyPassword(password, user.passwordHash);
+    if (!passwordCheck.valid) {
       user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
+      const failedAttempts = user.failedLoginAttempts;
       if (user.failedLoginAttempts >= LOCK_AFTER) {
         user.lockedUntil         = new Date(Date.now() + LOCK_MINUTES * 60 * 1000);
         user.failedLoginAttempts = 0;
         await user.save();
+        await delayAfterFailedPassword(failedAttempts);
         return NextResponse.json(
           { error: `Too many failed attempts. Account locked for ${LOCK_MINUTES} minutes.` },
           { status: 423 }
         );
       }
       await user.save();
+      await delayAfterFailedPassword(failedAttempts);
       const remaining = LOCK_AFTER - user.failedLoginAttempts;
       return NextResponse.json(
         { error: `Invalid email or password. ${remaining} attempt${remaining > 1 ? 's' : ''} remaining before lockout.` },
@@ -119,6 +125,9 @@ export async function POST(request: NextRequest) {
     const now = new Date();
     user.failedLoginAttempts = 0;
     user.lockedUntil         = undefined;
+    if (passwordCheck.needsRehash) {
+      user.passwordHash = await hashPassword(password);
+    }
     user.lastLoginAt         = now;
     user.loginCount          = (user.loginCount || 0) + 1;
     user.lastLoginIp         = ip;

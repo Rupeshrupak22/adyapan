@@ -16,7 +16,14 @@
 
 require('dotenv').config({ path: '.env' });
 const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt');
+const argon2   = require('argon2');
+
+const ARGON2ID_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+};
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/adyapan_users';
 
@@ -69,7 +76,7 @@ async function main() {
     return;
   }
 
-  const passwordHash = await bcrypt.hash(SA_PASSWORD, 12);
+  const passwordHash = await argon2.hash(SA_PASSWORD, ARGON2ID_OPTIONS);
 
   const superadmin = await AuthUser.create({
     name:            SA_NAME,

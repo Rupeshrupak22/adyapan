@@ -1,4 +1,4 @@
-/**
+﻿/**
  * POST /api/talents/seed
  *
  * Seeds default talent profiles into MongoDB Atlas.
@@ -14,7 +14,7 @@ import StudentTalent from '@/models/StudentTalent';
 const SEED_TALENTS = [
   {
     name:               'Rupesh Kumar Rupak',
-    company:            'Adyapanschool',
+    company:            'Adyapan',
     role:               'Full Stack Developer',
     status:             'placed',
     placed:             true,
@@ -25,7 +25,7 @@ const SEED_TALENTS = [
       'Express.js', 'MongoDB', 'Firebase', 'Docker', 'Jenkins',
       'CI/CD', 'Git', 'GitHub', 'AWS', 'MySQL',
     ],
-    education:       'B.Tech CSE, Vivekananda Global University, 2022–2026, CGPA 8.00/10.00',
+    education:       'B.Tech CSE, Vivekananda Global University, 2022â€“2026, CGPA 8.00/10.00',
     course:          'Full Stack Development',
     experienceLevel: 'Fresher',
     projectsCount:   8,
@@ -42,12 +42,12 @@ const SEED_TALENTS = [
     objective:
       'B.Tech CSE final-year student specializing in Web Development and DevOps with hands-on experience in React, JavaScript, CI/CD, Docker, and cloud deployment.',
     profileSummary:
-      'Placed Full Stack Developer at Adyapanschool with skills in React, Node.js, MongoDB, Docker, Jenkins, CI/CD, and cloud deployment.',
+      'Placed Full Stack Developer at Adyapan with skills in React, Node.js, MongoDB, Docker, Jenkins, CI/CD, and cloud deployment.',
     experience: [
       {
         company:  'LinuxWorld Pvt Ltd',
         role:     'Tech Intern',
-        duration: 'Jun 2025 – Aug 2025',
+        duration: 'Jun 2025 â€“ Aug 2025',
         location: 'Jaipur, Rajasthan',
         points: [
           'Built and managed CI/CD pipelines using Jenkins and Docker.',
@@ -59,7 +59,7 @@ const SEED_TALENTS = [
       {
         company:  'Adayapanschool.com',
         role:     'Community Development Intern',
-        duration: 'March 2026 – Present',
+        duration: 'March 2026 â€“ Present',
         location: 'Hyderabad, Telangana',
         points: [
           'Team lead.',

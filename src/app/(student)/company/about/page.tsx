@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -369,7 +369,7 @@ export default function CompanyAboutPage() {
                       initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
                       className="text-gray-400 leading-relaxed text-sm"
                     >
-                      "Upskilling isn't optional anymore. Adyapanschools ensures every student learns with purpose, practices with mentors, and grows with confidence."
+                      "Upskilling isn't optional anymore. Adyapan ensures every student learns with purpose, practices with mentors, and grows with confidence."
                     </motion.p>
                   </div>
                 </div>
@@ -419,7 +419,7 @@ export default function CompanyAboutPage() {
                       initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
                       className="text-gray-400 leading-relaxed text-sm"
                     >
-                      "The world is full of opportunities, but students need the right direction. Adyapanschools helps them access global careers without feeling lost."
+                      "The world is full of opportunities, but students need the right direction. Adyapan helps them access global careers without feeling lost."
                     </motion.p>
                   </div>
                 </div>
@@ -525,7 +525,7 @@ export default function CompanyAboutPage() {
               Our <span style={{ color: '#f90' }}>Learning Approach</span>
             </h2>
             <p className="text-gray-400 text-lg">
-              Learn → Practice → Build → Launch
+              Learn â†’ Practice â†’ Build â†’ Launch
             </p>
           </motion.div>
 
@@ -645,7 +645,7 @@ export default function CompanyAboutPage() {
                 href="/auth"
                 className="inline-block px-10 py-4 bg-[#f90] text-white rounded-lg font-bold text-lg hover:bg-[#e07000] transition-colors"
               >
-                Start Hiring →
+                Start Hiring â†’
               </Link>
             </motion.div>
           </motion.div>

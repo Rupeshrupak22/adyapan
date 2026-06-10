@@ -14,13 +14,14 @@ import { z } from 'zod';
 import { connectToDatabase } from '@/lib/mongodb';
 import { protectRouteByRole } from '@/lib/auth';
 import { sendLeadNotificationEmails } from '@/lib/resend';
+import { isStrictEmail, strictEmailMessage } from '@/lib/security';
 import ManualLead from '@/models/ManualLead';
 
 // ── Validation schema ─────────────────────────────────────────
 const CreateSchema = z.object({
   name:           z.string().min(2, 'Name must be at least 2 characters').max(100),
   phone:          z.string().min(7, 'Enter a valid phone number').max(20),
-  email:          z.string().email('Enter a valid email'),
+  email:          z.string().refine(isStrictEmail, strictEmailMessage()),
   college:        z.string().max(200).optional().default(''),
   city:           z.string().max(100).optional().default(''),
   courseInterest: z.string().max(200).optional().default(''),

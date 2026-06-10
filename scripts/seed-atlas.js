@@ -12,6 +12,14 @@
 
 require('dotenv').config();
 const mongoose = require('mongoose');
+const argon2 = require('argon2');
+
+const ARGON2ID_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+};
 
 const MONGO_URI = process.env.MONGODB_URI;
 if (!MONGO_URI) {
@@ -86,11 +94,10 @@ async function seed() {
   results.push(['courses', courses.length]);
 
   // ── Admin user ─────────────────────────────────────────────
-  const bcrypt = require('bcrypt');
   const adminEmail = (process.env.ADMIN_EMAIL || 'rupeshrupak609@gmail.com').toLowerCase();
   const existingAdmin = await User.findOne({ email: adminEmail });
   if (!existingAdmin) {
-    const hash = await bcrypt.hash('Admin@123', 12);
+    const hash = await argon2.hash('Admin@123', ARGON2ID_OPTIONS);
     await User.create({
       name: 'Adyapan Admin',
       email: adminEmail,

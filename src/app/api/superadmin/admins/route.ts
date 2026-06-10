@@ -4,10 +4,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import { hashPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import { requireSuperAdmin } from '@/lib/auth';
+import { isStrictEmail, strictEmailMessage } from '@/lib/security';
 import {
   findExistingAccountByEmail,
   isDuplicateEmailError,
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
 
 const CreateAdminSchema = z.object({
   name:     z.string().min(2),
-  email:    z.string().email(),
+  email:    z.string().refine(isStrictEmail, strictEmailMessage()),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   role:     z.enum(['ADMIN', 'SUPERADMIN']).default('ADMIN'),
   phone:    z.string().optional(),
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    const passwordHash = await hashPassword(password);
     const admin = await AuthUser.create({
       name:            name.trim(),
       email:           normalizedEmail,

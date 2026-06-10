@@ -17,6 +17,7 @@ import crypto from 'crypto';
 import { z } from 'zod';
 import { connectToDatabase } from '@/lib/mongodb';
 import { protectRouteByRole, requireSuperAdmin } from '@/lib/auth';
+import { isStrictEmail, strictEmailMessage } from '@/lib/security';
 import { findExistingAccountByEmail, normalizeAccountEmail } from '@/lib/account-uniqueness';
 import AdminInvite from '@/models/AdminInvite';
 import AuthUser from '@/models/AuthUser';
@@ -39,7 +40,7 @@ function checkCreateRateLimit(userId: string): boolean {
 
 /* ── Validation schema ── */
 const CreateInviteSchema = z.object({
-  email:         z.string().email('Valid email is required'),
+  email:         z.string().refine(isStrictEmail, strictEmailMessage()),
   mobileNumber:  z.string()
     .min(10, 'Mobile number must be at least 10 digits')
     .max(15, 'Mobile number too long')

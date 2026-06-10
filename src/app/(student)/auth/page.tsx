@@ -243,6 +243,15 @@ function AuthPageContent() {
     if (googleError?.startsWith('google') || googleError === 'account_suspended') {
       setError('Google sign in failed. Please try again or use email and password.');
     }
+    const emailVerification = searchParams?.get('emailVerification');
+    if (emailVerification === 'verified') {
+      setIsLogin(true);
+      setSuccess('Email verified successfully. Please sign in.');
+    } else if (emailVerification === 'expired') {
+      setError('Email verification link has expired. Please create the account again or contact support.');
+    } else if (emailVerification === 'invalid') {
+      setError('Invalid email verification link. Please check the latest link in your inbox.');
+    }
   }, [searchParams]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,27 +303,9 @@ function AuthPageContent() {
           lastName: formData.lastName,
         };
         await api.post('/api/auth/signup', signupData);
-        // Save email to localStorage for future suggestions
-        try {
-          const stored = JSON.parse(localStorage.getItem('adyapan_saved_emails') || '[]') as string[];
-          if (!stored.includes(formData.email)) {
-            localStorage.setItem('adyapan_saved_emails', JSON.stringify([formData.email, ...stored].slice(0, 5)));
-          }
-        } catch { /* ignore */ }
-        setSuccess('Account created! Redirecting...');
-        window.dispatchEvent(new Event('auth-change'));
-        // Role-based redirect after signup
-        const signupRes = await api.get('/api/auth/me');
-        const signupRole = signupRes.data?.user?.role;
-        let signupRedirect = searchParams?.get('redirect') || '/';
-        if (signupRole === 'ADMIN') {
-          signupRedirect = '/admin';
-        } else if (signupRole === 'COMPANY') {
-          signupRedirect = '/organization';
-        } else if (signupRole === 'STUDENT') {
-          signupRedirect = searchParams?.get('redirect') || '/dashboard/student';
-        }
-        setTimeout(() => router.push(signupRedirect), 900);
+        setIsLogin(true);
+        setSuccess('Account created. Please check your email and verify it before signing in.');
+        setFormData(p => ({ ...p, password: '', confirmPassword: '' }));
       }
     } catch (err: any) {
       setError(err.response?.data?.error || 'Something went wrong. Please try again.');

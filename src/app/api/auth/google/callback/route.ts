@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { hashPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import { normalizeAccountEmail } from '@/lib/account-uniqueness';
 import { authCookieOptions, getClientIp, requireJwtSecret } from '@/lib/security';
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
     } else {
       const role = state.role === 'organization' ? 'COMPANY' : 'STUDENT';
       const name = (profile.name || [profile.given_name, profile.family_name].filter(Boolean).join(' ') || normalizedEmail.split('@')[0]).trim();
-      const passwordHash = await bcrypt.hash(`google:${profile.sub}:${randomBytes(24).toString('hex')}`, 10);
+      const passwordHash = await hashPassword(`google:${profile.sub}:${randomBytes(24).toString('hex')}`);
 
       user = await AuthUser.create({
         email: normalizedEmail,

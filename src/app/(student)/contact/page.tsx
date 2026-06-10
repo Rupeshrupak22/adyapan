@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { buildMetadata, breadcrumbSchema, BASE_URL } from '@/lib/seo';
 import JsonLd from '@/components/JsonLd';
 import ContactPageClient from './ContactPageClient';
@@ -40,7 +40,7 @@ export default function ContactPage() {
     },
     sameAs: [
       'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
-      'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
+      'https://www.instagram.com/adyapan?igsh=MWw1NGwwNTIwZXU2eQ==',
     ],
   };
 

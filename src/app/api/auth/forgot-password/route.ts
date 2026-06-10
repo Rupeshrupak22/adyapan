@@ -4,16 +4,18 @@ import { z } from 'zod';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   normalizeEmail,
   rateLimitResponse,
   sanitizeMongoInput,
+  strictEmailMessage,
 } from '@/lib/security';
 import { getPasswordResetUrl, sendPasswordResetEmail } from '@/lib/password-reset-email';
 import AuthUser from '@/models/AuthUser';
 
 const ForgotPasswordSchema = z.object({
-  email: z.string().email('Invalid email address').transform(normalizeEmail),
+  email: z.string().refine(isStrictEmail, strictEmailMessage()).transform(normalizeEmail),
 });
 
 const SUCCESS_RESPONSE = {

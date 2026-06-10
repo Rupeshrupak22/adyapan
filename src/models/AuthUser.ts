@@ -38,6 +38,9 @@ export interface AuthUserDocument {
   // Password reset
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
+  // Email verification
+  emailVerificationToken?: string;
+  emailVerificationExpires?: Date;
   // Signup metadata
   signupIp?: string;
   userAgent?: string;
@@ -81,6 +84,9 @@ const authUserSchema = new Schema<AuthUserDocument>(
     // Password reset
     resetPasswordToken:   { type: String, default: '', index: true },
     resetPasswordExpires: { type: Date },
+    // Email verification
+    emailVerificationToken:   { type: String, default: '', index: true },
+    emailVerificationExpires: { type: Date },
     // Signup metadata
     signupIp:         { type: String, default: '' },
     userAgent:        { type: String, default: '' },
@@ -92,6 +98,7 @@ const authUserSchema = new Schema<AuthUserDocument>(
 authUserSchema.index({ role: 1, accountStatus: 1 });
 authUserSchema.index({ role: 1, createdAt: -1 });
 authUserSchema.index({ resetPasswordToken: 1, resetPasswordExpires: 1 });
+authUserSchema.index({ emailVerificationToken: 1, emailVerificationExpires: 1 });
 authUserSchema.index(
   { googleId: 1 },
   {

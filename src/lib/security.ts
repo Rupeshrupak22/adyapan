@@ -6,6 +6,7 @@ type RateLimitEntry = {
 };
 
 const buckets = new Map<string, RateLimitEntry>();
+const STRICT_EMAIL_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)+$/;
 
 export function getClientIp(request: NextRequest): string {
   return request.headers.get('cf-connecting-ip')
@@ -72,6 +73,25 @@ export function cleanText(value: unknown, max = 500): string {
 
 export function normalizeEmail(value: unknown): string {
   return cleanText(value, 254).toLowerCase();
+}
+
+export function isStrictEmail(value: unknown): boolean {
+  const email = normalizeEmail(value);
+  return email.length <= 254 && STRICT_EMAIL_REGEX.test(email);
+}
+
+export function strictEmailMessage() {
+  return 'Email may contain only letters and numbers, with one @ and domain dots.';
+}
+
+export function progressiveLoginDelayMs(failedAttempts: number): number {
+  if (failedAttempts <= 1) return 1000;
+  if (failedAttempts === 2) return 3500;
+  return 10000;
+}
+
+export async function delayAfterFailedPassword(failedAttempts: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, progressiveLoginDelayMs(failedAttempts)));
 }
 
 export function normalizePhone(value: unknown): string {

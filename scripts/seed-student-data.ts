@@ -14,7 +14,14 @@
  */
 
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import argon2 from 'argon2';
+
+const ARGON2ID_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+};
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/adyapan';
@@ -130,7 +137,7 @@ async function seedStudentData() {
 
     console.log('\n📊 Starting data seeding...\n');
 
-    const defaultPassword = await bcrypt.hash('Test@123', 10);
+    const defaultPassword = await argon2.hash('Test@123', ARGON2ID_OPTIONS);
 
     for (const studentData of SAMPLE_STUDENTS) {
       // Check if student already exists

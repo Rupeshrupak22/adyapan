@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Seed talent profiles into MongoDB Atlas
  * Run: node scripts/seed-talents.js
  */
@@ -25,7 +25,7 @@ const schema = new mongoose.Schema({
 
 const talents = [
   {
-    name: 'Rupesh Kumar Rupak', company: 'Adyapanschool', role: 'Full Stack Developer',
+    name: 'Rupesh Kumar Rupak', company: 'Adyapan', role: 'Full Stack Developer',
     status: 'placed', placed: true, availability: 'Not Available', packageExpectation: 'Not disclosed',
     skills: ['HTML','CSS','JavaScript','React.js','Node.js','Express.js','MongoDB','Firebase','Docker','Jenkins','CI/CD','Git','GitHub','AWS','MySQL'],
     education: 'B.Tech CSE, Vivekananda Global University, 2022-2026, CGPA 8.00/10.00',
@@ -38,7 +38,7 @@ const talents = [
     email: 'rupeshrupak609@gmail.com', phone: '8179124566',
     location: 'Jaipur, Rajasthan, India', resumeUrl: '/resume/RupeshAD.pdf',
     objective: 'B.Tech CSE final-year student specializing in Web Development and DevOps with hands-on experience in React, JavaScript, CI/CD, Docker, and cloud deployment.',
-    profileSummary: 'Placed Full Stack Developer at Adyapanschool with skills in React, Node.js, MongoDB, Docker, Jenkins, CI/CD, and cloud deployment.',
+    profileSummary: 'Placed Full Stack Developer at Adyapan with skills in React, Node.js, MongoDB, Docker, Jenkins, CI/CD, and cloud deployment.',
     experience: [
       { company: 'LinuxWorld Pvt Ltd', role: 'Tech Intern', duration: 'Jun 2025 - Aug 2025', location: 'Jaipur, Rajasthan',
         points: ['Built and managed CI/CD pipelines using Jenkins and Docker.','Assisted in deploying scalable web apps using Kubernetes.','Contributed to frontend and backend modules.','Built responsive UI components and enhanced user experience.'] },
@@ -67,7 +67,7 @@ const talents = [
     profileSummary: 'Placed Full Stack Developer at Adyapan School. Skilled in Node.js, Express.js, PostgreSQL, Supabase, Power BI, and data analytics. Built REST APIs, ETL pipelines, and BI dashboards.',
     experience: [
       {
-        company: 'CipherSchools & LPU', role: 'DSA Intern', duration: 'Aug 2022 – Dec 2022', location: 'Punjab, India',
+        company: 'CipherSchools & LPU', role: 'DSA Intern', duration: 'Aug 2022 â€“ Dec 2022', location: 'Punjab, India',
         points: [
           'Completed advanced DSA curriculum; mastered trees, graphs, and dynamic programming.',
           'Built Java Library Management System using OOP and DSA principles.',
@@ -92,9 +92,9 @@ const talents = [
       }
     ],
     certifications: [
-      'Data Structures using C & C++ — Udemy (Nov 2024 – Jan 2025)',
-      'R Programming for Data Science — Udemy (Sep 2024 – Nov 2024)',
-      'Data Structures and Algorithms — CipherSchools (Oct 2022 – Dec 2022)',
+      'Data Structures using C & C++ â€” Udemy (Nov 2024 â€“ Jan 2025)',
+      'R Programming for Data Science â€” Udemy (Sep 2024 â€“ Nov 2024)',
+      'Data Structures and Algorithms â€” CipherSchools (Oct 2022 â€“ Dec 2022)',
     ],
   },
   {

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -23,7 +23,7 @@ const CONTACT_INFO = [
 ];
 
 const SOCIAL_LINKS = {
-  instagram: 'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
+  instagram: 'https://www.instagram.com/adyapan?igsh=MWw1NGwwNTIwZXU2eQ==',
   linkedin: 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
 };
 
@@ -66,7 +66,7 @@ export default function ContactPageClient() {
   return (
     <div className="min-h-screen bg-[#f5f0eb]">
 
-      {/* ── Hero ── */}
+      {/* â”€â”€ Hero â”€â”€ */}
       <section className="bg-[#11121f] text-white px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div variants={stagger} initial="hidden" animate="show">
@@ -83,7 +83,7 @@ export default function ContactPageClient() {
         </div>
       </section>
 
-      {/* ── Contact cards ── */}
+      {/* â”€â”€ Contact cards â”€â”€ */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
         <motion.div
           variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}
@@ -110,7 +110,7 @@ export default function ContactPageClient() {
         </motion.div>
       </section>
 
-      {/* ── Form + FAQ ── */}
+      {/* â”€â”€ Form + FAQ â”€â”€ */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 

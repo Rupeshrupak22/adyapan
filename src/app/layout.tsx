@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+﻿import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Analytics from '@/components/Analytics';
@@ -122,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               description:'India\'s leading EdTech platform offering 65+ industry-relevant courses with placement support.',
               sameAs: [
                 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
-                'https://www.instagram.com/adyapanschool?igsh=MWw1NGwwNTIwZXU2eQ==',
+                'https://www.instagram.com/adyapan?igsh=MWw1NGwwNTIwZXU2eQ==',
               ],
               contactPoint: {
                 '@type':             'ContactPoint',

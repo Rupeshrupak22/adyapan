@@ -5,18 +5,20 @@ import { sendLeadNotificationEmails } from '@/lib/resend';
 import {
   cleanText,
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   isSpamSubmission,
   normalizeEmail,
   rateLimitResponse,
   sanitizeMongoInput,
+  strictEmailMessage,
   verifyTurnstileToken,
 } from '@/lib/security';
 import ContactMessage from '@/models/ContactMessage';
 
 const ContactSchema = z.object({
   name: z.string().min(2).max(100).transform((v) => cleanText(v, 100)),
-  email: z.string().email().transform(normalizeEmail),
+  email: z.string().refine(isStrictEmail, strictEmailMessage()).transform(normalizeEmail),
   phone: z.string().max(20).optional().default('').transform((v) => cleanText(v ?? '', 20)),
   subject: z.string().min(1).max(150).transform((v) => cleanText(v, 150)),
   message: z.string().min(10).max(2000).transform((v) => cleanText(v, 2000)),

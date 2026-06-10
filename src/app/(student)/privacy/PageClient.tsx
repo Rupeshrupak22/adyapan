@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
       title: '4. Data Security',
       content: [
         'All data is transmitted over HTTPS/TLS encryption.',
-        'Passwords are hashed using bcrypt - never stored in plain text.',
+        'Passwords are hashed using Argon2id - never stored in plain text.',
         'Payment processing is PCI-DSS compliant via Razorpay.',
         'We regularly review and update our security practices.',
       ],

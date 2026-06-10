@@ -14,17 +14,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { hashPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
   authCookieOptions,
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   rateLimitResponse,
   requireJwtSecret,
   sanitizeMongoInput,
+  strictEmailMessage,
 } from '@/lib/security';
 import {
   findExistingAccountByEmail,
@@ -43,7 +45,7 @@ const InviteSignupSchema = z
   .object({
     token:           z.string().min(1, 'Invite token is required'),
     fullName:        z.string().min(2, 'Full name must be at least 2 characters').max(100),
-    email:           z.string().email('Invalid email address'),
+    email:           z.string().refine(isStrictEmail, strictEmailMessage()),
     mobileNumber:    z.string().min(10, 'Mobile number must be at least 10 digits').max(15).regex(/^\+?[0-9\s\-()]+$/, 'Invalid mobile number format'),
     password:        z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
@@ -152,7 +154,7 @@ export async function POST(request: NextRequest) {
     const assignedRole = roleMap[invite.role] || 'COMPANY';
 
     // ── 9. Create user ──
-    const passwordHash = await bcrypt.hash(d.password, 12);
+    const passwordHash = await hashPassword(d.password);
 
     const user = await AuthUser.create({
       email:          normalizedEmail,

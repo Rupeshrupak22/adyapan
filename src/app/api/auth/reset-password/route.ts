@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import { hashPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
   getClientIp,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(validatedData.password, 10);
+    const hashedPassword = await hashPassword(validatedData.password);
 
     // Update user password
     user.passwordHash = hashedPassword;

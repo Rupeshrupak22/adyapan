@@ -3,8 +3,8 @@
  *
  * Secure admin-only login with 3-factor verification:
  *  1. Email must match ADMIN_LOGIN_EMAIL env var
- *  2. Password must be correct (bcrypt)
- *  3. Access key must match ADMIN_ACCESS_KEY env var
+ *  2. Password must be correct (Argon2id)
+ *  3. Access key SHA-256 digest must match ADMIN_ACCESS_KEY_HASH env var
  *
  * Security:
  *  - IP rate limit: 5 attempts / 15 min
@@ -14,27 +14,30 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { hashPassword, verifyAccessKey, verifyPassword } from '@/lib/auth-crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import {
   authCookieOptions,
+  delayAfterFailedPassword,
   getClientIp,
+  isStrictEmail,
   isRateLimited,
   rateLimitResponse,
   requireJwtSecret,
   sanitizeMongoInput,
+  strictEmailMessage,
 } from '@/lib/security';
 import AuthUser from '@/models/AuthUser';
 
 const ALLOWED_ADMIN_EMAIL = (process.env.ADMIN_LOGIN_EMAIL || process.env.ADMIN_EMAIL || '').toLowerCase().trim();
-const ADMIN_ACCESS_KEY    = process.env.ADMIN_ACCESS_KEY || '';
+const ADMIN_ACCESS_KEY_HASH = process.env.ADMIN_ACCESS_KEY_HASH || '';
 
 const LoginSchema = z.object({
-  email:     z.string().email(),
+  email:     z.string().refine(isStrictEmail, strictEmailMessage()),
   password:  z.string().min(1),
-  accessKey: z.string().min(1, 'Access key is required'),
+  accessKey: z.string().regex(/^[a-f0-9]{64}$/i, 'Access key must be a 64-character hex value'),
 });
 
 /* ── IP rate limiter ── */
@@ -51,8 +54,8 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    if (!ALLOWED_ADMIN_EMAIL || !ADMIN_ACCESS_KEY) {
-      console.error('[AdminLogin]  Missing env vars - ADMIN_EMAIL:', !!ALLOWED_ADMIN_EMAIL, 'ADMIN_ACCESS_KEY:', !!ADMIN_ACCESS_KEY);
+    if (!ALLOWED_ADMIN_EMAIL || !ADMIN_ACCESS_KEY_HASH) {
+      console.error('[AdminLogin]  Missing env vars - ADMIN_EMAIL:', !!ALLOWED_ADMIN_EMAIL, 'ADMIN_ACCESS_KEY_HASH:', !!ADMIN_ACCESS_KEY_HASH);
       return NextResponse.json({ error: 'Admin login is not configured.' }, { status: 503 });
     }
 
@@ -66,7 +69,7 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = email.toLowerCase().trim();
 
     /* ── 1. Access key check (first - fast fail) ── */
-    if (accessKey !== ADMIN_ACCESS_KEY) {
+    if (!verifyAccessKey(accessKey, ADMIN_ACCESS_KEY_HASH)) {
       console.warn(`[AdminLogin]  Invalid access key from IP: ${ip}`);
       return NextResponse.json({ error: 'Invalid access key.' }, { status: 403 });
     }
@@ -94,16 +97,19 @@ export async function POST(request: NextRequest) {
     }
 
     /* ── 5. Password check ── */
-    const isValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isValid) {
+    const passwordCheck = await verifyPassword(password, user.passwordHash);
+    if (!passwordCheck.valid) {
       user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
+      const failedAttempts = user.failedLoginAttempts;
       if (user.failedLoginAttempts >= 5) {
         user.lockedUntil         = new Date(Date.now() + 30 * 60 * 1000);
         user.failedLoginAttempts = 0;
         await user.save();
+        await delayAfterFailedPassword(failedAttempts);
         return NextResponse.json({ error: 'Too many failed attempts. Account locked for 30 minutes.' }, { status: 423 });
       }
       await user.save();
+      await delayAfterFailedPassword(failedAttempts);
       const remaining = 5 - user.failedLoginAttempts;
       return NextResponse.json(
         { error: `Invalid credentials. ${remaining} attempt${remaining > 1 ? 's' : ''} remaining.` },
@@ -125,6 +131,9 @@ export async function POST(request: NextRequest) {
     /* ── 7. Success ── */
     user.failedLoginAttempts = 0;
     user.lockedUntil         = undefined;
+    if (passwordCheck.needsRehash) {
+      user.passwordHash = await hashPassword(password);
+    }
     user.lastLoginAt         = new Date();
     user.loginCount          = (user.loginCount || 0) + 1;
     user.lastLoginIp         = ip;

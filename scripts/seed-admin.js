@@ -10,7 +10,14 @@
 
 require('dotenv').config({ path: '.env' });
 const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt');
+const argon2   = require('argon2');
+
+const ARGON2ID_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+};
 
 const MONGODB_URI  = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/adyapan_users';
 // Admin credentials must be set via environment variables — never hardcode them.
@@ -43,7 +50,7 @@ async function main() {
     signupAt:            { type: Date, default: Date.now },
   }, { timestamps: true }));
 
-  const passwordHash = await bcrypt.hash(ADMIN_PASS, 12);
+  const passwordHash = await argon2.hash(ADMIN_PASS, ARGON2ID_OPTIONS);
   const existing     = await AuthUser.findOne({ email: ADMIN_EMAIL });
 
   if (existing) {
