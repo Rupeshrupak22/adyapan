@@ -130,6 +130,24 @@ function SignupContent() {
     e.preventDefault();
     setLoading(true); setError(''); setSuccess('');
 
+    // Step 1: Verify email exists using AbstractAPI
+    try {
+      const verifyRes = await fetch('/api/verify-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyData.valid) {
+        setError(verifyData.reason || 'This email address is not valid. Please enter a real email.');
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // If verification service fails, don't block signup
+    }
+
+    // Step 2: Proceed with signup
     const payload = role === 'student'
       ? { role, firstName, lastName, email, password, confirmPassword,
           selectedProgram: selectedProgram || undefined,
