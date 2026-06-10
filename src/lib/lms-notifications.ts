@@ -41,7 +41,7 @@ function titleCaseProvider(provider: string) {
 function getResendConfig() {
   const apiKey = clean(process.env.RESEND_API_KEY);
   const fromEmail = clean(process.env.RESEND_FROM_EMAIL) || 'onboarding@resend.dev';
-  const fromName = clean(process.env.RESEND_FROM_NAME) || 'Adyapan School';
+  const fromName = clean(process.env.RESEND_FROM_NAME) || 'Adyapan';
 
   if (!apiKey || apiKey === 'ADD_NEW_RESEND_API_KEY_HERE') return null;
   return { apiKey, from: `${fromName} <${fromEmail}>` };

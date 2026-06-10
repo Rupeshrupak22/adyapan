@@ -191,7 +191,7 @@ async function sendConfirmationEmails(projectRequest: any, paymentId: string) {
   try {
     const apiKey = String(process.env.RESEND_API_KEY || '').trim();
     const fromEmail = String(process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev').trim();
-    const fromName = String(process.env.RESEND_FROM_NAME || 'Adyapan School').trim();
+    const fromName = String(process.env.RESEND_FROM_NAME || 'Adyapan').trim();
 
     if (!apiKey || apiKey === 'ADD_NEW_RESEND_API_KEY_HERE') {
       console.warn('[ProjectPayment] RESEND_API_KEY not set - skipping emails');

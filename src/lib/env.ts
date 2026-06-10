@@ -73,7 +73,7 @@ export const env = {
   backendUrl:         process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000',
   resendApiKey:       process.env.RESEND_API_KEY || '',
   resendFromEmail:    process.env.RESEND_FROM_EMAIL || 'support@adyapan.com',
-  resendFromName:     process.env.RESEND_FROM_NAME || 'Adyapan School',
+  resendFromName:     process.env.RESEND_FROM_NAME || 'Adyapan',
   sendgridApiKey:     process.env.SENDGRID_API_KEY || '',
   adminEmail:         process.env.ADMIN_EMAIL || '',
   nodeEnv:            process.env.NODE_ENV || 'development',
