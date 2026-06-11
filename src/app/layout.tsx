@@ -83,11 +83,12 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: '/icon.png', type: 'image/png', sizes: 'any' },
-      { url: '/adyapan-logo.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon.png', type: 'image/png', sizes: '48x48' },
+      { url: '/logo-192.png', type: 'image/png', sizes: '192x192' },
     ],
-    shortcut: '/icon.png',
-    apple:    '/icon.png',
+    shortcut: '/favicon.ico',
+    apple:    '/logo-192.png',
   },
 
   manifest: '/site.webmanifest',
@@ -118,7 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type':    'EducationalOrganization',
               name:       'Adyapan Edutech Pvt. Ltd.',
               url:        APP_URL,
-              logo:       `${APP_URL}/icon.png`,
+              logo:       `${APP_URL}/logo-192.png`,
               description:'India\'s leading EdTech platform offering 65+ industry-relevant courses with placement support.',
               sameAs: [
                 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
