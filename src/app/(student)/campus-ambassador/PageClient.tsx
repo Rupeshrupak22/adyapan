@@ -122,7 +122,7 @@ export default function CampusAmbassadorPage() {
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
-                  href="https://internshala.com/internships/campus-ambassador-internship-in-work-from-home"
+                  href="https://internshala.com/internship/detail/work-from-home-lead-generation-internship-at-srs-adypan-edutech-private-limited1781263141"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-full font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all duration-300 shadow-lg"
@@ -453,7 +453,7 @@ export default function CampusAmbassadorPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
-                  href="https://internshala.com/internships/campus-ambassador-internship-in-work-from-home"
+                  href="https://internshala.com/internship/detail/work-from-home-lead-generation-internship-at-srs-adypan-edutech-private-limited1781263141"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-12 py-5 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-full font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all duration-300 shadow-xl"

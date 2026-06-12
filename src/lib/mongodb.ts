@@ -10,11 +10,8 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    '[MongoDB] MONGODB_URI is not defined. Add it to your .env file.'
-  );
-}
+// Don't throw at module evaluation time — this breaks the build.
+// The check happens at connection time instead.
 
 type MongooseCache = {
   conn: typeof mongoose | null;
@@ -32,6 +29,13 @@ const cached: MongooseCache = globalForMongoose.mongoose ?? {
 };
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error(
+      '[MongoDB] MONGODB_URI is not defined. Add it to your .env file.'
+    );
+  }
+
   // Return existing connection if available
   if (cached.conn) {
     return cached.conn;
@@ -40,7 +44,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   // Create new connection promise if none exists
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGODB_URI as string, {
+      .connect(uri, {
         dbName: process.env.DB_NAME || 'adyapan',
         serverSelectionTimeoutMS: 15000,
         socketTimeoutMS: 45000,
