@@ -172,7 +172,7 @@ const certificationCompanies = [
   {
     id: 15,
     name: 'Meta',
-    logo: '/logos/Meta.png',
+    logo: '/logos/newmetalogo.png',
     certifications: [
       'Meta Certified: Digital Marketing Associate'
     ]

@@ -20,6 +20,7 @@ const Navbar = () => {
   const [active, setActive] = useState('');
   const [showPrograms, setShowPrograms] = useState(false);
   const [showMobile, setShowMobile] = useState(false);
+  const [programSearch, setProgramSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Use shared auth context — avoids a duplicate /api/auth/me call
@@ -190,9 +191,32 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="fixed left-3 right-3 top-16 mt-2 bg-white rounded-2xl shadow-2xl p-4 sm:p-6 w-auto z-50 max-h-[80vh] overflow-y-auto xl:absolute xl:left-0 xl:right-auto xl:top-full xl:w-[min(1000px,calc(100vw-2rem))] xl:max-w-[1000px]"
+                  className="fixed left-3 right-3 top-16 mt-2 bg-white rounded-2xl shadow-2xl p-4 sm:p-6 w-auto z-50 max-h-[calc(100vh-5rem)] overflow-hidden xl:absolute xl:left-0 xl:right-auto xl:top-full xl:w-[min(1000px,calc(100vw-2rem))] xl:max-w-[1000px]"
                 >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                  {/* Search Bar */}
+                  <div className="col-span-1 md:col-span-3 mb-2">
+                    <div className="relative">
+                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                      <input
+                        type="text"
+                        placeholder="Search courses..."
+                        value={programSearch}
+                        onChange={(e) => setProgramSearch(e.target.value)}
+                        className="w-full pl-10 pr-8 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ffa800] focus:border-transparent"
+                      />
+                      {programSearch && (
+                        <button
+                          onClick={() => setProgramSearch('')}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          aria-label="Clear search"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Categories */}
                   <div className="col-span-1 md:border-r border-gray-200 md:pr-4 max-h-[300px] md:max-h-[500px] overflow-y-auto">
                     <div className="space-y-2">
@@ -220,7 +244,23 @@ const Navbar = () => {
                   {/* Courses grid */}
                   <div className="col-span-1 md:col-span-2 max-h-[400px] md:max-h-[500px] overflow-y-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      {(coursesByCategory[selectedCategory] || []).map((course, i) => {
+                      {(() => {
+                        const searchTerm = programSearch.trim().toLowerCase();
+                        const coursesToShow = searchTerm
+                          ? Object.values(coursesByCategory)
+                              .flat()
+                              .filter((course) => course.name.toLowerCase().includes(searchTerm))
+                          : coursesByCategory[selectedCategory] || [];
+                        
+                        if (coursesToShow.length === 0) {
+                          return (
+                            <div className="col-span-2 text-center py-8 text-gray-400">
+                              No courses found for &ldquo;{programSearch}&rdquo;
+                            </div>
+                          );
+                        }
+
+                        return coursesToShow.map((course, i) => {
                         const slug = course.name.toLowerCase()
                           .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
                         return (
@@ -249,7 +289,8 @@ const Navbar = () => {
                             </Link>
                           </motion.div>
                         );
-                      })}
+                      });
+                      })()}
                     </div>
                   </div>
                 </div>

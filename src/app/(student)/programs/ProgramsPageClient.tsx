@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ALL_PROGRAMS } from '@/lib/courseData';
+import { Search, X } from 'lucide-react';
 
 const programs = [
   {
@@ -138,6 +140,19 @@ function getCourseHref(courseTitle: string) {
 }
 
 export default function ProgramsPageClient() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredPrograms = searchQuery.trim()
+    ? programs
+        .map((program) => ({
+          ...program,
+          courses: program.courses.filter((course) =>
+            course.toLowerCase().includes(searchQuery.toLowerCase())
+          ),
+        }))
+        .filter((program) => program.courses.length > 0)
+    : programs;
+
   return (
     <section className="bg-[#1a1a2e] min-h-screen py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
@@ -150,13 +165,40 @@ export default function ProgramsPageClient() {
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
             All Programs
           </h1>
-          <p className="text-base sm:text-lg text-gray-400">
+          <p className="text-base sm:text-lg text-gray-400 mb-8">
             Explore our comprehensive range of courses across multiple domains
           </p>
+
+          {/* Search Bar */}
+          <div className="max-w-xl mx-auto relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-10 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ffa800] focus:border-transparent transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                aria-label="Clear search"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
         </motion.div>
 
+        {filteredPrograms.length === 0 && (
+          <p className="text-center text-gray-400 text-lg">
+            No courses found for &quot;{searchQuery}&quot;
+          </p>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {programs.map((program, i) => (
+          {filteredPrograms.map((program, i) => (
             <motion.div
               key={program.title}
               initial={{ opacity: 0, y: 40 }}
