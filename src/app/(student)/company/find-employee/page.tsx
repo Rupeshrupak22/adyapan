@@ -685,7 +685,7 @@ export default function FindEmployeePage() {
             <div className="mt-4 rounded-2xl border border-orange-100 bg-orange-50 p-4">
               <p className="text-xs font-black text-[#111827]">Looking for specific skills?</p>
               <p className="mt-1 text-xs text-gray-500">Post a job and get matched with the right students.</p>
-              <Link href="/organization/jobs/post" className="mt-3 block text-xs font-black text-orange-500 hover:underline">Post a Job -></Link>
+              <Link href="/organization/jobs/post" className="mt-3 block text-xs font-black text-orange-500 hover:underline">Post a Job &rarr;</Link>
             </div>
           </aside>
 
