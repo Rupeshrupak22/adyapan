@@ -1,4 +1,4 @@
-﻿import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next';
 import { ALL_PROGRAMS } from '@/lib/courseData';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://adyapan.com';
@@ -6,7 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://adyapan.com';
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  // ── Static public pages ───────────────────────────────────────────────────
+  // -- Static public pages ---------------------------------------------------
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL,                          lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
     { url: `${BASE_URL}/programs`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/terms`,               lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },
   ];
 
-  // ── Dynamic course pages ──────────────────────────────────────────────────
+  // -- Dynamic course pages --------------------------------------------------
   const coursePages: MetadataRoute.Sitemap = ALL_PROGRAMS.map((course) => ({
     url:             `${BASE_URL}/courses/${course.slug}`,
     lastModified:    now,

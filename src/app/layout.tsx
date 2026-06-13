@@ -1,4 +1,4 @@
-﻿import type { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Analytics from '@/components/Analytics';
@@ -85,7 +85,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon.png', type: 'image/png', sizes: '48x48' },
       { url: '/logo-192.png', type: 'image/png', sizes: '192x192' },
     ],
     shortcut: '/favicon.ico',

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { useEffect, useState } from 'react';
@@ -808,7 +808,7 @@ function StudentDashboardInner() {
           className="mb-8"
         >
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
-            Welcome to Adyapan School, {user?.name?.split(' ')[0] || 'Student'} 🎉
+            Welcome to Adyapan School, {user?.name?.split(' ')[0] || 'Student'} ??
           </h1>
           <p className="text-gray-500 text-sm">
             {totalCourses === 0
@@ -879,7 +879,7 @@ function StudentDashboardInner() {
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-[#ffa800] mb-2">Welcome & Onboarding</p>
                   <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
-                    Welcome to Adyapan School, {user?.name || 'Student'} 🎉
+                    Welcome to Adyapan School, {user?.name || 'Student'} ??
                   </h2>
                   <p className="text-sm text-gray-600 leading-7 mb-4">
                     Thank you for enrolling with Adyapan. Our academic support team will contact you within 24 hours with:

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -235,7 +235,7 @@ export default function JobsPage() {
               ?<span key={`e${i}`} className="px-2 text-gray-400 text-sm">...</span>
               :<button key={p} onClick={()=>setPage(p as number)} className={`w-9 h-9 rounded-xl text-sm font-bold transition-all ${page===p?'text-white shadow-sm shadow-orange-200':'bg-white border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-600'}`} style={page===p?{background:'linear-gradient(135deg,#f97316,#ea580c)'}:{}}>{p}</button>
             )}
-            <button onClick={()=>setPage(p=>Math.min(totalPages,p+1))} disabled={page===totalPages} className="px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 bg-white text-gray-600 hover:border-orange-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">Next →</button>
+            <button onClick={()=>setPage(p=>Math.min(totalPages,p+1))} disabled={page===totalPages} className="px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 bg-white text-gray-600 hover:border-orange-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">Next ?</button>
           </div>
         )}
       </div>

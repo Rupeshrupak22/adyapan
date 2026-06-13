@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { useState, useEffect, useCallback } from 'react';
@@ -13,7 +13,7 @@ import {
 import useDebounce from '@/hooks/useDebounce';
 import throttle from '@/utils/throttle';
 
-/* ─── Types ─────────────────────────────────────────────────── */
+/* --- Types --------------------------------------------------- */
 interface Admin {
   id: string; name: string; email: string; role: string;
   accountStatus: string; isActive: boolean; loginCount: number;
@@ -29,7 +29,7 @@ interface Invite {
   inviteLink: string; createdAt: string;
 }
 
-/* ─── Copy button ────────────────────────────────────────────── */
+/* --- Copy button ---------------------------------------------- */
 function CopyBtn({ text, label = 'Copy' }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false);
   return (
@@ -41,7 +41,7 @@ function CopyBtn({ text, label = 'Copy' }: { text: string; label?: string }) {
   );
 }
 
-/* ─── Stat card ──────────────────────────────────────────────── */
+/* --- Stat card ------------------------------------------------ */
 function StatCard({ icon: Icon, label, value, color, sub }: { icon: any; label: string; value: number | string; color: string; sub?: string }) {
   return (
     <motion.div whileHover={{ y: -3 }} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
@@ -55,7 +55,7 @@ function StatCard({ icon: Icon, label, value, color, sub }: { icon: any; label: 
   );
 }
 
-/* ─── Main Dashboard ─────────────────────────────────────────── */
+/* --- Main Dashboard ------------------------------------------- */
 export default function SuperAdminDashboard() {
   const router = useRouter();
   const [user, setUser]         = useState<any>(null);
@@ -254,7 +254,7 @@ export default function SuperAdminDashboard() {
 
           <div className="p-8">
 
-            {/* ── OVERVIEW TAB ── */}
+            {/* -- OVERVIEW TAB -- */}
             {tab === 'overview' && (
               <div className="space-y-8">
                 <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -270,7 +270,7 @@ export default function SuperAdminDashboard() {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h2 className="font-bold text-gray-900">Recent Admins</h2>
-                    <button onClick={() => setTab('admins')} className="text-xs text-[#ffa800] font-semibold hover:underline">View all →</button>
+                    <button onClick={() => setTab('admins')} className="text-xs text-[#ffa800] font-semibold hover:underline">View all ?</button>
                   </div>
                   <div className="divide-y divide-gray-50">
                     {admins.slice(0, 5).map(a => (
@@ -295,7 +295,7 @@ export default function SuperAdminDashboard() {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h2 className="font-bold text-gray-900">Recent Invites</h2>
-                    <button onClick={() => setTab('invites')} className="text-xs text-[#ffa800] font-semibold hover:underline">View all →</button>
+                    <button onClick={() => setTab('invites')} className="text-xs text-[#ffa800] font-semibold hover:underline">View all ?</button>
                   </div>
                   <div className="divide-y divide-gray-50">
                     {invites.slice(0, 5).map(inv => (
@@ -322,7 +322,7 @@ export default function SuperAdminDashboard() {
               </div>
             )}
 
-            {/* ── ADMINS TAB ── */}
+            {/* -- ADMINS TAB -- */}
             {tab === 'admins' && (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -411,7 +411,7 @@ export default function SuperAdminDashboard() {
               </div>
             )}
 
-            {/* ── INVITES TAB ── */}
+            {/* -- INVITES TAB -- */}
             {tab === 'invites' && (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -514,7 +514,7 @@ export default function SuperAdminDashboard() {
   );
 }
 
-/* ─── Generate Invite Modal ─────────────────────────────────── */
+/* --- Generate Invite Modal ----------------------------------- */
 function GenerateInviteModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: (inv: any) => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState<string | null>(null);

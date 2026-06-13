@@ -3,7 +3,7 @@
  * Used to seed MongoDB and as fallback for dashboard.
  */
 
-// ─── YouTube video mapping: course name keywords → YouTube video URL ─────────
+// â”€â”€â”€ YouTube video mapping: course name keywords â†’ YouTube video URL â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Videos from the official @adyapan21 channel
 export const YOUTUBE_CHANNEL_ID = 'UCWXy5qiG6WqTrHq14KR4Bmg';
 export const YOUTUBE_UPLOADS_PLAYLIST_ID = 'UUWXy5qiG6WqTrHq14KR4Bmg';
@@ -153,7 +153,7 @@ export function getYouTubeEmbedUrl(title: string): string {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
 }
 
-// ─── Thumbnail mapping: course name keywords → local thumbnail file ───────────
+// â”€â”€â”€ Thumbnail mapping: course name keywords â†’ local thumbnail file â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Filenames match exactly what's in public/course-thumbnails/
 // Course brochure mapping: course name keywords -> PDF file in public/brochures/
 export const BROCHURE_MAP: Record<string, string> = {
@@ -378,7 +378,7 @@ export function getThumbnail(title: string): string {
   return FALLBACK_THUMBNAIL;
 }
 
-// ─── All Programs data (used by /programs page) ──────────────────────────────
+// â”€â”€â”€ All Programs data (used by /programs page) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export interface CourseProgram {
   title: string;
   slug: string;
@@ -390,7 +390,7 @@ export interface CourseProgram {
 }
 
 export const ALL_PROGRAMS: CourseProgram[] = [
-  // ── CSE / IT DOMAINS ──────────────────────────────────────────────────────
+  // â”€â”€ CSE / IT DOMAINS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Artificial Intelligence',       slug: 'artificial-intelligence',       category: 'CSE / IT DOMAINS',       description: 'Master AI fundamentals: Machine Learning, Deep Learning, Neural Networks & real-world applications.',                                    price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Artificial Intelligence') },
   { title: 'AI Engineering',               slug: 'ai-engineering',               category: 'CSE / IT DOMAINS',       description: 'Build production-grade AI systems, pipelines, and deploy intelligent models at scale.',                                              price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('AI Engineering') },
   { title: 'Generative AI',                slug: 'generative-ai',                category: 'CSE / IT DOMAINS',       description: 'Explore LLMs, prompt engineering, image generation, and build GenAI-powered applications.',                                          price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Generative AI') },
@@ -417,7 +417,7 @@ export const ALL_PROGRAMS: CourseProgram[] = [
   { title: 'UI/UX Design',                 slug: 'ui-ux-design',                 category: 'CSE / IT DOMAINS',       description: 'Design user-centered interfaces with Figma, wireframing, prototyping, and usability testing.',                                     price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('UI/UX') },
   { title: 'Graphic Design',               slug: 'graphic-design',               category: 'CSE / IT DOMAINS',       description: 'Master visual design, branding, typography, and digital media using Adobe Creative Suite.',                                        price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Graphic Design') },
   { title: 'VFX',                          slug: 'vfx',                          category: 'CSE / IT DOMAINS',       description: 'Create stunning visual effects for film and media using industry-standard VFX tools.',                                             price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('VFX') },
-  // ── MANAGEMENT & COMMERCE ─────────────────────────────────────────────────
+  // â”€â”€ MANAGEMENT & COMMERCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Finance',                                  slug: 'finance',                                  category: 'MANAGEMENT & COMMERCE', description: 'Master financial analysis, budgeting, valuation, and corporate finance fundamentals.',                                          price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Finance') },
   { title: 'Investment Banking',                       slug: 'investment-banking',                       category: 'MANAGEMENT & COMMERCE', description: 'Learn M&A, IPOs, financial modeling, and investment banking deal processes.',                                                  price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Investment Banking') },
   { title: 'Business Analytics',                      slug: 'business-analytics',                      category: 'MANAGEMENT & COMMERCE', description: 'Use data-driven insights to solve business problems with Excel, SQL, and Power BI.',                                           price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Business Analytics') },
@@ -433,23 +433,23 @@ export const ALL_PROGRAMS: CourseProgram[] = [
   { title: 'ACCA F4 (Business & Corporate Law)',      slug: 'acca-f4-business-corporate-law',          category: 'MANAGEMENT & COMMERCE', description: 'Prepare for ACCA F4 exam covering business law, corporate governance, and legal frameworks.',                                  price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('ACCA') },
   { title: 'Chartered Accountancy / CFA',             slug: 'chartered-accountancy-cfa',               category: 'MANAGEMENT & COMMERCE', description: 'Structured preparation for CA/CFA exams with financial accounting and analysis modules.',                                      price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Chartered Accountancy') },
   { title: 'Spoken English & Communication',          slug: 'spoken-english-communication',            category: 'MANAGEMENT & COMMERCE', description: 'Build professional communication, presentation, and business English skills for the workplace.',                                price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Spoken English') },
-  // ── ECE DOMAINS ───────────────────────────────────────────────────────────
+  // â”€â”€ ECE DOMAINS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Embedded Systems',          slug: 'embedded-systems',          category: 'ECE DOMAINS', description: 'Learn microcontrollers, RTOS, firmware development, and embedded C programming.',                                                    price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Embedded Systems') },
   { title: 'Hybrid & Electric Vehicle', slug: 'hybrid-electric-vehicle',   category: 'ECE DOMAINS', description: 'Understand EV architecture, battery management systems, and hybrid powertrain technology.',                                         price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Hybrid') },
   { title: 'VLSI',                      slug: 'vlsi',                      category: 'ECE DOMAINS', description: 'Master VLSI design, Verilog/VHDL, FPGA programming, and chip design methodologies.',                                               price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('VLSI') },
   { title: 'IoT & Robotics',            slug: 'iot-robotics',              category: 'ECE DOMAINS', description: 'Build IoT systems, smart devices, and robotic applications with Arduino and Raspberry Pi.',                                         price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('IoT') },
   { title: 'Power Systems',             slug: 'power-systems',             category: 'ECE DOMAINS', description: 'Study power generation, transmission, distribution, and renewable energy systems.',                                                  price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Power Systems') },
-  // ── ECONOMICS ─────────────────────────────────────────────────────────────
+  // â”€â”€ ECONOMICS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Business & Financial Economics', slug: 'business-financial-economics', category: 'ECONOMICS', description: 'Explore microeconomics, macroeconomics, financial markets, and economic policy analysis.',                                    price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Business & Financial Economics') },
   { title: 'Investment Analysis',            slug: 'investment-analysis',          category: 'ECONOMICS', description: 'Learn equity valuation, portfolio theory, risk analysis, and investment decision frameworks.',                                 price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Investment Analysis') },
   { title: 'Data Analysis for Economics',    slug: 'data-analysis-for-economics',  category: 'ECONOMICS', description: 'Apply statistical tools, econometrics, and data visualization to economic research.',                                         price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Data Analysis for Economics') },
   { title: 'Financial Economics',            slug: 'financial-economics',          category: 'ECONOMICS', description: 'Study asset pricing, derivatives, risk management, and financial market theory.',                                             price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Financial Economics') },
-  // ── MECHANICAL ENGINEERING ────────────────────────────────────────────────
+  // â”€â”€ MECHANICAL ENGINEERING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'AutoCAD',                        slug: 'autocad',                       category: 'MECHANICAL ENGINEERING', description: 'Master 2D and 3D CAD drafting, mechanical drawings, and design documentation with AutoCAD.',                     price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('AutoCAD') },
   { title: 'CATIA',                          slug: 'catia',                         category: 'MECHANICAL ENGINEERING', description: 'Learn CATIA V5/V6 for 3D modeling, surface design, and product lifecycle management.',                           price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('CATIA') },
   { title: 'Car Design',                     slug: 'car-design',                    category: 'MECHANICAL ENGINEERING', description: 'Explore automotive design principles, styling, aerodynamics, and concept car development.',                      price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Car Design') },
   { title: 'Quality & Safety Professionals', slug: 'quality-safety-professionals',  category: 'MECHANICAL ENGINEERING', description: 'Learn quality management systems, ISO standards, safety protocols, and Six Sigma methodologies.',               price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Quality') },
-  // ── BIO & LIFE SCIENCES ───────────────────────────────────────────────────
+  // â”€â”€ BIO & LIFE SCIENCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Bioinformatics',               slug: 'bioinformatics',               category: 'BIO & LIFE SCIENCES', description: 'Apply computational tools to analyze biological data, genomics, and protein structures.',                              price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Bioinformatics') },
   { title: 'Microbiology',                 slug: 'microbiology',                 category: 'BIO & LIFE SCIENCES', description: 'Study microorganisms, microbial genetics, immunology, and industrial microbiology applications.',                     price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Microbiology') },
   { title: 'Molecular Biology',            slug: 'molecular-biology',            category: 'BIO & LIFE SCIENCES', description: 'Explore DNA, RNA, gene expression, cloning techniques, and molecular diagnostics.',                                   price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Molecular Biology') },
@@ -460,7 +460,7 @@ export const ALL_PROGRAMS: CourseProgram[] = [
   { title: 'Nutrition & Health Management',slug: 'nutrition-health-management',  category: 'BIO & LIFE SCIENCES', description: 'Study clinical nutrition, dietetics, health promotion, and therapeutic diet planning.',                               price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Nutrition') },
   { title: 'Sensory Science',              slug: 'sensory-science',              category: 'BIO & LIFE SCIENCES', description: 'Understand sensory evaluation methods, consumer testing, and product development applications.',                      price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Sensory Science') },
   { title: 'Medical Coding',               slug: 'medical-coding',               category: 'BIO & LIFE SCIENCES', description: 'Master ICD-10, CPT coding, medical billing, and healthcare documentation standards.',                                price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Medical Coding') },
-  // ── CIVIL ENGINEERING ─────────────────────────────────────────────────────
+  // â”€â”€ CIVIL ENGINEERING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { title: 'Construction Planning',        slug: 'construction-planning',        category: 'CIVIL ENGINEERING',   description: 'Learn project planning, scheduling, cost estimation, and construction management techniques.',                         price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Construction') },
 ];
 

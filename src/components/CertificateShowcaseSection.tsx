@@ -8,9 +8,9 @@ const certificates = [
   {
     id: 'completion',
     title: 'Certificate of Completion',
-    subtitle: 'Programme Completion',
-    image: '/images/Sample Course Completion.png',
-    description: 'Awarded to students who successfully complete a programme at ADYAPAN SCHOOLS. Certifies academic excellence, skill development, and career-oriented learning.',
+    subtitle: 'Course Completion',
+    image: '/images/SAMPLECourse.png',
+    description: 'Awarded to students who successfully completed a course at ADYAPAN. Certifies academic excellence, skill development, and career-oriented learning.',
     points: [
       'Validates successful programme completion',
       'Recognised by 300+ hiring partners',
@@ -23,8 +23,8 @@ const certificates = [
     id: 'internship',
     title: 'Certificate of Internship Completion',
     subtitle: 'Internship Completion',
-    image: '/images/Sample Internship.png',
-    description: 'Awarded to interns who successfully complete their internship within the ADYAPAN SCHOOLS framework by SR\'S ADYAPAN EDUTECH PVT. LTD.',
+    image: '/images/SAMPLEintern.png',
+    description: 'Awarded to interns who successfully complete their internship within the ADYAPAN framework by SR\'S ADYAPAN EDUTECH PVT. LTD.',
     points: [
       'Certifies real-world internship experience',
       'Includes internship role, domain & duration',
@@ -37,8 +37,8 @@ const certificates = [
     id: 'project',
     title: 'Certificate of Project Completion',
     subtitle: 'Project Completion',
-    image: '/images/Sample Project.png',
-    description: 'Awarded to students who successfully deliver a project within ADYAPAN SCHOOLS. Certifies practical learning and project execution expertise.',
+    image: '/images/SampleProject.png',
+    description: 'Awarded to students who successfully deliver a project within ADYAPAN. Certifies practical learning and project execution expertise.',
     points: [
       'Certifies successful project delivery',
       'Includes project name, timeline & domain',
@@ -51,8 +51,8 @@ const certificates = [
     id: 'achievement',
     title: 'Certificate of Achievement - Best Performance',
     subtitle: 'Best Performance',
-    image: '/images/Sample Best Performance.png',
-    description: 'Awarded to top-performing students recognised as Best Performer at ADYAPAN SCHOOLS. Certifies exceptional dedication, leadership, and outstanding results.',
+    image: '/images/SAMPLEPerformer.png',
+    description: 'Awarded to top-performing students recognised as Best Performer at ADYAPAN. Certifies exceptional dedication, leadership, and outstanding results.',
     points: [
       'Recognises exceptional performance & leadership',
       'Highlights outstanding results in relevant domain',

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Skeleton loading components - used across the app for loading states.
  * Matches the orange Adyapan theme with a subtle shimmer animation.
  */

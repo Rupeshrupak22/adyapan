@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { buildMetadata, breadcrumbSchema, BASE_URL } from '@/lib/seo';
 import JsonLd from '@/components/JsonLd';
 import ContactPageClient from './ContactPageClient';
@@ -27,7 +27,7 @@ export default function ContactPage() {
     url: BASE_URL,
     telephone: '+91-8179124566',
     email: 'support@adyapan.com',
-    image: `${BASE_URL}/adyapan-logo.png`,
+    image: `${BASE_URL}/newadylogo.png`,
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'IN',

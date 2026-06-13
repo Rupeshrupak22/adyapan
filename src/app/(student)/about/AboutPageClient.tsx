@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -231,12 +231,12 @@ export default function AboutPageClient() {
               {
                 title: 'The Human Connection',
                 description: 'We connect you to a network of mentors and industry leaders who guide your growth.',
-                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=85'
+                image: '/images/humanconnection.png'
               },
               {
                 title: 'Launch Ready',
                 description: 'We are committed to making you not just skilled, but launch-ready for your career.',
-                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=85'
+                image: '/images/ready.png'
               }
             ].map((item, i) => (
               <motion.div
@@ -246,22 +246,31 @@ export default function AboutPageClient() {
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                   <motion.div
                     className="w-full h-full"
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
+                    {item.image.startsWith('/') ? (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    )}
                   </motion.div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-transparent to-transparent" />
                 </div>
 
                 {/* Content */}
@@ -749,7 +758,7 @@ export default function AboutPageClient() {
               Our <span style={{ color: '#f90' }}>Learning Approach</span>
             </h2>
             <p className="text-gray-600 text-lg">
-              Learn â†’ Practice â†’ Build â†’ Launch
+              Learn - Practice - Build - Launch
             </p>
           </motion.div>
 
@@ -917,7 +926,7 @@ export default function AboutPageClient() {
                 href="/auth"
                 className="inline-block px-10 py-4 bg-[#f90] text-white rounded-lg font-bold text-lg hover:bg-[#e07000] transition-colors"
               >
-                Start Your Journey â†’
+                Start Your Journey
               </Link>
             </motion.div>
           </motion.div>

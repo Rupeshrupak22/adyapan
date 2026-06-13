@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { buildMetadata, breadcrumbSchema, BASE_URL } from '@/lib/seo';
 import JsonLd from '@/components/JsonLd';
 import JobsClient from './PageClient';

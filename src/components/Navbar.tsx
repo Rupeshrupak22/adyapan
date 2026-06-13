@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProfileDropdown from './ProfileDropdown';
 import { getThumbnail } from '@/lib/courseData';
@@ -17,13 +18,13 @@ interface NavUser {
 }
 
 const Navbar = () => {
-  const [active, setActive] = useState('');
+  const pathname = usePathname();
   const [showPrograms, setShowPrograms] = useState(false);
   const [showMobile, setShowMobile] = useState(false);
   const [programSearch, setProgramSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Use shared auth context — avoids a duplicate /api/auth/me call
+  // Use shared auth context â€” avoids a duplicate /api/auth/me call
   const { user: authUser, logout: authLogout } = useAuthContext();
   const user: NavUser | null = authUser
     ? { name: authUser.name, email: authUser.email, role: authUser.role }
@@ -133,7 +134,7 @@ const Navbar = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('CSE / IT DOMAINS');
 
-  /* ── Close programs dropdown on outside click ── */
+  /* â”€â”€ Close programs dropdown on outside click â”€â”€ */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setShowPrograms(false);
@@ -162,7 +163,7 @@ const Navbar = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="/adyapan-logo.png"
+                src="/newadylogo.png"
                 alt="Adyapan Logo"
                 width={120}
                 height={40}
@@ -235,7 +236,7 @@ const Navbar = () => {
                             <div className="font-semibold text-sm">{cat.name}</div>
                             <div className={`text-xs ${selectedCategory === cat.name ? 'text-white/80' : 'text-gray-500'}`}>{cat.count}</div>
                           </div>
-                          <span className={selectedCategory === cat.name ? 'text-white' : 'text-gray-400'}>›</span>
+                          <span className={selectedCategory === cat.name ? 'text-white' : 'text-gray-400'}>â€º</span>
                         </motion.button>
                       ))}
                     </div>
@@ -312,9 +313,8 @@ const Navbar = () => {
             >
               <Link
                 href={l.href}
-                onClick={() => setActive(l.label)}
-                className={`text-[13px] 2xl:text-sm font-medium transition-colors relative group whitespace-nowrap ${
-                  active === l.label ? 'text-[#ffa800]' : 'text-white hover:text-[#ffa800]'
+                className={`text-[13px] 2xl:text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap ${
+                  (l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)) ? 'text-[#ffa800]' : 'text-white hover:text-[#ffa800]'
                 }`}
               >
                 {l.shortLabel ? (
@@ -326,7 +326,7 @@ const Navbar = () => {
                   l.label
                 )}
                 <span className={`absolute -bottom-0.5 left-0 h-0.5 bg-[#ffa800] transition-all duration-300 ${
-                  active === l.label ? 'w-full' : 'w-0 group-hover:w-full'
+                  (l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)) ? 'w-full' : 'w-0 group-hover:w-full'
                 }`} />
               </Link>
             </motion.div>
@@ -340,9 +340,8 @@ const Navbar = () => {
           >
             <Link
               href="/company"
-              onClick={() => setActive('For Companies')}
-              className={`text-[13px] 2xl:text-sm font-semibold px-3 2xl:px-4 py-1.5 rounded-full border transition-all whitespace-nowrap shrink-0 ${
-                active === 'For Companies'
+              className={`text-[13px] 2xl:text-sm font-semibold px-3 2xl:px-4 py-1.5 rounded-full border transition-all duration-200 whitespace-nowrap shrink-0 ${
+                pathname.startsWith('/company')
                   ? 'bg-[#ffa800] text-white border-[#ffa800]'
                   : 'border-[#ffa800] text-[#ffa800] hover:bg-[#ffa800] hover:text-white'
               }`}
@@ -415,9 +414,9 @@ const Navbar = () => {
                 <Link
                   key={l.label}
                   href={l.href}
-                  onClick={() => { setActive(l.label); setShowMobile(false); }}
-                  className={`text-sm font-medium py-2 transition-colors ${
-                    active === l.label ? 'text-[#ffa800]' : 'text-white hover:text-[#ffa800]'
+                  onClick={() => setShowMobile(false)}
+                  className={`text-sm font-medium py-2 transition-colors duration-200 ${
+                    (l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)) ? 'text-[#ffa800]' : 'text-white hover:text-[#ffa800]'
                   }`}
                 >
                   {l.label}
@@ -425,8 +424,10 @@ const Navbar = () => {
               ))}
               <Link
                 href="/company"
-                onClick={() => { setActive('For Companies'); setShowMobile(false); }}
-                className="text-sm font-semibold py-2 text-[#ffa800] hover:text-white transition-colors"
+                onClick={() => setShowMobile(false)}
+                className={`text-sm font-semibold py-2 transition-colors duration-200 ${
+                  pathname.startsWith('/company') ? 'text-[#ffa800]' : 'text-[#ffa800] hover:text-white'
+                }`}
               >
                 Recruiter
               </Link>

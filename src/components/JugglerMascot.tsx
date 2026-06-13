@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 
-// ─────────────────────────────────────────────────────────────
-// JugglerMascot – canvas-drawn character (bottom-left, fixed)
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// JugglerMascot â€“ canvas-drawn character (bottom-left, fixed)
 // Ball shoots across the FULL viewport on any click.
-// ─────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function JugglerMascot() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hintRef   = useRef<HTMLDivElement>(null); // kept for compat, unused
@@ -15,22 +15,22 @@ export default function JugglerMascot() {
     const hint   = hintRef.current!;
     const ctx    = canvas.getContext('2d')!;
 
-    // ── Sizing ─────────────────────────────────────────────
+    // â”€â”€ Sizing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const W = 220, H = 340;
     canvas.width  = W;
     canvas.height = H;
 
-    // ── State ──────────────────────────────────────────────
+    // â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let mx = W / 2, my = H / 2;   // mouse relative to CANVAS
     let time = 0;
     let spin = 0;
 
-    // Ball – juggling
+    // Ball â€“ juggling
     let juggling  = true;
     let juggleT   = 0;
     let ballX     = 0, ballY = 0;
 
-    // Ball – free flight (full-viewport coords)
+    // Ball â€“ free flight (full-viewport coords)
     let free       = false;
     let ballVX     = 0, ballVY = 0;
     let trailPts: Array<{x:number;y:number}> = [];
@@ -42,7 +42,7 @@ export default function JugglerMascot() {
     // Character centre inside canvas
     const CC = { x: W * 0.52, y: H * 0.42 };
 
-    // ── Mouse tracking (over the ENTIRE window) ────────────
+    // â”€â”€ Mouse tracking (over the ENTIRE window) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const onMouseMove = (e: MouseEvent) => {
       const r = canvas.getBoundingClientRect();
       // Map global mouse to canvas-local coords for head/eye tracking
@@ -51,7 +51,7 @@ export default function JugglerMascot() {
     };
     window.addEventListener('mousemove', onMouseMove);
 
-    // ── Click to shoot (anywhere on page) ─────────────────
+    // â”€â”€ Click to shoot (anywhere on page) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const onClick = (e: MouseEvent) => {
       const r = canvas.getBoundingClientRect();
 
@@ -85,7 +85,7 @@ export default function JugglerMascot() {
     };
     window.addEventListener('click', onClick);
 
-    // ── Draw helpers ────────────────────────────────────────
+    // â”€â”€ Draw helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const s = Math.min(W, H) / 320; // scale factor
 
     function drawShadow(x:number, y:number, w:number, h:number, a:number) {
@@ -102,7 +102,7 @@ export default function JugglerMascot() {
       // Ground shadow
       drawShadow(cx, cy + 175*s, 48*s, 10*s, 0.15);
 
-      // ── Legs ──────────────────────────────────────────────
+      // â”€â”€ Legs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       const kickBob = Math.sin(time * 2) * 3 * s;
 
       // Right leg
@@ -142,7 +142,7 @@ export default function JugglerMascot() {
       ctx.beginPath(); ctx.moveTo(cx-55*s+kickBob,cy+153*s); ctx.quadraticCurveTo(cx-43*s+kickBob,cy+158*s,cx-33*s+kickBob,cy+151*s); ctx.stroke();
       ctx.restore();
 
-      // ── Torso ─────────────────────────────────────────────
+      // â”€â”€ Torso â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       ctx.fillStyle='#1e1e1e';
       ctx.beginPath(); ctx.roundRect(cx-28*s,cy+8*s,56*s,60*s,4*s); ctx.fill();
 
@@ -165,7 +165,7 @@ export default function JugglerMascot() {
       ctx.beginPath(); ctx.moveTo(cx-32*s,cy+20*s); ctx.lineTo(cx-22*s,cy+22*s); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(cx+30*s,cy+28*s); ctx.lineTo(cx+22*s,cy+30*s); ctx.stroke();
 
-      // ── Arms ──────────────────────────────────────────────
+      // â”€â”€ Arms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       // Right (thumbs up)
       ctx.save();
       ctx.strokeStyle='#5a7fa0'; ctx.lineWidth=16*s; ctx.lineCap='round';
@@ -184,7 +184,7 @@ export default function JugglerMascot() {
       ctx.beginPath(); ctx.ellipse(cx-53*s,cy+64*s,9*s,7*s,0.4,0,Math.PI*2); ctx.fill();
       ctx.restore();
 
-      // ── Neck ──────────────────────────────────────────────
+      // â”€â”€ Neck â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       ctx.fillStyle='#f5c5a3';
       ctx.beginPath(); ctx.roundRect(cx-6*s,cy-10*s,13*s,18*s,3*s); ctx.fill();
       ctx.strokeStyle='#d4a50a'; ctx.lineWidth=1.5*s;
@@ -292,7 +292,7 @@ export default function JugglerMascot() {
       ctx.restore();
     }
 
-    // ── FREE-FLIGHT ball drawn on a full-viewport overlay canvas ──
+    // â”€â”€ FREE-FLIGHT ball drawn on a full-viewport overlay canvas â”€â”€
     const vc = document.createElement('canvas');
     vc.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9002;';
     vc.width  = window.innerWidth;
@@ -303,7 +303,7 @@ export default function JugglerMascot() {
     const onResize2 = () => { vc.width = window.innerWidth; vc.height = window.innerHeight; };
     window.addEventListener('resize', onResize2);
 
-    // ── Main animation loop ──────────────────────────────────
+    // â”€â”€ Main animation loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let raf = 0;
     let trailCanvas: Array<{x:number;y:number}> = [];
 
@@ -328,7 +328,7 @@ export default function JugglerMascot() {
         drawShadow(jX, cy + 170*s, 14*s, 4*s, sa);
       }
 
-      // Free flight – draw on viewport overlay canvas
+      // Free flight â€“ draw on viewport overlay canvas
       if (free) {
         ballVY += GRAVITY;
         ballVX *= FRICTION;
@@ -413,7 +413,7 @@ export default function JugglerMascot() {
         }
       `}</style>
 
-      {/* Fixed mascot container – bottom-left, below navbar */}
+      {/* Fixed mascot container â€“ bottom-left, below navbar */}
       <div
         style={{
           position: 'fixed',

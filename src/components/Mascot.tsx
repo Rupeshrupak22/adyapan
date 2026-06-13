@@ -25,7 +25,7 @@ interface BallState {
   opacity: number; visible: boolean;
 }
 
-/* ── Remove white/near-white pixels from canvas ── */
+/* â”€â”€ Remove white/near-white pixels from canvas â”€â”€ */
 function removeWhiteBg(ctx: CanvasRenderingContext2D, w: number, h: number) {
   const id   = ctx.getImageData(0, 0, w, h);
   const data = id.data;
@@ -69,7 +69,7 @@ function removeWhiteBg(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.putImageData(id, 0, 0);
 }
 
-/* ── Pre-process a PNG image → canvas with white removed (cached) ── */
+/* â”€â”€ Pre-process a PNG image â†’ canvas with white removed (cached) â”€â”€ */
 function processImage(src: string): Promise<HTMLCanvasElement> {
   return new Promise(resolve => {
     const img = new Image();
@@ -133,7 +133,7 @@ export default function Mascot() {
   const lockedRef = useRef(false);
   const aidRef    = useRef(0);
 
-  /* ── Juggle video render loop ── */
+  /* â”€â”€ Juggle video render loop â”€â”€ */
   const startRenderLoop = useCallback(() => {
     const video  = videoRef.current;
     const canvas = juggleCanvasRef.current;
@@ -155,7 +155,7 @@ export default function Mascot() {
     rafRef.current = requestAnimationFrame(draw);
   }, []);
 
-  /* ── Load juggle video ── */
+  /* â”€â”€ Load juggle video â”€â”€ */
   const loadVideo = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -174,7 +174,7 @@ export default function Mascot() {
     v.addEventListener('playing', startRenderLoop, { once: true });
   }, [startRenderLoop]);
 
-  /* ── Pre-load kick pose + ball on mount ── */
+  /* â”€â”€ Pre-load kick pose + ball on mount â”€â”€ */
   useEffect(() => {
     loadVideo();
     getKickPoseCanvas();
@@ -183,7 +183,7 @@ export default function Mascot() {
     return () => { clearTimeout(t); cancelAnimationFrame(rafRef.current); };
   }, [loadVideo]);
 
-  /* ── Update ball diameter on resize ── */
+  /* â”€â”€ Update ball diameter on resize â”€â”€ */
   useEffect(() => {
     const update = () => {
       const stage = stageRef.current;
@@ -196,7 +196,7 @@ export default function Mascot() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  /* ── Draw kick pose onto kickCanvasRef ── */
+  /* â”€â”€ Draw kick pose onto kickCanvasRef â”€â”€ */
   const showKickPose = useCallback(async () => {
     const src = await getKickPoseCanvas();
     const c   = kickCanvasRef.current;
@@ -208,7 +208,7 @@ export default function Mascot() {
     ctx.drawImage(src, 0, 0);
   }, []);
 
-  /* ── Core animation handler - accepts viewport coords ── */
+  /* â”€â”€ Core animation handler - accepts viewport coords â”€â”€ */
   const triggerKick = useCallback(async (clientX: number, clientY: number) => {
     if (lockedRef.current) return;
     lockedRef.current = true;
@@ -246,7 +246,7 @@ export default function Mascot() {
     const dir   = end.x >= start.x ? 1 : -1;
     const t0    = performance.now();
 
-    // Mascot stage size → target ball scale at impact
+    // Mascot stage size â†’ target ball scale at impact
     const impactScale = 1.22;
 
     // Make ball visible at start position before animating
@@ -261,7 +261,7 @@ export default function Mascot() {
         const y       = start.y + (end.y - start.y) * p - arc * 4 * p * (1 - p);
         const rot     = dir * Math.sin(p * Math.PI) * 10;
 
-        // Travel: slight shrink → on impact: burst to mascot size → fade
+        // Travel: slight shrink â†’ on impact: burst to mascot size â†’ fade
         let scale: number;
         let opacity: number;
         if (t < 0.88) {
@@ -270,7 +270,7 @@ export default function Mascot() {
           opacity = 1;
         } else {
           // Impact phase: scale up to mascot size then fade out
-          const ip = (t - 0.88) / 0.12;          // 0→1 during impact
+          const ip = (t - 0.88) / 0.12;          // 0â†’1 during impact
           scale   = 1 + Math.sin(ip * Math.PI) * (impactScale - 1);
           opacity = 1 - ip;
         }
@@ -288,7 +288,7 @@ export default function Mascot() {
     lockedRef.current = false;
   }, [loadVideo, showKickPose]);
 
-  /* ── Pointer event listener (handles mouse + touch + stylus) ── */
+  /* â”€â”€ Pointer event listener (handles mouse + touch + stylus) â”€â”€ */
   useEffect(() => {
     const onPointerDown = (e: PointerEvent) => {
       // Ignore if the click is on an interactive element (buttons, links, inputs)
@@ -302,7 +302,7 @@ export default function Mascot() {
 
   return (
     <>
-      {/* ── Mascot stage ── */}
+      {/* â”€â”€ Mascot stage â”€â”€ */}
       <div
         ref={stageRef}
         aria-hidden="true"
@@ -361,7 +361,7 @@ export default function Mascot() {
 
       </div>
 
-      {/* ── Flying ball - always mounted so ref is always valid ── */}
+      {/* â”€â”€ Flying ball - always mounted so ref is always valid â”€â”€ */}
       <div
         aria-hidden="true"
         style={{
@@ -385,7 +385,7 @@ export default function Mascot() {
         />
       </div>
 
-      {/* ── Keyframes ── */}
+      {/* â”€â”€ Keyframes â”€â”€ */}
       <style>{`
         @keyframes mascot-kick-pop {
           0%   { transform: translateY(0)    rotate(0deg);  }

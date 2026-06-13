@@ -48,7 +48,7 @@ export default function CookieConsent() {
   const [showCustomize, setShowCustomize] = useState(false);
   const [prefs,         setPrefs]         = useState<CookiePrefs>(defaultPrefs);
 
-  /* ── Show only if user hasn't consented yet ── */
+  /* â”€â”€ Show only if user hasn't consented yet â”€â”€ */
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -111,7 +111,7 @@ export default function CookieConsent() {
               <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg,#ffa800,#ff6b00,#ffa800)' }} />
 
               {!showCustomize ? (
-                /* ── Main banner ── */
+                /* â”€â”€ Main banner â”€â”€ */
                 <div className="p-4 sm:p-5">
 
                   {/* Header row */}
@@ -175,7 +175,7 @@ export default function CookieConsent() {
                 </div>
 
               ) : (
-                /* ── Customize panel ── */
+                /* â”€â”€ Customize panel â”€â”€ */
                 <div className="p-4 sm:p-5">
 
                   {/* Header */}

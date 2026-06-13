@@ -1,14 +1,14 @@
 /**
- * ─────────────────────────────────────────────────────────────────────────────
+ * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
  * SEO Utilities - Adyapan
  * Central helper for generating per-page Metadata objects, JSON-LD schemas,
  * breadcrumbs, and Open Graph / Twitter card data.
- * ─────────────────────────────────────────────────────────────────────────────
+ * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
  */
 
 import type { Metadata } from 'next';
 
-// ── Base config ───────────────────────────────────────────────────────────────
+// â”€â”€ Base config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL || 'https://adyapan.com';
 
@@ -18,7 +18,7 @@ export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
 export const TWITTER_HANDLE = '@adyapan';
 export const ORGANIZATION_NAME = 'Adyapan Edutech Pvt. Ltd.';
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export interface PageSEOProps {
   title: string;
   description: string;
@@ -37,7 +37,7 @@ export interface PageSEOProps {
   ogType?: 'website' | 'article';
 }
 
-// ── Core metadata builder ─────────────────────────────────────────────────────
+// â”€â”€ Core metadata builder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function buildMetadata({
   title,
   description,
@@ -102,7 +102,7 @@ export function buildMetadata({
   };
 }
 
-// ── JSON-LD helpers ───────────────────────────────────────────────────────────
+// â”€â”€ JSON-LD helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /** Organization schema (used in root layout) */
 export function organizationSchema() {
@@ -114,7 +114,7 @@ export function organizationSchema() {
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: `${BASE_URL}/adyapan-logo.png`,
+      url: `${BASE_URL}/newadylogo.png`,
       width: 200,
       height: 60,
     },
@@ -294,7 +294,7 @@ export function articleSchema({
       name: ORGANIZATION_NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${BASE_URL}/adyapan-logo.png`,
+        url: `${BASE_URL}/newadylogo.png`,
       },
     },
     ...(readingTime && {
@@ -312,14 +312,14 @@ export function jsonLd(schema: object): string {
   return JSON.stringify(schema);
 }
 
-// ── Reading time calculator (for blog posts) ──────────────────────────────────
+// â”€â”€ Reading time calculator (for blog posts) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function calculateReadingTime(text: string): number {
   const wordsPerMinute = 200;
   const wordCount = text.trim().split(/\s+/).length;
   return Math.ceil(wordCount / wordsPerMinute);
 }
 
-// ── Slug generator ────────────────────────────────────────────────────────────
+// â”€â”€ Slug generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function generateSlug(text: string): string {
   return text
     .toLowerCase()

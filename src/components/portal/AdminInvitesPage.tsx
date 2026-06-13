@@ -1,11 +1,11 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Mail, Phone, Shield, Clock, CheckCircle, XCircle, Copy, ExternalLink, Trash2, AlertCircle, Search, UserPlus, Calendar, Link2, Check, RefreshCw, Key, Filter } from 'lucide-react';
 
-/* ─── Types ─────────────────────────────────────────────────── */
+/* --- Types --------------------------------------------------- */
 interface Invite {
   id: string;
   email: string;
@@ -37,7 +37,7 @@ interface Toast {
   type: ToastType;
 }
 
-/* ─── Toast Notification System ─────────────────────────────── */
+/* --- Toast Notification System ------------------------------- */
 function ToastContainer({ toasts, onRemove }: { toasts: Toast[]; onRemove: (id: number) => void }) {
   return (
     <div className="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none">
@@ -86,7 +86,7 @@ function useToast() {
   return { toasts, addToast, removeToast };
 }
 
-/* ─── Copy Button ────────────────────────────────────────────── */
+/* --- Copy Button ---------------------------------------------- */
 function CopyButton({ text, label = 'Copy', size = 'md' }: { text: string; label?: string; size?: 'sm' | 'md' }) {
   const [copied, setCopied] = useState(false);
   const handle = () => {
@@ -108,7 +108,7 @@ function CopyButton({ text, label = 'Copy', size = 'md' }: { text: string; label
   );
 }
 
-/* ─── Status Badge ───────────────────────────────────────────── */
+/* --- Status Badge --------------------------------------------- */
 function StatusBadge({ invite }: { invite: Invite }) {
   const cfg = invite.isActive
     ? { cls: 'bg-green-50 text-green-700 border-green-200',  dot: 'bg-green-500',  label: 'Active'  }
@@ -126,7 +126,7 @@ function StatusBadge({ invite }: { invite: Invite }) {
   );
 }
 
-/* ─── Role Badge ─────────────────────────────────────────────── */
+/* --- Role Badge ----------------------------------------------- */
 function RoleBadge({ role }: { role: string }) {
   return (
     <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
@@ -139,7 +139,7 @@ function RoleBadge({ role }: { role: string }) {
   );
 }
 
-/* ─── Stat Card ──────────────────────────────────────────────── */
+/* --- Stat Card ------------------------------------------------ */
 function StatCard({
   label, value, icon: Icon, active, onClick, color,
 }: {
@@ -167,7 +167,7 @@ function StatCard({
   );
 }
 
-/* ─── Revoke Confirm Modal ───────────────────────────────────── */
+/* --- Revoke Confirm Modal ------------------------------------- */
 function RevokeModal({
   invite,
   onConfirm,
@@ -204,7 +204,7 @@ function RevokeModal({
         </div>
 
         <div className="bg-orange-50 border border-orange-200 rounded-xl p-3 mb-5 text-xs text-orange-800">
-          ️ This action cannot be undone. You will need to generate a new invite if needed.
+          ? This action cannot be undone. You will need to generate a new invite if needed.
         </div>
 
         <div className="flex gap-3">
@@ -224,7 +224,7 @@ function RevokeModal({
   );
 }
 
-/* ─── Invite Card ────────────────────────────────────────────── */
+/* --- Invite Card ---------------------------------------------- */
 function InviteCard({
   invite,
   onRevoke,
@@ -342,7 +342,7 @@ function InviteCard({
   );
 }
 
-/* ─── Create Invite Modal ────────────────────────────────────── */
+/* --- Create Invite Modal -------------------------------------- */
 function CreateInviteModal({
   onClose,
   onCreated,
@@ -378,7 +378,7 @@ function CreateInviteModal({
     }
   };
 
-  /* ── Success screen ── */
+  /* -- Success screen -- */
   if (created) {
     return (
       <motion.div
@@ -451,7 +451,7 @@ function CreateInviteModal({
     );
   }
 
-  /* ── Create form ── */
+  /* -- Create form -- */
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { useState, useEffect } from 'react';
@@ -149,7 +149,7 @@ export default function AdminLoginPage() {
       >
         {/* Logo */}
         <Link href="/" className="inline-flex items-center gap-2 mb-6 group">
-          <Image src="/adyapan-logo.png" alt="Adyapan" width={120} height={40} className="h-9 w-auto group-hover:scale-105 transition-transform" />
+          <Image src="/newadylogo.png" alt="Adyapan" width={120} height={40} className="h-9 w-auto group-hover:scale-105 transition-transform" />
         </Link>
 
         {/* Card */}

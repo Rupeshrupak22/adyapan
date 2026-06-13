@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { FormEvent, useState, useEffect, Suspense } from 'react';
@@ -147,7 +147,7 @@ function LoginContent() {
             {/* Logo + heading */}
             <div className="text-center mb-8">
               <Link href="/" className="inline-flex items-center justify-center gap-2 mb-5 group">
-                <Image src="/adyapan-logo.png" alt="Adyapan" width={40} height={40} className="h-10 w-auto group-hover:scale-105 transition-transform" />
+                <Image src="/newadylogo.png" alt="Adyapan" width={40} height={40} className="h-10 w-auto group-hover:scale-105 transition-transform" />
                 <span className="text-2xl font-extrabold text-gray-900 tracking-tight">Adyapan</span>
               </Link>
               <h1 className="text-2xl font-extrabold text-gray-900">Welcome back </h1>

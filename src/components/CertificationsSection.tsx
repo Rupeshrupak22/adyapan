@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 
 import { useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
 
-/* ── Partner logo image paths ── */
+/* -- Partner logo image paths -- */
 const partners = [
   {
     name: 'Google',
@@ -49,7 +49,7 @@ const partners = [
   },
 ];
 
-/* ── CSS keyframes injected once ── */
+/* -- CSS keyframes injected once -- */
 const marqueeStyles = `
   @keyframes marquee-left {
     0%   { transform: translateX(0); }
@@ -74,52 +74,22 @@ const certifications = [
   {
     name: 'ISO 9001:2015',
     desc: 'Quality Management System',
-    icon: (
-      <svg viewBox="0 0 60 60" className="w-12 h-12">
-        <circle cx="30" cy="30" r="28" fill="none" stroke="#f97316" strokeWidth="3"/>
-        <circle cx="30" cy="30" r="20" fill="none" stroke="#f97316" strokeWidth="2" strokeDasharray="4 2"/>
-        <text x="30" y="26" textAnchor="middle" fontSize="10" fontWeight="900" fill="#f97316" fontFamily="Arial">ISO</text>
-        <text x="30" y="38" textAnchor="middle" fontSize="7" fontWeight="700" fill="#f97316" fontFamily="Arial">9001:2015</text>
-      </svg>
-    ),
+    icon: <img src="/images/iso-Photoroom.png" alt="ISO 9001:2015" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'NSDC',
     desc: 'National Skill Development Corporation',
-    icon: (
-      <svg viewBox="0 0 60 60" className="w-12 h-12">
-        <rect x="4" y="4" width="52" height="52" rx="8" fill="none" stroke="#f97316" strokeWidth="3"/>
-        <path d="M15 42 L15 18 L25 30 L35 18 L35 42" fill="none" stroke="#f97316" strokeWidth="3" strokeLinejoin="round"/>
-        <text x="42" y="44" textAnchor="middle" fontSize="8" fontWeight="900" fill="#f97316" fontFamily="Arial">DC</text>
-        <circle cx="42" cy="22" r="8" fill="none" stroke="#f97316" strokeWidth="2.5"/>
-        <path d="M38 22 L41 25 L46 19" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
+    icon: <img src="/images/nsdc-Photoroom.png" alt="NSDC" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'Skill India',
     desc: 'Skill India Digital Hub',
-    icon: (
-      <svg viewBox="0 0 60 60" className="w-12 h-12">
-        <circle cx="30" cy="30" r="26" fill="none" stroke="#f97316" strokeWidth="3"/>
-        <path d="M20 38 Q30 15 40 38" fill="none" stroke="#f97316" strokeWidth="3" strokeLinecap="round"/>
-        <circle cx="30" cy="20" r="4" fill="#f97316"/>
-        <path d="M22 44 L38 44" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round"/>
-        <path d="M25 48 L35 48" stroke="#f97316" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
+    icon: <img src="/images/skill-Photoroom.png" alt="Skill India" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'MSME',
     desc: 'Ministry of MSME, Govt. of India',
-    icon: (
-      <svg viewBox="0 0 60 60" className="w-12 h-12">
-        <rect x="8" y="28" width="44" height="24" rx="3" fill="none" stroke="#f97316" strokeWidth="3"/>
-        <path d="M16 28 L16 20 Q16 8 30 8 Q44 8 44 20 L44 28" fill="none" stroke="#f97316" strokeWidth="3"/>
-        <rect x="24" y="36" width="12" height="16" rx="2" fill="none" stroke="#f97316" strokeWidth="2"/>
-        <circle cx="30" cy="22" r="4" fill="none" stroke="#f97316" strokeWidth="2"/>
-      </svg>
-    ),
+    icon: <img src="/images/msme.png" alt="MSME" className="w-12 h-12 object-contain" />,
   },
 ];
 
@@ -151,7 +121,7 @@ export default function CertificationsSection() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
 
-        {/* ── CERTIFICATIONS ── */}
+        {/* -- CERTIFICATIONS -- */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -197,7 +167,7 @@ export default function CertificationsSection() {
           ))}
         </div>
 
-        {/* ── PARTNERS ── */}
+        {/* -- PARTNERS -- */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -215,7 +185,7 @@ export default function CertificationsSection() {
         </motion.div>
       </div>
 
-      {/* ── Infinite scroll row 1 (left) ── */}
+      {/* -- Infinite scroll row 1 (left) -- */}
       <div className="relative overflow-hidden mb-4">
         <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
           style={{ background: 'linear-gradient(90deg, #f5f0eb, transparent)' }} />
@@ -239,7 +209,7 @@ export default function CertificationsSection() {
         </div>
       </div>
 
-      {/* ── Infinite scroll row 2 (right) ── */}
+      {/* -- Infinite scroll row 2 (right) -- */}
       <div className="relative overflow-hidden">
         <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
           style={{ background: 'linear-gradient(90deg, #f5f0eb, transparent)' }} />

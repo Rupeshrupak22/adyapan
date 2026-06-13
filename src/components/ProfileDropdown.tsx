@@ -18,7 +18,7 @@ interface Props {
   onUserUpdate: (u: User) => void;
 }
 
-/* ── Icon components ─────────────────────────────────────────── */
+/* â”€â”€ Icon components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Icon = ({ d, className = '' }: { d: string; className?: string }) => (
   <svg className={`w-4 h-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
     <path strokeLinecap="round" strokeLinejoin="round" d={d} />
@@ -41,7 +41,7 @@ const ICONS = {
   close:       'M6 18L18 6M6 6l12 12',
 };
 
-/* ── Edit Profile Modal ──────────────────────────────────────── */
+/* â”€â”€ Edit Profile Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function EditProfileModal({
   user,
   onClose,
@@ -204,7 +204,7 @@ function EditProfileModal({
   );
 }
 
-/* ── Purchased Courses Modal ─────────────────────────────────── */
+/* â”€â”€ Purchased Courses Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const [courses, setCourses] = useState<{ courseName: string; planLabel: string; progressPercent: number; enrolledAt: string }[]>([]);
@@ -293,7 +293,7 @@ function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
                 className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:shadow-lg hover:shadow-orange-200"
                 style={{ background: 'linear-gradient(135deg,#ffa800,#ff6b00)' }}
               >
-                Browse Programs →
+                Browse Programs â†’
               </Link>
             </div>
           ) : (
@@ -365,7 +365,7 @@ function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
               className="w-full py-3 rounded-2xl text-white text-sm font-extrabold tracking-wide transition-all"
               style={{ background: 'linear-gradient(135deg,#ffa800 0%,#ff6b00 100%)' }}
             >
-              Go to My Dashboard →
+              Go to My Dashboard â†’
             </motion.button>
           </div>
         )}
@@ -374,7 +374,7 @@ function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ── Main ProfileDropdown ────────────────────────────────────── */
+/* â”€â”€ Main ProfileDropdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function ProfileDropdown({ user, onUserUpdate }: Props) {
   const router = useRouter();
   const [open,            setOpen]            = useState(false);
@@ -437,7 +437,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
 
   return (
     <>
-      {/* ── Trigger button ── */}
+      {/* â”€â”€ Trigger button â”€â”€ */}
       <div className="relative" ref={ref}>
         <button
           type="button"
@@ -460,7 +460,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
           </svg>
         </button>
 
-        {/* ── Dropdown ── */}
+        {/* â”€â”€ Dropdown â”€â”€ */}
         <AnimatePresence>
           {open && (
             <motion.div
@@ -472,7 +472,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
               role="menu"
               style={{ boxShadow: '0 18px 45px -18px rgba(15,23,42,0.35), 0 0 0 1px rgba(15,23,42,0.04)' }}
             >
-              {/* ── User header ── */}
+              {/* â”€â”€ User header â”€â”€ */}
               <div className="relative bg-gradient-to-br from-[#ffa800] via-[#ff9800] to-[#ff6b00] px-5 py-6">
                 {/* decorative circles */}
                 <div className="absolute top-0 right-0 w-28 h-28 rounded-full bg-white/10 -translate-y-10 translate-x-10" />
@@ -497,7 +497,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
                 </div>
               </div>
 
-              {/* ── Menu items ── */}
+              {/* â”€â”€ Menu items â”€â”€ */}
               <div className="py-3">
                 <MenuItem icon={ICONS.edit}    label="Edit Profile"   onClick={() => { setOpen(false); setShowEditModal(true); }} />
 
@@ -526,7 +526,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
                 <MenuItem icon={ICONS.logout} label="Logout" onClick={handleLogout} danger />
               </div>
 
-              {/* ── Footer ── */}
+              {/* â”€â”€ Footer â”€â”€ */}
               <div className="px-4 py-3.5 bg-gray-50 border-t border-gray-100">
                 <p className="text-[10px] font-medium text-gray-400 text-center">
                   Adyapan Skills &copy; 2026 - <Link href="/privacy" className="hover:text-[#ffa800]">Privacy</Link> - <Link href="/terms" className="hover:text-[#ffa800]">Terms</Link>
@@ -537,7 +537,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
         </AnimatePresence>
       </div>
 
-      {/* ── Modals ── */}
+      {/* â”€â”€ Modals â”€â”€ */}
       <AnimatePresence>
         {showEditModal && (
           <EditProfileModal

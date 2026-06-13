@@ -80,7 +80,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
     <>
       <AnimatePresence>
         {isOpen && (
-          /* ── Backdrop ── */
+          /* â”€â”€ Backdrop â”€â”€ */
           <motion.div
             className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-3 sm:items-center sm:p-4"
             initial={{ opacity: 0 }}
@@ -95,7 +95,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
               onClick={onClose}
             />
 
-            {/* ── Modal panel ── */}
+            {/* â”€â”€ Modal panel â”€â”€ */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -114,7 +114,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
                 'overflow-hidden',
               ].join(' ')}
             >
-              {/* ── Scrollable inner area ── */}
+              {/* â”€â”€ Scrollable inner area â”€â”€ */}
               <div className="max-h-[92vh] overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 sm:py-8 md:px-8">
 
                 {/* Close button - sticky top-right */}
@@ -127,7 +127,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
                   <X className="h-4 w-4" />
                 </button>
 
-                {/* ── Header ── */}
+                {/* â”€â”€ Header â”€â”€ */}
                 <div className="mb-6 pr-8 text-center sm:mb-8 sm:pr-0">
                   <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
                     <Sparkles className="h-3.5 w-3.5 flex-shrink-0" />
@@ -141,7 +141,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
                   </p>
                 </div>
 
-                {/* ── Plans grid ── */}
+                {/* â”€â”€ Plans grid â”€â”€ */}
                 {/*
                   mobile  : 1 column
                   tablet  : 2 columns  (sm: 640px+)
@@ -207,7 +207,7 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
                   ))}
                 </div>
 
-                {/* ── Footer note ── */}
+                {/* â”€â”€ Footer note â”€â”€ */}
                 <p className="mt-6 text-center text-xs text-gray-400">
                   Prices are GST-inclusive. Secure payment via Razorpay.
                 </p>

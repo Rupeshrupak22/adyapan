@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useMotionValue, useSpring, useTransform, useInView, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-/* ─── Data ─────────────────────────────────────────────────── */
+/* â”€â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const STATS = [
   '50K+ Students',
   '100+ Courses',
@@ -16,7 +16,7 @@ const STATS = [
   'Adyapan Certificates',
 ];
 
-/* ─── Decorative scattered dots/shapes ─────────────────────── */
+/* â”€â”€â”€ Decorative scattered dots/shapes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const SHAPES = [
   { type: 'dot',    x: '8%',  y: '18%', size: 8,  color: 'rgba(255,153,0,0.35)' },
   { type: 'ring',   x: '5%',  y: '55%', size: 14, color: 'rgba(255,153,0,0.3)'  },
@@ -31,7 +31,7 @@ const SHAPES = [
   { type: 'plus',   x: '60%', y: '15%', size: 8,  color: 'rgba(180,100,255,0.2)'},
 ];
 
-/* ─── Spotlight cursor ──────────────────────────────────────── */
+/* â”€â”€â”€ Spotlight cursor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Spotlight({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const x = useMotionValue(-9999);
   const y = useMotionValue(-9999);
@@ -66,7 +66,7 @@ function Spotlight({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | n
   );
 }
 
-/* ─── Soft blobs ────────────────────────────────────────────── */
+/* â”€â”€â”€ Soft blobs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Blobs({ isInView }: { isInView: boolean }) {
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimate = isInView && !shouldReduceMotion;
@@ -112,7 +112,7 @@ function Blobs({ isInView }: { isInView: boolean }) {
   );
 }
 
-/* ─── Scattered decorative shapes ──────────────────────────── */
+/* â”€â”€â”€ Scattered decorative shapes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function DecorShapes({ isInView }: { isInView: boolean }) {
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimate = isInView && !shouldReduceMotion;
@@ -147,7 +147,7 @@ function DecorShapes({ isInView }: { isInView: boolean }) {
   );
 }
 
-/* ─── Heading ───────────────────────────────────────────────── */
+/* â”€â”€â”€ Heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Heading({ isInView }: { isInView: boolean }) {
   const shadow3dDark = [
     '0 1px 0 #888','0 2px 0 #777','0 3px 0 #666',
@@ -255,7 +255,7 @@ function Heading({ isInView }: { isInView: boolean }) {
   );
 }
 
-/* ─── Magnetic button ───────────────────────────────────────── */
+/* â”€â”€â”€ Magnetic button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function MagneticButton({
   children, variant = 'primary', onClick, href,
 }: {
@@ -339,9 +339,8 @@ function MagneticButton({
   );
 }
 
-/* ─── Stats marquee ─────────────────────────────────────────── */
+/* â”€â”€â”€ Stats marquee â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function StatsMarquee() {
-  const shouldReduceMotion = useReducedMotion();
   const items = [...STATS, ...STATS];
   return (
     <div className="relative overflow-hidden py-3.5 my-10"
@@ -354,10 +353,12 @@ function StatsMarquee() {
         style={{ background: 'linear-gradient(to right, #fdf8f3, transparent)' }} />
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to left, #fdf8f3, transparent)' }} />
-      <motion.div
+      <div
         className="flex gap-10 whitespace-nowrap"
-        animate={shouldReduceMotion ? {} : { x: ['0%', '-50%'] }}
-        transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
+        style={{
+          animation: 'stats-marquee 24s linear infinite',
+          willChange: 'transform',
+        }}
       >
         {items.map((s, i) => (
           <span key={i} className="flex items-center gap-3 text-xs font-black tracking-widest uppercase">
@@ -365,12 +366,12 @@ function StatsMarquee() {
             <span style={{ color: 'rgba(255,153,0,0.4)' }}>|</span>
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
 
-/* ─── Main section ──────────────────────────────────────────── */
+/* â”€â”€â”€ Main section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function CommunityShowcaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
@@ -381,6 +382,10 @@ export default function CommunityShowcaseSection() {
         @keyframes borderPulse {
           0%, 100% { opacity: 0.6; }
           50%       { opacity: 1; }
+        }
+        @keyframes stats-marquee {
+          from { transform: translate3d(0, 0, 0); }
+          to { transform: translate3d(-50%, 0, 0); }
         }
       `}</style>
 

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -139,7 +139,7 @@ const Footer = () => {
                 transition={{ duration: 0.2 }}
               >
                 <Image
-                  src="/adyapan-logo.png"
+                  src="/newadylogo.png"
                   alt="Adyapan"
                   width={120}
                   height={40}
@@ -333,7 +333,7 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <p className="text-gray-500 text-xs text-center sm:text-left">
             Â© {new Date().getFullYear()}{' '}
-            <span className="text-gray-400 font-medium">Adyapan Edutech Pvt. Ltd.</span>
+            <span className="text-gray-400 font-medium">SR's Adyapan Edutech Pvt. Ltd.</span>
             {' '}All rights reserved.
           </p>
 

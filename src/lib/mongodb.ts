@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Don't throw at module evaluation time — this breaks the build.
+// Don't throw at module evaluation time â€” this breaks the build.
 // The check happens at connection time instead.
 
 type MongooseCache = {

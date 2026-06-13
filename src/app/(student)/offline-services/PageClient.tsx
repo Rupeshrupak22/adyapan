@@ -726,7 +726,7 @@ export default function OfflineServicesPage() {
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-4 sm:grid-cols-2">
             {placement.map((item) => (
-              <motion.div key={item} variants={fadeUp} className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/70 p-5">
+              <motion.div key={item} variants={fadeUp} whileHover={{ scale: 1.05, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/70 p-5 cursor-pointer hover:shadow-lg hover:border-orange-200">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-orange-500 shadow-sm">
                   <Check className="h-5 w-5" />
                 </span>
@@ -752,10 +752,10 @@ export default function OfflineServicesPage() {
                 { icon: GraduationCap, text: 'Course fit review' },
                 { icon: ShieldCheck, text: 'Admin lead tracking' },
               ].map(({ icon: Icon, text }) => (
-                <div key={text} className="rounded-2xl bg-white p-4 shadow-sm">
+                <motion.div key={text} whileHover={{ scale: 1.05, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="rounded-2xl bg-white p-4 shadow-sm cursor-pointer hover:shadow-lg hover:border hover:border-orange-100">
                   <Icon className="mb-2 h-5 w-5 text-orange-500" />
                   <p className="text-sm font-black text-[#111827]">{text}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -846,7 +846,7 @@ export default function OfflineServicesPage() {
           <SectionIntro kicker="Student Stories" title="Trusted by students preparing for real careers" />
           <div className="grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
-              <motion.div key={item.name} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+              <motion.div key={item.name} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} whileHover={{ scale: 1.04, y: -6 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm cursor-pointer hover:shadow-xl hover:border-orange-100">
                 <div className="mb-4 flex gap-1 text-orange-400">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                 </div>
@@ -1012,7 +1012,7 @@ export default function OfflineServicesPage() {
           <SectionIntro kicker="FAQs" title="Questions students ask before enrolling" />
           <div className="space-y-3">
             {faqs.map((faq, index) => (
-              <div key={faq.q} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+              <motion.div key={faq.q} whileHover={{ scale: 1.02, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm cursor-pointer hover:shadow-md hover:border-orange-100">
                 <button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)} suppressHydrationWarning className="flex w-full items-center justify-between gap-4 p-5 text-left">
                   <span className="font-black text-[#111827]">{faq.q}</span>
                   <ChevronDown className={`h-5 w-5 flex-shrink-0 text-orange-500 transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
@@ -1024,7 +1024,7 @@ export default function OfflineServicesPage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

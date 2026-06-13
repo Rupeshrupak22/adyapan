@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Environment Variable Validation
  *
  * Validates all required env vars at startup.
@@ -42,7 +42,7 @@ function validateEnv(): void {
   }
 
   if (warnings.length > 0 && !isProd) {
-    console.warn(`[Env] ️  Missing optional env vars: ${warnings.join(', ')}`);
+    console.warn(`[Env] ?  Missing optional env vars: ${warnings.join(', ')}`);
   }
 
   if (missing.length > 0) {

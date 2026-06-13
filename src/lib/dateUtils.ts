@@ -36,7 +36,7 @@ export function formatDateOrdinal(date: Date): string {
 }
 
 /**
- * Format time as "Morning 9:00 AM – 12:00 PM IST"
+ * Format time as "Morning 9:00 AM â€“ 12:00 PM IST"
  * Returns current time in IST
  */
 export function formatCurrentTimeIST(): string {
