@@ -478,9 +478,9 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-orange-600 transition-colors">Home</Link>
-            <span>> </span>
+            <span>&gt; </span>
             <span className="hover:text-orange-600 cursor-pointer transition-colors">Certifications</span>
-            <span>> </span>
+            <span>&gt; </span>
             <span className="text-gray-800 font-medium">{certification}</span>
           </nav>
         </div>
