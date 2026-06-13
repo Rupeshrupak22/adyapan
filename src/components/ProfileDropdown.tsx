@@ -95,7 +95,7 @@ function EditProfileModal({
   const initials = name ? name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) : '?';
 
   return (
-    <div className="fixed inset-0 z-[200] overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] overflow-y-auto" style={{ margin: 0 }}>
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -103,14 +103,14 @@ function EditProfileModal({
         onClick={onClose}
       />
 
-      <div className="min-h-full flex items-center justify-center p-4">
+      <div className="relative min-h-full flex items-center justify-center p-4">
         {/* Modal card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 20 }}
           transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-          className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden my-8"
+          className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
         {/* Header */}
