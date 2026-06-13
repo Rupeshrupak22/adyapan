@@ -7,7 +7,7 @@
  *
  * Security:
  *  - IP rate limit: 5 attempts / 15 min
- *  - Account lockout: 5 failed attempts → locked 30 min
+ *  - Account lockout: 5 failed attempts â†’ locked 30 min
  *  - Argon2id password verification
  *  - JWT in httpOnly secure cookie (orgToken - separate from authToken)
  *  - Only isApproved + active accounts can login
@@ -36,7 +36,7 @@ const LoginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-/* ── IP rate limiter ── */
+/* â”€â”€ IP rate limiter â”€â”€ */
 const IP_MAX    = 5;
 const IP_WINDOW = 15 * 60 * 1000;
 
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const { email, password } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
-    /* ── Look up ONLY in organizationusers collection ── */
+    /* â”€â”€ Look up ONLY in organizationusers collection â”€â”€ */
     const user = await OrganizationUser.findOne({ email: normalizedEmail });
 
     if (!user) {
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Approval check ── */
+    /* â”€â”€ Approval check â”€â”€ */
     if (!user.isApproved) {
       return NextResponse.json(
         { error: 'Your organization account is not approved. Contact support@adyapan.com.' },
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Status check ── */
+    /* â”€â”€ Status check â”€â”€ */
     if (user.accountStatus === 'suspended') {
       return NextResponse.json(
         { error: 'Your organization account has been suspended. Contact support@adyapan.com.' },
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Account lockout check ── */
+    /* â”€â”€ Account lockout check â”€â”€ */
     if (user.lockedUntil && user.lockedUntil > new Date()) {
       const minutesLeft = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000);
       return NextResponse.json(
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Password check ── */
+    /* â”€â”€ Password check â”€â”€ */
     const passwordCheck = await verifyPassword(password, user.passwordHash);
     if (!passwordCheck.valid) {
       user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Success ── */
+    /* â”€â”€ Success â”€â”€ */
     const now = new Date();
     user.failedLoginAttempts = 0;
     user.lockedUntil         = undefined;
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`[OrgLogin] Organization login succeeded | User: ${user._id.toString()} | IP: ${ip}`);
 
-    /* ── Issue JWT with role=COMPANY so existing middleware works ── */
+    /* â”€â”€ Issue JWT with role=COMPANY so existing middleware works â”€â”€ */
     const token = jwt.sign(
       { userId: user._id.toString(), email: user.email, role: 'COMPANY', source: 'organization' },
       requireJwtSecret(),

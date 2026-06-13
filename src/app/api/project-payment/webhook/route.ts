@@ -14,7 +14,7 @@ import crypto from 'crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import mongoose from 'mongoose';
 
-/* ── Disable body parsing - we need raw bytes for signature verification ── */
+/* â”€â”€ Disable body parsing - we need raw bytes for signature verification â”€â”€ */
 export const dynamic = 'force-dynamic';
 
 function getModel(name: string, schema: mongoose.Schema) {
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     const rawBody  = await req.text();
     const signature = req.headers.get('x-razorpay-signature') || '';
 
-    /* ── 1. Verify webhook signature ── */
+    /* â”€â”€ 1. Verify webhook signature â”€â”€ */
     if (!verifyWebhookSignature(rawBody, signature)) {
       console.warn('[Webhook]  Invalid webhook signature');
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
@@ -83,14 +83,14 @@ export async function POST(req: NextRequest) {
     const orderId   = payment.order_id;
     const paymentId = payment.id;
 
-    /* ── 2. Find the payment record ── */
+    /* â”€â”€ 2. Find the payment record â”€â”€ */
     const paymentRecord = await ProjectPayment.findOne({ razorpayOrderId: orderId });
     if (!paymentRecord) {
       // Not a project payment - ignore
       return NextResponse.json({ received: true });
     }
 
-    /* ── 3. Handle events ── */
+    /* â”€â”€ 3. Handle events â”€â”€ */
     if (eventType === 'payment.captured') {
       // Idempotency check
       if (paymentRecord.status === 'success') {

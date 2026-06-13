@@ -36,11 +36,11 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-/* ── Counselor contact details ─────────────────────────────── */
+/* â”€â”€ Counselor contact details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const COUNSELOR_PHONE = '8179124566';
 const COUNSELOR_WA    = `https://wa.me/91${COUNSELOR_PHONE}?text=${encodeURIComponent('Hi Adyapan Team, I want to know about offline internship')}`;
 
-/* ── Toast component ───────────────────────────────────────── */
+/* â”€â”€ Toast component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Toast({
   message, type, onClose,
 }: {
@@ -80,7 +80,7 @@ function Toast({
   );
 }
 
-/* ── Counselor Modal ───────────────────────────────────────── */
+/* â”€â”€ Counselor Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CounselorModal({ onClose }: { onClose: () => void }) {
   // Close on Escape key
   useEffect(() => {
@@ -440,12 +440,12 @@ export default function OfflineServicesPage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-[#111827]">
-      {/* ── Toast ── */}
+      {/* â”€â”€ Toast â”€â”€ */}
       <AnimatePresence>
         {toast && <Toast message={toast.message} type={toast.type} onClose={closeToast} />}
       </AnimatePresence>
 
-      {/* ── Counselor Modal ── */}
+      {/* â”€â”€ Counselor Modal â”€â”€ */}
       {showCounselor && <CounselorModal onClose={closeCounselor} />}
       <section className="relative isolate overflow-hidden bg-[#11121f] px-4 pb-16 pt-16 text-white sm:px-6 lg:px-8 lg:pb-24 lg:pt-20">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(255,168,0,0.30),transparent_28%),radial-gradient(circle_at_82%_8%,rgba(249,115,22,0.22),transparent_26%),linear-gradient(135deg,#11121f_0%,#17172b_50%,#080913_100%)]" />

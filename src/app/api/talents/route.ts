@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
     const limit           = Math.min(50, parseInt(searchParams.get('limit') || '12'));
     const skip            = (page - 1) * limit;
 
-    // ── Build filter ──────────────────────────────────────────
+    // â”€â”€ Build filter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const filter: Record<string, unknown> = {};
 
     // Text search
@@ -109,7 +109,7 @@ export async function GET(req: NextRequest) {
       filter.status = status;
     }
 
-    // ── Sort ──────────────────────────────────────────────────
+    // â”€â”€ Sort â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const sortMap: Record<string, Record<string, 1 | -1>> = {
       newest:   { createdAt: -1 },
       oldest:   { createdAt:  1 },
@@ -118,7 +118,7 @@ export async function GET(req: NextRequest) {
     };
     const sortQuery = sortMap[sort] ?? sortMap.newest;
 
-    // ── Fetch ─────────────────────────────────────────────────
+    // â”€â”€ Fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const [talents, total] = await Promise.all([
       StudentTalent.find(filter)
         .sort(sortQuery)
@@ -128,7 +128,7 @@ export async function GET(req: NextRequest) {
       StudentTalent.countDocuments(filter),
     ]);
 
-    // ── Stats (always from full collection, no filter) ────────
+    // â”€â”€ Stats (always from full collection, no filter) â”€â”€â”€â”€â”€â”€â”€â”€
     const [
       totalStudents,
       availableCount,

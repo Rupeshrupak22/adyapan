@@ -18,7 +18,7 @@ import mongoose from 'mongoose';
 
 const MIN_AMOUNT = 3000; // INR
 
-/* ── lazy-load backend models via mongoose (shared connection) ── */
+/* â”€â”€ lazy-load backend models via mongoose (shared connection) â”€â”€ */
 function getProjectRequestModel() {
   if (mongoose.models.ProjectRequest) return mongoose.models.ProjectRequest;
   const schema = new mongoose.Schema(
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       imageUrls, pdfUrls, referenceFiles, userId,
     } = body;
 
-    /* ── 1. Validate required fields ── */
+    /* â”€â”€ 1. Validate required fields â”€â”€ */
     if (!projectTitle?.trim() || !category || !description?.trim() ||
         !deadline || !contactName?.trim() || !contactEmail?.trim() || !contactPhone?.trim()) {
       return NextResponse.json(
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ── 2. Validate amount server-side ── */
+    /* â”€â”€ 2. Validate amount server-side â”€â”€ */
     const amount = Number(budget);
     if (!amount || amount < MIN_AMOUNT) {
       return NextResponse.json(
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ── 3. Create Razorpay order ── */
+    /* â”€â”€ 3. Create Razorpay order â”€â”€ */
     const keyId     = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ── 4. Save ProjectRequest (draft) ── */
+    /* â”€â”€ 4. Save ProjectRequest (draft) â”€â”€ */
     const ProjectRequest = getProjectRequestModel();
     const projectRequest = await ProjectRequest.create({
       projectTitle:    projectTitle.trim(),
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
       projectStatus:   'draft',
     });
 
-    /* ── 5. Save ProjectPayment (pending) ── */
+    /* â”€â”€ 5. Save ProjectPayment (pending) â”€â”€ */
     const ProjectPayment = getProjectPaymentModel();
     await ProjectPayment.create({
       projectRequestId:  projectRequest._id,
@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
       isTestMode,
     });
 
-    /* ── 6. Return order details to frontend ── */
+    /* â”€â”€ 6. Return order details to frontend â”€â”€ */
     await sendLeadNotificationEmails({
       sourcePage: 'Project request form',
       name: projectRequest.contactName,

@@ -8,7 +8,7 @@ const inputCls = 'w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:bor
 const labelCls = 'block text-sm font-semibold text-gray-700 mb-1.5';
 
 const INDUSTRIES = ['Technology','Finance','Healthcare','Education','E-commerce','Manufacturing','Media','Consulting','Real Estate','Other'];
-const COMPANY_SIZES = ['1–10','11–50','51–200','201–500','500+'];
+const COMPANY_SIZES = ['1â€“10','11â€“50','51â€“200','201â€“500','500+'];
 
 export default function CompanyProfilePage() {
   const [loading, setSaving]  = useState(false);

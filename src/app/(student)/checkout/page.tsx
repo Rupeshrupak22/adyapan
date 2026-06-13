@@ -7,12 +7,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getPlan } from '@/lib/planData';
 
-/* ── helpers ── */
+/* â”€â”€ helpers â”€â”€ */
 const fmt = (n: number) => 'Rs. ' + n.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
-/* ── plan data - loaded from centralized planData.ts ── */
+/* â”€â”€ plan data - loaded from centralized planData.ts â”€â”€ */
 
-/* ── coupons ── */
+/* â”€â”€ coupons â”€â”€ */
 const COUPONS: Record<string, { type: 'percent' | 'flat'; value: number; label: string }> = {
   'ADYAPAN5':  { type: 'percent', value: 5,    label: 'Extra 5% Off' },
   'STUDENT10': { type: 'flat',    value: 1000,  label: 'Rs. 1,000 Off' },
@@ -30,7 +30,7 @@ function CheckoutPageInner() {
   const planKey = searchParams.get('plan') || 'plan-4-premium';
   const plan = getPlan(planKey);
 
-  /* ── Auth guard: redirect to auth if not logged in ── */
+  /* â”€â”€ Auth guard: redirect to auth if not logged in â”€â”€ */
   const [authChecked, setAuthChecked] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<{ name: string; email: string; phone?: string; state?: string } | null>(null);
 
@@ -53,7 +53,7 @@ function CheckoutPageInner() {
       });
   }, [planKey, router]);
 
-  /* ── state ── */
+  /* â”€â”€ state â”€â”€ */
   const [step, setStep] = useState<Step>('details');
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState('');
@@ -93,7 +93,7 @@ function CheckoutPageInner() {
   const grandTotal = afterCoupon;
   const savings = plan.originalPrice - afterCoupon;
 
-  /* ── countdown timer ── */
+  /* â”€â”€ countdown timer â”€â”€ */
   const [timeLeft, setTimeLeft] = useState(3600);
   useEffect(() => {
     const t = setInterval(() => setTimeLeft(p => Math.max(0, p - 1)), 1000);
@@ -103,7 +103,7 @@ function CheckoutPageInner() {
   const mm = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
   const ss = String(timeLeft % 60).padStart(2, '0');
 
-  /* ── validate step 1 ── */
+  /* â”€â”€ validate step 1 â”€â”€ */
   const validate = () => {
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'Full name is required';
@@ -120,7 +120,7 @@ function CheckoutPageInner() {
     if (validate()) await handlePay();
   };
 
-  /* ── apply coupon ── */
+  /* â”€â”€ apply coupon â”€â”€ */
   const applyCoupon = (forcedCode?: string) => {
     setCouponError('');
     setCouponSuccess('');
@@ -140,7 +140,7 @@ function CheckoutPageInner() {
     setCouponSuccess('');
   };
 
-  /* ── Razorpay payment ── */
+  /* â”€â”€ Razorpay payment â”€â”€ */
   const loadRazorpay = () => new Promise<boolean>(res => {
     if (window.Razorpay) return res(true);
     const s = document.createElement('script');
@@ -154,7 +154,7 @@ function CheckoutPageInner() {
     setError('');
     setPaying(true);
     try {
-      /* ── 1. Create order via Next.js API route ── */
+      /* â”€â”€ 1. Create order via Next.js API route â”€â”€ */
       const res = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -168,7 +168,7 @@ function CheckoutPageInner() {
       }
       const { orderId, amount, currency, keyId } = await res.json();
 
-      /* ── 2. LIVE MODE (card/netbanking/etc) - open Razorpay checkout ── */
+      /* â”€â”€ 2. LIVE MODE (card/netbanking/etc) - open Razorpay checkout â”€â”€ */
       const loaded = await loadRazorpay();
       if (!loaded) { setError('Payment gateway failed to load.'); setPaying(false); return; }
 
@@ -212,10 +212,10 @@ function CheckoutPageInner() {
     }
   };
 
-  /* ── input class helper ── */
+  /* â”€â”€ input class helper â”€â”€ */
   const inp = (err?: string) => `w-full rounded-xl border ${err ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white'} px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all`;
 
-  /* ── ORDER SUMMARY ── */
+  /* â”€â”€ ORDER SUMMARY â”€â”€ */
   const OrderSummary = ({ compact = false }: { compact?: boolean }) => (
     <div className={`rounded-2xl border border-orange-100 bg-gradient-to-b from-amber-50 to-orange-50 shadow-lg ${compact ? '' : 'sticky top-24'}`}>
       {/* header */}
@@ -250,7 +250,7 @@ function CheckoutPageInner() {
           <div className="space-y-1.5 text-xs text-gray-600 pt-1">
             <div className="flex items-center gap-2">
               <span className="text-base"></span>
-              <span><strong>{plan.startDate}</strong> – <strong>{plan.endDate}</strong></span>
+              <span><strong>{plan.startDate}</strong> â€“ <strong>{plan.endDate}</strong></span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-base"></span>
@@ -303,7 +303,7 @@ function CheckoutPageInner() {
           {couponApplied && (
             <div className="flex items-center justify-between text-sm text-green-700">
               <span>Coupon ({couponApplied.code})</span>
-              <span className="font-semibold">− {fmt(couponApplied.discount)}</span>
+              <span className="font-semibold">âˆ’ {fmt(couponApplied.discount)}</span>
             </div>
           )}
         </div>
@@ -369,7 +369,7 @@ function CheckoutPageInner() {
     </div>
   );
 
-  /* ── Loading / auth check screen ── */
+  /* â”€â”€ Loading / auth check screen â”€â”€ */
   if (!authChecked) {
     return (
       <main className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #fff7ed, #fef3c7)' }}>
@@ -381,7 +381,7 @@ function CheckoutPageInner() {
     );
   }
 
-  /* ── SUCCESS SCREEN ── */
+  /* â”€â”€ SUCCESS SCREEN â”€â”€ */
   if (step === 'success') {
     return (
       <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-white flex items-center justify-center px-4 py-16">
@@ -405,7 +405,7 @@ function CheckoutPageInner() {
           <Link href="/dashboard/student"
             className="block w-full py-3 rounded-xl font-bold text-white text-sm"
             style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-            Go to Dashboard →
+            Go to Dashboard â†’
           </Link>
           <Link href="/programs" className="block mt-3 text-sm text-gray-400 hover:text-gray-600">Browse more courses</Link>
         </motion.div>
@@ -413,12 +413,12 @@ function CheckoutPageInner() {
     );
   }
 
-  /* ── MAIN RENDER ── */
+  /* â”€â”€ MAIN RENDER â”€â”€ */
   return (
     <main className="min-h-screen px-3 sm:px-4 py-6 sm:py-8" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fff 100%)' }}>
       <div className="max-w-6xl mx-auto">
 
-        {/* ── Page header ── */}
+        {/* â”€â”€ Page header â”€â”€ */}
         <div className="mb-6 flex items-center justify-between">
           <Link href="/programs" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-orange-600 transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
@@ -429,7 +429,7 @@ function CheckoutPageInner() {
           </div>
         </div>
 
-        {/* ── Logged-in banner ── */}
+        {/* â”€â”€ Logged-in banner â”€â”€ */}
         {loggedInUser && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
             className="mb-4 rounded-2xl bg-white border border-green-100 shadow-sm px-5 py-3 flex items-center justify-between">
@@ -446,7 +446,7 @@ function CheckoutPageInner() {
           </motion.div>
         )}
 
-        {/* ── Urgency bar ── */}
+        {/* â”€â”€ Urgency bar â”€â”€ */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
           className="mb-6 rounded-2xl overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #f97316, #dc2626)' }}>
@@ -465,7 +465,7 @@ function CheckoutPageInner() {
           </div>
         </motion.div>
 
-        {/* ── Mobile summary accordion ── */}
+        {/* â”€â”€ Mobile summary accordion â”€â”€ */}
         <div className="lg:hidden mb-4">
           <button onClick={() => setSummaryOpen(v => !v)}
             className="w-full flex items-center justify-between rounded-2xl bg-white border border-orange-100 shadow-sm px-5 py-4">
@@ -487,10 +487,10 @@ function CheckoutPageInner() {
           </AnimatePresence>
         </div>
 
-        {/* ── Main grid ── */}
+        {/* â”€â”€ Main grid â”€â”€ */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-          {/* ── LEFT: Steps ── */}
+          {/* â”€â”€ LEFT: Steps â”€â”€ */}
           <div className="flex-1 space-y-4 min-w-0">
 
             {/* STEP 1 */}
@@ -602,13 +602,13 @@ function CheckoutPageInner() {
 
             {/* bottom links */}
             <div className="flex items-center gap-4 text-sm text-gray-400 pb-4">
-              <Link href="/programs" className="hover:text-orange-600 transition-colors">‹ Go back to program</Link>
+              <Link href="/programs" className="hover:text-orange-600 transition-colors">â€¹ Go back to program</Link>
               <span>|</span>
               <a href="mailto:support@adyapan.com" className="hover:text-orange-600 transition-colors">Contact Support</a>
             </div>
           </div>
 
-          {/* ── RIGHT: Order Summary (desktop) ── */}
+          {/* â”€â”€ RIGHT: Order Summary (desktop) â”€â”€ */}
           <div className="hidden lg:block w-80 shrink-0">
             <OrderSummary />
           </div>

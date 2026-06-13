@@ -3,8 +3,8 @@
  * POST /api/admin/invites  - create a new admin invite
  *
  * Access:
- *  GET  → ADMIN or SUPERADMIN (admins can see invites on their dashboard)
- *  POST → SUPERADMIN only (only superadmin can generate new invites)
+ *  GET  â†’ ADMIN or SUPERADMIN (admins can see invites on their dashboard)
+ *  POST â†’ SUPERADMIN only (only superadmin can generate new invites)
  *
  * Security:
  *  - Token generated with crypto.randomBytes(64) - 128 hex chars
@@ -22,7 +22,7 @@ import { findExistingAccountByEmail, normalizeAccountEmail } from '@/lib/account
 import AdminInvite from '@/models/AdminInvite';
 import AuthUser from '@/models/AuthUser';
 
-/* ── Rate limiter (in-memory, per superadmin) ── */
+/* â”€â”€ Rate limiter (in-memory, per superadmin) â”€â”€ */
 const createAttempts = new Map<string, { count: number; resetAt: number }>();
 const MAX_CREATES    = 20;
 const CREATE_WINDOW  = 60 * 60 * 1000; // 1 hour
@@ -38,7 +38,7 @@ function checkCreateRateLimit(userId: string): boolean {
   return entry.count > MAX_CREATES;
 }
 
-/* ── Validation schema ── */
+/* â”€â”€ Validation schema â”€â”€ */
 const CreateInviteSchema = z.object({
   email:         z.string().refine(isStrictEmail, strictEmailMessage()),
   mobileNumber:  z.string()
@@ -52,9 +52,9 @@ const CreateInviteSchema = z.object({
   expiresInDays: z.number().int().min(1).max(30).default(1),
 });
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    GET - list invites (ADMIN or SUPERADMIN)
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export async function GET(request: NextRequest) {
   const auth = protectRouteByRole(request, ['ADMIN', 'SUPERADMIN']);
   if (auth instanceof NextResponse) return auth;
@@ -112,16 +112,16 @@ export async function GET(request: NextRequest) {
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    POST - create invite (SUPERADMIN only)
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export async function POST(request: NextRequest) {
   // Only SUPERADMIN can generate invites
   const auth = requireSuperAdmin(request);
   if (auth instanceof NextResponse) return auth;
 
   if (checkCreateRateLimit(auth.userId)) {
-    console.warn(`[AdminInvites] ️ Rate limited: superadmin ${auth.userId}`);
+    console.warn(`[AdminInvites] ï¸ Rate limited: superadmin ${auth.userId}`);
     return NextResponse.json(
       { error: 'Too many invites created. Please wait before creating more.' },
       { status: 429 }
@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/* ── Helpers ── */
+/* â”€â”€ Helpers â”€â”€ */
 function normalizeMobile(mobile: string): string {
   return mobile.replace(/[\s\-()]/g, '');
 }

@@ -8,7 +8,7 @@
  *   4. Create Enrollment + init Progress (critical)
  *   5. Send success email + save EmailLog
  *
- * If any critical DB save fails → return 500, do NOT return success.
+ * If any critical DB save fails â†’ return 500, do NOT return success.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -106,19 +106,19 @@ export async function POST(req: NextRequest) {
       paymentMethod = 'upi',
     } = body;
 
-    // ── Validate required fields ──
+    // â”€â”€ Validate required fields â”€â”€
     if (!razorpay_order_id || !razorpay_payment_id || !customerEmail) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    // ── Idempotency: already processed? ──
+    // â”€â”€ Idempotency: already processed? â”€â”€
     const existingPayment = await Payment.findOne({ paymentId: razorpay_payment_id });
     if (existingPayment) {
       console.log(`[Payment] Duplicate: ${razorpay_payment_id} - returning cached success`);
       return NextResponse.json({ success: true, paymentId: razorpay_payment_id, orderId: razorpay_order_id, duplicate: true });
     }
 
-    // ── SECURITY: Verify signature ──
+    // â”€â”€ SECURITY: Verify signature â”€â”€
     let signatureValid = false;
     try {
       signatureValid = verifySignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Payment verification failed - invalid signature' }, { status: 400 });
     }
 
-    // ── Resolve user from JWT ──
+    // â”€â”€ Resolve user from JWT â”€â”€
     const token = req.cookies.get('authToken')?.value;
     let userId = '';
     let userName = customerName || '';
@@ -189,7 +189,7 @@ export async function POST(req: NextRequest) {
     const courseSlug = planKey || Object.keys(PLAN_SLUGS).find(k => PLAN_SLUGS[k] === planName) || 'plan-4-premium';
     const courseName = PLAN_SLUGS[courseSlug] || planName || 'Adyapan Course';
 
-    // ── SECURITY: Derive amount server-side - never trust grandTotal from frontend ──
+    // â”€â”€ SECURITY: Derive amount server-side - never trust grandTotal from frontend â”€â”€
     const pricing = calculatePricing(courseSlug, couponCode);
     if (!pricing) {
       console.error(`[Payment] Unknown planKey: ${courseSlug}`);
@@ -197,13 +197,13 @@ export async function POST(req: NextRequest) {
     }
     const { base, gst, total } = pricing;
 
-    // ── Calculate dynamic plan dates ──
+    // â”€â”€ Calculate dynamic plan dates â”€â”€
     const plan = getPlan(courseSlug);
     const planDates = getDynamicPlanDates(plan.duration, plan.totalDays);
     const { durationMonths, durationDays } = parseDuration(plan.duration, plan.totalDays);
     const currentTimeIST = formatCurrentTimeIST();
 
-    // ── CRITICAL: Save payment (throws on failure) ──
+    // â”€â”€ CRITICAL: Save payment (throws on failure) â”€â”€
     const payment = await savePayment({
       userId, userName, userEmail, userPhone,
       paymentId: razorpay_payment_id, orderId: razorpay_order_id,
@@ -223,7 +223,7 @@ export async function POST(req: NextRequest) {
       selectedPlan: courseSlug,
     });
 
-    // ── CRITICAL: Create enrollment + progress (if user is logged in) ──
+    // â”€â”€ CRITICAL: Create enrollment + progress (if user is logged in) â”€â”€
     if (userId) {
       await createEnrollmentWithProgress({
         userId, courseSlug, courseName,
@@ -243,7 +243,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Send success email (non-critical, but logged) ──
+    // â”€â”€ Send success email (non-critical, but logged) â”€â”€
     if (userEmail && userName) {
       const alreadySent = await wasEmailSent('paymentId', razorpay_payment_id, 'payment_success');
 

@@ -8,12 +8,12 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// ── Static params for build-time generation ───────────────────────────────────
+// â”€â”€ Static params for build-time generation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function generateStaticParams() {
   return ALL_PROGRAMS.map((course) => ({ slug: course.slug }));
 }
 
-// ── Dynamic metadata per course ───────────────────────────────────────────────
+// â”€â”€ Dynamic metadata per course â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const course = ALL_PROGRAMS.find((c) => c.slug === slug);
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-// ── Page component ────────────────────────────────────────────────────────────
+// â”€â”€ Page component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default async function CoursePage({ params }: Props) {
   const { slug } = await params;
   const course = ALL_PROGRAMS.find((c) => c.slug === slug);

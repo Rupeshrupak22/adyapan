@@ -8,7 +8,7 @@ import { X, ChevronLeft, ChevronRight, ChevronRight as ArrowR } from 'lucide-rea
 
 const E = [0.22, 1, 0.36, 1] as const;
 
-/* ── data ── */
+/* â”€â”€ data â”€â”€ */
 const MOMENTS = [
   { src: '/images/team.jpg',           alt: 'Team',        area: 'a' },
   { src: '/images/charanfoo.jpeg',     alt: 'Office Visit - Charan', area: 'g' },
@@ -32,14 +32,14 @@ const CARDS = [
   { src: '/images/in-frame-pic.jpg',      label: 'CULTURE',      bg: 'bg-orange-600', col: '#ea580c' },
 ];
 
-/* ── scroll progress ── */
+/* â”€â”€ scroll progress â”€â”€ */
 function ScrollBar() {
   const { scrollYProgress } = useScroll();
   const s = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   return <motion.div className="fixed top-0 left-0 right-0 h-[3px] z-[200] origin-left bg-[#ffa800]" style={{ scaleX: s }} />;
 }
 
-/* ── lightbox ── */
+/* â”€â”€ lightbox â”€â”€ */
 function Lightbox({ images, idx, onClose, onPrev, onNext }: any) {
   return (
     <motion.div className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center"
@@ -98,7 +98,7 @@ export default function GalleryPage() {
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
       <ScrollBar />
 
-      {/* ── HERO ── */}
+      {/* â”€â”€ HERO â”€â”€ */}
       <section className="relative overflow-hidden min-h-[480px] flex items-center">
         {/* Video background */}
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ zIndex: 0 }}>
@@ -116,7 +116,7 @@ export default function GalleryPage() {
               className="bg-black/40 backdrop-blur-sm p-5 sm:p-6 rounded-3xl w-fit">
               <motion.button className="mb-4 px-5 py-2 rounded-full bg-white text-black text-xs font-bold uppercase tracking-wider"
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                Join the Batch →
+                Join the Batch â†’
               </motion.button>
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.05] mb-3">
                 The Ultimate<br />Journey<br />
@@ -130,7 +130,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── WELCOME SECTION ── */}
+      {/* â”€â”€ WELCOME SECTION â”€â”€ */}
       <section className="bg-[#111] py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
@@ -158,7 +158,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── MEET THE TEAM (card carousel like "Meet the Contenders") ── */}
+      {/* â”€â”€ MEET THE TEAM (card carousel like "Meet the Contenders") â”€â”€ */}
       <section className="bg-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -198,7 +198,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── MOMENTS OF GLORY (masonry grid) ── */}
+      {/* â”€â”€ MOMENTS OF GLORY (masonry grid) â”€â”€ */}
       <section className="relative bg-[#111] py-16 sm:py-20 overflow-hidden">
         {/* Video background */}
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-20" style={{ zIndex: 0 }}>
@@ -256,7 +256,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* ── LIGHTBOX ── */}
+      {/* â”€â”€ LIGHTBOX â”€â”€ */}
       <AnimatePresence>
         {lb !== null && <Lightbox images={MOMENTS} idx={lb} onClose={closeLb} onPrev={prev} onNext={next} />}
       </AnimatePresence>

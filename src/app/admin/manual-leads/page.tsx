@@ -9,7 +9,7 @@ import {
   BookOpen, StickyNote, UserCheck, ChevronDown,
 } from 'lucide-react';
 
-// ── Types ─────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 type EnrollmentType = 'Online' | 'Offline Form' | 'Office Visit' | 'Phone Call';
 type PaymentStatus  = 'Paid' | 'Pending' | 'Failed' | 'Partial';
 
@@ -56,7 +56,7 @@ const EMPTY_FORM: FormData = {
   notes: '', addedByAdmin: '',
 };
 
-// ── Color maps ────────────────────────────────────────────────
+// â”€â”€ Color maps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ENROLLMENT_COLORS: Record<EnrollmentType, string> = {
   'Online':       'bg-blue-100 text-blue-700',
   'Offline Form': 'bg-purple-100 text-purple-700',
@@ -71,11 +71,11 @@ const PAYMENT_COLORS: Record<PaymentStatus, string> = {
   'Partial': 'bg-indigo-100 text-indigo-700',
 };
 
-// ── Input style ───────────────────────────────────────────────
+// â”€â”€ Input style â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const inp = 'w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ffa800]/30 focus:border-[#ffa800] transition-all bg-white';
 const sel = `${inp} appearance-none cursor-pointer`;
 
-// ── Confirm Delete Modal ──────────────────────────────────────
+// â”€â”€ Confirm Delete Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function ConfirmModal({
   name, onConfirm, onCancel, loading,
 }: { name: string; onConfirm: () => void; onCancel: () => void; loading: boolean }) {
@@ -117,7 +117,7 @@ function ConfirmModal({
   );
 }
 
-// ── Add/Edit Modal ────────────────────────────────────────────
+// â”€â”€ Add/Edit Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function LeadModal({
   mode, initial, onClose, onSaved,
 }: {
@@ -364,7 +364,7 @@ function LeadModal({
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────
+// â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function ManualLeadsPage() {
   const [leads,   setLeads]   = useState<ManualLead[]>([]);
   const [loading, setLoading] = useState(true);

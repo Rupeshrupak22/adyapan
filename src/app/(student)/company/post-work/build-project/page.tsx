@@ -116,7 +116,7 @@ function FieldError({ msg }: { msg?: string }) {
   );
 }
 
-// ─── Step 1: Project Details ───────────────────────────────────────────────
+// â”€â”€â”€ Step 1: Project Details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Step1({
   form, setForm, errors,
 }: {
@@ -333,7 +333,7 @@ function Step1({
   );
 }
 
-// ─── Step 2: Upload Files ──────────────────────────────────────────────────
+// â”€â”€â”€ Step 2: Upload Files â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Step2({
   images, setImages,
   pdfs, setPdfs,
@@ -523,7 +523,7 @@ function Step2({
   );
 }
 
-// ─── Step 3: Review ────────────────────────────────────────────────────────
+// â”€â”€â”€ Step 3: Review â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Step3({
   form, images, pdfs, refs, onEdit,
 }: {
@@ -619,7 +619,7 @@ function Step3({
   );
 }
 
-// ─── Step 4: Payment ───────────────────────────────────────────────────────
+// â”€â”€â”€ Step 4: Payment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Step4({
   form, images, pdfs, refs, userId, onSuccess,
 }: {
@@ -650,7 +650,7 @@ function Step4({
     setPayState('creating');
 
     try {
-      /* ── 1. Load Razorpay SDK ── */
+      /* â”€â”€ 1. Load Razorpay SDK â”€â”€ */
       const loaded = await loadRazorpay();
       if (!loaded) {
         setPayError('Failed to load payment gateway. Please check your internet connection and try again.');
@@ -659,7 +659,7 @@ function Step4({
         return;
       }
 
-      /* ── 2. Create order via Next.js API (same-origin - no CORS) ── */
+      /* â”€â”€ 2. Create order via Next.js API (same-origin - no CORS) â”€â”€ */
       let orderData: any;
       try {
         const orderRes = await fetch('/api/project-payment/create-order', {
@@ -700,7 +700,7 @@ function Step4({
 
       setPayState('opening');
 
-      /* ── 3. Open Razorpay checkout ── */
+      /* â”€â”€ 3. Open Razorpay checkout â”€â”€ */
       const options = {
         key:         orderData.keyId,
         amount:      orderData.amount,
@@ -720,7 +720,7 @@ function Step4({
         },
         theme: { color: '#f97316' },
 
-        /* ── 4. On payment success → verify server-side ── */
+        /* â”€â”€ 4. On payment success â†’ verify server-side â”€â”€ */
         handler: async (response: {
           razorpay_order_id:   string;
           razorpay_payment_id: string;
@@ -869,7 +869,7 @@ function Step4({
   );
 }
 
-// ─── Success Screen ────────────────────────────────────────────────────────
+// â”€â”€â”€ Success Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SuccessScreen({ projectId }: { projectId: string }) {
   return (
     <motion.div
@@ -935,7 +935,7 @@ function SuccessScreen({ projectId }: { projectId: string }) {
   );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function BuildProjectPage() {
   const router = useRouter();
   const [authChecked, setAuthChecked] = useState(false);

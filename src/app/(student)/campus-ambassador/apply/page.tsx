@@ -5,17 +5,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, CheckCircle, User, Mail, Phone, GraduationCap, MapPin, BookOpen, ChevronDown } from 'lucide-react';
 
 const COUNTRY_CODES = [
-  { flag: '🇮🇳', code: '+91', name: 'India' },
-  { flag: '🇺🇸', code: '+1',  name: 'USA' },
-  { flag: '🇬🇧', code: '+44', name: 'UK' },
-  { flag: '🇦🇺', code: '+61', name: 'Australia' },
-  { flag: '🇦🇪', code: '+971', name: 'UAE' },
-  { flag: '🇸🇬', code: '+65', name: 'Singapore' },
-  { flag: '🇲🇾', code: '+60', name: 'Malaysia' },
-  { flag: '🇧🇩', code: '+880', name: 'Bangladesh' },
-  { flag: '🇵🇰', code: '+92', name: 'Pakistan' },
-  { flag: '🇱🇰', code: '+94', name: 'Sri Lanka' },
-  { flag: '🇳🇵', code: '+977', name: 'Nepal' },
+  { flag: 'ðŸ‡®ðŸ‡³', code: '+91', name: 'India' },
+  { flag: 'ðŸ‡ºðŸ‡¸', code: '+1',  name: 'USA' },
+  { flag: 'ðŸ‡¬ðŸ‡§', code: '+44', name: 'UK' },
+  { flag: 'ðŸ‡¦ðŸ‡º', code: '+61', name: 'Australia' },
+  { flag: 'ðŸ‡¦ðŸ‡ª', code: '+971', name: 'UAE' },
+  { flag: 'ðŸ‡¸ðŸ‡¬', code: '+65', name: 'Singapore' },
+  { flag: 'ðŸ‡²ðŸ‡¾', code: '+60', name: 'Malaysia' },
+  { flag: 'ðŸ‡§ðŸ‡©', code: '+880', name: 'Bangladesh' },
+  { flag: 'ðŸ‡µðŸ‡°', code: '+92', name: 'Pakistan' },
+  { flag: 'ðŸ‡±ðŸ‡°', code: '+94', name: 'Sri Lanka' },
+  { flag: 'ðŸ‡³ðŸ‡µ', code: '+977', name: 'Nepal' },
 ];
 
 const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'PG'];
@@ -208,7 +208,7 @@ export default function CampusAmbassadorApplyPage() {
           </div>
           <h2 className="text-2xl font-black text-gray-900 mb-3">Application Submitted!</h2>
           <p className="text-gray-500 mb-6">
-            Thanks for applying to become a Campus Ambassador. Our team will review your application and get back to you within 2–3 business days.
+            Thanks for applying to become a Campus Ambassador. Our team will review your application and get back to you within 2â€“3 business days.
           </p>
           <a
             href="/campus-ambassador"
@@ -234,7 +234,7 @@ export default function CampusAmbassadorApplyPage() {
           <h1 className="text-4xl font-black text-gray-900 mb-3">
             Apply <span className="text-orange-500">Directly</span>
           </h1>
-          <p className="text-gray-500 text-lg">Fill in your details and we'll get back to you within 2–3 business days.</p>
+          <p className="text-gray-500 text-lg">Fill in your details and we'll get back to you within 2â€“3 business days.</p>
         </motion.div>
 
         {/* Form */}

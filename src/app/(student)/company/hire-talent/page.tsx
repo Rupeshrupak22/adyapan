@@ -579,7 +579,7 @@ export default function HireTalentPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0f1419] via-transparent to-transparent" />
                       <div className="absolute top-4 right-4">
                         <span className="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
-                          ● {program.status}
+                          â— {program.status}
                         </span>
                       </div>
                       <div className="absolute bottom-4 left-4">

@@ -335,7 +335,7 @@ export default function JobDetailPage() {
                   {expired ? (
                     <div className="text-center py-2">
                       <p className="text-sm font-semibold text-red-500 mb-3">This job has expired</p>
-                      <Link href="/jobs" className="text-sm text-orange-500 font-semibold hover:underline">Browse other jobs →</Link>
+                      <Link href="/jobs" className="text-sm text-orange-500 font-semibold hover:underline">Browse other jobs â†’</Link>
                     </div>
                   ) : (
                     <>
