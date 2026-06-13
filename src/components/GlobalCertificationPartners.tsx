@@ -155,7 +155,7 @@ export default function GlobalCertificationPartners() {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white shadow-lg"
               style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 0 16px rgba(249,115,22,0.3)' }}
             >
-              View All Certifications <span>-></span>
+              View All Certifications <span>&rarr;</span>
             </motion.button>
           </Link>
         </motion.div>
