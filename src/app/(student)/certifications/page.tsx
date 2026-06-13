@@ -457,7 +457,7 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
         {/* Shimmer sweep on hover */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
-          animate={{ x: hovered ? ['âˆ'100%', '200%'] : '-100%' }}
+          animate={{ x: hovered ? ['-100%', '200%'] : '-100%' }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
           style={{
             background: `linear-gradient(105deg, transparent 40%, ${partner.neon}18 50%, transparent 60%)`,
