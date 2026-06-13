@@ -109,7 +109,7 @@ function EditProfileModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: 20 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-        className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden"
+        className="relative w-full max-w-md max-h-[90vh] rounded-3xl bg-white shadow-2xl overflow-y-auto"
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-[#ffa800] to-[#ff8c00] px-6 py-5 flex items-center justify-between">
