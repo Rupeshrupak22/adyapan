@@ -88,7 +88,7 @@ export default function CampusAmbassadorPage() {
               className="grid grid-cols-2 md:grid-cols-4 gap-4"
             >
               {[
-                { value: 'âRs.1K"15K', label: 'Monthly Stipend', sub: 'Incentive Based' },
+                { value: 'Rs.1K-15K', label: 'Monthly Stipend', sub: 'Incentive Based' },
                 { value: 'All', label: 'Academic Programs', sub: 'Engineering, Management & More' },
                 { value: 'Flexible', label: 'Work Schedule', sub: 'Balance with Studies' },
                 { value: '100%', label: 'Remote Friendly', sub: 'Work from Anywhere' },
@@ -379,7 +379,7 @@ export default function CampusAmbassadorPage() {
             </div>
 
             <p className="text-gray-400 text-sm">
-              Stipend: âRs.1,000 " âRs.15,000/Month (Incentive Based) - Flexible Schedule - Remote Friendly
+              Stipend: Rs. 1,000 - Rs. 15,000/Month (Incentive Based) - Flexible Schedule - Remote Friendly
             </p>
           </motion.div>
         </div>
