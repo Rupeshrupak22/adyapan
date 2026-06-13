@@ -823,7 +823,7 @@ export default function FindEmployeePage() {
               <p className="mt-2 text-sm text-gray-600">Post your requirements and get proposals from students.</p>
               <Link href="/organization/jobs/post"
                 className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#ffa800] to-[#f97316] px-4 py-2 text-xs font-black text-white shadow hover:shadow-md transition-all">
-                Post a Job ->
+                Post a Job &rarr;
               </Link>
             </div>
 

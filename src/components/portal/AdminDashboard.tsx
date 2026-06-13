@@ -240,7 +240,7 @@ export default function AdminDashboard() {
               <p className="text-xs text-gray-400 mt-0.5">Latest successful transactions</p>
             </div>
             <Link href="/admin/payments" className="text-xs text-[#ffa800] hover:underline font-medium">
-              View all ->
+              View all &rarr;
             </Link>
           </div>
           <div className="space-y-3">

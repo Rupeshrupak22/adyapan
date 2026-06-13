@@ -116,7 +116,7 @@ export default function GalleryPage() {
               className="bg-black/40 backdrop-blur-sm p-5 sm:p-6 rounded-3xl w-fit">
               <motion.button className="mb-4 px-5 py-2 rounded-full bg-white text-black text-xs font-bold uppercase tracking-wider"
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                Join the Batch ->
+                Join the Batch &rarr;
               </motion.button>
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.05] mb-3">
                 The Ultimate<br />Journey<br />

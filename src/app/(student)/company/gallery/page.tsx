@@ -104,7 +104,7 @@ export default function GalleryPage() {
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: E }}>
               <motion.button className="mb-6 px-5 py-2 rounded-full bg-white text-black text-xs font-bold uppercase tracking-wider"
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                Join the Batch ->
+                Join the Batch &rarr;
               </motion.button>
               <h1 className="text-5xl md:text-6xl font-black text-white leading-[1.05] mb-4">
                 The Ultimate<br />Journey<br />

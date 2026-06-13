@@ -405,7 +405,7 @@ function CheckoutPageInner() {
           <Link href="/dashboard/student"
             className="block w-full py-3 rounded-xl font-bold text-white text-sm"
             style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-            Go to Dashboard ->
+            Go to Dashboard &rarr;
           </Link>
           <Link href="/programs" className="block mt-3 text-sm text-gray-400 hover:text-gray-600">Browse more courses</Link>
         </motion.div>

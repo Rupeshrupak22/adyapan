@@ -293,7 +293,7 @@ function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
                 className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:shadow-lg hover:shadow-orange-200"
                 style={{ background: 'linear-gradient(135deg,#ffa800,#ff6b00)' }}
               >
-                Browse Programs ->
+                Browse Programs &rarr;
               </Link>
             </div>
           ) : (
@@ -365,7 +365,7 @@ function PurchasedCoursesModal({ onClose }: { onClose: () => void }) {
               className="w-full py-3 rounded-2xl text-white text-sm font-extrabold tracking-wide transition-all"
               style={{ background: 'linear-gradient(135deg,#ffa800 0%,#ff6b00 100%)' }}
             >
-              Go to My Dashboard ->
+              Go to My Dashboard &rarr;
             </motion.button>
           </div>
         )}
