@@ -95,22 +95,24 @@ function EditProfileModal({
   const initials = name ? name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) : '?';
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[200] overflow-y-auto">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 20 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-        className="relative w-full max-w-md max-h-[90vh] rounded-3xl bg-white shadow-2xl overflow-y-auto"
-      >
+      <div className="min-h-full flex items-center justify-center p-4">
+        {/* Modal card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 20 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+          className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden my-8"
+          onClick={e => e.stopPropagation()}
+        >
         {/* Header */}
         <div className="bg-gradient-to-r from-[#ffa800] to-[#ff8c00] px-6 py-5 flex items-center justify-between">
           <h2 className="text-lg font-bold text-white">Edit Profile</h2>
@@ -197,6 +199,7 @@ function EditProfileModal({
           </div>
         </form>
       </motion.div>
+      </div>
     </div>
   );
 }
