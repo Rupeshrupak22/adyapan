@@ -176,16 +176,24 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
 
                       {/* Features */}
                       <ul className="mt-4 flex-1 space-y-2 text-xs sm:text-sm">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-start gap-2">
-                            <Check
-                              className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
-                                plan.isPremium ? 'text-white' : 'text-orange-600'
-                              }`}
-                            />
-                            <span className="break-words leading-snug">{feature}</span>
-                          </li>
-                        ))}
+                        {plan.features.map((feature) => {
+                          const isHighlight = feature.startsWith('\u2B50');
+                          const displayText = isHighlight ? feature.slice(2) : feature;
+                          return (
+                            <li key={feature} className={`flex items-start gap-2 ${isHighlight ? 'font-semibold' : ''}`}>
+                              <Check
+                                className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
+                                  isHighlight
+                                    ? (plan.isPremium ? 'text-yellow-300' : 'text-green-500')
+                                    : (plan.isPremium ? 'text-white' : 'text-orange-600')
+                                }`}
+                              />
+                              <span className={`break-words leading-snug ${
+                                isHighlight && !plan.isPremium ? 'text-green-700' : ''
+                              }${isHighlight && plan.isPremium ? 'text-yellow-100' : ''}`}>{displayText}</span>
+                            </li>
+                          );
+                        })}
                       </ul>
 
                       {/* CTA button - full width, always at bottom */}
