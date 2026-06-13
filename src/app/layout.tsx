@@ -2,6 +2,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Analytics from '@/components/Analytics';
+import InactivityTimeout from '@/components/InactivityTimeout';
 
 const inter = Inter({
   subsets:  ['latin'],
@@ -138,6 +139,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} min-h-screen flex flex-col overflow-x-hidden`} suppressHydrationWarning>
         {children}
         <Analytics />
+        <InactivityTimeout />
       </body>
     </html>
   );

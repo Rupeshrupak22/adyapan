@@ -65,6 +65,10 @@ function LoginContent() {
     if (googleError?.startsWith('google') || googleError === 'account_suspended') {
       setError('Google sign in failed. Please try again or use email and password.');
     }
+    const reason = searchParams.get('reason');
+    if (reason === 'inactivity') {
+      setError('You were logged out due to inactivity. Please sign in again.');
+    }
   }, [searchParams]);
 
   if (checking) return (
