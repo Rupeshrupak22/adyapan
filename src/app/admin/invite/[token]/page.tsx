@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, CheckCircle, AlertCircle, ArrowRight, Shield, Lock, Mail, Phone, User, Building2 } from 'lucide-react';
 import axios from 'axios';
 
-/* â”€â”€ Floating orb background â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€ Floating orb background â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function Orbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -26,7 +26,7 @@ function Orbs() {
   );
 }
 
-/* â”€â”€ Floating input field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€ Floating input field â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function FloatInput({
   label, name, type = 'text', value, onChange, placeholder, required, autoComplete, disabled, icon: Icon,
   rightEl,

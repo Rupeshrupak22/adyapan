@@ -63,7 +63,7 @@ async function resendPendingVerification(user: any, request: NextRequest) {
   );
 }
 
-/* â”€â”€ Validation schemas â”€â”€ */
+/* â"€â"€ Validation schemas â"€â"€ */
 const StudentSchema = z
   .object({
     firstName:       z.string().min(2, 'First name must be at least 2 characters'),
@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Security check failed. Please try again.' }, { status: 400 });
     }
 
-    /* â”€â”€ Block any attempt to self-register as admin â”€â”€ */
+    /* â"€â"€ Block any attempt to self-register as admin â"€â"€ */
     if (role === 'admin' || role === 'ADMIN' || role === 'superadmin') {
       return NextResponse.json(
         { error: 'You are not authorized to create this account.' },

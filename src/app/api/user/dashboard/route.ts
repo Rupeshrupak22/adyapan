@@ -21,15 +21,15 @@ export async function GET(req: NextRequest) {
   try {
     await connectToDatabase();
 
-    /* â”€â”€ Auth â”€â”€ */
+    /* â"€â"€ Auth â"€â"€ */
     const user = await AuthUser.findById(auth.userId).lean();
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
-    /* â”€â”€ Enrollments â”€â”€ */
+    /* â"€â"€ Enrollments â"€â"€ */
     const enrollments = await Enrollment.find({ userId: auth.userId }).lean();
     const lmsAccess = await StudentLMSAccess.findOne({ userId: auth.userId }).lean();
 
-    /* â”€â”€ Progress for each enrollment â”€â”€ */
+    /* â"€â"€ Progress for each enrollment â"€â"€ */
     const dashboardCourses = await Promise.all(
       enrollments.map(async (enr) => {
         /* Get or auto-seed course */

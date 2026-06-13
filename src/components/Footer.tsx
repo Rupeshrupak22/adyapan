@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import MarqueeBanner from '@/components/MarqueeBanner';
 
-/* â”€â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
 const platformLinks = [
   { href: '/programs',            label: 'Programs' },
@@ -53,7 +53,7 @@ const socialLinks = [
   },
 ];
 
-/* â”€â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Sub-components â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -81,7 +81,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-/* â”€â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Footer â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
 const Footer = () => {
   return (
@@ -125,13 +125,13 @@ const Footer = () => {
         />
       </div>
 
-      {/* â”€â”€ Main content â”€â”€ */}
+      {/* â"€â"€ Main content â"€â"€ */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 lg:pt-14 pb-8">
 
         {/* 4-column responsive grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10 sm:mb-12">
 
-          {/* â”€â”€ Col 1: Brand â”€â”€ */}
+          {/* â"€â"€ Col 1: Brand â"€â"€ */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-4 group" aria-label="Adyapan home">
               <motion.div
@@ -176,7 +176,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* â”€â”€ Col 2: Platform â”€â”€ */}
+          {/* â"€â"€ Col 2: Platform â"€â"€ */}
           <div>
             <SectionHeading>Platform</SectionHeading>
             <ul className="space-y-1">
@@ -186,7 +186,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* â”€â”€ Col 3: Legal â”€â”€ */}
+          {/* â"€â"€ Col 3: Legal â"€â"€ */}
           <div>
             <SectionHeading>Legal</SectionHeading>
             <ul className="space-y-1">
@@ -196,7 +196,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* â”€â”€ Col 4: Contact â”€â”€ */}
+          {/* â"€â"€ Col 4: Contact â"€â"€ */}
           <div>
             <SectionHeading>Contact</SectionHeading>
             <ul className="space-y-4">
@@ -299,7 +299,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* â”€â”€ Big brand text banner â”€â”€ */}
+        {/* â"€â"€ Big brand text banner â"€â"€ */}
         <div
           className="relative w-full overflow-hidden mb-6 flex items-center justify-center py-8 sm:py-10"
           aria-hidden="true"
@@ -329,10 +329,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* â”€â”€ Bottom bar â”€â”€ */}
+        {/* â"€â"€ Bottom bar â"€â"€ */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <p className="text-gray-500 text-xs text-center sm:text-left">
-            Â© {new Date().getFullYear()}{' '}
+            © {new Date().getFullYear()}{' '}
             <span className="text-gray-400 font-medium">SR's Adyapan Edutech Pvt. Ltd.</span>
             {' '}All rights reserved.
           </p>

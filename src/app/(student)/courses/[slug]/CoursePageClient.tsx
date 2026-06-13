@@ -385,9 +385,9 @@ export default function CoursePageClient() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-orange-600">Home</Link>
-            <span aria-hidden="true">â€º</span>
+            <span aria-hidden="true">> </span>
             <Link href="/programs" className="hover:text-orange-600">{course.category}</Link>
-            <span aria-hidden="true">â€º</span>
+            <span aria-hidden="true">> </span>
             <span className="text-gray-800 font-medium">{course.title} Course</span>
           </nav>
         </div>

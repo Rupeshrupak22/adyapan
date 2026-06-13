@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CheckCircle, Award, TrendingUp, Users, Globe, Shield, ChevronRight } from 'lucide-react';
 import CertificationEnrollModal from '@/components/CertificationEnrollModal';
 
-/* â”€â”€â”€ Partner data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Partner data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const certificationPartners = [
   { name: 'Adobe',                          abbr: 'Ado', logo: '/logos/adobe.webp',                    neon: '#FF0000' },
   { name: 'Apple',                          abbr: 'App', logo: '/logos/apple.png',                                        neon: '#a0a0a0' },
@@ -26,7 +26,7 @@ const certificationPartners = [
   { name: 'CCS Generative AI',              abbr: 'CCS', logo: '/logos/ccs.png',                       neon: '#f97316' },
 ];
 
-/* â”€â”€â”€ Interactive Partner Explorer data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Interactive Partner Explorer data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const partnerExplorerData = [
   {
     name: 'Adobe',
@@ -183,7 +183,7 @@ const partnerExplorerData = [
     abbr: 'PMI',
     logo: '/logos/project-management-institutelol.svg',
     count: 1,
-    certifications: ['PMI - Project Management Readyâ„¢'],
+    certifications: ['PMI - Project Management Ready'],
   },
   {
     name: 'Unity',
@@ -212,7 +212,7 @@ const partnerExplorerData = [
   },
 ];
 
-/* â”€â”€â”€ Interactive Partner Explorer Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Interactive Partner Explorer Component â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function PartnerExplorer({
   onEarnCertificate,
 }: {
@@ -396,7 +396,7 @@ function PartnerExplorer({
   );
 }
 
-/* â”€â”€â”€ Benefits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Benefits â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const benefits = [
   { icon: <Globe className="w-6 h-6" />,       title: 'Industry Recognized',    desc: 'Globally accepted certifications' },
   { icon: <Shield className="w-6 h-6" />,      title: '100% Trusted & Verified', desc: 'Authentic certificates from top companies' },
@@ -413,7 +413,7 @@ const stats = [
   { icon: '', value: '100%', label: 'Trusted & Verified' },
 ];
 
-/* â”€â”€â”€ Partner Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Partner Card â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0]; i: number }) {
   const [hovered, setHovered] = useState(false);
 
@@ -457,7 +457,7 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
         {/* Shimmer sweep on hover */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
-          animate={{ x: hovered ? ['âˆ’100%', '200%'] : '-100%' }}
+          animate={{ x: hovered ? ['âˆ'100%', '200%'] : '-100%' }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
           style={{
             background: `linear-gradient(105deg, transparent 40%, ${partner.neon}18 50%, transparent 60%)`,
@@ -500,7 +500,7 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
   );
 }
 
-/* â”€â”€â”€ Certificate Showcase Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Certificate Showcase Section â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const ALL_CERTIFICATES = [
   { name: 'Adobe Acrobat Pro',                      file: 'Adobe Acrobat Pro.png',                       company: 'Adobe' },
   { name: 'Adobe After Effects',                    file: 'Adobe After Effects.png',                     company: 'Adobe' },
@@ -747,7 +747,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
   );
 }
 
-/* â”€â”€â”€ Gain Your Certificate Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Gain Your Certificate Section â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: string) => void }) {
   const steps = [
     {
@@ -980,7 +980,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                       transition={{ duration: 1.2, repeat: Infinity }}
                       className="text-orange-500/50 text-2xl"
                     >
-                      â†“
+                      â†"
                     </motion.div>
                   </div>
                 )}
@@ -1028,7 +1028,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
   );
 }
 
-/* â”€â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Page â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 export default function CertificationsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCert, setModalCert] = useState({ certName: '', companyName: '' });
@@ -1049,16 +1049,16 @@ export default function CertificationsPage() {
         companyName={modalCert.companyName}
       />
 
-      {/* â”€â”€ Partner Explorer â”€â”€ */}
+      {/* â"€â"€ Partner Explorer â"€â"€ */}
       <PartnerExplorer onEarnCertificate={openModal} />
 
-      {/* â”€â”€ Gain Your Certificate Journey â”€â”€ */}
+      {/* â"€â"€ Gain Your Certificate Journey â"€â"€ */}
       <GainCertSection onEnroll={openModal} />
 
-      {/* â”€â”€ Sample Certificates Showcase â”€â”€ */}
+      {/* â"€â"€ Sample Certificates Showcase â"€â"€ */}
       <CertificateShowcase onEnroll={openModal} />
 
-      {/* â”€â”€ Partners â”€â”€ */}
+      {/* â"€â"€ Partners â"€â"€ */}
       <section
         id="partners"
         className="py-16 sm:py-20"

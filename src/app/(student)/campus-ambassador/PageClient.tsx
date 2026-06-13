@@ -29,7 +29,7 @@ const hoverPop = {
 export default function CampusAmbassadorPage() {
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      {/* â”€â”€â”€ Hero Section â”€â”€â”€ */}
+      {/* â"€â"€â"€ Hero Section â"€â"€â"€ */}
       <section className="relative pt-16 pb-24 sm:pb-32 px-6 overflow-hidden">
         <video
           autoPlay muted loop playsInline
@@ -53,7 +53,7 @@ export default function CampusAmbassadorPage() {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Bridge the gap between students and industry. Empower your campus with Adyapan and earn up to â‚¹15,000/month while making a real impact.
+              Bridge the gap between students and industry. Empower your campus with Adyapan and earn up to Rs. 15,000/month while making a real impact.
             </p>
 
             {/* CTA Buttons */}
@@ -88,7 +88,7 @@ export default function CampusAmbassadorPage() {
               className="grid grid-cols-2 md:grid-cols-4 gap-4"
             >
               {[
-                { value: 'â‚¹1Kâ€“15K', label: 'Monthly Stipend', sub: 'Incentive Based' },
+                { value: 'âRs.1K"15K', label: 'Monthly Stipend', sub: 'Incentive Based' },
                 { value: 'All', label: 'Academic Programs', sub: 'Engineering, Management & More' },
                 { value: 'Flexible', label: 'Work Schedule', sub: 'Balance with Studies' },
                 { value: '100%', label: 'Remote Friendly', sub: 'Work from Anywhere' },
@@ -112,7 +112,7 @@ export default function CampusAmbassadorPage() {
 
       <MarqueeBanner variant="orange" speed={30} />
 
-      {/* â”€â”€â”€ About Section â”€â”€â”€ */}
+      {/* â"€â"€â"€ About Section â"€â"€â"€ */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -156,7 +156,7 @@ export default function CampusAmbassadorPage() {
         </div>
       </section>
 
-      {/* â”€â”€â”€ The Role Section â”€â”€â”€ */}
+      {/* â"€â"€â"€ The Role Section â"€â"€â"€ */}
       <section className="py-20 px-6 bg-[#fafafa]">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -205,7 +205,7 @@ export default function CampusAmbassadorPage() {
         </div>
       </section>
 
-      {/* â”€â”€â”€ Requirements & Skills â”€â”€â”€ */}
+      {/* â"€â"€â"€ Requirements & Skills â"€â"€â"€ */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -284,7 +284,7 @@ export default function CampusAmbassadorPage() {
         </div>
       </section>
 
-      {/* â”€â”€â”€ Eligibility Section â”€â”€â”€ */}
+      {/* â"€â"€â"€ Eligibility Section â"€â"€â"€ */}
       <section className="py-20 px-6 bg-[#fafafa]">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -334,7 +334,7 @@ export default function CampusAmbassadorPage() {
         </div>
       </section>
 
-      {/* â”€â”€â”€ Final CTA â”€â”€â”€ */}
+      {/* â"€â"€â"€ Final CTA â"€â"€â"€ */}
       <section className="py-24 px-6 bg-gradient-to-br from-[#111827] to-[#1f2937] relative overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#ffa800] rounded-full blur-[120px]" />
@@ -379,7 +379,7 @@ export default function CampusAmbassadorPage() {
             </div>
 
             <p className="text-gray-400 text-sm">
-              Stipend: â‚¹1,000 â€“ â‚¹15,000/Month (Incentive Based) Â· Flexible Schedule Â· Remote Friendly
+              Stipend: âRs.1,000 " âRs.15,000/Month (Incentive Based) - Flexible Schedule - Remote Friendly
             </p>
           </motion.div>
         </div>

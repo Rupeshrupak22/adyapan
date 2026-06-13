@@ -22,7 +22,7 @@ export async function GET(
     await connectToDatabase();
     const { courseId: courseSlug } = await params;
 
-    /* ── Verify course is complete ── */
+    /* -- Verify course is complete -- */
     const progress = await Progress.findOne({
       userId: auth.userId,
       courseSlug,
@@ -35,7 +35,7 @@ export async function GET(
       );
     }
 
-    /* ── Fetch certificate (user-scoped) ── */
+    /* -- Fetch certificate (user-scoped) -- */
     const cert = await Certificate.findOne({
       userId: auth.userId,
       courseSlug,
@@ -50,7 +50,7 @@ export async function GET(
 
     const c = cert as any;
 
-    /* ── Generate PDF ── */
+    /* -- Generate PDF -- */
     const pdfBuffer = await generateCertificatePDF({
       certificateId: c.certificateId,
       studentName:   c.studentName,
@@ -75,9 +75,9 @@ export async function GET(
   }
 }
 
-/* ─────────────────────────────────────────────────────────────
+/* -------------------------------------------------------------
    PDF Generation
-   ───────────────────────────────────────────────────────────── */
+   ------------------------------------------------------------- */
 interface CertData {
   certificateId: string;
   studentName:   string;
@@ -101,22 +101,22 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
     const W = doc.page.width;   // 841.89
     const H = doc.page.height;  // 595.28
 
-    /* ── Background ── */
+    /* -- Background -- */
     doc.rect(0, 0, W, H).fill('#fffbf0');
 
-    /* ── Outer border ── */
+    /* -- Outer border -- */
     doc
       .rect(20, 20, W - 40, H - 40)
       .lineWidth(3)
       .stroke('#ffa800');
 
-    /* ── Inner border ── */
+    /* -- Inner border -- */
     doc
       .rect(28, 28, W - 56, H - 56)
       .lineWidth(1)
       .stroke('#ffd580');
 
-    /* ── Corner decorations ── */
+    /* -- Corner decorations -- */
     const corners = [
       [30, 30], [W - 30, 30], [30, H - 30], [W - 30, H - 30],
     ] as [number, number][];
@@ -124,17 +124,17 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
       doc.circle(cx, cy, 6).fill('#ffa800');
     });
 
-    /* ── Header band ── */
+    /* -- Header band -- */
     doc.rect(0, 0, W, 90).fill('#ffa800');
 
-    /* ── Brand name ── */
+    /* -- Brand name -- */
     doc
       .fillColor('#ffffff')
       .fontSize(28)
       .font('Helvetica-Bold')
       .text('ADYAPAN SKILLS', 0, 22, { align: 'center', width: W });
 
-    /* ── Tagline ── */
+    /* -- Tagline -- */
     doc
       .fillColor('#fff3cc')
       .fontSize(11)
@@ -144,35 +144,35 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
         width: W,
       });
 
-    /* ── Certificate title ── */
+    /* -- Certificate title -- */
     doc
       .fillColor('#7c3a00')
       .fontSize(22)
       .font('Helvetica-Bold')
       .text('CERTIFICATE OF COMPLETION', 0, 108, { align: 'center', width: W });
 
-    /* ── Decorative line ── */
+    /* -- Decorative line -- */
     doc
       .moveTo(W / 2 - 160, 140)
       .lineTo(W / 2 + 160, 140)
       .lineWidth(1.5)
       .stroke('#ffa800');
 
-    /* ── "This is to certify that" ── */
+    /* -- "This is to certify that" -- */
     doc
       .fillColor('#555555')
       .fontSize(13)
       .font('Helvetica')
       .text('This is to certify that', 0, 158, { align: 'center', width: W });
 
-    /* ── Student name ── */
+    /* -- Student name -- */
     doc
       .fillColor('#1a1a1a')
       .fontSize(34)
       .font('Helvetica-Bold')
       .text(data.studentName, 0, 182, { align: 'center', width: W });
 
-    /* ── Underline for name ── */
+    /* -- Underline for name -- */
     const nameWidth = Math.min(data.studentName.length * 18, 400);
     doc
       .moveTo(W / 2 - nameWidth / 2, 226)
@@ -180,7 +180,7 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
       .lineWidth(1)
       .stroke('#ffa800');
 
-    /* ── "has successfully completed" ── */
+    /* -- "has successfully completed" -- */
     doc
       .fillColor('#555555')
       .fontSize(13)
@@ -190,28 +190,28 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
         width: W,
       });
 
-    /* ── Course name ── */
+    /* -- Course name -- */
     doc
       .fillColor('#cc5500')
       .fontSize(20)
       .font('Helvetica-Bold')
       .text(data.courseName, 60, 262, { align: 'center', width: W - 120 });
 
-    /* ── Offered by ── */
+    /* -- Offered by -- */
     doc
       .fillColor('#555555')
       .fontSize(12)
       .font('Helvetica')
       .text('offered by Adyapan Skills', 0, 296, { align: 'center', width: W });
 
-    /* ── Divider ── */
+    /* -- Divider -- */
     doc
       .moveTo(60, 330)
       .lineTo(W - 60, 330)
       .lineWidth(0.5)
       .stroke('#e0c080');
 
-    /* ── Footer section ── */
+    /* -- Footer section -- */
     const issuedStr = data.issuedAt.toLocaleDateString('en-IN', {
       day:   '2-digit',
       month: 'long',
@@ -262,7 +262,7 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
       .font('Helvetica')
       .text('Director, Adyapan Skills', W - 240, 396);
 
-    /* ── Seal / badge ── */
+    /* -- Seal / badge -- */
     doc.circle(W / 2, 390, 32).fill('#ffa800');
     doc.circle(W / 2, 390, 28).fill('#fff3cc');
     doc
@@ -276,7 +276,7 @@ function generateCertificatePDF(data: CertData): Promise<Buffer> {
       .font('Helvetica')
       .text('CERTIFIED', W / 2 - 16, 391);
 
-    /* ── Footer note ── */
+    /* -- Footer note -- */
     doc
       .fillColor('#aaaaaa')
       .fontSize(8)

@@ -142,13 +142,13 @@ export default function PostWorkPage() {
           <p className="text-sm text-gray-400">
             Already submitted a project?{' '}
             <Link href="/company/my-projects" className="text-orange-500 font-semibold hover:underline">
-              Track your projects â†’
+              Track your projects ->
             </Link>
           </p>
           <p className="text-sm text-gray-400">
             Want to browse student talent?{' '}
             <Link href="/jobs" className="text-orange-500 font-semibold hover:underline">
-              View all jobs â†’
+              View all jobs ->
             </Link>
           </p>
         </motion.div>

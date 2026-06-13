@@ -48,7 +48,7 @@ export default function TermsOfService() {
         'Refunds are considered on a case-by-case basis.',
         'No refunds will be issued after course content has been substantially accessed.',
         'To request a refund, email support@adyapan.com with your order details.',
-        'Approved refunds will be processed within 7â€“10 business days.',
+        'Approved refunds will be processed within 7"10 business days.',
       ],
     },
     {

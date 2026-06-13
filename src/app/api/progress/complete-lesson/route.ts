@@ -22,17 +22,17 @@ export async function POST(req: NextRequest) {
   try {
     await connectToDatabase();
 
-    // â”€â”€ Auth â”€â”€
+    // â"€â"€ Auth â"€â"€
     const { courseSlug, lessonId, moduleId } = sanitizeMongoInput(await req.json());
     if (!courseSlug || !lessonId) {
       return NextResponse.json({ error: 'courseSlug and lessonId are required' }, { status: 400 });
     }
 
-    // â”€â”€ Fetch user â”€â”€
+    // â"€â"€ Fetch user â"€â"€
     const user = await AuthUser.findById(auth.userId).lean();
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
-    // â”€â”€ Ensure course exists â”€â”€
+    // â"€â"€ Ensure course exists â"€â"€
     let course = await Course.findOne({ slug: courseSlug }).lean();
     if (!course) {
       const raw = COURSE_CATALOGUE.find(c => c.slug === courseSlug);
@@ -48,14 +48,14 @@ export async function POST(req: NextRequest) {
     const userName    = (user as any).name || 'Student';
     const userEmail   = (user as any).email || '';
 
-    // â”€â”€ Update progress via db-service â”€â”€
+    // â"€â"€ Update progress via db-service â"€â"€
     const result = await updateProgress(
       { userId: auth.userId, courseSlug, lessonId, moduleId },
       userName,
       courseTitle
     );
 
-    // â”€â”€ If course just completed â†’ send certificate email â”€â”€
+    // â"€â"€ If course just completed -> send certificate email â"€â"€
     if (result.certificateGenerated && result.certificate && userEmail) {
       const alreadySent = await wasEmailSent('userId', auth.userId, 'certificate_ready');
 

@@ -104,7 +104,7 @@ export default function CertificationEnrollModal({
           >
             <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
 
-              {/* â”€â”€ Success screen â”€â”€ */}
+              {/* â"€â"€ Success screen â"€â"€ */}
               {status === 'success' ? (
                 <div className="flex flex-col items-center justify-center py-16 px-8 text-center">
                   <motion.div
@@ -142,7 +142,7 @@ export default function CertificationEnrollModal({
                 </div>
               ) : (
                 <>
-                  {/* â”€â”€ Header â”€â”€ */}
+                  {/* â"€â"€ Header â"€â"€ */}
                   <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
                     <div>
                       <h2 className="text-xl font-black text-gray-900">
@@ -160,7 +160,7 @@ export default function CertificationEnrollModal({
                     </button>
                   </div>
 
-                  {/* â”€â”€ Cert badge â”€â”€ */}
+                  {/* â"€â"€ Cert badge â"€â"€ */}
                   {certificationName && (
                     <div className="px-6 py-3 bg-orange-50 border-b border-orange-100">
                       <p className="text-xs text-orange-600 font-semibold">
@@ -170,7 +170,7 @@ export default function CertificationEnrollModal({
                     </div>
                   )}
 
-                  {/* â”€â”€ Form â”€â”€ */}
+                  {/* â"€â"€ Form â"€â"€ */}
                   <form onSubmit={handleSubmit} className="px-6 py-6 space-y-4">
 
                     {/* Name + Phone */}

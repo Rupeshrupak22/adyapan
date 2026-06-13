@@ -2,20 +2,20 @@
 
 import { useEffect, useRef } from 'react';
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
    NEXT-GEN ANTIGRAVITY BACKGROUND
-   â”€ 50 organic glowing nodes with Z-depth parallax
-   â”€ Mouse magnetism (attract when close, drift when fast)
-   â”€ LERP scroll for silky "heavy" parallax
-   â”€ Sin-wave bobbing on each node
-   â”€ SVG grain overlay for cinematic texture
-   â”€ Throttled to 60 fps via delta-time
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+   â"€ 50 organic glowing nodes with Z-depth parallax
+   â"€ Mouse magnetism (attract when close, drift when fast)
+   â"€ LERP scroll for silky "heavy" parallax
+   â"€ Sin-wave bobbing on each node
+   â"€ SVG grain overlay for cinematic texture
+   â"€ Throttled to 60 fps via delta-time
+   â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
 const NODE_COUNT   = 52;
 const BASE_SPEED   = 0.18;
 const ATTRACT_R    = 160;
-const REPEL_SPEED  = 5.5;   // mouse speed threshold â†’ repel
+const REPEL_SPEED  = 5.5;   // mouse speed threshold -> repel
 const LERP_SCROLL  = 0.07;  // 0-1 - lower = silkier/heavier
 const LERP_MOUSE   = 0.09;
 
@@ -36,7 +36,7 @@ interface Node {
   x: number; y: number;
   baseX: number; baseY: number;
   vx: number; vy: number;
-  z: number;           // 0.25â€“1.0 depth
+  z: number;           // 0.25"1.0 depth
   r: number;           // base radius
   phase: number;       // bobbing phase
   phaseSpeed: number;
@@ -52,7 +52,7 @@ export default function AnimatedBackground() {
     const canvas = canvasRef.current!;
     const ctx    = canvas.getContext('2d', { alpha: true })!;
 
-    // â”€â”€ Sizing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ Sizing â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     let W = 0, H = 0;
     const resize = () => {
       W = canvas.width  = window.innerWidth;
@@ -61,7 +61,7 @@ export default function AnimatedBackground() {
     resize();
     window.addEventListener('resize', resize);
 
-    // â”€â”€ Nodes init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ Nodes init â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     const nodes: Node[] = Array.from({ length: NODE_COUNT }, () => {
       const x = rand(0, window.innerWidth);
       const y = rand(0, window.innerHeight);
@@ -78,7 +78,7 @@ export default function AnimatedBackground() {
       };
     });
 
-    // â”€â”€ Mouse state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ Mouse state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     let rawMX = W / 2, rawMY = H / 2;
     let smMX  = W / 2, smMY  = H / 2;  // smoothed mouse
     let prevMX = W / 2, prevMY = H / 2;
@@ -99,16 +99,16 @@ export default function AnimatedBackground() {
     };
     window.addEventListener('touchmove', onTouch, { passive: true });
 
-    // â”€â”€ Scroll LERP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ Scroll LERP â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     let scrollY    = window.scrollY;
     let smoothScrollY = scrollY;
     const onScroll = () => { scrollY = window.scrollY; };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // â”€â”€ Connection graph (build once, re-check distance each frame) â”€â”€
+    // â"€â"€ Connection graph (build once, re-check distance each frame) â"€â"€
     const MAX_CONNECT_DIST = 140;
 
-    // â”€â”€ Draw helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ Draw helpers â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     let lastTime = 0;
 
     const drawNode = (n: Node, scrollDelta: number) => {
@@ -162,7 +162,7 @@ export default function AnimatedBackground() {
       }
     };
 
-    // â”€â”€ rAF loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â"€â"€ rAF loop â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     let raf = 0;
     let paused = false;
 
@@ -172,7 +172,7 @@ export default function AnimatedBackground() {
     const loop = (ts: number) => {
       raf = requestAnimationFrame(loop);
       if (paused) return;
-      const dt = Math.min(ts - lastTime, 50);  // cap at 50ms â†’ no spiral on tab-switch
+      const dt = Math.min(ts - lastTime, 50);  // cap at 50ms -> no spiral on tab-switch
       lastTime = ts;
 
       // LERP mouse & scroll
@@ -194,32 +194,32 @@ export default function AnimatedBackground() {
       const positions: Array<{fx:number;fy:number}> = [];
 
       for (const n of nodes) {
-        // â”€â”€ Mouse magnetism â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // â"€â"€ Mouse magnetism â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
         const dx  = smMX - n.x;
         const dy  = smMY - n.y;
         const d   = Math.sqrt(dx * dx + dy * dy);
 
         if (d < ATTRACT_R) {
           if (mouseSpeed > REPEL_SPEED) {
-            // Fast mouse â†’ gentle push away
+            // Fast mouse -> gentle push away
             const f = (1 - d / ATTRACT_R) * 0.012;
             n.vx -= dx * f;
             n.vy -= dy * f;
           } else {
-            // Slow/still cursor â†’ subtle magnetic pull
+            // Slow/still cursor -> subtle magnetic pull
             const f = (1 - d / ATTRACT_R) * 0.006;
             n.vx += dx * f;
             n.vy += dy * f;
           }
         }
 
-        // â”€â”€ Drift & damping â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // â"€â"€ Drift & damping â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
         n.x += n.vx * BASE_SPEED * (dt / 16);
         n.y += n.vy * BASE_SPEED * (dt / 16);
         n.vx *= 0.978;
         n.vy *= 0.978;
 
-        // â”€â”€ Soft boundary wrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // â"€â"€ Soft boundary wrap â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
         if (n.x < -80)  n.x = W + 60;
         if (n.x > W+80) n.x = -60;
         if (n.y < -80)  n.y = H + 60;
@@ -228,7 +228,7 @@ export default function AnimatedBackground() {
         positions.push(drawNode(n, scrollDelta));
       }
 
-      // â”€â”€ Connections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      // â"€â"€ Connections â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
       ctx.save();
       drawConnections(positions);
       ctx.restore();

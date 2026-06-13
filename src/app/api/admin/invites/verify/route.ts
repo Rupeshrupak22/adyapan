@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { connectToDatabase } from '@/lib/mongodb';
 import AdminInvite from '@/models/AdminInvite';
 
-/* â”€â”€ Rate limiter (in-memory, per IP) â”€â”€ */
+/* â"€â"€ Rate limiter (in-memory, per IP) â"€â"€ */
 const verifyAttempts = new Map<string, { count: number; resetAt: number }>();
 const MAX_VERIFY = 10;
 const VERIFY_WINDOW_MS = 15 * 60 * 1000;

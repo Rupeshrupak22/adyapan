@@ -4,7 +4,7 @@
  * Razorpay Webhook - authoritative source for payment events.
  * Uses db-service for all persistence.
  *
- * Events: payment.captured â†’ success flow | payment.failed â†’ failure flow
+ * Events: payment.captured -> success flow | payment.failed -> failure flow
  *
  * Setup: Webhook URL: https://yourdomain.com/api/payment/webhook
  *        Secret: RAZORPAY_WEBHOOK_SECRET in .env
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   console.log(`[Webhook] ${eventType} | ${paymentId} | ${orderId}`);
 
-  /* â”€â”€ PAYMENT CAPTURED â”€â”€ */
+  /* â"€â"€ PAYMENT CAPTURED â"€â"€ */
   if (eventType === 'payment.captured') {
     // Idempotency
     const existing = await Payment.findOne({ paymentId });
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true, status: 'success' });
   }
 
-  /* â”€â”€ PAYMENT FAILED â”€â”€ */
+  /* â"€â"€ PAYMENT FAILED â"€â"€ */
   if (eventType === 'payment.failed') {
     const failureReason = paymentEntity.error_description || paymentEntity.error_reason || 'Payment declined';
 

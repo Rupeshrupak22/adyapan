@@ -225,7 +225,7 @@ export async function createEnrollmentWithProgress(input: CreateEnrollmentInput)
     },
   });
 
-  console.log(`[DB]  Enrollment created: ${input.userId} â†’ ${input.courseSlug}`);
+  console.log(`[DB]  Enrollment created: ${input.userId} -> ${input.courseSlug}`);
   return { enrollment, isNew: true };
 }
 

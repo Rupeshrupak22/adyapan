@@ -42,12 +42,12 @@ export async function GET(request: NextRequest) {
     const limit        = Math.min(50, parseInt(searchParams.get('limit') || '12'));
     const skip         = (page - 1) * limit;
 
-    /* â”€â”€ 1. Find all students who have at least one enrollment â”€â”€ */
+    /* â"€â"€ 1. Find all students who have at least one enrollment â"€â"€ */
     const enrolledUserIds = await Enrollment.distinct('userId', {
       enrollmentStatus: { $in: ['active', 'completed'] },
     });
 
-    /* â”€â”€ 2. Build user query â”€â”€ */
+    /* â"€â"€ 2. Build user query â"€â"€ */
     const userQuery: Record<string, unknown> = {
       role:          'STUDENT',
       accountStatus: 'approved',
@@ -73,19 +73,19 @@ export async function GET(request: NextRequest) {
       AuthUser.countDocuments(userQuery),
     ]);
 
-    /* â”€â”€ 3. Get recruiter's shortlist â”€â”€ */
+    /* â"€â"€ 3. Get recruiter's shortlist â"€â"€ */
     const myShortlists = await RecruiterShortlist.find({ recruiterId: auth.userId })
       .select('studentId')
       .lean();
     const shortlistedIds = new Set(myShortlists.map(s => s.studentId));
 
-    /* â”€â”€ 4. Get all placements â”€â”€ */
+    /* â"€â"€ 4. Get all placements â"€â"€ */
     const allPlacements = await Placement.find({ isVerified: true }).lean();
     const placementMap = new Map(
       allPlacements.map(p => [p.userId, p])
     );
 
-    /* â”€â”€ 5. Enrich each student â”€â”€ */
+    /* â"€â"€ 5. Enrich each student â"€â"€ */
     const enriched = await Promise.all(
       students.map(async (student) => {
         const userId = student._id.toString();

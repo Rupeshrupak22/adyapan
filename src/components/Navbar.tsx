@@ -24,7 +24,7 @@ const Navbar = () => {
   const [programSearch, setProgramSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Use shared auth context â€” avoids a duplicate /api/auth/me call
+  // Use shared auth context " avoids a duplicate /api/auth/me call
   const { user: authUser, logout: authLogout } = useAuthContext();
   const user: NavUser | null = authUser
     ? { name: authUser.name, email: authUser.email, role: authUser.role }
@@ -134,7 +134,7 @@ const Navbar = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('CSE / IT DOMAINS');
 
-  /* â”€â”€ Close programs dropdown on outside click â”€â”€ */
+  /* â"€â"€ Close programs dropdown on outside click â"€â"€ */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setShowPrograms(false);
@@ -236,7 +236,7 @@ const Navbar = () => {
                             <div className="font-semibold text-sm">{cat.name}</div>
                             <div className={`text-xs ${selectedCategory === cat.name ? 'text-white/80' : 'text-gray-500'}`}>{cat.count}</div>
                           </div>
-                          <span className={selectedCategory === cat.name ? 'text-white' : 'text-gray-400'}>â€º</span>
+                          <span className={selectedCategory === cat.name ? 'text-white' : 'text-gray-400'}>&#8250;</span>
                         </motion.button>
                       ))}
                     </div>

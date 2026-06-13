@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Types â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 interface ExperienceEntry {
   company: string; role: string; duration: string;
   location: string; points: string[];
@@ -38,7 +38,7 @@ interface Stats {
   shortlisted: number; hired: number;
 }
 
-// â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Avatar â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 const AVATAR_COLORS = [
   'from-orange-400 to-orange-600', 'from-blue-400 to-blue-600',
   'from-green-400 to-green-600',   'from-purple-400 to-purple-600',
@@ -65,7 +65,7 @@ function Avatar({ name, photoUrl = '', size = 'md' }: { name: string; photoUrl?:
   );
 }
 
-// â”€â”€ Status Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Status Badge â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function StatusBadge({ status }: { status: Talent['status'] }) {
   const map = {
     available:   'bg-green-100 text-green-700 border-green-200',
@@ -82,7 +82,7 @@ function StatusBadge({ status }: { status: Talent['status'] }) {
   );
 }
 
-// â”€â”€ Skeleton Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Skeleton Card â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function SkeletonCard() {
   return (
     <div className="animate-pulse rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -110,7 +110,7 @@ function SkeletonCard() {
   );
 }
 
-// â”€â”€ Profile Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Profile Modal â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function ProfileModal({ talent, onClose }: { talent: Talent; onClose: () => void }) {
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -330,7 +330,7 @@ function ProfileModal({ talent, onClose }: { talent: Talent; onClose: () => void
   );
 }
 
-// â”€â”€ Talent Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Talent Card â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function TalentCard({
   talent, onViewProfile, onShortlist, shortlisting,
 }: {
@@ -464,7 +464,7 @@ function TalentCard({
   );
 }
 
-// â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Main Page â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 const SORT_OPTIONS = [
   { value: 'newest',   label: 'Newest First' },
   { value: 'oldest',   label: 'Oldest First' },
@@ -476,7 +476,7 @@ const EXPERIENCE_LEVELS = ['Fresher', 'Internship', 'Junior', 'Mid', 'Senior'];
 const AVAILABILITY_OPTIONS = ['all', 'available', 'placed'];
 
 export default function FindEmployeePage() {
-  // â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ State â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const [talents, setTalents]           = useState<Talent[]>([]);
   const [stats, setStats]               = useState<Stats>({ total: 0, available: 0, placed: 0, shortlisted: 0, hired: 0 });
   const [loading, setLoading]           = useState(true);
@@ -501,7 +501,7 @@ export default function FindEmployeePage() {
 
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // â”€â”€ Fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Fetch â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const fetchTalents = useCallback(async (overrides?: Record<string, string>) => {
     setLoading(true);
     setDbError(false);
@@ -518,7 +518,7 @@ export default function FindEmployeePage() {
       limit:           '50',
     });
 
-    // Tab â†’ status filter
+    // Tab -> status filter
     const tab = overrides?.tab ?? activeTab;
     if (tab !== 'all') params.set('status', tab);
 
@@ -558,7 +558,7 @@ export default function FindEmployeePage() {
     return () => { if (searchTimer.current) clearTimeout(searchTimer.current); };
   }, [search]);
 
-  // â”€â”€ Shortlist â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Shortlist â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const handleShortlist = async (talent: Talent) => {
     if (shortlisting) return;
     setShortlisting(talent._id);
@@ -581,7 +581,7 @@ export default function FindEmployeePage() {
     finally { setShortlisting(null); }
   };
 
-  // â”€â”€ Apply filters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Apply filters â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const applyFilters = () => fetchTalents();
   const resetFilters = () => {
     setSkillFilter(''); setCourseFilter(''); setEduFilter('');
@@ -590,7 +590,7 @@ export default function FindEmployeePage() {
     fetchTalents({ search: '', skills: '', course: '', education: '', experienceLevel: '', availability: 'all' });
   };
 
-  // â”€â”€ Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Tabs â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const tabs = [
     { key: 'all',         label: 'All Students', count: stats.total,       icon: Users },
     { key: 'shortlisted', label: 'Shortlisted',  count: stats.shortlisted, icon: Bookmark },
@@ -602,10 +602,10 @@ export default function FindEmployeePage() {
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-8">
 
-        {/* â”€â”€ 3-column layout â”€â”€ */}
+        {/* â"€â"€ 3-column layout â"€â"€ */}
         <div className="flex gap-6">
 
-          {/* â”€â”€ LEFT SIDEBAR â”€â”€ */}
+          {/* â"€â"€ LEFT SIDEBAR â"€â"€ */}
           <aside className="hidden w-56 flex-shrink-0 lg:block">
             {/* Tabs */}
             <div className="mb-4 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
@@ -685,11 +685,11 @@ export default function FindEmployeePage() {
             <div className="mt-4 rounded-2xl border border-orange-100 bg-orange-50 p-4">
               <p className="text-xs font-black text-[#111827]">Looking for specific skills?</p>
               <p className="mt-1 text-xs text-gray-500">Post a job and get matched with the right students.</p>
-              <Link href="/organization/jobs/post" className="mt-3 block text-xs font-black text-orange-500 hover:underline">Post a Job â†’</Link>
+              <Link href="/organization/jobs/post" className="mt-3 block text-xs font-black text-orange-500 hover:underline">Post a Job -></Link>
             </div>
           </aside>
 
-          {/* â”€â”€ MAIN CONTENT â”€â”€ */}
+          {/* â"€â"€ MAIN CONTENT â"€â"€ */}
           <main className="flex-1 min-w-0">
             {/* Header */}
             <div className="mb-6">
@@ -760,7 +760,7 @@ export default function FindEmployeePage() {
               </div>
             )}
 
-            {/* â”€â”€ States â”€â”€ */}
+            {/* â"€â"€ States â"€â"€ */}
             {dbError && (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-red-200 bg-red-50 py-16 text-center">
                 <AlertCircle className="mb-3 h-10 w-10 text-red-400" />
@@ -815,7 +815,7 @@ export default function FindEmployeePage() {
             )}
           </main>
 
-          {/* â”€â”€ RIGHT SIDEBAR â”€â”€ */}
+          {/* â"€â"€ RIGHT SIDEBAR â"€â"€ */}
           <aside className="hidden w-56 flex-shrink-0 xl:block">
             {/* Post a job */}
             <div className="mb-4 rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-amber-50 p-5">
@@ -823,7 +823,7 @@ export default function FindEmployeePage() {
               <p className="mt-2 text-sm text-gray-600">Post your requirements and get proposals from students.</p>
               <Link href="/organization/jobs/post"
                 className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#ffa800] to-[#f97316] px-4 py-2 text-xs font-black text-white shadow hover:shadow-md transition-all">
-                Post a Job â†’
+                Post a Job ->
               </Link>
             </div>
 
@@ -857,7 +857,7 @@ export default function FindEmployeePage() {
         </div>
       </div>
 
-      {/* â”€â”€ Profile Modal â”€â”€ */}
+      {/* â"€â"€ Profile Modal â"€â"€ */}
       <AnimatePresence>
         {profileTalent && (
           <ProfileModal talent={profileTalent} onClose={() => setProfileTalent(null)} />

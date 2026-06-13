@@ -19,7 +19,7 @@ export async function GET(
     await connectToDatabase();
     const { courseId: courseSlug } = await params;
 
-    /* ── Check progress ── */
+    /* -- Check progress -- */
     const progress = await Progress.findOne({
       userId: auth.userId,
       courseSlug,
@@ -38,7 +38,7 @@ export async function GET(
       });
     }
 
-    /* ── Fetch certificate ── */
+    /* -- Fetch certificate -- */
     const cert = await Certificate.findOne({
       userId: auth.userId,
       courseSlug,

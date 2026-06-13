@@ -25,7 +25,7 @@ const hoverPop = {
 const CONTACT_INFO = [
   { icon: Phone, label: 'Phone', value: '+91 81791 24566', href: 'tel:+918179124566', color: 'from-green-500 to-emerald-600' },
   { icon: Mail, label: 'Email', value: 'support@adyapan.com', href: 'mailto:support@adyapan.com', color: 'from-blue-500 to-indigo-600' },
-  { icon: Clock, label: 'Hours', value: 'Monâ€“Sat, 11 AM â€“ 8 PM', href: null, color: 'from-[#ffa800] to-[#ff6b00]' },
+  { icon: Clock, label: 'Hours', value: 'Mon"Sat, 11 AM " 8 PM', href: null, color: 'from-[#ffa800] to-[#ff6b00]' },
 ];
 
 const SOCIAL_LINKS = {
@@ -36,7 +36,7 @@ const SOCIAL_LINKS = {
 const FAQS = [
   { q: 'How do I enroll in a course?', a: 'Visit our Programs page, choose your course, and click Enroll Now. Payment is processed securely via Razorpay.' },
   { q: 'Are classes live or recorded?', a: 'All sessions are live and interactive. Recordings are available for revision after each class.' },
-  { q: 'Do you provide placement support?', a: 'Yes â€” resume reviews, mock interviews, and direct recruiter connections are included in every program.' },
+  { q: 'Do you provide placement support?', a: 'Yes " resume reviews, mock interviews, and direct recruiter connections are included in every program.' },
   { q: 'Can I get a refund?', a: 'Refund requests are processed within 7 days of enrollment. Contact support for specific cases.' },
 ];
 
@@ -129,7 +129,7 @@ export default function ContactPageClient() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
 
-          {/* Contact Form â€” wider */}
+          {/* Contact Form " wider */}
           <motion.div
             initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, ease: E }}
@@ -231,7 +231,7 @@ export default function ContactPageClient() {
             </div>
           </motion.div>
 
-          {/* FAQ + Social â€” narrower */}
+          {/* FAQ + Social " narrower */}
           <motion.div
             initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, ease: E }}

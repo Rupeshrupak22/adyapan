@@ -15,7 +15,7 @@ import crypto from 'crypto';
 import { connectToDatabase } from '@/lib/mongodb';
 import mongoose from 'mongoose';
 
-/* â”€â”€ reuse the same lazy-model helpers â”€â”€ */
+/* â"€â"€ reuse the same lazy-model helpers â"€â"€ */
 function getModel(name: string, schema: mongoose.Schema) {
   return mongoose.models[name] || mongoose.model(name, schema);
 }
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       projectRequestId,
     } = body;
 
-    /* â”€â”€ 1. Validate inputs â”€â”€ */
+    /* â"€â"€ 1. Validate inputs â"€â"€ */
     if (!razorpay_order_id || !razorpay_payment_id || !projectRequestId) {
       return NextResponse.json(
         { success: false, error: 'Missing required payment fields' },
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     const ProjectRequest = getModel('ProjectRequest', projectRequestSchema);
     const ProjectPayment = getModel('ProjectPayment', projectPaymentSchema);
 
-    /* â”€â”€ 2. Idempotency: already processed? â”€â”€ */
+    /* â"€â"€ 2. Idempotency: already processed? â"€â"€ */
     const existingPayment = await ProjectPayment.findOne({
       razorpayPaymentId: razorpay_payment_id,
       status: 'success',
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    /* â”€â”€ 3. Verify signature â”€â”€ */
+    /* â"€â"€ 3. Verify signature â"€â"€ */
     let signatureValid = false;
     const isTestOrder  = razorpay_order_id.startsWith('order_PROJECT_TEST_');
 
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* â”€â”€ 4. Load the ProjectRequest to get amount â”€â”€ */
+    /* â"€â"€ 4. Load the ProjectRequest to get amount â"€â"€ */
     const projectRequest = await ProjectRequest.findById(projectRequestId);
     if (!projectRequest) {
       return NextResponse.json(
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* â”€â”€ 5. Update ProjectPayment â”€â”€ */
+    /* â"€â"€ 5. Update ProjectPayment â"€â"€ */
     await ProjectPayment.findOneAndUpdate(
       { razorpayOrderId: razorpay_order_id },
       {
@@ -154,7 +154,7 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    /* â”€â”€ 6. Update ProjectRequest â”€â”€ */
+    /* â"€â"€ 6. Update ProjectRequest â"€â"€ */
     await ProjectRequest.findByIdAndUpdate(projectRequestId, {
       paymentId:     razorpay_payment_id,
       orderId:       razorpay_order_id,
@@ -165,7 +165,7 @@ export async function POST(req: NextRequest) {
 
     console.log(`[ProjectPayment]  Payment verified - Project: ${projectRequestId} | Payment: ${razorpay_payment_id}`);
 
-    /* â”€â”€ 7. Send confirmation emails (non-blocking) â”€â”€ */
+    /* â"€â"€ 7. Send confirmation emails (non-blocking) â"€â"€ */
     sendConfirmationEmails(projectRequest, razorpay_payment_id).catch((e) =>
       console.error('[ProjectPayment] Email error:', e.message)
     );
@@ -186,7 +186,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-/* â”€â”€ Email helper using Resend - fire-and-forget â”€â”€ */
+/* â"€â"€ Email helper using Resend - fire-and-forget â"€â"€ */
 async function sendConfirmationEmails(projectRequest: any, paymentId: string) {
   try {
     const apiKey = String(process.env.RESEND_API_KEY || '').trim();
@@ -231,13 +231,13 @@ async function sendConfirmationEmails(projectRequest: any, paymentId: string) {
     <p style="margin:4px 0;font-size:13px;color:#374151;"><b>Date:</b> ${date}</p>
   </td></tr></table>
   <p style="text-align:center;margin:0 0 24px;">
-    <a href="${appUrl}/company/my-projects" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#ffa800,#ff6b00);color:#fff;font-size:14px;font-weight:700;text-decoration:none;border-radius:12px;">Track Your Project â†’</a>
+    <a href="${appUrl}/company/my-projects" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#ffa800,#ff6b00);color:#fff;font-size:14px;font-weight:700;text-decoration:none;border-radius:12px;">Track Your Project -></a>
   </p>
   <p style="font-size:13px;color:#6b7280;margin:0;">Questions? <a href="mailto:support@adyapan.com" style="color:#ea580c;">support@adyapan.com</a></p>
 </td></tr>
 <tr><td style="background:#1a1a2e;padding:20px 40px;text-align:center;">
   <p style="margin:0;font-size:12px;font-weight:700;color:#ffa800;">Adyapan Skills</p>
-  <p style="margin:4px 0 0;font-size:11px;color:#6b7280;">Â© ${new Date().getFullYear()} Adyapan Skills</p>
+  <p style="margin:4px 0 0;font-size:11px;color:#6b7280;">© ${new Date().getFullYear()} Adyapan Skills</p>
 </td></tr>
 </table></td></tr></table></body></html>`;
 

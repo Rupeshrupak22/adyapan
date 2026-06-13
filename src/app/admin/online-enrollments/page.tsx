@@ -225,7 +225,7 @@ export default function OnlineEnrollmentsPage() {
         {pages > 1 && (
           <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
             <p className="text-xs text-gray-500">
-              Showing {(page - 1) * LIMIT + 1}â€“{Math.min(page * LIMIT, total)} of {total}
+              Showing {(page - 1) * LIMIT + 1}"{Math.min(page * LIMIT, total)} of {total}
             </p>
             <div className="flex items-center gap-2">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}

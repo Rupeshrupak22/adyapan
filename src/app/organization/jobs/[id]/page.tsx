@@ -23,7 +23,7 @@ const WORK_MODES = [
   { value: 'hybrid', label: 'Hybrid' },
   { value: 'onsite', label: 'Onsite' },
 ];
-const EXPERIENCE_LEVELS = ['Fresher','0â€“1 years','1â€“2 years','2â€“5 years','5+ years'];
+const EXPERIENCE_LEVELS = ['Fresher','0"1 years','1"2 years','2"5 years','5+ years'];
 
 const inputCls = 'w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100 text-sm text-gray-800 bg-white transition-all';
 const labelCls = 'block text-sm font-semibold text-gray-700 mb-1.5';

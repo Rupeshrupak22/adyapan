@@ -10,7 +10,7 @@
  *
  * Security:
  *  - IP rate limit: 5 attempts / 15 min
- *  - Account lockout: 5 failed attempts â†’ locked 30 min
+ *  - Account lockout: 5 failed attempts -> locked 30 min
  *  - Argon2id password verification
  *  - JWT in httpOnly secure cookie
  */
@@ -33,7 +33,7 @@ import {
 } from '@/lib/security';
 import AuthUser from '@/models/AuthUser';
 
-/* â”€â”€ The one allowed admin email (set in .env) â”€â”€ */
+/* â"€â"€ The one allowed admin email (set in .env) â"€â"€ */
 const ALLOWED_ADMIN_EMAIL = (
   process.env.ADMIN_EMAIL || ''
 ).toLowerCase().trim();
@@ -43,11 +43,11 @@ const LoginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-/* â”€â”€ IP-level rate limiter â”€â”€ */
+/* â"€â"€ IP-level rate limiter â"€â"€ */
 const IP_MAX    = 5;
 const IP_WINDOW = 15 * 60 * 1000; // 15 min
 
-/* â”€â”€ Account lockout â”€â”€ */
+/* â"€â"€ Account lockout â"€â"€ */
 const LOCK_AFTER   = 5;  // failed attempts
 const LOCK_MINUTES = 30; // lock duration
 
@@ -69,13 +69,13 @@ export async function POST(request: NextRequest) {
     const { email, password } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
-    /* â”€â”€ Find user â”€â”€ */
+    /* â"€â"€ Find user â"€â"€ */
     const user = await AuthUser.findOne({ email: normalizedEmail });
     if (!user) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    /* â”€â”€ Admin/SuperAdmin should use dedicated admin login endpoint â”€â”€ */
+    /* â"€â"€ Admin/SuperAdmin should use dedicated admin login endpoint â"€â"€ */
     if (user.role === 'ADMIN' || user.role === 'SUPERADMIN') {
       console.warn(`[Login]  Admin user attempting regular login: ${normalizedEmail} | IP: ${ip}`);
       return NextResponse.json(
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ Account lockout check â”€â”€ */
+    /* â"€â"€ Account lockout check â"€â"€ */
     if (user.lockedUntil && user.lockedUntil > new Date()) {
       const minutesLeft = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000);
       return NextResponse.json(
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ Password check â”€â”€ */
+    /* â"€â"€ Password check â"€â"€ */
     const passwordCheck = await verifyPassword(password, user.passwordHash);
     if (!passwordCheck.valid) {
       user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ Account status checks â”€â”€ */
+    /* â"€â"€ Account status checks â"€â"€ */
     if (user.accountStatus === 'blocked') {
       return NextResponse.json(
         { error: 'Your account has been suspended. Contact support@adyapan.com.' },
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ Success - reset lockout, update stats â”€â”€ */
+    /* â"€â"€ Success - reset lockout, update stats â"€â"€ */
     const userAgent = request.headers.get('user-agent') || 'unknown';
     const now       = new Date();
     user.failedLoginAttempts = 0;
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Login] ${user.role} login succeeded | User: ${user._id.toString()} | IP: ${ip}`);
 
-    /* â”€â”€ Issue JWT â”€â”€ */
+    /* â"€â"€ Issue JWT â"€â"€ */
     const token = jwt.sign(
       { userId: user._id.toString(), email: user.email, role: user.role },
       requireJwtSecret(),

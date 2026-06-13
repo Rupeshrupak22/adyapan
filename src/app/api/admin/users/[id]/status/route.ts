@@ -60,7 +60,7 @@ export async function PATCH(
       ipAddress:      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '',
     });
 
-    console.log(`[UserStatus] ${user.email}: ${prevStatus} → ${status} by ${auth.email}`);
+    console.log(`[UserStatus] ${user.email}: ${prevStatus} -> ${status} by ${auth.email}`);
 
     return NextResponse.json({
       success: true,

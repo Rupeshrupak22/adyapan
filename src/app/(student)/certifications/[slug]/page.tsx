@@ -156,7 +156,7 @@ const certificationCompanies = [
     name: 'PMI Project Management Institute',
     logo: '/logos/project-management-institutelol.svg',
     certifications: [
-      'PMI - Project Management Readyâ„¢'
+      'PMI - Project Management Ready'
     ]
   },
   {
@@ -478,9 +478,9 @@ export default function CertificationPage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-orange-600 transition-colors">Home</Link>
-            <span>â€º</span>
+            <span>> </span>
             <span className="hover:text-orange-600 cursor-pointer transition-colors">Certifications</span>
-            <span>â€º</span>
+            <span>> </span>
             <span className="text-gray-800 font-medium">{certification}</span>
           </nav>
         </div>
@@ -570,7 +570,7 @@ export default function CertificationPage() {
                   className="flex-1 bg-white border-2 border-orange-300 text-orange-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-500 hover:text-orange-800 hover:bg-orange-50 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   <Download className="w-5 h-5" />
-                  <span>Download Syllabus â†“</span>
+                  <span>Download Syllabus â†"</span>
                 </motion.a>
               ) : (
                 <motion.button

@@ -111,25 +111,25 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden" style={{ minHeight: '92vh' }}>
 
-      {/* â”€â”€ Full background video â”€â”€ */}
+      {/* â"€â"€ Full background video â"€â"€ */}
       <video autoPlay muted loop playsInline
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{ zIndex: 0 }}>
         <source src="/videos/8126367-hd_1920_1080_25fps.mp4" type="video/mp4" />
       </video>
 
-      {/* â”€â”€ Dark overlay for text readability â”€â”€ */}
+      {/* â"€â"€ Dark overlay for text readability â"€â"€ */}
       <div className="absolute inset-0 pointer-events-none" style={{
         zIndex: 1,
         background: 'transparent(105deg, rgba(250, 239, 239, 0.72) 0%, rgba(253, 246, 246, 0.57) 55%, rgba(248, 245, 245, 0.72) 100%)',
       }} />
 
-      {/* â”€â”€ Main content â”€â”€ */}
+      {/* â"€â"€ Main content â"€â"€ */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full flex items-center"
         style={{ zIndex: 2, minHeight: '92vh' }}>
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center py-12 lg:py-16">
 
-          {/* â”€â”€ LEFT â”€â”€ */}
+          {/* â"€â"€ LEFT â"€â"€ */}
           <div className="flex flex-col gap-6">
 
             {/* Headline */}
@@ -198,7 +198,7 @@ export default function HeroSection() {
                 </motion.button>
               </div>
 
-              {/* â”€â”€ Dropdown â”€â”€ */}
+              {/* â"€â"€ Dropdown â"€â"€ */}
               <AnimatePresence>
                 {dropVisible && (
                   <motion.div
@@ -256,7 +256,7 @@ export default function HeroSection() {
                               onMouseDown={e => removeFromHistory(h, e)}
                               className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-all text-base leading-none px-1"
                             >
-                              Ã—
+                              Ã--
                             </span>
                           </button>
                         ))}
@@ -308,7 +308,7 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* â”€â”€ RIGHT - expanding cards â”€â”€ */}
+          {/* â"€â"€ RIGHT - expanding cards â"€â"€ */}
           <motion.div
             className="hidden lg:flex gap-3 items-end"
             style={{ height: 480 }}

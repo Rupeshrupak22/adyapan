@@ -25,7 +25,7 @@ const SEED_TALENTS = [
       'Express.js', 'MongoDB', 'Firebase', 'Docker', 'Jenkins',
       'CI/CD', 'Git', 'GitHub', 'AWS', 'MySQL',
     ],
-    education:       'B.Tech CSE, Vivekananda Global University, 2022â€“2026, CGPA 8.00/10.00',
+    education:       'B.Tech CSE, Vivekananda Global University, 2022"2026, CGPA 8.00/10.00',
     course:          'Full Stack Development',
     experienceLevel: 'Fresher',
     projectsCount:   8,
@@ -47,7 +47,7 @@ const SEED_TALENTS = [
       {
         company:  'LinuxWorld Pvt Ltd',
         role:     'Tech Intern',
-        duration: 'Jun 2025 â€“ Aug 2025',
+        duration: 'Jun 2025 " Aug 2025',
         location: 'Jaipur, Rajasthan',
         points: [
           'Built and managed CI/CD pipelines using Jenkins and Docker.',
@@ -59,7 +59,7 @@ const SEED_TALENTS = [
       {
         company:  'Adayapanschool.com',
         role:     'Community Development Intern',
-        duration: 'March 2026 â€“ Present',
+        duration: 'March 2026 " Present',
         location: 'Hyderabad, Telangana',
         points: [
           'Team lead.',

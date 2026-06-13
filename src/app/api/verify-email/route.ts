@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const apiKey = process.env.ABSTRACTAPI_EMAIL_KEY;
     if (!apiKey) {
       // If no API key configured, skip verification (don't block signups)
-      console.warn('ABSTRACTAPI_EMAIL_KEY not set â€” skipping email verification');
+      console.warn('ABSTRACTAPI_EMAIL_KEY not set " skipping email verification');
       return NextResponse.json({ valid: true });
     }
 

@@ -534,7 +534,7 @@ export default function CompanyAboutPage() {
               Our <span style={{ color: '#f90' }}>Learning Approach</span>
             </h2>
             <p className="text-gray-400 text-lg">
-              Learn â€™ Practice â€™ Build â€™ Launch
+              Learn  Practice  Build  Launch
             </p>
           </motion.div>
 
@@ -654,7 +654,7 @@ export default function CompanyAboutPage() {
                 href="/auth"
                 className="inline-block px-10 py-4 bg-[#f90] text-white rounded-lg font-bold text-lg hover:bg-[#e07000] transition-colors"
               >
-                Start Hiring â€™
+                Start Hiring 
               </Link>
             </motion.div>
           </motion.div>

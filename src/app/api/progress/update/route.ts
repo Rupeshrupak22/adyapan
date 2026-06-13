@@ -20,17 +20,17 @@ export async function POST(req: NextRequest) {
   try {
     await connectToDatabase();
 
-    // â”€â”€ Auth â”€â”€
+    // â"€â"€ Auth â"€â"€
     const { courseSlug, lessonId, moduleId } = sanitizeMongoInput(await req.json());
     if (!courseSlug || !lessonId) {
       return NextResponse.json({ error: 'courseSlug and lessonId required' }, { status: 400 });
     }
 
-    // â”€â”€ Fetch user name for certificate generation â”€â”€
+    // â"€â"€ Fetch user name for certificate generation â"€â"€
     const user = await AuthUser.findById(auth.userId).lean();
     const userName = (user as any)?.name || 'Student';
 
-    // â”€â”€ Ensure course exists â”€â”€
+    // â"€â"€ Ensure course exists â"€â"€
     let course = await Course.findOne({ slug: courseSlug }).lean();
     if (!course) {
       const raw = COURSE_CATALOGUE.find(c => c.slug === courseSlug);

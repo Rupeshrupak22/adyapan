@@ -17,7 +17,7 @@ function generateCode(role: string): string {
   return `${prefix}-${rand}`;
 }
 
-/* â”€â”€ GET: list invite codes â”€â”€ */
+/* â"€â"€ GET: list invite codes â"€â"€ */
 export async function GET(request: NextRequest) {
   const auth = protectRouteByRole(request, ['ADMIN']);
   if (auth instanceof NextResponse) return auth;
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-/* â”€â”€ POST: create invite code â”€â”€ */
+/* â"€â"€ POST: create invite code â"€â"€ */
 export async function POST(request: NextRequest) {
   const auth = protectRouteByRole(request, ['ADMIN']);
   if (auth instanceof NextResponse) return auth;

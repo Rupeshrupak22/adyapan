@@ -154,7 +154,7 @@ export default function CompanyPage() {
                       </Link>
                       <Link href='/company/my-projects'
                         className='inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-orange-500 transition-colors'>
-                        Track my projects â†’
+                        Track my projects ->
                       </Link>
                     </div>
                   </motion.div>

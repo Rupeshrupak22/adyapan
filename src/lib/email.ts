@@ -23,7 +23,7 @@ function getResendConfig() {
   return { apiKey, from: `${fromName} <${fromEmail}>` };
 }
 
-/* â”€â”€ Course metadata â”€â”€ */
+/* â"€â"€ Course metadata â"€â"€ */
 const COURSE_META: Record<string, { modules: string[]; benefits: string[]; duration: string }> = {
   'plan-1': {
     duration: '30 Days',

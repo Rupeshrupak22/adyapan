@@ -36,11 +36,11 @@ import {
 import AdminInvite from '@/models/AdminInvite';
 import AuthUser from '@/models/AuthUser';
 
-/* â”€â”€ Rate limiter (in-memory, per IP) â”€â”€ */
+/* â"€â"€ Rate limiter (in-memory, per IP) â"€â"€ */
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000;
 
-/* â”€â”€ Validation schema â”€â”€ */
+/* â"€â"€ Validation schema â"€â"€ */
 const InviteSignupSchema = z
   .object({
     token:           z.string().min(1, 'Invite token is required'),
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = normalizeAccountEmail(d.email);
     const now = new Date();
 
-    // â”€â”€ 1. Find invite by token â”€â”€
+    // â"€â"€ 1. Find invite by token â"€â"€
     const invite = await AdminInvite.findOne({ token: d.token });
 
     if (!invite) {
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: reason }, { status: 403 });
     };
 
-    // â”€â”€ 2. Check token not used â”€â”€
+    // â"€â"€ 2. Check token not used â"€â"€
     if (invite.used) {
       return failInvite(
         'This invite has already been used.',
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // â”€â”€ 3. Check token not expired â”€â”€
+    // â"€â"€ 3. Check token not expired â"€â"€
     if (invite.expiresAt < now) {
       return failInvite(
         'This invite has expired. Please request a new one from your administrator.',
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // â”€â”€ 4. Check token not revoked â”€â”€
+    // â"€â"€ 4. Check token not revoked â"€â"€
     if (invite.revokedAt) {
       return failInvite(
         'This invite has been revoked. Please contact your administrator.',
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // â”€â”€ 5. Verify email matches invite â”€â”€
+    // â"€â"€ 5. Verify email matches invite â"€â"€
     if (invite.email !== normalizedEmail) {
       return failInvite(
         'The email address does not match the invite. Please use the email this invite was sent to.',
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // â”€â”€ 6. Verify mobile number matches invite â”€â”€
+    // â"€â"€ 6. Verify mobile number matches invite â"€â"€
     const normalizedInput = normalizeMobile(d.mobileNumber);
     const normalizedInvite = normalizeMobile(invite.mobileNumber);
     if (!timingSafeEqual(normalizedInput, normalizedInvite)) {
@@ -139,13 +139,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // â”€â”€ 7. Check email not already registered â”€â”€
+    // â"€â"€ 7. Check email not already registered â"€â"€
     const existing = await findExistingAccountByEmail(normalizedEmail);
     if (existing) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
     }
 
-    // â”€â”€ 8. Map invite role to AuthUser role â”€â”€
+    // â"€â"€ 8. Map invite role to AuthUser role â"€â"€
     const roleMap: Record<string, string> = {
       ADMIN:        'ADMIN',
       ORGANIZATION: 'COMPANY',
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
     };
     const assignedRole = roleMap[invite.role] || 'COMPANY';
 
-    // â”€â”€ 9. Create user â”€â”€
+    // â"€â"€ 9. Create user â"€â"€
     const passwordHash = await hashPassword(d.password);
 
     const user = await AuthUser.create({
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       isEmailVerified:  true,
     });
 
-    // â”€â”€ 10. Mark invite as used â”€â”€
+    // â"€â"€ 10. Mark invite as used â"€â"€
     invite.used   = true;
     invite.usedBy = user._id.toString();
     invite.usedAt = now;
@@ -186,7 +186,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`[InviteSignup] ${assignedRole} account created | User: ${user._id.toString()} | Invite: ${invite._id} | IP: ${ip}`);
 
-    // â”€â”€ 11. Issue JWT â”€â”€
+    // â"€â"€ 11. Issue JWT â"€â"€
     const token = jwt.sign(
       { userId: user._id.toString(), email: user.email, role: user.role },
       requireJwtSecret(),
@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/* â”€â”€ Helpers â”€â”€ */
+/* â"€â"€ Helpers â"€â"€ */
 function normalizeMobile(mobile: string): string {
   return mobile.replace(/[\s\-()]/g, '');
 }

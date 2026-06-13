@@ -208,7 +208,7 @@ export default function CampusAmbassadorApplyPage() {
           </div>
           <h2 className="text-2xl font-black text-gray-900 mb-3">Application Submitted!</h2>
           <p className="text-gray-500 mb-6">
-            Thanks for applying to become a Campus Ambassador. Our team will review your application and get back to you within 2â€“3 business days.
+            Thanks for applying to become a Campus Ambassador. Our team will review your application and get back to you within 2"3 business days.
           </p>
           <a
             href="/campus-ambassador"
@@ -234,7 +234,7 @@ export default function CampusAmbassadorApplyPage() {
           <h1 className="text-4xl font-black text-gray-900 mb-3">
             Apply <span className="text-orange-500">Directly</span>
           </h1>
-          <p className="text-gray-500 text-lg">Fill in your details and we'll get back to you within 2â€“3 business days.</p>
+          <p className="text-gray-500 text-lg">Fill in your details and we'll get back to you within 2"3 business days.</p>
         </motion.div>
 
         {/* Form */}

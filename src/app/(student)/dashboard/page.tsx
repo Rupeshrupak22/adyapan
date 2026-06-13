@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 /**
  * /dashboard - Auth gate + role-based redirect.
  *
- * - Not logged in  â†’ /login
- * - STUDENT        â†’ /dashboard/student
- * - COMPANY        â†’ /dashboard/company
- * - ADMIN/SUPERADMIN â†’ /admin
- * - Unknown role   â†’ /login (safe fallback)
+ * - Not logged in  -> /login
+ * - STUDENT        -> /dashboard/student
+ * - COMPANY        -> /dashboard/company
+ * - ADMIN/SUPERADMIN -> /admin
+ * - Unknown role   -> /login (safe fallback)
  */
 export default function DashboardPage() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 /**
  * GET  /api/admin/contact-messages  - list all contact messages (paginated, filterable)
- * PATCH /api/admin/contact-messages - update status (new â†’ read â†’ replied)
+ * PATCH /api/admin/contact-messages - update status (new -> read -> replied)
  *
  * Protected: ADMIN and SUPERADMIN only.
  */

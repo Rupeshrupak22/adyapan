@@ -8,7 +8,7 @@
  *
  * Security:
  *  - IP rate limit: 5 attempts / 15 min
- *  - Account lockout: 5 failed attempts â†’ locked 30 min
+ *  - Account lockout: 5 failed attempts -> locked 30 min
  *  - JWT in httpOnly secure cookie
  *  - No public signup - admin accounts created via scripts only
  */
@@ -40,7 +40,7 @@ const LoginSchema = z.object({
   accessKey: z.string().regex(/^[a-f0-9]{64}$/i, 'Access key must be a 64-character hex value'),
 });
 
-/* â”€â”€ IP rate limiter â”€â”€ */
+/* â"€â"€ IP rate limiter â"€â"€ */
 const LOGIN_LIMIT = 5;
 const LOGIN_WINDOW = 15 * 60 * 1000;
 
@@ -68,26 +68,26 @@ export async function POST(request: NextRequest) {
     const { email, password, accessKey } = parsed.data;
     const normalizedEmail = email.toLowerCase().trim();
 
-    /* â”€â”€ 1. Access key check (first - fast fail) â”€â”€ */
+    /* â"€â"€ 1. Access key check (first - fast fail) â"€â"€ */
     if (!verifyAccessKey(accessKey, ADMIN_ACCESS_KEY_HASH)) {
       console.warn(`[AdminLogin]  Invalid access key from IP: ${ip}`);
       return NextResponse.json({ error: 'Invalid access key.' }, { status: 403 });
     }
 
-    /* â”€â”€ 2. Email whitelist check â”€â”€ */
+    /* â"€â"€ 2. Email whitelist check â"€â"€ */
     if (ALLOWED_ADMIN_EMAIL && normalizedEmail !== ALLOWED_ADMIN_EMAIL) {
       console.warn(`[AdminLogin]  Unauthorized email: ${normalizedEmail} | IP: ${ip}`);
       return NextResponse.json({ error: 'You are not authorized to access the admin panel.' }, { status: 403 });
     }
 
-    /* â”€â”€ 3. Find user â”€â”€ */
+    /* â"€â"€ 3. Find user â"€â"€ */
     const user = await AuthUser.findOne({ email: normalizedEmail });
     if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPERADMIN')) {
       console.warn('[AdminLogin]  User not found or not admin role');
       return NextResponse.json({ error: 'Invalid credentials.' }, { status: 401 });
     }
 
-    /* â”€â”€ 4. Account lockout check â”€â”€ */
+    /* â"€â"€ 4. Account lockout check â"€â"€ */
     if (user.lockedUntil && user.lockedUntil > new Date()) {
       const minutesLeft = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000);
       return NextResponse.json(
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ 5. Password check â”€â”€ */
+    /* â"€â"€ 5. Password check â"€â"€ */
     const passwordCheck = await verifyPassword(password, user.passwordHash);
     if (!passwordCheck.valid) {
       user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* â”€â”€ 6. Account status â”€â”€ */
+    /* â"€â"€ 6. Account status â"€â"€ */
     if (user.accountStatus === 'blocked') {
       return NextResponse.json({ error: 'Account suspended. Contact support.' }, { status: 403 });
     }
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'This admin account has been deactivated.' }, { status: 403 });
     }
 
-    /* â”€â”€ 7. Success â”€â”€ */
+    /* â"€â"€ 7. Success â"€â"€ */
     user.failedLoginAttempts = 0;
     user.lockedUntil         = undefined;
     if (passwordCheck.needsRehash) {

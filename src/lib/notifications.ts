@@ -12,7 +12,7 @@
 
 import nodemailer from 'nodemailer';
 
-/* â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Types â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 export interface PaymentNotificationPayload {
   name:      string;
   email:     string;
@@ -25,13 +25,13 @@ export interface PaymentNotificationPayload {
   testMode?: boolean;
 }
 
-/* â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Helpers â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const fmt = (n: number) =>
   'Rs. ' + n.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
 
-/* â”€â”€â”€ Email transport â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Email transport â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function createTransport() {
   const user = process.env.EMAIL_FROM;
   const pass = process.env.EMAIL_PASS;
@@ -46,7 +46,7 @@ function createTransport() {
   });
 }
 
-/* â”€â”€â”€ Email HTML template â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Email HTML template â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function buildEmailHtml(p: PaymentNotificationPayload): string {
   const date = new Date().toLocaleDateString('en-IN', {
     day: '2-digit', month: 'long', year: 'numeric',
@@ -130,7 +130,7 @@ function buildEmailHtml(p: PaymentNotificationPayload): string {
                 <td style="border-radius:12px;background:linear-gradient(135deg,#ffa800,#ff6b00);">
                   <a href="${appUrl}/dashboard/student"
                     style="display:inline-block;padding:14px 32px;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;border-radius:12px;">
-                    Go to My Dashboard â†’
+                    Go to My Dashboard ->
                   </a>
                 </td>
               </tr>
@@ -147,7 +147,7 @@ function buildEmailHtml(p: PaymentNotificationPayload): string {
         <tr>
           <td style="background:#1a1a2e;padding:20px 40px;text-align:center;">
             <p style="margin:0;font-size:12px;color:#6b7280;">
-              Â© ${new Date().getFullYear()} Adyapan Skills Pvt. Ltd. - All rights reserved
+              © ${new Date().getFullYear()} Adyapan Skills Pvt. Ltd. - All rights reserved
             </p>
             <p style="margin:6px 0 0;font-size:11px;color:#4b5563;">
               SR's Adyapan Edutech Private Limited
@@ -162,7 +162,7 @@ function buildEmailHtml(p: PaymentNotificationPayload): string {
 </html>`;
 }
 
-/* â”€â”€â”€ Send email â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Send email â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 export async function sendPaymentEmail(p: PaymentNotificationPayload): Promise<void> {
   const transport = createTransport();
 
@@ -186,7 +186,7 @@ export async function sendPaymentEmail(p: PaymentNotificationPayload): Promise<v
   }
 }
 
-/* â”€â”€â”€ Send SMS via Fast2SMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Send SMS via Fast2SMS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 export async function sendPaymentSMS(p: PaymentNotificationPayload): Promise<void> {
   const apiKey = process.env.FAST2SMS_API_KEY;
 
@@ -235,7 +235,7 @@ export async function sendPaymentSMS(p: PaymentNotificationPayload): Promise<voi
   }
 }
 
-/* â”€â”€â”€ Combined: send both â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â"€â"€â"€ Combined: send both â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 export async function sendPaymentNotifications(p: PaymentNotificationPayload): Promise<void> {
   // Fire both in parallel - neither blocks the other
   await Promise.allSettled([

@@ -131,7 +131,7 @@ const WelcomePopup = () => {
                       style={{ color: '#c05000' }}
                     >
                       Start Your Career Journey
-                      <span className="ml-2">â†’</span>
+                      <span className="ml-2">-></span>
                     </Link>
                   </motion.div>
                 </motion.div>

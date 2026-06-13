@@ -7,7 +7,7 @@ export interface ProgressDocument {
   completedLessons: string[];
   lastAccessedLesson?: string;
   lastModuleId?: string;
-  progressPercent: number;      // 0–100
+  progressPercent: number;      // 0-100
   totalLessons: number;
   isCompleted: boolean;
   completedAt?: Date;

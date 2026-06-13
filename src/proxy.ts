@@ -6,10 +6,10 @@
  * Runs on Node.js runtime by default in Next.js 16.
  *
  * Protected routes:
- *  /admin/*         → ADMIN or SUPERADMIN only
- *  /organization/*  → COMPANY, ADMIN, or SUPERADMIN
- *  /company/*       → COMPANY, ADMIN, or SUPERADMIN only (recruiter features)
- *  /dashboard/*     → any authenticated user
+ *  /admin/*         -> ADMIN or SUPERADMIN only
+ *  /organization/*  -> COMPANY, ADMIN, or SUPERADMIN
+ *  /company/*       -> COMPANY, ADMIN, or SUPERADMIN only (recruiter features)
+ *  /dashboard/*     -> any authenticated user
  *
  * Always public:
  *  /admin/login
@@ -68,7 +68,7 @@ async function getRole(request: NextRequest): Promise<string | null> {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  /* ── Always-public paths ── */
+  /* -- Always-public paths -- */
   const PUBLIC = [
     '/admin/login',
     '/organization/login',
@@ -81,7 +81,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  /* ── /admin/* - ADMIN or SUPERADMIN only ── */
+  /* -- /admin/* - ADMIN or SUPERADMIN only -- */
   if (pathname.startsWith('/admin')) {
     const role = await getRole(request);
     if (!role || !['ADMIN', 'SUPERADMIN'].includes(role)) {
@@ -92,7 +92,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  /* ── /organization/* - COMPANY, ADMIN, or SUPERADMIN ── */
+  /* -- /organization/* - COMPANY, ADMIN, or SUPERADMIN -- */
   if (pathname.startsWith('/organization')) {
     const role = await getRole(request);
     if (!role || !['COMPANY', 'ADMIN', 'SUPERADMIN'].includes(role)) {
@@ -103,7 +103,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  /* ── /company/* (except landing page) - COMPANY, ADMIN, or SUPERADMIN only ── */
+  /* -- /company/* (except landing page) - COMPANY, ADMIN, or SUPERADMIN only -- */
   if (pathname.startsWith('/company/')) {
     const role = await getRole(request);
     if (!role || !['COMPANY', 'ADMIN', 'SUPERADMIN'].includes(role)) {
@@ -115,7 +115,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  /* ── /dashboard/* - any authenticated user ── */
+  /* -- /dashboard/* - any authenticated user -- */
   if (pathname.startsWith('/dashboard')) {
     const role = await getRole(request);
     if (!role) {

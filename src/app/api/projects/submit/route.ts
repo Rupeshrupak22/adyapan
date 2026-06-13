@@ -1,6 +1,6 @@
 /**
  * POST /api/projects/submit
- * Alias â†’ delegates to /api/project-payment/verify
+ * Alias -> delegates to /api/project-payment/verify
  * Kept for backward compatibility with any frontend calling this path.
  */
 import { NextRequest, NextResponse } from 'next/server';
