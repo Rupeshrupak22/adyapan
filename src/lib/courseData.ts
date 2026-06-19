@@ -157,6 +157,7 @@ export function getYouTubeEmbedUrl(title: string): string {
 // Filenames match exactly what's in public/course-thumbnails/
 // Course brochure mapping: course name keywords -> PDF file in public/brochures/
 export const BROCHURE_MAP: Record<string, string> = {
+  // ── CSE / IT DOMAINS ──────────────────────────────────────────────────────
   'artificial intelligence':        'Artificial Intelligence.pdf',
   'ai engineering':                 'AI ML Blended (3 months).pdf',
   'generative ai':                  'Gen AI.pdf',
@@ -164,10 +165,10 @@ export const BROCHURE_MAP: Record<string, string> = {
   'data science':                   'Data Science.pdf',
   'data engineering':               'Data Engineering .pdf',
   'data analytics':                 'Data Analytics.pdf',
-  'database management':            'Data Science.pdf',
+  // 'database management' removed — no dedicated brochure exists
   'data structures':                'C++ with DSA.pdf',
   'data structure':                 'C++ with DSA.pdf',
-  'web development':                'Web Development (Java) 8 weeks.pdf',
+  'web development':                'MERN.pdf',
   'web 3.0':                        'Web 3.0 with Blockchain.pdf',
   'web 3':                          'Web 3.0 with Blockchain.pdf',
   'app development':                'Android App Development.pdf',
@@ -191,9 +192,10 @@ export const BROCHURE_MAP: Record<string, string> = {
   'ui/ux':                          'UI_UX Design.pdf',
   'ui ux':                          'UI_UX Design.pdf',
   'graphic design':                 'Graphic design.pdf',
-  'vfx':                            'Graphic design.pdf',
+  // 'vfx' removed — no dedicated VFX brochure exists
+  // ── MANAGEMENT & COMMERCE ─────────────────────────────────────────────────
   'investment banking':             'Investment Banking.pdf',
-  'investment analysis':            'Investment Banking.pdf',
+  // 'investment analysis' removed — no dedicated brochure, was sharing Investment Banking.pdf
   'business analytics':             'Business Analytics (8weeks).pdf',
   'financial economics':            'Finance (Advanced).pdf',
   'business & financial economics': 'Finance (Advanced).pdf',
@@ -211,10 +213,11 @@ export const BROCHURE_MAP: Record<string, string> = {
   'management consulting':          'Management consulting.pdf',
   'supply chain':                   'Supply Chain Management.pdf',
   'sap fica':                       'SAP FICA.pdf',
-  'salesforce':                     'Business Analytics (8weeks).pdf',
+  // 'salesforce' removed — no dedicated brochure, was sharing Business Analytics.pdf
   'stock marketing':                'Stock Market.pdf',
   'spoken english':                 'Spoken English.pdf',
   'finance':                        'Finance (Beginner).pdf',
+  // ── ECE DOMAINS ───────────────────────────────────────────────────────────
   'embedded systems':               'Embedded Systems.pdf',
   'hybrid & electric vehicle':      'Hybrid and electric vehicle.pdf',
   'hybrid':                         'Hybrid and electric vehicle.pdf',
@@ -224,10 +227,12 @@ export const BROCHURE_MAP: Record<string, string> = {
   'iot':                            'Robotics.pdf',
   'robotics':                       'Robotics.pdf',
   'power systems':                  'Power System.pdf',
+  // ── MECHANICAL ENGINEERING ────────────────────────────────────────────────
   'autocad':                        'Auto CAD.pdf',
   'catia':                          'CATIA.pdf',
   'car design':                     'Car Design.pdf',
   'quality':                        'CNC.pdf',
+  // ── BIO & LIFE SCIENCES ───────────────────────────────────────────────────
   'bioinformatics':                 'Bioinformatics Algorithms.pdf',
   'microbiology':                   'Microbiology.pdf',
   'molecular biology':              'Molecular Biology.pdf',
@@ -236,10 +241,11 @@ export const BROCHURE_MAP: Record<string, string> = {
   'nanotechnology':                 'Nanotechnology Program.pdf',
   'nano technology':                'Nanotechnology Program.pdf',
   'nano tech':                      'Nanotechnology Program.pdf',
-  'food science':                   'Microbiology.pdf',
-  'nutrition':                      'Microbiology.pdf',
-  'sensory science':                'Microbiology.pdf',
+  // 'food science' removed — no dedicated brochure exists
+  // 'nutrition' removed — no dedicated brochure exists
+  // 'sensory science' removed — no dedicated brochure exists
   'medical coding':                 'Medical Coding.pdf',
+  // ── CIVIL ENGINEERING ─────────────────────────────────────────────────────
   'construction planning':          'Construction Planning.pdf',
   'construction':                   'Construction Planning.pdf',
   'civil':                          'Construction Planning.pdf',
