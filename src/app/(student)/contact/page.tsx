@@ -40,7 +40,7 @@ export default function ContactPage() {
     },
     sameAs: [
       'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
-      'https://www.instagram.com/adyapan?igsh=MWw1NGwwNTIwZXU2eQ==',
+      'https://www.instagram.com/adyapan_?igsh=MWw1NGwwNTIwZXU2eQ==',
     ],
   };
 

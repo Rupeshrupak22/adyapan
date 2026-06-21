@@ -124,7 +124,7 @@ export function organizationSchema() {
     areaServed: 'IN',
     sameAs: [
       'https://www.linkedin.com/company/adyapan',
-      'https://www.instagram.com/adyapan',
+      'https://www.instagram.com/adyapan_?igsh=MWw1NGwwNTIwZXU2eQ==',
       'https://twitter.com/adyapan',
     ],
     contactPoint: {

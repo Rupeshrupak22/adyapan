@@ -29,7 +29,7 @@ const CONTACT_INFO = [
 ];
 
 const SOCIAL_LINKS = {
-  instagram: 'https://www.instagram.com/adyapan?igsh=MWw1NGwwNTIwZXU2eQ==',
+  instagram: 'https://www.instagram.com/adyapan_?igsh=MWw1NGwwNTIwZXU2eQ==',
   linkedin: 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',
 };
 
