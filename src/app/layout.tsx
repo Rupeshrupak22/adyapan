@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Analytics from '@/components/Analytics';
 import InactivityTimeout from '@/components/InactivityTimeout';
@@ -139,6 +140,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Analytics />
         <InactivityTimeout />
+        {/* Adyapan tracker */}
+        <Script src="https://api.adyapan.com/tracker.js" strategy="afterInteractive" />
       </body>
     </html>
   );
