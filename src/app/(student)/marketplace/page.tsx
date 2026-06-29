@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { ExternalLink, Github, Linkedin, Mail, Code2, Globe, Smartphone, Database, Server, Layout, Layers, Rocket, Award, Briefcase, GraduationCap, MapPin, Calendar } from 'lucide-react';
 
 const projects = [
@@ -175,16 +176,18 @@ export default function DeveloperPage() {
               </div>
             </div>
 
-            {/* Profile Visual */}
+            {/* Profile Image */}
             <div className="relative">
-              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/30 flex items-center justify-center">
-                <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">
-                      RK
-                    </div>
-                    <div className="text-sm text-gray-500 mt-2 font-medium">Rupak</div>
-                  </div>
+              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 border-2 border-orange-500/30 p-1.5 overflow-hidden">
+                <div className="w-full h-full rounded-full overflow-hidden border-2 border-gray-700">
+                  <Image
+                    src="/images/rupesh-developer.jpg"
+                    alt="Rupesh Kumar Rupak"
+                    width={320}
+                    height={320}
+                    className="w-full h-full object-cover object-top"
+                    priority
+                  />
                 </div>
               </div>
               {/* Floating badges */}
