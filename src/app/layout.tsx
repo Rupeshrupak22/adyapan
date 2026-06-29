@@ -141,7 +141,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Analytics />
         <InactivityTimeout />
         {/* Adyapan tracker */}
-        <Script src="https://api.adyapan.com/tracker.js" strategy="afterInteractive" />
+        <Script src="https://api.adyapancrm.in/tracker.js" strategy="afterInteractive" />
       </body>
     </html>
   );
