@@ -84,6 +84,12 @@ function LoginContent() {
       await api.post('/api/auth/login', { email, password });
       setSuccess('Login successful! Redirecting...');
       window.dispatchEvent(new Event('auth-change'));
+      // Identify visitor in CRM tracker
+      try {
+        if (typeof window !== 'undefined' && (window as any).AdyapanTracker) {
+          (window as any).AdyapanTracker.identify({ email: email });
+        }
+      } catch {}
       const fromBuy = searchParams.get('from') === 'buy';
       if (fromBuy) {
         const p = new URLSearchParams();
