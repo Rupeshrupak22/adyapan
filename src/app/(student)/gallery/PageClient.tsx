@@ -10,26 +10,26 @@ const E = [0.22, 1, 0.36, 1] as const;
 
 /* â"€â"€ data â"€â"€ */
 const MOMENTS = [
-  { src: '/images/team.jpg',           alt: 'Team',        area: 'a' },
-  { src: '/images/charanfoo.jpeg',     alt: 'Office Visit - Charan', area: 'g' },
+  { src: '/images/TECH-TEAM.jpeg',           alt: 'Team',        area: 'a' },
+  { src: '/images/charanfoo.jpeg',     alt: 'Office Visit - Charan', area: 'c' },
   { src: '/images/jag.jpeg',           alt: 'Professional portrait', area: 'b' },
-  { src: '/images/vit.jpeg',           alt: 'Team office visit', area: 'h' },
-  { src: '/images/rup.jpeg',           alt: 'Rup',         area: 'i' },
-  { src: '/images/room-teaching.jpg',  alt: 'Teaching 1',  area: 'c' },
-  { src: '/images/room-teaching3.jpg', alt: 'Teaching 3',  area: 'd' },
-  { src: '/images/room-teaching2.jpg', alt: 'Teaching 2',  area: 'e' },
+  { src: '/images/HR-team.jpeg',           alt: 'Team office visit', area: 'h' },
+  { src: '/images/party.jpeg',           alt: 'Rup',         area: 'i' },
+  { src: '/images/team.jpg',  alt: 'Teaching 1',  area: 'g' },
+  { src: '/images/room-teaching.jpg', alt: 'Teaching 3',  area: 'd' },
+  { src: '/images/Founders.jpeg', alt: 'Teaching 2',  area: 'e' },
   { src: '/images/cricket.jpg',        alt: 'Events',      area: 'f' },
 ];
 
 const CARDS = [
   { src: '/images/charanfoo.jpeg',        label: 'OFFICE VISIT', bg: 'bg-amber-700',  col: '#b45309' },
-  { src: '/images/jag.jpeg',             label: 'PORTRAIT',     bg: 'bg-slate-700',  col: '#334155' },
-  { src: '/images/vit.jpeg',             label: 'TEAM',         bg: 'bg-sky-700',    col: '#0369a1' },
-  { src: '/images/team-img01.jpg',        label: 'OUR TEAM',     bg: 'bg-red-600',    col: '#dc2626' },
+  { src: '/images/TECH-TEAM.jpeg',       label: 'TECH TEAM',    bg: 'bg-slate-700',  col: '#334155' },
+  { src: '/images/team.jpg',             label: 'TEAM',         bg: 'bg-sky-700',    col: '#0369a1' },
+  { src: '/images/HR-team.jpeg',         label: 'HR TEAM',      bg: 'bg-red-600',    col: '#dc2626' },
   { src: '/images/room-teaching.jpg',     label: 'CLASSROOM',    bg: 'bg-green-700',  col: '#15803d' },
   { src: '/images/in-room-teaching01.jpg',label: 'HANDS-ON',     bg: 'bg-yellow-500', col: '#ca8a04' },
   { src: '/images/cricket.jpg',           label: 'EVENTS',       bg: 'bg-purple-700', col: '#7e22ce' },
-  { src: '/images/in-frame-pic.jpg',      label: 'CULTURE',      bg: 'bg-orange-600', col: '#ea580c' },
+  { src: '/images/party.jpeg',           label: 'PARTIES',      bg: 'bg-orange-600', col: '#ea580c' },
 ];
 
 /* â"€â"€ scroll progress â"€â"€ */
@@ -53,7 +53,7 @@ function Lightbox({ images, idx, onClose, onPrev, onNext }: any) {
       <AnimatePresence mode="wait">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <motion.img key={idx} src={images[idx].src} alt={images[idx].alt}
-          className="max-h-[75vh] max-w-[80vw] object-contain rounded-xl shadow-2xl"
+          className="max-h-[80vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.88 }} transition={{ duration: 0.3, ease: E }}
           onClick={e => e.stopPropagation()} />
@@ -74,21 +74,31 @@ function Lightbox({ images, idx, onClose, onPrev, onNext }: any) {
 
 export default function GalleryPage() {
   const [lb, setLb] = useState<number | null>(null);
+  const [cardLb, setCardLb] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const closeLb = () => setLb(null);
   const prev = () => setLb(v => v === null ? null : (v - 1 + MOMENTS.length) % MOMENTS.length);
   const next = () => setLb(v => v === null ? null : (v + 1) % MOMENTS.length);
+  const closeCardLb = () => setCardLb(null);
+  const prevCard = () => setCardLb(v => v === null ? null : (v - 1 + CARDS.length) % CARDS.length);
+  const nextCard = () => setCardLb(v => v === null ? null : (v + 1) % CARDS.length);
 
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
-      if (lb === null) return;
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'Escape') closeLb();
+      if (lb !== null) {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'Escape') closeLb();
+      }
+      if (cardLb !== null) {
+        if (e.key === 'ArrowLeft') prevCard();
+        if (e.key === 'ArrowRight') nextCard();
+        if (e.key === 'Escape') closeCardLb();
+      }
     };
     window.addEventListener('keydown', k);
     return () => window.removeEventListener('keydown', k);
-  }, [lb]);
+  }, [lb, cardLb]);
 
   const scrollCards = (dir: number) => {
     if (scrollRef.current) scrollRef.current.scrollBy({ left: dir * 280, behavior: 'smooth' });
@@ -152,8 +162,7 @@ export default function GalleryPage() {
           <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: E }} viewport={{ once: true }}
             className="relative rounded-2xl overflow-hidden h-64 sm:h-80">
-            <Image src="/images/room-teaching3.jpg" alt="Teaching" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#111]/40" />
+            <Image src="/images/team.jpg" alt="Team" fill className="object-cover" />
           </motion.div>
         </div>
       </section>
@@ -175,11 +184,12 @@ export default function GalleryPage() {
             </button>
             <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-2 px-2" style={{ scrollbarWidth: 'none' }}>
               {CARDS.map((c, i) => (
-                <motion.div key={i} className={`flex-shrink-0 w-48 sm:w-56 h-64 sm:h-72 rounded-2xl overflow-hidden relative cursor-pointer ${c.bg}`}
+                <motion.div key={i} className={`flex-shrink-0 w-72 sm:w-80 h-56 sm:h-64 rounded-2xl overflow-hidden relative cursor-pointer ${c.bg}`}
                   initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.08 }} viewport={{ once: true }}
-                  whileHover={{ y: -6, scale: 1.02 }}>
-                  <Image src={c.src} alt={c.label} fill className="object-cover mix-blend-overlay opacity-70" />
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  onClick={() => setCardLb(i)}>
+                  <Image src={c.src} alt={c.label} fill className="object-cover mix-blend-overlay opacity-70" style={{ objectPosition: 'center center' }} />
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
                     <p className="text-white font-black text-lg tracking-wider drop-shadow-lg">{c.label}</p>
                     {/* Decorative icon */}
@@ -221,7 +231,7 @@ export default function GalleryPage() {
                 initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: i * 0.07, ease: E }} viewport={{ once: true }}
                 onClick={() => setLb(i)}>
-                <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-110" style={i === 0 ? { objectPosition: '60% center' } : undefined} />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
               </motion.div>
             ))}
@@ -231,7 +241,7 @@ export default function GalleryPage() {
           <div className="hidden md:grid gap-3" style={{
             gridTemplateAreas: `"a b c" "a d c" "g g h" "e i f"`,
             gridTemplateColumns: '1fr 1fr 1fr',
-            gridTemplateRows: '220px 220px 240px 220px',
+            gridTemplateRows: '180px 180px 240px 220px',
           }}>
             {MOMENTS.map((img, i) => (
               <motion.div key={i} className="relative overflow-hidden rounded-xl cursor-pointer group"
@@ -241,7 +251,7 @@ export default function GalleryPage() {
                 whileHover={{ scale: img.area === 'a' || img.area === 'c' ? 1.01 : 1.03 }}
                 onClick={() => setLb(i)}>
                 <Image src={img.src} alt={img.alt} fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                  className="object-cover transition-transform duration-500 group-hover:scale-110" style={i === 0 ? { objectPosition: '60% center' } : undefined} />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="w-12 h-12 rounded-full bg-white/20 border-2 border-white/60 backdrop-blur-sm flex items-center justify-center">
@@ -259,6 +269,9 @@ export default function GalleryPage() {
       {/* â"€â"€ LIGHTBOX â"€â"€ */}
       <AnimatePresence>
         {lb !== null && <Lightbox images={MOMENTS} idx={lb} onClose={closeLb} onPrev={prev} onNext={next} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {cardLb !== null && <Lightbox images={CARDS.map(c => ({ src: c.src, alt: c.label }))} idx={cardLb} onClose={closeCardLb} onPrev={prevCard} onNext={nextCard} />}
       </AnimatePresence>
     </div>
   );
