@@ -31,7 +31,7 @@ const talents = [
     education: 'B.Tech CSE, Vivekananda Global University, 2022-2026, CGPA 8.00/10.00',
     course: 'Full Stack Development', experienceLevel: 'Fresher',
     projectsCount: 8, certificatesCount: 2, rating: 4.8,
-    portfolio: 'https://grand-platypus-6af7d5.netlify.app/',
+    portfolio: 'https://adyapan.com/marketplace',
     github: 'https://github.com/Rupeshrupak222',
     linkedin: 'https://www.linkedin.com/in/rupesh-kumar-rupak-bb4b44265/',
     photoUrl: '/images/rup.jpeg',
