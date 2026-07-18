@@ -13,6 +13,7 @@ const platformLinks = [
   { href: '/gallery',             label: 'Gallery' },
   { href: '/campus-ambassador',   label: 'Campus Ambassador' },
   { href: '/company/hire-talent', label: 'Hire Talent' },
+  { href: '/marketplace',         label: 'Marketplace' },
 ];
 
 const legalLinks = [
