@@ -3,6 +3,8 @@
  * Used to seed MongoDB and as fallback for dashboard.
  */
 
+import { s3Url } from '@/lib/s3Url';
+
 // â"€â"€â"€ YouTube video mapping: course name keywords -> YouTube video URL â"€â"€â"€â"€â"€â"€â"€â"€â"€
 // Videos from the official @adyapan21 channel
 export const YOUTUBE_CHANNEL_ID = 'UCWXy5qiG6WqTrHq14KR4Bmg';
@@ -265,7 +267,7 @@ export function getBrochureHref(title: string): string | null {
   return file ? `/brochures/${encodeURIComponent(file)}` : null;
 }
 
-const courseThumb = (file: string) => `/course-thumbnails/${file}.webp`;
+const courseThumb = (file: string) => s3Url(`/course-thumbnails/${file}.webp`);
 
 export const THUMBNAIL_MAP: Record<string, string> = {
   // AI / ML

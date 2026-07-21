@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { s3Url } from '@/lib/s3Url';
 
 const KICK_DURATION_MS    = 1000;
 const KICK_RELEASE_MS     = 160;
@@ -10,10 +9,10 @@ const TOE_X               = 0.56;
 const TOE_Y               = 0.90;
 
 const ASSETS = {
-  juggle:   s3Url('/mascot/assets/mascot_juggle.webm'),
-  juggleMp4: s3Url('/mascot/assets/mascot_juggle.mp4'),
-  kickPose: s3Url('/mascot/assets/mascot_kick.png'),
-  ball:     s3Url('/mascot/assets/ball_logo.png.png'),
+  juggle:   '/mascot/assets/mascot_juggle.webm',
+  juggleMp4: '/mascot/assets/mascot_juggle.mp4',
+  kickPose: '/mascot/assets/mascot_kick.png',
+  ball:     '/mascot/assets/ball_logo.png.png',
 };
 
 const clamp   = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -160,15 +159,18 @@ export default function Mascot() {
   const loadVideo = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
-    // Try webm first (better browser support), fall back to mp4
-    v.src   = ASSETS.juggle;
+    // crossOrigin must be set before src for canvas taint rules
+    v.crossOrigin = 'anonymous';
     v.loop  = true;
     v.muted = true;
     v.playsInline = true;
+    // Try webm first (better browser support), fall back to mp4
+    v.src   = ASSETS.juggle;
     v.load();
     v.play().catch(() => {
       // Fallback to mp4 if webm fails
       v.src = ASSETS.juggleMp4;
+      v.crossOrigin = 'anonymous';
       v.load();
       v.play().catch(() => {});
     });
@@ -330,7 +332,7 @@ export default function Mascot() {
           }}
         >
           {/* Hidden source video */}
-          <video ref={videoRef} playsInline muted loop style={{ display: 'none' }} />
+          <video ref={videoRef} crossOrigin="anonymous" playsInline muted loop style={{ display: 'none' }} />
 
           {/* Juggle canvas - white bg removed */}
           <canvas

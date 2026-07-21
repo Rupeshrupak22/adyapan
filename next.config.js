@@ -130,14 +130,11 @@ const nextConfig = {
     ];
   },
 
-  // ─── Rewrites — serve media from S3 instead of public/ ───────────────────
-  // Uses 'fallback' so local public/ files are served first.
-  // Only if a file doesn't exist locally does the request go to S3.
-  // After removing public/ media folders, all requests will fallback to S3.
+  // ─── Rewrites — serve media from S3 directly ────────────────────────────
   async rewrites() {
     const s3Base = `https://${process.env.NEXT_PUBLIC_S3_BUCKET || 'adyapan-website-storage'}.s3.${process.env.NEXT_PUBLIC_S3_REGION || 'ap-south-1'}.amazonaws.com`;
     return {
-      fallback: [
+      beforeFiles: [
         { source: '/images/:path*',                  destination: `${s3Base}/images/:path*` },
         { source: '/videos/:path*',                  destination: `${s3Base}/videos/:path*` },
         { source: '/course-thumbnails/:path*',       destination: `${s3Base}/course-thumbnails/:path*` },
@@ -145,7 +142,6 @@ const nextConfig = {
         { source: '/certification-brochures/:path*', destination: `${s3Base}/certification-brochures/:path*` },
         { source: '/certificates/:path*',            destination: `${s3Base}/certificates/:path*` },
         { source: '/logos/:path*',                   destination: `${s3Base}/logos/:path*` },
-        { source: '/mascot/:path*',                  destination: `${s3Base}/mascot/:path*` },
       ],
     };
   },

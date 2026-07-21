@@ -4,82 +4,83 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { s3Url } from '@/lib/s3Url';
 
 const customEase = [0.22, 1, 0.36, 1] as const;
 
 const galleryImages = [
   {
-    src: '/images/sai-charan.jpeg',
+    src: s3Url('/images/sai-charan.jpeg'),
     alt: 'Office Visit - Charan',
     caption: 'Office Visit',
     category: 'Team',
     span: 'col-span-1 row-span-2',
   },
   {
-    src: '/images/team.jpg',
+    src: s3Url('/images/team.jpg'),
     alt: 'Adyapan Team',
     caption: 'Our Team',
     category: 'Team',
     span: 'col-span-2 row-span-2',
   },
   {
-    src: '/images/jag.jpeg',
+    src: s3Url('/images/jag.jpeg'),
     alt: 'Professional portrait',
     caption: 'Professional Portrait',
     category: 'Team',
     span: 'col-span-1 row-span-2',
   },
   {
-    src: '/images/vit.jpeg',
+    src: s3Url('/images/vit.jpeg'),
     alt: 'Team office visit',
     caption: 'Team Office Visit',
     category: 'Team',
     span: 'col-span-2 row-span-1',
   },
   {
-    src: '/images/room-teaching.jpg',
+    src: s3Url('/images/room-teaching.jpg'),
     alt: 'Classroom Teaching Session',
     caption: 'Live Classroom Sessions',
     category: 'Teaching',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/images/room-teaching2.jpg',
+    src: s3Url('/images/room-teaching2.jpg'),
     alt: 'Room Teaching 2',
     caption: 'Interactive Learning',
     category: 'Teaching',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/images/in-room-teaching01.jpg',
+    src: s3Url('/images/in-room-teaching01.jpg'),
     alt: 'In-room Teaching',
     caption: 'Hands-On Training',
     category: 'Teaching',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/images/room-teaching3.jpg',
+    src: s3Url('/images/room-teaching3.jpg'),
     alt: 'Room Teaching 3',
     caption: 'Expert-Led Workshops',
     category: 'Teaching',
     span: 'col-span-1 row-span-2',
   },
   {
-    src: '/images/team-img01.jpg',
+    src: s3Url('/images/team-img01.jpg'),
     alt: 'Team Member',
     caption: 'Meet Our Team',
     category: 'Team',
     span: 'col-span-1 row-span-1',
   },
   {
-    src: '/images/cricket.jpg',
+    src: s3Url('/images/cricket.jpg'),
     alt: 'Cricket Event',
     caption: 'Team Building & Events',
     category: 'Events',
     span: 'col-span-2 row-span-1',
   },
   {
-    src: '/images/in-frame-pic.jpg',
+    src: s3Url('/images/in-frame-pic.jpg'),
     alt: 'In Frame',
     caption: 'Company Culture',
     category: 'Culture',
