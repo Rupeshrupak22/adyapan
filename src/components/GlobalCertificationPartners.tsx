@@ -4,20 +4,21 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { s3Url } from '@/lib/s3Url';
 
 const partners = [
-  { name: 'Adobe',             abbr: 'Ado', logo: '/logos/adobe.webp',                              neon: '#FF0000' },
-  { name: 'Apple',             abbr: 'App', logo: '/logos/apple.png',                               neon: '#a0a0a0' },
-  { name: 'Autodesk',          abbr: 'Aut', logo: '/logos/Autodesklogo.png',                        neon: '#0696D7' },
-  { name: 'Cisco',             abbr: 'Cis', logo: '/logos/cisco.png',                               neon: '#049FD9' },
-  { name: 'Microsoft',         abbr: 'MS',  logo: '/logos/microsoftlogo.png',                       neon: '#00A4EF' },
-  { name: 'Meta',              abbr: 'Met', logo: '/logos/meta.png',                           neon: '#0668E1' },
-  { name: 'Intuit',            abbr: 'Int', logo: '/logos/intuit.png',                              neon: '#2CA01C' },
-  { name: 'Unity',             abbr: 'Uni', logo: '/logos/unity.png',                               neon: '#f97316' },
-  { name: 'PMI',               abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',     neon: '#FF6B00' },
-  { name: 'IC3',               abbr: 'IC3', logo: '/logos/IC3logo.png',                             neon: '#003087' },
+  { name: 'Adobe',             abbr: 'Ado', logo: s3Url('/logos/adobe.webp'),                              neon: '#FF0000' },
+  { name: 'Apple',             abbr: 'App', logo: s3Url('/logos/apple.png'),                               neon: '#a0a0a0' },
+  { name: 'Autodesk',          abbr: 'Aut', logo: s3Url('/logos/Autodesklogo.png'),                        neon: '#0696D7' },
+  { name: 'Cisco',             abbr: 'Cis', logo: s3Url('/logos/cisco.png'),                               neon: '#049FD9' },
+  { name: 'Microsoft',         abbr: 'MS',  logo: s3Url('/logos/microsoftlogo.png'),                       neon: '#00A4EF' },
+  { name: 'Meta',              abbr: 'Met', logo: s3Url('/logos/meta.png'),                           neon: '#0668E1' },
+  { name: 'Intuit',            abbr: 'Int', logo: s3Url('/logos/intuit.png'),                              neon: '#2CA01C' },
+  { name: 'Unity',             abbr: 'Uni', logo: s3Url('/logos/unity.png'),                               neon: '#f97316' },
+  { name: 'PMI',               abbr: 'PMI', logo: s3Url('/logos/project-management-institutelol.svg'),     neon: '#FF6B00' },
+  { name: 'IC3',               abbr: 'IC3', logo: s3Url('/logos/IC3logo.png'),                             neon: '#003087' },
   { name: 'ESB',               abbr: 'ESB', logo: '',                                               neon: '#2563eb' },
-  { name: 'CCS Generative AI', abbr: 'CCS', logo: '/logos/ccs.png',                                neon: '#f97316' },
+  { name: 'CCS Generative AI', abbr: 'CCS', logo: s3Url('/logos/ccs.png'),                                neon: '#f97316' },
 ];
 
 /* CSS-driven fade-in so it never depends on JS intersection timing */

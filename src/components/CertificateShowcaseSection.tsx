@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { s3Url } from '@/lib/s3Url';
 
 const certificates = [
   {
     id: 'completion',
     title: 'Certificate of Completion',
     subtitle: 'Course Completion',
-    image: '/images/SAMPLECourse.png',
+    image: s3Url('/images/SAMPLECourse.png'),
     description: 'Awarded to students who successfully completed a course at ADYAPAN. Certifies academic excellence, skill development, and career-oriented learning.',
     points: [
       'Validates successful programme completion',
