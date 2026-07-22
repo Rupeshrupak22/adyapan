@@ -47,6 +47,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'logo.clearbit.com',      pathname: '/**' },
       { protocol: 'https', hostname: 'videos.pexels.com',      pathname: '/**' },
       { protocol: 'https', hostname: 'static.vecteezy.com',    pathname: '/**' },
+      { protocol: 'https', hostname: 'adyapan-website-storage.s3.ap-south-1.amazonaws.com', pathname: '/**' },
     ],
     formats:          ['image/avif', 'image/webp'],
     minimumCacheTTL:  60 * 60 * 24 * 7,   // 7 days
@@ -127,6 +128,22 @@ const nextConfig = {
         },
       ] : []),
     ];
+  },
+
+  // ─── Rewrites — serve media from S3 directly ────────────────────────────
+  async rewrites() {
+    const s3Base = `https://${process.env.NEXT_PUBLIC_S3_BUCKET || 'adyapan-website-storage'}.s3.${process.env.NEXT_PUBLIC_S3_REGION || 'ap-south-1'}.amazonaws.com`;
+    return {
+      beforeFiles: [
+        { source: '/images/:path*',                  destination: `${s3Base}/images/:path*` },
+        { source: '/videos/:path*',                  destination: `${s3Base}/videos/:path*` },
+        { source: '/course-thumbnails/:path*',       destination: `${s3Base}/course-thumbnails/:path*` },
+        { source: '/brochures/:path*',               destination: `${s3Base}/brochures/:path*` },
+        { source: '/certification-brochures/:path*', destination: `${s3Base}/certification-brochures/:path*` },
+        { source: '/certificates/:path*',            destination: `${s3Base}/certificates/:path*` },
+        { source: '/logos/:path*',                   destination: `${s3Base}/logos/:path*` },
+      ],
+    };
   },
 };
 

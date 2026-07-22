@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
+import { s3Url } from '@/lib/s3Url';
 
 /* -- Partner logo image paths -- */
 const partners = [
@@ -74,22 +75,22 @@ const certifications = [
   {
     name: 'ISO 9001:2015',
     desc: 'Quality Management System',
-    icon: <img src="/images/iso-Photoroom.png" alt="ISO 9001:2015" className="w-12 h-12 object-contain" />,
+    icon: <img src={s3Url("/images/iso-Photoroom.png")} alt="ISO 9001:2015" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'NSDC',
     desc: 'National Skill Development Corporation',
-    icon: <img src="/images/nsdc-Photoroom.png" alt="NSDC" className="w-12 h-12 object-contain" />,
+    icon: <img src={s3Url("/images/nsdc-Photoroom.png")} alt="NSDC" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'Skill India',
     desc: 'Skill India Digital Hub',
-    icon: <img src="/images/skill-Photoroom.png" alt="Skill India" className="w-12 h-12 object-contain" />,
+    icon: <img src={s3Url("/images/skill-Photoroom.png")} alt="Skill India" className="w-12 h-12 object-contain" />,
   },
   {
     name: 'MSME',
     desc: 'Ministry of MSME, Govt. of India',
-    icon: <img src="/images/msme.png" alt="MSME" className="w-12 h-12 object-contain" />,
+    icon: <img src={s3Url("/images/msme.png")} alt="MSME" className="w-12 h-12 object-contain" />,
   },
 ];
 
