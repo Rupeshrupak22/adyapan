@@ -54,11 +54,7 @@ function Toast({
   }, [onClose]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 20, scale: 0.95 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+    <div
       className={`fixed bottom-6 left-1/2 z-[9999] flex w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 items-start gap-3 rounded-2xl px-5 py-4 shadow-2xl ${
         type === 'success'
           ? 'border border-green-200 bg-green-50 text-green-800'
@@ -76,7 +72,7 @@ function Toast({
       >
         <X className="h-4 w-4" />
       </button>
-    </motion.div>
+    </div>
   );
 }
 
@@ -90,25 +86,17 @@ function CounselorModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9998] flex items-center justify-center p-4"
-        onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-      >
-        {/* Backdrop */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+    <div
+      className="fixed inset-0 z-[9998] flex items-center justify-center p-4"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
-        {/* Modal */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 24 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-[0_32px_80px_rgba(0,0,0,0.28)]"
-        >
+      {/* Modal */}
+      <div
+        className="relative w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-[0_32px_80px_rgba(0,0,0,0.28)]"
+      >
           {/* Header */}
           <div className="bg-gradient-to-r from-[#ffa800] to-[#f97316] px-6 py-6 text-white">
             <button
@@ -172,9 +160,8 @@ function CounselorModal({ onClose }: { onClose: () => void }) {
               </button>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        </div>
+      </div>
   );
 }
 

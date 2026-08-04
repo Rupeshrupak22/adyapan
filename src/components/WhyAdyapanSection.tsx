@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import React from 'react';
 
 const features = [
   {
@@ -27,12 +27,7 @@ const WhyAdyapanSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div>
             <h2 className="text-5xl md:text-6xl font-extrabold text-[#1a1a2e] mb-6 leading-tight">
               Where India's Students
               <br />
@@ -48,12 +43,8 @@ const WhyAdyapanSection = () => {
             {/* Features List */}
             <div className="space-y-6">
               {features.map((feature, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-start gap-4"
                 >
                   <div className="w-8 h-8 rounded-full bg-[#ff9900] flex items-center justify-center flex-shrink-0 mt-1">
@@ -63,27 +54,15 @@ const WhyAdyapanSection = () => {
                     <h3 className="font-bold text-[#1a1a2e] text-lg mb-1">{feature.title}</h3>
                     <p className="text-[#666] text-sm leading-relaxed">{feature.description}</p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
+          <div className="relative">
             {/* Stats Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-6 right-6 bg-[#c8e6c9] rounded-2xl px-6 py-3 z-10"
-            >
+            <div className="absolute top-6 right-6 bg-[#c8e6c9] rounded-2xl px-6 py-3 z-10">
               <div className="flex gap-8">
                 <div>
                   <div className="font-extrabold text-[#1a1a2e] text-xl">20K</div>
@@ -94,12 +73,11 @@ const WhyAdyapanSection = () => {
                   <div className="text-xs text-[#666] font-semibold">PARTNER COMPANIES</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Main Video */}
-            <motion.div
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="rounded-3xl overflow-hidden shadow-2xl relative w-full"
+            <div
+              className="rounded-3xl overflow-hidden shadow-2xl relative w-full hover:-translate-y-1 transition-transform"
               style={{ paddingBottom: '56.25%', height: 0 }}
             >
               <iframe
@@ -116,12 +94,12 @@ const WhyAdyapanSection = () => {
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default WhyAdyapanSection;
+export default React.memo(WhyAdyapanSection);

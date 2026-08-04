@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, useMotionValue, useSpring, useTransform, useInView, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-/* â"€â"€â"€ Data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Data */
 const STATS = [
   '50K+ Students',
   '100+ Courses',
@@ -16,7 +15,6 @@ const STATS = [
   'Adyapan Certificates',
 ];
 
-/* â"€â"€â"€ Decorative scattered dots/shapes â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const SHAPES = [
   { type: 'dot',    x: '8%',  y: '18%', size: 8,  color: 'rgba(255,153,0,0.35)' },
   { type: 'ring',   x: '5%',  y: '55%', size: 14, color: 'rgba(255,153,0,0.3)'  },
@@ -31,100 +29,39 @@ const SHAPES = [
   { type: 'plus',   x: '60%', y: '15%', size: 8,  color: 'rgba(180,100,255,0.2)'},
 ];
 
-/* â"€â"€â"€ Spotlight cursor â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function Spotlight({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const x = useMotionValue(-9999);
-  const y = useMotionValue(-9999);
-
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      if (e.clientX >= rect.left && e.clientX <= rect.right &&
-          e.clientY >= rect.top  && e.clientY <= rect.bottom) {
-        x.set(e.clientX - rect.left);
-        y.set(e.clientY - rect.top);
-      } else {
-        x.set(-9999); y.set(-9999);
-      }
-    };
-    window.addEventListener('mousemove', move);
-    return () => window.removeEventListener('mousemove', move);
-  }, [x, y, sectionRef]);
-
-  return (
-    <motion.div
-      className="pointer-events-none absolute inset-0 z-0"
-      style={{
-        background: useTransform(
-          [x, y],
-          ([mx, my]) =>
-            `radial-gradient(500px circle at ${mx}px ${my}px, rgba(255,153,0,0.06) 0%, transparent 70%)`
-        ),
-      }}
-    />
-  );
-}
-
-/* â"€â"€â"€ Soft blobs â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function Blobs({ isInView }: { isInView: boolean }) {
-  const shouldReduceMotion = useReducedMotion();
-  const shouldAnimate = isInView && !shouldReduceMotion;
+/* Soft background blobs (static pre-blurred CSS gradients) */
+const Blobs = React.memo(function Blobs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* warm peach/orange blob - top left */}
-      <motion.div
+      <div
         className="absolute rounded-full"
         style={{
           width: 560, height: 560,
           top: '-20%', left: '-15%',
-          background: 'radial-gradient(circle, rgba(255,180,80,0.28) 0%, rgba(255,140,40,0.12) 45%, transparent 70%)',
-          filter: 'blur(80px)',
+          background: 'radial-gradient(circle, rgba(255,180,80,0.18) 0%, rgba(255,140,40,0.06) 50%, transparent 75%)',
         }}
-        animate={shouldAnimate ? { x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.08, 1] } : {}}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       />
-      {/* soft lavender blob - bottom right */}
-      <motion.div
+      <div
         className="absolute rounded-full"
         style={{
           width: 480, height: 480,
           bottom: '-15%', right: '-12%',
-          background: 'radial-gradient(circle, rgba(180,130,255,0.22) 0%, rgba(140,90,240,0.08) 50%, transparent 70%)',
-          filter: 'blur(75px)',
+          background: 'radial-gradient(circle, rgba(180,130,255,0.14) 0%, rgba(140,90,240,0.04) 50%, transparent 75%)',
         }}
-        animate={shouldAnimate ? { x: [0, -30, 0], y: [0, -25, 0], scale: [1, 1.1, 1] } : {}}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-      />
-      {/* faint gold center */}
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 300, height: 300,
-          top: '35%', left: '42%',
-          background: 'radial-gradient(circle, rgba(255,210,80,0.1) 0%, transparent 65%)',
-          filter: 'blur(50px)',
-        }}
-        animate={shouldAnimate ? { x: [0, 20, 0], y: [0, -15, 0] } : {}}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 7 }}
       />
     </div>
   );
-}
+});
 
-/* â"€â"€â"€ Scattered decorative shapes â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function DecorShapes({ isInView }: { isInView: boolean }) {
-  const shouldReduceMotion = useReducedMotion();
-  const shouldAnimate = isInView && !shouldReduceMotion;
+/* Static scattered shapes */
+const DecorShapes = React.memo(function DecorShapes() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
       {SHAPES.map((s, i) => (
-        <motion.div
+        <div
           key={i}
           className="absolute"
-          style={{ left: s.x, top: s.y }}
-          animate={shouldAnimate ? { y: [0, -8, 0], opacity: [0.6, 1, 0.6] } : {}}
-          transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
+          style={{ left: s.x, top: s.y, opacity: 0.8 }}
         >
           {s.type === 'dot' && (
             <div style={{ width: s.size, height: s.size, borderRadius: '50%', background: s.color }} />
@@ -141,47 +78,36 @@ function DecorShapes({ isInView }: { isInView: boolean }) {
               <line x1="1" y1="6" x2="11" y2="6" stroke={s.color} strokeWidth="2" strokeLinecap="round" />
             </svg>
           )}
-        </motion.div>
+        </div>
       ))}
     </div>
   );
-}
+});
 
-/* â"€â"€â"€ Heading â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function Heading({ isInView }: { isInView: boolean }) {
+/* Heading */
+const Heading = React.memo(function Heading() {
   const shadow3dDark = [
     '0 1px 0 #888','0 2px 0 #777','0 3px 0 #666',
     '0 4px 0 #555','0 5px 0 #444',
-    '0 8px 18px rgba(0,0,0,0.18)','0 16px 36px rgba(0,0,0,0.1)',
+    '0 8px 18px rgba(0,0,0,0.18)',
   ].join(', ');
 
   const shadow3dBig = [
     '0 1px 0 #999','0 2px 0 #888','0 3px 0 #777',
     '0 4px 0 #666','0 5px 0 #555','0 6px 0 #444',
-    '0 7px 0 #333',
-    '0 10px 22px rgba(0,0,0,0.22)','0 20px 40px rgba(0,0,0,0.12)',
+    '0 10px 22px rgba(0,0,0,0.22)',
   ].join(', ');
 
   const shadow3dOrange = [
     '0 1px 0 #c06000','0 2px 0 #a85400','0 3px 0 #904800',
-    '0 4px 0 #783c00','0 5px 0 #603000',
-    '0 8px 18px rgba(200,100,0,0.25)','0 0 40px rgba(255,153,0,0.2)',
+    '0 4px 0 #783c00',
+    '0 8px 18px rgba(200,100,0,0.25)',
   ].join(', ');
 
   return (
     <div className="text-center mb-8 select-none w-full">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Line 1: INDIA'S LARGEST */}
-        <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.65, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-wrap items-baseline justify-center gap-x-4 leading-tight"
-        >
+      <div>
+        <div className="flex flex-wrap items-baseline justify-center gap-x-4 leading-tight">
           <span className="font-black" style={{
             fontSize: 'clamp(1.8rem, 4vw, 3.8rem)',
             letterSpacing: '-0.03em',
@@ -198,16 +124,9 @@ function Heading({ isInView }: { isInView: boolean }) {
           }}>
             LARGEST
           </span>
-        </motion.div>
+        </div>
 
-        {/* Line 2: STUDENT - biggest */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.75, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex justify-center leading-tight"
-        >
-          {/* Curved underline */}
+        <div className="relative flex justify-center leading-tight">
           <svg
             aria-hidden
             className="absolute pointer-events-none"
@@ -232,15 +151,9 @@ function Heading({ isInView }: { isInView: boolean }) {
           }}>
             STUDENT
           </span>
-        </motion.div>
+        </div>
 
-        {/* Line 3: COMMUNITY */}
-        <motion.div
-          initial={{ opacity: 0, x: 16 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.65, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="leading-tight"
-        >
+        <div className="leading-tight">
           <span className="font-black" style={{
             fontSize: 'clamp(1.8rem, 4.2vw, 4rem)',
             letterSpacing: '-0.03em',
@@ -249,99 +162,55 @@ function Heading({ isInView }: { isInView: boolean }) {
           }}>
             COMMUNITY
           </span>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
-}
+});
 
-/* â"€â"€â"€ Magnetic button â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function MagneticButton({
-  children, variant = 'primary', onClick, href,
+/* Button */
+function SimpleButton({
+  children, variant = 'primary', href,
 }: {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary';
-  onClick?: () => void;
   href?: string;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  const x = useSpring(useMotionValue(0), { stiffness: 300, damping: 25 });
-  const y = useSpring(useMotionValue(0), { stiffness: 300, damping: 25 });
-  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
-    y.set((e.clientY - rect.top  - rect.height / 2) * 0.3);
-  };
-  const handleMouseLeave = () => { x.set(0); y.set(0); };
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const id = Date.now();
-    setRipples(r => [...r, { id, x: e.clientX - rect.left, y: e.clientY - rect.top }]);
-    setTimeout(() => setRipples(r => r.filter(rp => rp.id !== id)), 700);
-    if (href) {
-      // External links (http/https) open in new tab; internal links use router
-      if (href.startsWith('http')) {
-        window.open(href, '_blank', 'noopener,noreferrer');
-      } else {
-        router.push(href);
-      }
-    }
-    onClick?.();
-  };
 
   const isPrimary = variant === 'primary';
 
   return (
-    <motion.button
-      ref={ref}
+    <button
       style={isPrimary ? {
-        x, y,
         background: 'linear-gradient(135deg, #ff9900 0%, #ffb733 50%, #ff8800 100%)',
         color: '#fff',
-        boxShadow: '0 4px 24px rgba(255,153,0,0.4), 0 1px 4px rgba(0,0,0,0.1)',
+        boxShadow: '0 4px 24px rgba(255,153,0,0.4)',
       } : {
-        x, y,
         background: '#ffffff',
         color: '#1a1a2e',
         border: '1.5px solid #e0d8d0',
         boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      whileHover={{ scale: 1.06, boxShadow: isPrimary ? '0 6px 32px rgba(255,153,0,0.55)' : '0 4px 20px rgba(0,0,0,0.12)' }}
-      whileTap={{ scale: 0.94 }}
-      className="relative overflow-hidden px-8 py-3.5 rounded-full font-black text-sm tracking-widest uppercase"
+      onClick={() => {
+        if (href) {
+          if (href.startsWith('http')) {
+            window.open(href, '_blank', 'noopener,noreferrer');
+          } else {
+            router.push(href);
+          }
+        }
+      }}
+      className="relative overflow-hidden px-8 py-3.5 rounded-full font-black text-sm tracking-widest uppercase hover:scale-105 transition-transform"
     >
       {children}
-      <AnimatePresence>
-        {ripples.map(rp => (
-          <motion.span
-            key={rp.id}
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              left: rp.x, top: rp.y, x: '-50%', y: '-50%',
-              background: isPrimary ? 'rgba(255,255,255,0.4)' : 'rgba(255,153,0,0.2)',
-            }}
-            initial={{ width: 0, height: 0, opacity: 0.8 }}
-            animate={{ width: 260, height: 260, opacity: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.65, ease: 'easeOut' }}
-          />
-        ))}
-      </AnimatePresence>
-    </motion.button>
+    </button>
   );
 }
 
-/* â"€â"€â"€ Stats marquee â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-function StatsMarquee() {
-  const items = [...STATS, ...STATS];
+/* Stats marquee */
+const StatsMarquee = React.memo(function StatsMarquee() {
+  const items = useMemo(() => [...STATS, ...STATS], []);
   return (
     <div className="relative overflow-hidden py-3.5 my-10"
       style={{
@@ -369,20 +238,14 @@ function StatsMarquee() {
       </div>
     </div>
   );
-}
+});
 
-/* â"€â"€â"€ Main section â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
-export default function CommunityShowcaseSection() {
+function CommunityShowcaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
     <>
       <style>{`
-        @keyframes borderPulse {
-          0%, 100% { opacity: 0.6; }
-          50%       { opacity: 1; }
-        }
         @keyframes stats-marquee {
           from { transform: translate3d(0, 0, 0); }
           to { transform: translate3d(-50%, 0, 0); }
@@ -397,46 +260,34 @@ export default function CommunityShowcaseSection() {
           background: 'linear-gradient(135deg, #fdf8f3 0%, #fef9f4 30%, #f8f4ff 65%, #fdf8f3 100%)',
         }}
       >
-        <Spotlight sectionRef={sectionRef} />
-        <Blobs isInView={isInView} />
-        <DecorShapes isInView={isInView} />
+        <Blobs />
+        <DecorShapes />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 pt-20 pb-6 text-center">
 
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-center mb-7"
-          >
+          <div className="flex justify-center mb-7">
             <span
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase"
               style={{
                 background: 'rgba(255,153,0,0.1)',
                 border: '1px solid rgba(255,153,0,0.3)',
                 color: '#cc7700',
-                animation: 'borderPulse 3s ease infinite',
               }}
             >
-              <motion.span
-                animate={{ scale: [1, 1.4, 1] }}
-                transition={{ duration: 1.6, repeat: Infinity }}
+              <span
                 className="w-1.5 h-1.5 rounded-full inline-block"
                 style={{ background: '#ff9900' }}
               />
               India's #1 Student Platform
             </span>
-          </motion.div>
+          </div>
 
           {/* Heading */}
-          <Heading isInView={isInView} />
+          <Heading />
 
           {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          <p
             className="text-gray-500 max-w-xl mx-auto mb-10 leading-relaxed"
             style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.1rem)' }}
           >
@@ -445,22 +296,17 @@ export default function CommunityShowcaseSection() {
             mastering skills, and becoming{' '}
             <span style={{ color: '#ff9900', fontWeight: 700 }}>industry-ready</span>{' '}
             with Adyapan.
-          </motion.p>
+          </p>
 
           {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <MagneticButton variant="primary" href="https://chat.whatsapp.com/Gh5rXLLOZQOElaF1uR6Tua">
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <SimpleButton variant="primary" href="https://chat.whatsapp.com/Gh5rXLLOZQOElaF1uR6Tua">
               Join Community
-            </MagneticButton>
-            <MagneticButton variant="secondary" href="/programs">
+            </SimpleButton>
+            <SimpleButton variant="secondary" href="/programs">
               Explore Programs
-            </MagneticButton>
-          </motion.div>
+            </SimpleButton>
+          </div>
         </div>
 
         {/* Stats marquee */}
@@ -468,10 +314,7 @@ export default function CommunityShowcaseSection() {
 
         {/* Bottom accent line */}
         <div className="relative z-10 pb-16 flex justify-center">
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
-            transition={{ duration: 1.1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="h-px w-48"
             style={{
               background: 'linear-gradient(90deg, transparent, #ff9900, transparent)',
@@ -483,3 +326,5 @@ export default function CommunityShowcaseSection() {
     </>
   );
 }
+
+export default React.memo(CommunityShowcaseSection);

@@ -313,7 +313,7 @@ export default function Mascot() {
           position:      'fixed',
           left:          'max(8px, env(safe-area-inset-left))',
           bottom:        'max(8px, env(safe-area-inset-bottom))',
-          width:         'clamp(180px, 23vw, 300px)',
+          width:         'clamp(110px, 18vw, 240px)',
           aspectRatio:   '1/1',
           zIndex:        50,
           pointerEvents: 'none',

@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import MarqueeBanner from '@/components/MarqueeBanner';
 
 /* â"€â"€â"€ Data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
@@ -88,14 +88,10 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 const Footer = () => {
   return (
-    <>
-      {/* Marquee Banner - before footer for maximum visibility */}
-      <MarqueeBanner variant="glass" speed={28} />
-      
-      <footer
-        className="relative w-full overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #976b13ff 0%, #06064cff 50%, #180e02ff 100%)' }}
-      >
+    <footer
+      className="relative w-full overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #976b13ff 0%, #06064cff 50%, #180e02ff 100%)' }}
+    >
       {/* Decorative top border */}
       <div
         className="h-px w-full"
@@ -380,8 +376,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-    </>
   );
 };
 
-export default Footer;
+export default React.memo(Footer);

@@ -1,17 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 const INACTIVITY_LIMIT_MS = 15 * 60 * 1000; // 15 minutes
+const THROTTLE_INTERVAL_MS = 10 * 1000; // Throttle timer reset to every 10 seconds max
 
 /**
  * Monitors user activity (mouse, keyboard, scroll, touch).
  * After 15 minutes of inactivity, logs the user out.
- * Only activates if the user is authenticated (has authToken cookie).
+ * Throttled to prevent calling clearTimeout/setTimeout on every mouse pixel movement.
  */
 export default function InactivityTimeout() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLoggedInRef = useRef(false);
+  const lastResetTimeRef = useRef<number>(0);
 
   const logout = useCallback(async () => {
     try {
@@ -19,13 +21,18 @@ export default function InactivityTimeout() {
       window.dispatchEvent(new Event('auth-change'));
       window.location.href = '/login?reason=inactivity';
     } catch {
-      // If logout API fails, still redirect
       window.location.href = '/login?reason=inactivity';
     }
   }, []);
 
   const resetTimer = useCallback(() => {
     if (!isLoggedInRef.current) return;
+
+    const now = Date.now();
+    if (now - lastResetTimeRef.current < THROTTLE_INTERVAL_MS) {
+      return; // Skip rapid consecutive triggers
+    }
+    lastResetTimeRef.current = now;
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -52,22 +59,18 @@ export default function InactivityTimeout() {
   }, [resetTimer]);
 
   useEffect(() => {
-    // Check if user is logged in on mount
     checkAuth();
 
-    // Listen for auth changes (login/logout events)
     const handleAuthChange = () => {
       checkAuth();
     };
     window.addEventListener('auth-change', handleAuthChange);
 
-    // Activity events
     const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
     events.forEach(event => {
       window.addEventListener(event, resetTimer, { passive: true });
     });
 
-    // Also reset on visibility change (user comes back to tab)
     const handleVisibility = () => {
       if (document.visibilityState === 'visible' && isLoggedInRef.current) {
         resetTimer();
@@ -85,6 +88,5 @@ export default function InactivityTimeout() {
     };
   }, [checkAuth, resetTimer]);
 
-  // This component renders nothing
   return null;
 }

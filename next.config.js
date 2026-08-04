@@ -13,8 +13,9 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.razorpay.com https://*.mongodb.net https://challenges.cloudflare.com",
-      "frame-src https://api.razorpay.com https://checkout.razorpay.com https://challenges.cloudflare.com https://www.youtube.com https://www.youtube-nocookie.com",
+      "media-src 'self' data: blob: https: https://*.amazonaws.com https://adyapan-website-storage.s3.ap-south-1.amazonaws.com",
+      "connect-src 'self' https://api.razorpay.com https://*.mongodb.net https://challenges.cloudflare.com https://*.amazonaws.com https://adyapan-website-storage.s3.ap-south-1.amazonaws.com",
+      "frame-src https://api.razorpay.com https://checkout.razorpay.com https://challenges.cloudflare.com https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -33,7 +34,6 @@ const nextConfig = {
   transpilePackages: ['axios'],
 
   // ─── Production output ───────────────────────────────────────────────────
-  // 'standalone' bundles only what's needed — ideal for Docker / Render
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 
   // ─── Image optimisation ──────────────────────────────────────────────────
@@ -50,7 +50,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'adyapan-website-storage.s3.ap-south-1.amazonaws.com', pathname: '/**' },
     ],
     formats:          ['image/avif', 'image/webp'],
-    minimumCacheTTL:  60 * 60 * 24 * 7,   // 7 days
+    minimumCacheTTL:  31536000,   // 1 year cache TTL to prevent Vercel re-optimization bandwidth spikes
     deviceSizes:      [640, 750, 828, 1080, 1200, 1920],
     imageSizes:       [16, 32, 48, 64, 96, 128, 256, 384],
     dangerouslyAllowSVG: false,
@@ -59,24 +59,16 @@ const nextConfig = {
   // ─── Bundle optimisation ─────────────────────────────────────────────────
   modularizeImports: {
     'date-fns': { transform: 'date-fns/{{member}}' },
-    // NOTE: lucide-react v0.309+ ships a single ESM barrel that Turbopack
-    // tree-shakes automatically. A modularizeImports transform breaks named
-    // imports under Turbopack (Search → search mismatch), so we omit it.
   },
 
   // ─── Compiler optimisations ──────────────────────────────────────────────
   compiler: {
-    // Remove console.log in production (keep warn/error)
     removeConsole: process.env.NODE_ENV === 'production'
       ? { exclude: ['error', 'warn'] }
       : false,
   },
 
   // ─── TypeScript ──────────────────────────────────────────────────────────
-  // Skip the auto-generated .next/dev/types/validator.ts check — it has a
-  // known Next.js 16 bug where route segments starting with 's' get truncated
-  // (e.g. "submit/route.ts" → "ubmit/route.ts"). All hand-written TS is still
-  // checked by the compiler; only the generated validator is skipped.
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -86,14 +78,14 @@ const nextConfig = {
     optimizePackageImports: ['framer-motion', 'recharts'],
   },
 
-  // ─── Security headers ────────────────────────────────────────────────────
+  // ─── Security & Caching Headers ──────────────────────────────────────────
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: securityHeaders,
       },
-      // Cache static assets aggressively
+      // Aggressively cache static assets at Vercel Edge CDN
       {
         source: '/course-thumbnails/(.*)',
         headers: [
@@ -103,7 +95,7 @@ const nextConfig = {
       {
         source: '/images/(.*)',
         headers: [
-          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
     ];
@@ -112,13 +104,11 @@ const nextConfig = {
   // ─── Redirects ───────────────────────────────────────────────────────────
   async redirects() {
     return [
-      // Redirect old /offline-service (singular) to /offline-services
       {
         source:      '/offline-service',
         destination: '/offline-services',
         permanent:   true,
       },
-      // WWW → non-WWW canonical redirect (production only)
       ...(process.env.NODE_ENV === 'production' ? [
         {
           source:      '/:path*',
@@ -128,22 +118,6 @@ const nextConfig = {
         },
       ] : []),
     ];
-  },
-
-  // ─── Rewrites — serve media from S3 directly ────────────────────────────
-  async rewrites() {
-    const s3Base = `https://${process.env.NEXT_PUBLIC_S3_BUCKET || 'adyapan-website-storage'}.s3.${process.env.NEXT_PUBLIC_S3_REGION || 'ap-south-1'}.amazonaws.com`;
-    return {
-      beforeFiles: [
-        { source: '/images/:path*',                  destination: `${s3Base}/images/:path*` },
-        { source: '/videos/:path*',                  destination: `${s3Base}/videos/:path*` },
-        { source: '/course-thumbnails/:path*',       destination: `${s3Base}/course-thumbnails/:path*` },
-        { source: '/brochures/:path*',               destination: `${s3Base}/brochures/:path*` },
-        { source: '/certification-brochures/:path*', destination: `${s3Base}/certification-brochures/:path*` },
-        { source: '/certificates/:path*',            destination: `${s3Base}/certificates/:path*` },
-        { source: '/logos/:path*',                   destination: `${s3Base}/logos/:path*` },
-      ],
-    };
   },
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import React from 'react';
 
 const testimonials = [
   {
@@ -51,13 +51,7 @@ const TestimonialsSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
 
           {/* Left Sidebar */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:sticky lg:top-20 mb-8 lg:mb-0 flex flex-col justify-between min-h-[700px]"
-          >
+          <div className="lg:sticky lg:top-20 mb-8 lg:mb-0 flex flex-col justify-between min-h-[700px]">
             <div>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#1a1a2e] mb-6 lg:mb-8 leading-tight">
                 What Our<br />Students<br />Say
@@ -69,41 +63,23 @@ const TestimonialsSection = () => {
             </div>
 
             {/* Full Blend Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              whileHover={{ scale: 1.02 }}
-              className="relative flex-1 flex items-end justify-center lg:justify-start"
-            >
+            <div className="relative flex-1 flex items-end justify-center lg:justify-start">
               <img
                 src="/images/Homereview.png"
                 alt="Adyapan Character"
+                loading="lazy"
+                decoding="async"
                 className="w-full max-w-sm lg:max-w-md object-contain mix-blend-multiply opacity-95"
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Right Testimonials Stack */}
           <div className="lg:col-span-2 space-y-6">
             {testimonials.map((t, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  delay: i * 0.12,
-                  duration: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{
-                  x: 8,
-                  boxShadow: '0 12px 32px rgba(0,0,0,0.08)',
-                  transition: { duration: 0.3 },
-                }}
-                className="bg-white rounded-2xl p-6 border-l-4 border-[#ff9900] cursor-default"
+                className="bg-white rounded-2xl p-6 border-l-4 border-[#ff9900] cursor-default shadow-sm hover:translate-x-1 transition-transform"
               >
                 {/* Quote */}
                 <p className="text-[#1a1a2e] text-base leading-relaxed mb-6 italic">
@@ -112,13 +88,12 @@ const TestimonialsSection = () => {
 
                 {/* Author Info */}
                 <div className="flex items-center space-x-4">
-                  <motion.div
-                    whileHover={{ scale: 1.12 }}
+                  <div
                     className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
                     style={{ background: '#00c9a7' }}
                   >
                     {t.initials}
-                  </motion.div>
+                  </div>
 
                   <div className="flex-1">
                     <div className="font-bold text-[#1a1a2e] text-sm">
@@ -137,19 +112,12 @@ const TestimonialsSection = () => {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
 
-            {/* More testimonials text */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-[#999] text-sm pt-4"
-            >
+            <p className="text-[#999] text-sm pt-4">
               and many more....
-            </motion.p>
+            </p>
           </div>
         </div>
       </div>
@@ -157,4 +125,4 @@ const TestimonialsSection = () => {
   );
 };
 
-export default TestimonialsSection;
+export default React.memo(TestimonialsSection);

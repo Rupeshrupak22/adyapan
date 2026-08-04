@@ -1,34 +1,36 @@
 'use client';
 
-import { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
-/* --- Types --- */
+/* Types */
 interface MarqueeBannerProps {
   text?: string;
   speed?: number;
   variant?: 'dark' | 'orange' | 'glass';
 }
 
-/* --- Separator --- */
-const Separator = () => (
-  <span
-    aria-hidden="true"
-    className="mx-6 text-[#ffa800] opacity-80 select-none"
-    style={{ fontSize: 'inherit', lineHeight: 1 }}
-  >
-    &#10022;
-  </span>
-);
+const Separator = React.memo(function Separator() {
+  return (
+    <span
+      aria-hidden="true"
+      className="mx-6 text-[#ffa800] opacity-80 select-none"
+      style={{ fontSize: 'inherit', lineHeight: 1 }}
+    >
+      &#10022;
+    </span>
+  );
+});
 
-/* --- Marquee Track (pure CSS animation) --- */
-function MarqueeTrack({
+const MarqueeTrack = React.memo(function MarqueeTrack({
   text,
   speed,
   variant,
+  isPaused,
 }: {
   text: string;
   speed: number;
   variant: 'dark' | 'orange' | 'glass';
+  isPaused: boolean;
 }) {
   const REPEAT = 8;
   const items = Array.from({ length: REPEAT }, (_, i) => i);
@@ -55,6 +57,7 @@ function MarqueeTrack({
         style={{
           width: 'max-content',
           animation: `marquee-scroll ${speed}s linear infinite`,
+          animationPlayState: isPaused ? 'paused' : 'running',
           willChange: 'transform',
         }}
       >
@@ -72,9 +75,8 @@ function MarqueeTrack({
       </div>
     </div>
   );
-}
+});
 
-/* --- Background styles --- */
 function getBgStyle(variant: 'dark' | 'orange' | 'glass'): React.CSSProperties {
   if (variant === 'orange') {
     return {
@@ -86,8 +88,6 @@ function getBgStyle(variant: 'dark' | 'orange' | 'glass'): React.CSSProperties {
   if (variant === 'glass') {
     return {
       background: 'rgba(26, 26, 46, 0.82)',
-      backdropFilter: 'blur(16px) saturate(1.4)',
-      WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
       borderTop: '1px solid rgba(255,168,0,0.25)',
       borderBottom: '1px solid rgba(255,168,0,0.25)',
     };
@@ -99,13 +99,36 @@ function getBgStyle(variant: 'dark' | 'orange' | 'glass'): React.CSSProperties {
   };
 }
 
-/* --- Main component --- */
-export default function MarqueeBanner({
+function MarqueeBanner({
   text = "INDIA'S LARGEST STUDENT COMMUNITY",
   speed = 30,
   variant = 'dark',
 }: MarqueeBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsPaused(!entry.isIntersecting || document.hidden);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+
+    const handleVisibility = () => {
+      if (document.hidden) setIsPaused(true);
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
 
   return (
     <>
@@ -115,7 +138,7 @@ export default function MarqueeBanner({
           to { transform: translate3d(-50%, 0, 0); }
         }
         .marquee-wrapper:hover .marquee-track {
-          animation-play-state: paused;
+          animation-play-state: paused !important;
         }
         @media (prefers-reduced-motion: reduce) {
           .marquee-track {
@@ -136,7 +159,6 @@ export default function MarqueeBanner({
               : '0 4px 24px 0 rgba(255,140,0,0.35)',
         }}
       >
-        {/* Left fade */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10"
@@ -149,7 +171,6 @@ export default function MarqueeBanner({
                 : 'linear-gradient(90deg, #0d0d1a, transparent)',
           }}
         />
-        {/* Right fade */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10"
@@ -163,8 +184,10 @@ export default function MarqueeBanner({
           }}
         />
 
-        <MarqueeTrack text={text} speed={speed} variant={variant} />
+        <MarqueeTrack text={text} speed={speed} variant={variant} isPaused={isPaused} />
       </div>
     </>
   );
 }
+
+export default React.memo(MarqueeBanner);

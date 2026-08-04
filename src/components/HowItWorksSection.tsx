@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { Play, Square, Volume2, VolumeX } from 'lucide-react';
-import { fadeLeft, fadeRight, staggerContainer } from '@/lib/motion';
+import { s3Url } from '@/lib/s3Url';
 
 const pillars = [
   {
@@ -36,26 +35,57 @@ const pillars = [
 ];
 
 const HowItWorksSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 
   const videoSources = [
-    '/videos/final-web-video.mp4',
-    '/videos/1.mp4',
-    '/videos/3.mp4',
+    s3Url('/videos/final-web-video.mp4'),
+    s3Url('/videos/1.mp4'),
+    s3Url('/videos/3.mp4'),
   ];
+
+  /* IntersectionObserver to pause video when offscreen or tab inactive */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || document.hidden) {
+          video.pause();
+        } else {
+          video.play().catch(() => {});
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        video.pause();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [activeVideoIndex]);
 
   useEffect(() => {
     const video = videoRef.current;
-
     if (!video) return;
 
     video.load();
-
     const playPromise = video.play();
-
     if (playPromise) {
       playPromise
         .then(() => setIsPlaying(true))
@@ -65,7 +95,6 @@ const HowItWorksSection = () => {
 
   const togglePlayback = () => {
     const video = videoRef.current;
-
     if (!video) return;
 
     if (video.paused) {
@@ -83,78 +112,51 @@ const HowItWorksSection = () => {
   const toggleMute = () => {
     const nextMuted = !isMuted;
     setIsMuted(nextMuted);
-
     if (videoRef.current) {
       videoRef.current.muted = nextMuted;
     }
   };
 
   return (
-    <section id="skills" className="bg-[#f5f0eb] py-20 px-6">
+    <section ref={sectionRef} id="skills" className="bg-[#f5f0eb] py-20 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left */}
-        <motion.div
-          variants={staggerContainer(0.15, 0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <motion.h2
-            variants={fadeLeft}
-            className="text-4xl md:text-5xl font-extrabold text-[#1a1a2e] leading-tight mb-4 tracking-tight"
-          >
+        <div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#1a1a2e] leading-tight mb-4 tracking-tight">
             Where India's Students<br />
             <span style={{ color: '#f90' }}>Learn Skills, Earn Income</span><br />
             &amp; Get Hired<span style={{ color: '#f90' }}>.</span>
-          </motion.h2>
+          </h2>
 
-          <motion.p variants={fadeLeft} className="text-gray-500 text-base mb-10 max-w-sm leading-relaxed">
+          <p className="text-gray-500 text-base mb-10 max-w-sm leading-relaxed">
             The modern job market demands more than a degree. Adyapan gives you
             verified skills, real project experience, and a direct path to employment.
-          </motion.p>
+          </p>
 
           {/* Pillars */}
           <div className="space-y-6">
             {pillars.map((p, i) => (
-              <motion.div
+              <div
                 key={i}
-                variants={fadeLeft}
-                whileHover={{ x: 6, transition: { duration: 0.2 } }}
-                className="flex items-start space-x-4 cursor-default"
+                className="flex items-start space-x-4 cursor-default group"
               >
-                <motion.div
-                  whileHover={{ scale: 1.15, borderColor: '#f90' }}
-                  transition={{ duration: 0.2 }}
-                  className="w-10 h-10 rounded-full border border-[#e0d8d0] bg-white flex items-center justify-center flex-shrink-0 text-[#1a1a2e]"
-                >
+                <div className="w-10 h-10 rounded-full border border-[#e0d8d0] bg-white flex items-center justify-center flex-shrink-0 text-[#1a1a2e] group-hover:border-[#f90] transition-colors">
                   {p.icon}
-                </motion.div>
+                </div>
                 <div>
                   <div className="font-bold text-[#1a1a2e] mb-1">{p.title}</div>
                   <div className="text-gray-400 text-sm leading-relaxed">{p.desc}</div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Right video */}
-        <motion.div
-          variants={fadeRight}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          className="relative w-full max-w-[360px] mx-auto lg:ml-auto lg:mr-10"
-        >
+        <div className="relative w-full max-w-[360px] mx-auto lg:ml-auto lg:mr-10">
           {/* Stats card */}
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.9 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute -top-6 -left-4 z-10 bg-[#d8e8c8] rounded-2xl px-6 py-4 flex gap-8 shadow-sm"
-          >
+          <div className="absolute -top-6 -left-4 z-10 bg-[#d8e8c8] rounded-2xl px-6 py-4 flex gap-8 shadow-sm">
             <div>
               <span className="text-3xl font-extrabold text-[#1a1a2e]">20K</span>
               <span className="text-xs text-gray-500 block uppercase tracking-wider mt-0.5">Active Learners</span>
@@ -164,16 +166,14 @@ const HowItWorksSection = () => {
               <span className="text-3xl font-extrabold text-[#1a1a2e]">250+</span>
               <span className="text-xs text-gray-500 block uppercase tracking-wider mt-0.5">Partner Companies</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Main video */}
-          <motion.div
-            whileHover={{ scale: 1.02, transition: { duration: 0.4 } }}
-            className="rounded-3xl overflow-hidden aspect-[9/16] bg-[#c8d4d8] relative"
-          >
+          <div className="rounded-3xl overflow-hidden aspect-[9/16] bg-[#c8d4d8] relative">
             <video
               key={videoSources[activeVideoIndex]}
               ref={videoRef}
+              src={videoSources[activeVideoIndex]}
               aria-label="Adyapan students and learning experience"
               autoPlay
               loop
@@ -181,13 +181,15 @@ const HowItWorksSection = () => {
               playsInline
               preload="auto"
               onCanPlay={() => {
-                videoRef.current?.play()
-                  .then(() => setIsPlaying(true))
-                  .catch(() => setIsPlaying(false));
+                if (videoRef.current && !document.hidden) {
+                  videoRef.current.play()
+                    .then(() => setIsPlaying(true))
+                    .catch(() => setIsPlaying(false));
+                }
               }}
               onError={() => {
                 setActiveVideoIndex((currentIndex) =>
-                  currentIndex < videoSources.length - 1 ? currentIndex + 1 : currentIndex
+                  currentIndex < videoSources.length - 1 ? currentIndex + 1 : 0
                 );
               }}
               onPlay={() => setIsPlaying(true)}
@@ -196,35 +198,31 @@ const HowItWorksSection = () => {
             >
               <source src={videoSources[activeVideoIndex]} type="video/mp4" />
             </video>
-          </motion.div>
+          </div>
 
           {/* Video controls */}
           <div className="absolute bottom-4 right-4 z-10 flex gap-2">
-            <motion.button
+            <button
               type="button"
               aria-label={isPlaying ? 'Stop video' : 'Play video'}
-              whileHover={{ scale: 1.12 }}
-              whileTap={{ scale: 0.92 }}
               onClick={togglePlayback}
-              className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors text-[#1a1a2e]"
+              className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white hover:scale-105 transition-all text-[#1a1a2e]"
             >
               {isPlaying ? <Square className="w-4 h-4" fill="currentColor" /> : <Play className="w-4 h-4 ml-0.5" fill="currentColor" />}
-            </motion.button>
-            <motion.button
+            </button>
+            <button
               type="button"
               aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-              whileHover={{ scale: 1.12 }}
-              whileTap={{ scale: 0.92 }}
               onClick={toggleMute}
-              className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors text-[#1a1a2e]"
+              className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white hover:scale-105 transition-all text-[#1a1a2e]"
             >
               {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            </motion.button>
+            </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default HowItWorksSection;
+export default React.memo(HowItWorksSection);
