@@ -488,7 +488,7 @@ function CheckoutPageInner() {
           <div className="flex-1 space-y-4 min-w-0">
 
             {/* STEP 1 */}
-            <div layout className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
+            <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
               {/* header */}
               <div className={`px-6 py-4 flex items-center gap-3 ${step === 'details' ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-white border-b border-gray-100'}`}>
                 <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${step === 'details' ? 'bg-white text-orange-600' : 'bg-green-500 text-white'}`}>

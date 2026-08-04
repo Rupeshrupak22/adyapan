@@ -79,7 +79,6 @@ function ProjectCard({ project }: { project: ProjectRequest }) {
 
   return (
     <div
-      layout
       className="bg-white rounded-2xl border-2 border-gray-100 hover:border-orange-200 transition-all overflow-hidden"
     >
       {/* Header */}

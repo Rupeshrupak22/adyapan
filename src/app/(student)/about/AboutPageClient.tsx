@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { s3Url } from '@/lib/s3Url';
 import Link from 'next/link';
@@ -270,14 +270,7 @@ export default function AboutPageClient() {
             className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
           >
             {/* Founder Card */}
-            <div,
-                show: { 
-                  opacity: 1, 
-                  x: 0, 
-                  rotateY: 0,
-                  transition: { duration: 0.8, ease: customEase }
-                }
-              }}
+            <div
               className="relative group"
             >
               <div className="bg-black rounded-3xl p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-all">
@@ -351,14 +344,7 @@ export default function AboutPageClient() {
             </div>
 
             {/* Co-Founder Card */}
-            <div,
-                show: { 
-                  opacity: 1, 
-                  x: 0, 
-                  rotateY: 0,
-                  transition: { duration: 0.8, ease: customEase }
-                }
-              }}
+            <div
               className="relative group"
             >
               <div className="bg-black rounded-3xl p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-all">

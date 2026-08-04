@@ -274,6 +274,39 @@ const Footer = () => {
               <li>
                 <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Second Branch</p>
                 <a
+                  href="https://maps.app.goo.gl/SNRtEqsfZAxBG221A"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 group"
+                >
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-110"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.12))',
+                      border: '1px solid rgba(249,115,22,0.3)',
+                    }}
+                    aria-hidden="true"
+                  >
+                    <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-gray-300 text-sm font-medium group-hover:text-orange-400 transition-colors duration-200">
+                      Adyapan Edutech Pvt Ltd
+                    </span>
+                    <span className="block text-gray-500 text-[11px] leading-tight mt-0.5">
+                      Cluster_malkajgiri 82, X Road, Khajaguda - Nanakramguda Rd, Radhe Nagar, Rai Durg, Telangana 500104
+                    </span>
+                  </div>
+                </a>
+              </li>
+
+              {/* Third Branch */}
+              <li>
+                <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Third Branch</p>
+                <a
                   href="https://maps.google.com/?q=IndiQube+Pearl+Mindspace+Rd+P+Janardhan+Reddy+Nagar+Gachibowli+Hyderabad+Telangana+500032"
                   target="_blank"
                   rel="noopener noreferrer"

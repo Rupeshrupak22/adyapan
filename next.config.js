@@ -34,7 +34,9 @@ const nextConfig = {
   transpilePackages: ['axios'],
 
   // ─── Production output ───────────────────────────────────────────────────
-  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  // NOTE: Do NOT set output:'standalone' on Vercel — Vercel manages its own
+  // output bundling and standalone mode causes middleware.js.nft.json errors.
+  // output: 'standalone',
 
   // ─── Image optimisation ──────────────────────────────────────────────────
   images: {

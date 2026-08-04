@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -196,7 +196,7 @@ export default function ProgramsPageClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {filteredPrograms.map((program, i) => (
             <div
-              key={program.title}40`, transition: { duration: 0.3 } }}
+              key={program.title}
               className="rounded-3xl p-6 sm:p-8 border-2"
               style={{ borderColor: program.color, background: 'rgba(255, 153, 0, 0.05)' }}
             >

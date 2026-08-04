@@ -179,11 +179,9 @@ function HeroSection() {
       }} />
 
       {/* Main content */}
-    <div
-  className="relative w-full max-w-[1600px] mx-auto px-8  flex items-center"
-  style={{ zIndex: 2, minHeight: "92vh" }}
->
-      <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_0.95fr] gap-16 xl:gap-24 items-center py-12 lg:py-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full flex items-center"
+        style={{ zIndex: 2, minHeight: '92vh' }}>
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center py-12 lg:py-16">
 
           {/* LEFT */}
           <div className="flex flex-col gap-6">

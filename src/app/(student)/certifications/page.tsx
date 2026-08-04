@@ -405,8 +405,8 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
 
   return (
     <div
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       className="relative group cursor-pointer"
     >
       {/* Neon glow layer */}

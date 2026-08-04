@@ -1,11 +1,10 @@
-'use client';
+﻿'use client';
 
 import api from '@/lib/api';
 import { FormEvent, useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
 
 /* -- Floating label input ---------------------------------------- */
@@ -200,7 +199,7 @@ function LoginContent() {
 
               <button
                 type="submit"
-                disabled={loading} : { scale: 1.02, boxShadow: '0 8px 30px rgba(255,168,0,0.4)' }} : { scale: 0.98 }}
+                disabled={loading}
                 className="w-full py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
                 style={{ background: 'linear-gradient(135deg, #ffa800 0%, #ff6b00 100%)' }}
               >

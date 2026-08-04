@@ -343,7 +343,6 @@ function TalentCard({
 
   return (
     <div
-      layout
       className="group rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-[0_12px_40px_rgba(249,115,22,0.12)]"
     >
       <div className="flex items-start gap-4">

@@ -61,7 +61,7 @@ function JobCard({ job }: { job: Job }) {
   const visibleSkills = job.requiredSkills?.slice(0, 4) ?? [];
   const extraSkills   = (job.requiredSkills?.length ?? 0) - 4;
   return (
-    <div layout
+    <div
       className="bg-white rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all p-5 flex flex-col gap-3">
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 overflow-hidden relative">

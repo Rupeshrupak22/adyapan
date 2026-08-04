@@ -76,12 +76,10 @@ export default function CompanyPage() {
         <video autoPlay muted loop playsInline className='absolute inset-0 w-full h-full object-cover opacity-[0.07] pointer-events-none'>
           <source src={s3Url('/videos/8126367-hd_1920_1080_25fps.mp4')} type='video/mp4' />
         </video>
-        <div style={{ y: heroY, opacity: heroOpacity }} className='absolute inset-0 pointer-events-none'>
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className='absolute inset-0 pointer-events-none'>
           <div
             className='absolute -top-32 -right-32 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-orange-300/25 to-amber-200/15 blur-3xl' />
-          <div
-            className='absolute -bottom-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-orange-200/20 to-yellow-100/10 blur-3xl' />
-        </div>
+        </motion.div>
         <div className='absolute inset-0 pointer-events-none opacity-20'
           style={{backgroundImage:'radial-gradient(circle, #f9731620 1px, transparent 1px)', backgroundSize:'40px 40px'}} />
 

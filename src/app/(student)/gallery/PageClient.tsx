@@ -37,7 +37,7 @@ const CARDS = [
 function ScrollBar() {
   const { scrollYProgress } = useScroll();
   const s = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  return <div className="fixed top-0 left-0 right-0 h-[3px] z-[200] origin-left bg-[#ffa800]" style={{ scaleX: s }} />;
+  return <motion.div className="fixed top-0 left-0 right-0 h-[3px] z-[200] origin-left bg-[#ffa800]" style={{ scaleX: s }} />;
 }
 
 /* ── lightbox ── */
