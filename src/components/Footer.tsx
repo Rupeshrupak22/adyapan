@@ -119,10 +119,10 @@ const Footer = () => {
       </div>
 
       {/* â"€â"€ Main content â"€â"€ */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 lg:pt-14 pb-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 lg:pt-10 pb-8">
 
         {/* 4-column responsive grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-10 sm:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-0">
 
           {/* â"€â"€ Col 1: Brand â"€â"€ */}
           <div className="sm:col-span-2 lg:col-span-1">
@@ -145,7 +145,7 @@ const Footer = () => {
             </p>
 
             {/* Social icons */}
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
               {socialLinks.map(({ href, label, icon, buttonClass }) => (
                 <a
                   key={label}
@@ -153,10 +153,9 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Follow us on ${label}`}
-                  className={`flex items-center gap-2 px-4 py-2.5 text-white rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 ${buttonClass}`}
+                  className={`w-9 h-9 flex items-center justify-center text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ${buttonClass}`}
                 >
                   {icon}
-                  {label}
                 </a>
               ))}
             </div>
@@ -241,7 +240,7 @@ const Footer = () => {
               <li>
                 <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Head Office</p>
                 <a
-                  href="https://maps.google.com/?q=Adyapan+Edutech+Pvt+Ltd+Hyderabad"
+                  href="https://maps.google.com/?q=ADYAPAN+EDUTECH+PRIVATE+LIMITED+Shaikpet+Hyderabad+Telangana"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-3 group"
@@ -272,9 +271,9 @@ const Footer = () => {
 
               {/* Second Branch */}
               <li>
-                <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Second Branch</p>
+                <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Second Office</p>
                 <a
-                  href="https://maps.app.goo.gl/SNRtEqsfZAxBG221A"
+                  href="https://maps.google.com/?q=ADYAPAN+EDUTECH+PRIVATE+LIMITED+Khajaguda+Rai+Durg+Hyderabad+500104"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-3 group"
@@ -303,35 +302,37 @@ const Footer = () => {
                 </a>
               </li>
 
-              {/* Third Branch */}
-              <li>
-                <p className="text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2">Third Branch</p>
+              {/* Third Office */}
+              <li className="relative z-10">
                 <a
-                  href="https://maps.google.com/?q=IndiQube+Pearl+Mindspace+Rd+P+Janardhan+Reddy+Nagar+Gachibowli+Hyderabad+Telangana+500032"
+                  href="https://www.google.com/maps/search/?api=1&query=ADYAPAN+EDUTECH+PRIVATE+LIMITED+Gachibowli+Hyderabad"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-3 group"
+                  className="block group cursor-pointer pointer-events-auto"
                 >
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-110"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.12))',
-                      border: '1px solid rgba(249,115,22,0.3)',
-                    }}
-                    aria-hidden="true"
-                  >
-                    <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="text-gray-300 text-sm font-medium group-hover:text-orange-400 transition-colors duration-200">
-                      Adyapan Edutech Pvt Ltd
-                    </span>
-                    <span className="block text-gray-500 text-[11px] leading-tight mt-0.5">
-                      IndiQube Pearl, Mindspace Rd, Gachibowli, Hyderabad, Telangana 500032
-                    </span>
+                  <span className="block text-orange-400 font-semibold text-[11px] uppercase tracking-widest mb-2 group-hover:text-orange-300 transition-colors">Third Office</span>
+                  <div className="flex items-start gap-3">
+                    <div
+                      className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-110"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.12))',
+                        border: '1px solid rgba(249,115,22,0.3)',
+                      }}
+                      aria-hidden="true"
+                    >
+                      <svg className="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <span className="block text-gray-300 text-sm font-medium group-hover:text-orange-400 transition-colors duration-200">
+                        Adyapan Edutech Pvt Ltd
+                      </span>
+                      <span className="block text-gray-500 text-[11px] leading-tight mt-0.5 group-hover:text-gray-400 transition-colors duration-200">
+                        IndiQube Pearl, Mindspace Rd, Gachibowli, Hyderabad, Telangana 500032
+                      </span>
+                    </div>
                   </div>
                 </a>
               </li>
@@ -341,7 +342,7 @@ const Footer = () => {
 
         {/* â"€â"€ Big brand text banner â"€â"€ */}
         <div
-          className="relative w-full overflow-hidden mb-6 flex items-center justify-center py-8 sm:py-10"
+          className="relative w-full mb-2 flex items-center justify-center mt-2 lg:-mt-12"
           aria-hidden="true"
         >
           <div className="flex items-center justify-center flex-wrap px-4">
@@ -350,11 +351,11 @@ const Footer = () => {
                 key={i}
                 className="inline-block cursor-default select-none font-black"
                 style={{
-                  fontSize: 'clamp(2.8rem, 10vw, 7rem)',
+                  fontSize: 'clamp(3.5rem, 10vw, 7rem)',
                   color: '#f97316',
-                  textShadow: '0 6px 0 rgba(180,60,0,0.5), 0 12px 24px rgba(249,115,22,0.25)',
+                  textShadow: '0 4px 0 rgba(180,60,0,0.5), 0 8px 16px rgba(249,115,22,0.25)',
                   letterSpacing: '-0.02em',
-                  lineHeight: 1,
+                  lineHeight: 1.1,
                 }}
               >
                 {letter}
