@@ -4,19 +4,20 @@ import React, { useEffect, useRef } from 'react';
 
 /* ────────────────────────────────────────────────────────────
    OPTIMIZED ANTIGRAVITY BACKGROUND
-   - 26 organic glowing nodes with Z-depth parallax (reduced from 52 for ~75% fewer distance checks)
-   - Throttled to 30 fps cap (saves >60% CPU cycles)
-   - Completely paused on document.hidden
+   - 16 organic glowing nodes (down from 26) — O(n²) connections: 120 vs 325 checks/frame
+   - Connection distance 110px (down from 140) — further reduces line draws
+   - 24 FPS cap (down from 30) — saves another ~20% render budget
+   - Paused when document.hidden OR canvas is off-screen (IntersectionObserver)
    - Passive event listeners & optimized gradient caching
    ──────────────────────────────────────────────────────────── */
 
-const NODE_COUNT   = 26;
+const NODE_COUNT   = 16;
 const BASE_SPEED   = 0.18;
 const ATTRACT_R    = 160;
 const REPEL_SPEED  = 5.5;
 const LERP_SCROLL  = 0.07;
 const LERP_MOUSE   = 0.09;
-const TARGET_FPS_INTERVAL = 1000 / 30; // 30 FPS cap
+const TARGET_FPS_INTERVAL = 1000 / 24; // 24 FPS cap (was 30)
 
 const PALETTE = [
   { r: 255, g: 185, b:  60 },
@@ -100,7 +101,7 @@ function AnimatedBackground() {
     const onScroll = () => { scrollY = window.scrollY; };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    const MAX_CONNECT_DIST = 140;
+    const MAX_CONNECT_DIST = 110; // reduced from 140 — ~38% fewer lines drawn
     let lastRenderTime = 0;
     let raf = 0;
     let paused = document.hidden;
@@ -109,6 +110,14 @@ function AnimatedBackground() {
       paused = document.hidden;
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
+
+    // Also pause when canvas itself is not visible in viewport
+    let canvasVisible = true;
+    const canvasObserver = new IntersectionObserver(
+      ([entry]) => { canvasVisible = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    canvasObserver.observe(canvas);
 
     const drawNode = (n: Node, scrollDelta: number) => {
       const py  = n.y - scrollDelta * n.z * 0.3;
@@ -160,7 +169,7 @@ function AnimatedBackground() {
 
     const loop = (ts: number) => {
       raf = requestAnimationFrame(loop);
-      if (paused) return;
+      if (paused || !canvasVisible) return;
 
       const elapsed = ts - lastRenderTime;
       if (elapsed < TARGET_FPS_INTERVAL) return; // Throttle to 30 FPS
@@ -207,6 +216,7 @@ function AnimatedBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
+      canvasObserver.disconnect();
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('touchmove', onTouch);

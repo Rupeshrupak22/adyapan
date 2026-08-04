@@ -4,7 +4,6 @@ import api from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { User, Briefcase, Users, TrendingUp } from 'lucide-react';
 import ProfileMenu from '@/components/ProfileMenu';
 
@@ -83,9 +82,7 @@ export default function CompanyDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Welcome Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="mb-12"
         >
           <h1 className="text-4xl font-bold text-white mb-2">
@@ -94,13 +91,10 @@ export default function CompanyDashboard() {
           <p className="text-gray-400">
             Manage your hiring pipeline and find the best talent
           </p>
-        </motion.div>
+        </div>
 
         {(user?.selectedProgram || user?.selectedAmount) && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <div
             className="mb-8 rounded-xl border border-green-300/40 bg-green-500/10 p-5"
           >
             <h2 className="text-lg font-semibold text-green-300 mb-2">Purchased Plan</h2>
@@ -108,7 +102,7 @@ export default function CompanyDashboard() {
               {user.selectedProgram ? user.selectedProgram : "Selected Program"}
               {formattedSelectedAmount ? ` - ${formattedSelectedAmount}` : ""}
             </p>
-          </motion.div>
+          </div>
         )}
 
         {/* Dashboard Cards */}
@@ -119,11 +113,8 @@ export default function CompanyDashboard() {
             { icon: TrendingUp, label: 'Hired', value: '0', color: 'green' },
             { icon: User, label: 'Profile', value: 'Complete', color: 'purple' },
           ].map((card, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
               className="bg-[#1a2a4e] rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-700"
             >
               <div className={`w-12 h-12 bg-${card.color}-900/30 rounded-lg flex items-center justify-center mb-4`}>
@@ -131,15 +122,12 @@ export default function CompanyDashboard() {
               </div>
               <p className="text-gray-400 text-sm mb-1">{card.label}</p>
               <p className="text-2xl font-bold text-white">{card.value}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Coming Soon Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+        <div
           className="bg-[#1a2a4e] rounded-xl shadow-sm p-8 text-center border border-gray-700"
         >
           <h2 className="text-2xl font-bold text-white mb-4">Dashboard Coming Soon</h2>
@@ -159,7 +147,7 @@ export default function CompanyDashboard() {
           >
             Find Employees
           </Link>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

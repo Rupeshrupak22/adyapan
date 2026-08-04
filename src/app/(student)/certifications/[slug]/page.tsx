@@ -1,8 +1,8 @@
 'use client';
 
+import { s3Url } from '@/lib/s3Url';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Download, Award, Clock, Users, CheckCircle, Star } from 'lucide-react';
 import CertificationEnrollModal from '@/components/CertificationEnrollModal';
@@ -12,7 +12,7 @@ const certificationCompanies = [
   {
     id: 1,
     name: 'Adobe',
-    logo: '/logos/adobe.webp',
+    logo: s3Url('/logos/adobe.webp'),
     certifications: [
       'Adobe Certified Professional - Photoshop',
       'Adobe Certified Professional - Illustrator',
@@ -26,7 +26,7 @@ const certificationCompanies = [
   {
     id: 2,
     name: 'Apple',
-    logo: '/logos/apple.png',
+    logo: s3Url('/logos/apple.png'),
     certifications: [
       'App Development with Swift - Certified User',
       'App Development with Swift - Associate'
@@ -35,7 +35,7 @@ const certificationCompanies = [
   {
     id: 3,
     name: 'Autodesk',
-    logo: '/logos/Autodesklogo.png',
+    logo: s3Url('/logos/Autodesklogo.png'),
     certifications: [
       'Autodesk Certified User - AutoCAD',
       'Autodesk Certified User - Fusion 360',
@@ -49,7 +49,7 @@ const certificationCompanies = [
   {
     id: 4,
     name: 'Cisco',
-    logo: '/logos/cisco.png',
+    logo: s3Url('/logos/cisco.png'),
     certifications: [
       'Cisco Certified Support Technician - Networking',
       'Cisco Certified Support Technician - Cybersecurity'
@@ -58,7 +58,7 @@ const certificationCompanies = [
   {
     id: 5,
     name: 'Communication Skills for Business',
-    logo: '/logos/communicationskillsforbusinesslogo.png',
+    logo: s3Url('/logos/communicationskillsforbusinesslogo.png'),
     certifications: [
       'CSB - Professional Communication',
       'CSB - English for IT'
@@ -67,7 +67,7 @@ const certificationCompanies = [
   {
     id: 6,
     name: 'ESB',
-    logo: '/logos/project-management-institutelol.svg',
+    logo: s3Url('/logos/project-management-institutelol.svg'),
     certifications: [
       'ESB v.2'
     ]
@@ -75,7 +75,7 @@ const certificationCompanies = [
   {
     id: 7,
     name: 'IC3 Digital Literacy',
-    logo: '/logos/IC3logo.png',
+    logo: s3Url('/logos/IC3logo.png'),
     certifications: [
       'IC3 Digital Literacy - Global Standard 6',
       'IC3 Digital Literacy - Global Standard 5',
@@ -87,7 +87,7 @@ const certificationCompanies = [
   {
     id: 8,
     name: 'Information Technology Specialist',
-    logo: '/logos/informationtechnologyspecialist.png',
+    logo: s3Url('/logos/informationtechnologyspecialist.png'),
     certifications: [
       'Artificial Intelligence',
       'Cloud Computing',
@@ -109,7 +109,7 @@ const certificationCompanies = [
   {
     id: 9,
     name: 'Intuit',
-    logo: '/logos/intuit.png',
+    logo: s3Url('/logos/intuit.png'),
     certifications: [
       'Intuit - QuickBooks Certified User Online',
       'Intuit - Design for Delight Innovator',
@@ -119,7 +119,7 @@ const certificationCompanies = [
   {
     id: 10,
     name: 'Microsoft Certified Fundamentals',
-    logo: '/logos/microsoftcertifiedfundamentalslogo.png',
+    logo: s3Url('/logos/microsoftcertifiedfundamentalslogo.png'),
     certifications: [
       'Microsoft Azure Fundamentals (AZ-900)',
       'Microsoft 365 Fundamentals (MS-900)',
@@ -134,7 +134,7 @@ const certificationCompanies = [
   {
     id: 11,
     name: 'Microsoft Office Specialist',
-    logo: '/logos/microsoft-office-specialist-microsoft-officelogo.png',
+    logo: s3Url('/logos/microsoft-office-specialist-microsoft-officelogo.png'),
     certifications: [
       'MOS - Word',
       'MOS - Excel',
@@ -146,7 +146,7 @@ const certificationCompanies = [
   {
     id: 12,
     name: 'Microsoft Certified Educator',
-    logo: '/logos/MicrosoftCertifiedEducator_Logo.jpg',
+    logo: s3Url('/logos/MicrosoftCertifiedEducator_Logo.jpg'),
     certifications: [
       'Technology Literacy for Educators (62-193)'
     ]
@@ -154,7 +154,7 @@ const certificationCompanies = [
   {
     id: 13,
     name: 'PMI Project Management Institute',
-    logo: '/logos/project-management-institutelol.svg',
+    logo: s3Url('/logos/project-management-institutelol.svg'),
     certifications: [
       'PMI - Project Management Ready'
     ]
@@ -162,7 +162,7 @@ const certificationCompanies = [
   {
     id: 14,
     name: 'Unity',
-    logo: '/logos/unity.png',
+    logo: s3Url('/logos/unity.png'),
     certifications: [
       'Unity Certified User: Programmer',
       'Unity Certified User: VR Developer',
@@ -172,7 +172,7 @@ const certificationCompanies = [
   {
     id: 15,
     name: 'Meta',
-    logo: '/logos/newmetalogo.png',
+    logo: s3Url('/logos/newmetalogo.png'),
     certifications: [
       'Meta Certified: Digital Marketing Associate'
     ]
@@ -180,7 +180,7 @@ const certificationCompanies = [
   {
     id: 16,
     name: 'Critical Career Skills',
-    logo: '/logos/ccs.png',
+    logo: s3Url('/logos/ccs.png'),
     certifications: [
       'CCS Generative AI Foundations'
     ]
@@ -488,10 +488,7 @@ export default function CertificationPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+        <div
           className="mb-8"
         >
           <Link
@@ -501,16 +498,13 @@ export default function CertificationPage() {
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
           </Link>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+            <div
               className="mb-8"
             >
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
@@ -529,13 +523,10 @@ export default function CertificationPage() {
                   Industry Recognized
                 </span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+            <div
               className="mb-8"
             >
               <p className="text-gray-700 leading-relaxed text-lg mb-6">
@@ -544,51 +535,41 @@ export default function CertificationPage() {
               <p className="text-gray-700 leading-relaxed text-lg">
                 {pathwayText}
               </p>
-            </motion.div>
+            </div>
 
             {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="flex flex-col sm:flex-row gap-4 mb-8"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => setModalOpen(true)}
                 className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
               >
                 Earn Certificate
-              </motion.button>
+              </button>
               {syllabusHref ? (
-                <motion.a
+                <a
                   href={syllabusHref}
                   download={syllabusPdf || undefined}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   className="flex-1 bg-white border-2 border-orange-300 text-orange-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-500 hover:text-orange-800 hover:bg-orange-50 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   <Download className="w-5 h-5" />
                   <span>Download Syllabus â†"</span>
-                </motion.a>
+                </a>
               ) : (
-                <motion.button
+                <button
                   type="button"
                   disabled
                   className="flex-1 bg-white border-2 border-gray-200 text-gray-400 px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 shadow-lg cursor-not-allowed"
                 >
                   <Download className="w-5 h-5" />
                   <span>Syllabus Coming Soon</span>
-                </motion.button>
+                </button>
               )}
-            </motion.div>
+            </div>
 
             {/* Features */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+            <div
               className="bg-gradient-to-br from-white to-orange-50 rounded-2xl p-8 shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
@@ -604,28 +585,22 @@ export default function CertificationPage() {
                   'Career support and placement assistance',
                   'Student support and certification guidance'
                 ].map((feature, index) => (
-                  <motion.div 
+                  <div 
                     key={index} 
                     className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-all"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
                   >
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-gray-700 font-medium">{feature}</span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
             {/* Course Info Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-xl border border-gray-100 mb-8 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center space-x-2">
@@ -633,44 +608,38 @@ export default function CertificationPage() {
                 <span>Course Information</span>
               </h3>
               <div className="space-y-4">
-                <motion.div 
+                <div 
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <Clock className="w-5 h-5 text-orange-400" />
                   <div>
                     <div className="font-semibold text-gray-900">Duration</div>
                     <div className="text-sm text-gray-600">2-3 Months</div>
                   </div>
-                </motion.div>
-                <motion.div 
+                </div>
+                <div 
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <Users className="w-5 h-5 text-orange-400" />
                   <div>
                     <div className="font-semibold text-gray-900">Students Enrolled</div>
                     <div className="text-sm text-gray-600">2,450+ Students</div>
                   </div>
-                </motion.div>
-                <motion.div 
+                </div>
+                <div 
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <Award className="w-5 h-5 text-orange-400" />
                   <div>
                     <div className="font-semibold text-gray-900">Certification</div>
                     <div className="text-sm text-gray-600">Industry Recognized</div>
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Sample Certificate */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+            <div
               className="bg-gradient-to-br from-white to-orange-50 rounded-2xl p-6 shadow-xl border border-orange-100 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
@@ -703,20 +672,19 @@ export default function CertificationPage() {
               </div>
               {/* Certificate Info */}
               <div className="space-y-4 text-sm">
-                <motion.div
+                <div
                   className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl border border-orange-200"
-                  whileHover={{ scale: 1.02 }}
                 >
                   <div className="font-semibold text-gray-900 mb-2 flex items-center space-x-2">
                     <Award className="w-4 h-4 text-orange-500" />
                     <span>Who provides the certificate?</span>
                   </div>
                   <div className="text-gray-700">Upon successful completion, you'll receive an industry-recognized certificate directly from <span className="font-semibold text-orange-700">{company.name}</span>, validating your expertise and skills.</div>
-                </motion.div>
+                </div>
 
 
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

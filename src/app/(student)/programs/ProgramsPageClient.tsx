@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ALL_PROGRAMS } from '@/lib/courseData';
 import { Search, X } from 'lucide-react';
 
@@ -156,10 +155,7 @@ export default function ProgramsPageClient() {
   return (
     <section className="bg-[#1a1a2e] min-h-screen py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="text-center mb-12 sm:mb-16"
         >
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
@@ -189,7 +185,7 @@ export default function ProgramsPageClient() {
               </button>
             )}
           </div>
-        </motion.div>
+        </div>
 
         {filteredPrograms.length === 0 && (
           <p className="text-center text-gray-400 text-lg">
@@ -199,13 +195,8 @@ export default function ProgramsPageClient() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {filteredPrograms.map((program, i) => (
-            <motion.div
-              key={program.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ boxShadow: `0 0 30px ${program.color}40`, transition: { duration: 0.3 } }}
+            <div
+              key={program.title}40`, transition: { duration: 0.3 } }}
               className="rounded-3xl p-6 sm:p-8 border-2"
               style={{ borderColor: program.color, background: 'rgba(255, 153, 0, 0.05)' }}
             >
@@ -220,12 +211,8 @@ export default function ProgramsPageClient() {
 
               <ul className="space-y-2 sm:space-y-3">
                 {program.courses.map((course, j) => (
-                  <motion.li
+                  <li
                     key={course}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: j * 0.05, duration: 0.4 }}
                     className="flex items-start gap-3 text-gray-300 hover:text-white transition-colors cursor-pointer"
                   >
                     <span
@@ -238,10 +225,10 @@ export default function ProgramsPageClient() {
                     >
                       {course}
                     </Link>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

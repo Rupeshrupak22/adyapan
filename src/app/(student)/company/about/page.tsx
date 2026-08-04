@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { s3Url } from '@/lib/s3Url';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -8,21 +8,6 @@ import { Award, Users, Zap, Target, Heart, Globe, BookOpen, TrendingUp } from 'l
 import AuthNavButtons from '@/components/AuthNavButtons';
 
 const customEase = [0.22, 1, 0.36, 1] as const;
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: customEase } },
-};
-
-const staggerContainer = (stagger = 0.12, delayChildren = 0.1) => ({
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: stagger,
-      delayChildren,
-    },
-  },
-});
 
 export default function CompanyAboutPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -104,7 +89,7 @@ export default function CompanyAboutPage() {
               }`}
               style={{ zIndex: 1 }}
             >
-              <source src="/videos/15415747_3840_2160_25fps.mp4" type="video/mp4" />
+              <source src={s3Url('/videos/15415747_3840_2160_25fps.mp4')} type="video/mp4" />
             </video>
           )}
           
@@ -127,68 +112,41 @@ export default function CompanyAboutPage() {
         <div className="absolute inset-0 bg-black/40" style={{ zIndex: 3 }} />
 
         <div className="absolute inset-0" style={{ zIndex: 4 }}>
-          <motion.div 
+          <div 
             className="absolute top-20 right-10 w-96 h-96 bg-[#f90]/5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.8, 0.5],
-              x: [0, 50, 0],
-              y: [0, 30, 0],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div 
+          <div 
             className="absolute bottom-0 left-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.3, 0.6, 0.3],
-              x: [0, -50, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 w-full relative z-50 py-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <div
             className="max-w-3xl mx-auto"
           >
-            <motion.p 
+            <p 
               className="text-[#f90] text-lg mb-4 font-medium"
-              animate={{ opacity: [0.7, 1, 0.7], y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
               Our Vision
-            </motion.p>
-            <motion.h1 
+            </p>
+            <h1 
               className="text-5xl md:text-6xl font-extrabold text-[#f90] leading-[1.2] mb-6"
-              animate={{ y: [0, -10 , 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               Crafting Futures, Not Just Careers.
-            </motion.h1>
-            <motion.p 
+            </h1>
+            <p 
               className="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto"
-              animate={{ opacity: [0.8, 1, 0.8] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               At Adyapan, we are more than an education platform. We are the bridge between learning and professional launching. Our mission is to empower individuals with the real-world skills and connections to forge their own paths to success.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
         </div>
       </section>
 
       {/* The Adyapan Pillars Section */}
       <section className="py-20 bg-[#0f1419] border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+          <div
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -197,13 +155,9 @@ export default function CompanyAboutPage() {
             <p className="text-gray-400 text-lg">
               Three core principles that guide everything we do
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={staggerContainer(0.15, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {[
@@ -215,26 +169,21 @@ export default function CompanyAboutPage() {
               {
                 title: 'The Human Connection',
                 description: 'We connect you to a network of mentors and industry leaders who guide your growth.',
-                image: '/images/humanconnection.png'
+                image: s3Url('/images/humanconnection.png')
               },
               {
                 title: 'Launch Ready',
                 description: 'We are committed to making you not just skilled, but launch-ready for your career.',
-                image: '/images/ready.png'
+                image: s3Url('/images/ready.png')
               }
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                variants={fadeUp}
                 className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-800 rounded-2xl overflow-hidden group hover:shadow-lg transition-all"
-                whileHover={{ y: -10, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
               >
                 <div className="relative h-56 overflow-hidden">
-                  <motion.div
+                  <div
                     className="w-full h-full"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
                   >
                     {item.image.startsWith('/') ? (
                       <img
@@ -253,95 +202,67 @@ export default function CompanyAboutPage() {
                         loading="lazy"
                       />
                     )}
-                  </motion.div>
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-transparent to-transparent" />
                 </div>
                 <div className="p-8 text-white relative z-10">
-                  <motion.h3 
+                  <h3 
                     className="text-2xl font-bold mb-3"
-                    animate={{ opacity: [0.9, 1, 0.9] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
                   >
                     {item.title}
-                  </motion.h3>
-                  <motion.p 
+                  </h3>
+                  <p 
                     className="text-gray-400 leading-relaxed"
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 + 0.5 }}
                   >
                     {item.description}
-                  </motion.p>
+                  </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Our Story Section */}
       <section className="py-20 bg-[#1a2a4e]/30 border-t border-gray-800 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          <div
             className="absolute top-10 right-10 w-72 h-72 bg-[#f90]/5 rounded-full blur-3xl"
           />
-          <motion.div
-            animate={{ x: [0, -100, 0], y: [0, -50, 0] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          <div
             className="absolute bottom-10 left-10 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"
           />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: customEase }}
-            viewport={{ once: true }}
+          <div
             className="text-center mb-16"
           >
-            <motion.p
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+            <p
               className="text-[#f90] text-lg mb-4 font-medium"
             >
               Our Story:
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: customEase }}
+            </p>
+            <h2
               className="text-4xl md:text-5xl font-bold text-white mb-4"
             >
               Crafting Futures, Not Just Careers.
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: customEase }}
+            </h2>
+            <p
               className="text-gray-400 text-lg max-w-3xl mx-auto"
             >
               At Adyapan, we are more than an education platform. We are the bridge between learning and professional launching. Our mission is to empower individuals with the real-world skills and connections to forge their own paths to success.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
           {/* Founder Cards Grid */}
-          <motion.div
-            variants={staggerContainer(0.3, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
           >
             {/* Founder Card */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: -50, rotateY: -20 },
+            <div,
                 show: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.8, ease: customEase } }
               }}
-              whileHover={{ scale: 1.05, y: -10 }}
               className="relative group"
             >
               <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-all hover:border-[#f90]/30">
@@ -349,49 +270,39 @@ export default function CompanyAboutPage() {
                 <div className="absolute bottom-0 right-1/4 w-1 h-12 bg-gradient-to-t from-[#f90] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-                  <motion.div className="flex-shrink-0" whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
-                    <motion.div
-                      animate={{
-                        boxShadow: ["0 0 20px rgba(255, 153, 0, 0.1)", "0 0 40px rgba(255, 153, 0, 0.3)", "0 0 20px rgba(255, 153, 0, 0.1)"],
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
+                  <div className="flex-shrink-0">
+                    <div
                       className="w-40 h-40 rounded-full overflow-hidden border-4 border-[#f90] shadow-lg flex-shrink-0"
                     >
-                      <Image src="/images/sai-charan.jpeg" alt="Founder - Sai Charan" width={160} height={160} className="w-full h-full object-cover" />
-                    </motion.div>
-                  </motion.div>
+                      <Image src={s3Url('/images/sai-charan.jpeg')} alt="Founder - Sai Charan" width={160} height={160} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
 
                   <div className="flex-1">
-                    <motion.h3
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+                    <h3
                       className="text-2xl font-bold text-white mb-1"
                     >
                       SAI CHARAN
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
+                    </h3>
+                    <p
                       className="text-[#f90] font-semibold mb-3"
                     >
                       Founder
-                    </motion.p>
-                    <motion.p
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
+                    </p>
+                    <p
                       className="text-gray-400 leading-relaxed text-sm"
                     >
                       "Upskilling isn't optional anymore. Adyapan ensures every student learns with purpose, practices with mentors, and grows with confidence."
-                    </motion.p>
+                    </p>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Co-Founder Card */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: 50, rotateY: 20 },
+            <div,
                 show: { opacity: 1, x: 0, rotateY: 0, transition: { duration: 0.8, ease: customEase } }
               }}
-              whileHover={{ scale: 1.05, y: -10 }}
               className="relative group"
             >
               <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-all hover:border-[#f90]/30">
@@ -399,53 +310,42 @@ export default function CompanyAboutPage() {
                 <div className="absolute bottom-0 left-1/4 w-1 h-12 bg-gradient-to-t from-[#f90] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-                  <motion.div className="flex-shrink-0" whileHover={{ scale: 1.1, rotate: -5 }} transition={{ duration: 0.3 }}>
-                    <motion.div
-                      animate={{
-                        boxShadow: ["0 0 20px rgba(255, 153, 0, 0.1)", "0 0 40px rgba(255, 153, 0, 0.3)", "0 0 20px rgba(255, 153, 0, 0.1)"],
-                      }}
-                      transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                  <div className="flex-shrink-0">
+                    <div
                       className="w-40 h-40 rounded-full overflow-hidden border-4 border-[#f90] shadow-lg flex-shrink-0"
                     >
-                      <Image src="/images/niranjan-reddy.jpeg" alt="Co-Founder - Niranjan Reddy" width={160} height={160} className="w-full h-full object-cover" />
-                    </motion.div>
-                  </motion.div>
+                      <Image src={s3Url('/images/niranjan-reddy.jpeg')} alt="Co-Founder - Niranjan Reddy" width={160} height={160} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
 
                   <div className="flex-1">
-                    <motion.h3
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
+                    <h3
                       className="text-2xl font-bold text-white mb-1"
                     >
                       NIRANJAN REDDY
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
+                    </h3>
+                    <p
                       className="text-[#f90] font-semibold mb-3"
                     >
                       Co-Founder
-                    </motion.p>
-                    <motion.p
-                      initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
+                    </p>
+                    <p
                       className="text-gray-400 leading-relaxed text-sm"
                     >
                       "The world is full of opportunities, but students need the right direction. Adyapan helps them access global careers without feeling lost."
-                    </motion.p>
+                    </p>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Our Leadership Section */}
       <section className="py-20 bg-[#0f1419] border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+          <div
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -454,42 +354,34 @@ export default function CompanyAboutPage() {
             <p className="text-gray-400 text-lg">
               Visionary leaders driving innovation in EdTech
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={staggerContainer(0.15, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8"
           >
             {[
-              { name: 'Sai Charan', role: 'Founder', image: '/images/sai-charan.jpeg' },
-              { name: 'Niranjan Reddy', role: 'Co-Founder', image: '/images/niranjan-reddy.jpeg' },
+              { name: 'Sai Charan', role: 'Founder', image: s3Url('/images/sai-charan.jpeg') },
+              { name: 'Niranjan Reddy', role: 'Co-Founder', image: s3Url('/images/niranjan-reddy.jpeg') },
               { name: 'Gunjan Avasthi', role: 'Human Resource Manager', image: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg' },
-              { name: 'Monika Y', role: 'Core Team', image: '/images/monika-y.jpeg' },
-              { name: 'Dr. Dhiraj Singh', role: 'Head, Training & Placement Cell', image: '/images/Dr. Dhiraj Singh.jpeg' }
+              { name: 'Monika Y', role: 'Core Team', image: s3Url('/images/monika-y.jpeg') },
+              { name: 'Dr. Dhiraj Singh', role: 'Head, Training & Placement Cell', image: s3Url('/images/Dr. Dhiraj Singh.jpeg') }
             ].map((member, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center group">
+              <div key={i} className="text-center group">
                 <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-gray-800 group-hover:border-[#f90] transition-all relative">
                   <Image src={member.image} alt={member.name} fill className="object-cover group-hover:scale-110 transition-transform" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
                 <p className="text-[#f90] text-sm">{member.role}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className="py-20 bg-[#1a2a4e]/30 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            variants={staggerContainer(0.2, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 md:grid-cols-4 gap-8"
           >
             {[
@@ -498,36 +390,28 @@ export default function CompanyAboutPage() {
               { number: '95%', label: 'Placement Rate' },
               { number: '250+', label: 'Partner Companies' }
             ].map((stat, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center">
-                <motion.div 
+              <div key={i} className="text-center">
+                <div 
                   className="text-5xl font-bold mb-2" 
                   style={{ color: '#f90' }}
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
                 >
                   {stat.number}
-                </motion.div>
-                <motion.p 
+                </div>
+                <p 
                   className="text-gray-400 font-medium"
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 + 0.5 }}
                 >
                   {stat.label}
-                </motion.p>
-              </motion.div>
+                </p>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Our Approach Section */}
       <section className="py-20 bg-[#0f1419] border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+          <div
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -536,13 +420,9 @@ export default function CompanyAboutPage() {
             <p className="text-gray-400 text-lg">
               Learn  Practice  Build  Launch
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={staggerContainer(0.15, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 md:grid-cols-4 gap-8"
           >
             {[
@@ -551,28 +431,23 @@ export default function CompanyAboutPage() {
               { step: '03', title: 'Build', description: 'Create portfolio-worthy projects that impress employers' },
               { step: '04', title: 'Launch', description: 'Get placed with top companies or start your own venture' }
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                variants={fadeUp}
                 className="bg-gray-900 rounded-2xl p-8 border border-gray-800 hover:border-[#f90]/50 transition-all"
               >
                 <div className="text-4xl font-bold mb-4" style={{ color: '#f90' }}>{item.step}</div>
                 <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                 <p className="text-gray-400 text-sm">{item.description}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Why Choose Adyapan Section */}
       <section className="py-20 bg-[#1a2a4e]/30 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+          <div
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -581,13 +456,9 @@ export default function CompanyAboutPage() {
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               We're not just an EdTech platform. We're your partner in career transformation and talent acquisition.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={staggerContainer(0.15, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {[
@@ -598,50 +469,37 @@ export default function CompanyAboutPage() {
               { icon: TrendingUp, title: 'Career Support', description: 'Get placement assistance, interview prep, and career guidance' },
               { icon: Heart, title: 'Flexible Learning', description: 'Learn at your own pace with lifetime access to course materials' }
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                variants={fadeUp}
                 className="bg-gray-900 rounded-2xl p-8 border border-gray-800 hover:border-[#f90]/50 hover:shadow-lg transition-all group"
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
               >
-                <motion.div 
+                <div 
                   className="mb-4"
-                  animate={{ rotate: [0, 10, 0], scale: [1, 1.1, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
                 >
                   <div className="w-12 h-12 bg-[#f90]/10 rounded-lg flex items-center justify-center group-hover:bg-[#f90]/20 transition-colors">
                     <item.icon className="w-6 h-6" style={{ color: '#f90' }} />
                   </div>
-                </motion.div>
-                <motion.h3 
+                </div>
+                <h3 
                   className="text-white font-bold text-lg mb-2"
-                  animate={{ opacity: [0.9, 1, 0.9] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 + 0.3 }}
                 >
                   {item.title}
-                </motion.h3>
-                <motion.p 
+                </h3>
+                <p 
                   className="text-gray-400 text-sm leading-relaxed"
-                  animate={{ opacity: [0.8, 1, 0.8] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 + 0.5 }}
                 >
                   {item.description}
-                </motion.p>
-              </motion.div>
+                </p>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-[#0f1419] border-t border-gray-800">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+          <div
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Hire <span style={{ color: '#f90' }}>Job-Ready Talent?</span>
@@ -649,15 +507,15 @@ export default function CompanyAboutPage() {
             <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
               Join thousands of companies who have already transformed their teams with Adyapan
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <div>
               <Link
                 href="/auth"
                 className="inline-block px-10 py-4 bg-[#f90] text-white rounded-lg font-bold text-lg hover:bg-[#e07000] transition-colors"
               >
                 Start Hiring 
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 

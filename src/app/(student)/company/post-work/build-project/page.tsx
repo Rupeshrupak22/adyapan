@@ -70,11 +70,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
         return (
           <div key={step.id} className="flex items-center">
             <div className="flex flex-col items-center">
-              <motion.div
-                animate={{
-                  backgroundColor: isDone ? '#f97316' : isActive ? '#f97316' : '#e5e7eb',
-                  scale: isActive ? 1.1 : 1,
-                }}
+              <div
                 className="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all"
                 style={{
                   borderColor: isDone || isActive ? '#f97316' : '#e5e7eb',
@@ -85,7 +81,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
                 ) : (
                   <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
                 )}
-              </motion.div>
+              </div>
               <span
                 className={`text-xs font-semibold mt-1.5 hidden sm:block ${
                   isActive ? 'text-orange-500' : isDone ? 'text-orange-400' : 'text-gray-400'
@@ -844,12 +840,10 @@ function Step4({
         </div>
       )}
 
-      <motion.button
+      <button
         type="button"
         onClick={handlePay}
         disabled={paying}
-        whileHover={{ scale: paying ? 1 : 1.02 }}
-        whileTap={{ scale: paying ? 1 : 0.98 }}
         className="w-full py-4 rounded-2xl font-bold text-white text-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-200"
         style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
       >
@@ -864,7 +858,7 @@ function Step4({
             Pay Rs. {Number(form.budget).toLocaleString('en-IN')}
           </>
         )}
-      </motion.button>
+      </button>
     </div>
   );
 }
@@ -872,56 +866,35 @@ function Step4({
 // â"€â"€â"€ Success Screen â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function SuccessScreen({ projectId }: { projectId: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    <div
       className="text-center py-10"
     >
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
+      <div
         className="w-24 h-24 rounded-full bg-green-100 border-4 border-green-400 flex items-center justify-center mx-auto mb-6"
       >
-        <motion.div
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+        <div
         >
           <CheckCircle className="w-12 h-12 text-green-500" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+      <h2
         className="text-3xl font-extrabold text-gray-900 mb-3"
       >
         Project Submitted! 
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+      </h2>
+      <p
         className="text-gray-500 mb-2"
       >
         Your project request has been received. Our team will review it and get back to you within 24 hours.
-      </motion.p>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+      </p>
+      <p
         className="text-xs text-gray-400 mb-8 font-mono"
       >
         Project ID: {projectId}
-      </motion.p>
+      </p>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
+      <div
       >
         <Link
           href="/company/my-projects"
@@ -930,8 +903,8 @@ function SuccessScreen({ projectId }: { projectId: string }) {
         >
           Track Your Project <ArrowRight className="w-5 h-5" />
         </Link>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -1049,9 +1022,7 @@ export default function BuildProjectPage() {
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16">
         {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="text-center mb-8"
         >
           <h1 className="text-3xl font-extrabold text-gray-900">
@@ -1060,20 +1031,16 @@ export default function BuildProjectPage() {
           <p className="text-gray-500 text-sm mt-2">
             Fill in the details below and our team will build your project.
           </p>
-        </motion.div>
+        </div>
 
         {/* Step Indicator */}
         <StepIndicator currentStep={step} />
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 sm:p-8">
-          <AnimatePresence mode="wait">
-            <motion.div
+          
+            <div
               key={step}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.3 }}
             >
               {step === 1 && (
                 <Step1 form={form} setForm={setForm} errors={errors} />
@@ -1104,8 +1071,8 @@ export default function BuildProjectPage() {
                   onSuccess={(id) => setSuccessProjectId(id)}
                 />
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          
 
           {/* Navigation */}
           {step < 4 && (

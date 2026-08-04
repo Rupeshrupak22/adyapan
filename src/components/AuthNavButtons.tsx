@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import ProfileDropdown from './ProfileDropdown';
 
 interface NavUser {
@@ -61,14 +60,14 @@ export default function AuthNavButtons({ theme = 'light', authType = 'student' }
       <Link href={loginHref} className={`text-sm font-medium transition-colors ${textCls}`}>
         Login
       </Link>
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+      <div>
         <Link
           href={signupHref}
           className="px-5 py-2 bg-[#ffa800] text-white rounded-full text-sm font-semibold hover:bg-[#e69500] transition-colors"
         >
           Sign Up
         </Link>
-      </motion.div>
+      </div>
     </div>
   );
 }

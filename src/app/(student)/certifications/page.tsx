@@ -1,5 +1,6 @@
 'use client';
 
+import { s3Url } from '@/lib/s3Url';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -8,22 +9,22 @@ import CertificationEnrollModal from '@/components/CertificationEnrollModal';
 
 /* â"€â"€â"€ Partner data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const certificationPartners = [
-  { name: 'Adobe',                          abbr: 'Ado', logo: '/logos/adobe.webp',                    neon: '#FF0000' },
-  { name: 'Apple',                          abbr: 'App', logo: '/logos/apple.png',                                        neon: '#a0a0a0' },
-  { name: 'Autodesk',                       abbr: 'Aut', logo: '/logos/Autodesklogo.png',                                     neon: '#0696D7' },
-  { name: 'Cisco',                          abbr: 'Cis', logo: '/logos/cisco.png',                                        neon: '#049FD9' },
-  { name: 'Communication Skills\nfor Business', abbr: 'Com', logo: '/logos/communicationskillsforbusinesslogo.png',          neon: '#f97316' },
+  { name: 'Adobe',                          abbr: 'Ado', logo: s3Url('/logos/adobe.webp'),                    neon: '#FF0000' },
+  { name: 'Apple',                          abbr: 'App', logo: s3Url('/logos/apple.png'),                                        neon: '#a0a0a0' },
+  { name: 'Autodesk',                       abbr: 'Aut', logo: s3Url('/logos/Autodesklogo.png'),                                     neon: '#0696D7' },
+  { name: 'Cisco',                          abbr: 'Cis', logo: s3Url('/logos/cisco.png'),                                        neon: '#049FD9' },
+  { name: 'Communication Skills\nfor Business', abbr: 'Com', logo: s3Url('/logos/communicationskillsforbusinesslogo.png'),          neon: '#f97316' },
   { name: 'ESB',                            abbr: 'ESB', logo: '',                                                           neon: '#2563eb' },
-  { name: 'IC3',                            abbr: 'IC3', logo: '/logos/IC3logo.png',                                        neon: '#003087' },
-  { name: 'ITS',                            abbr: 'ITS', logo: '/logos/informationtechnologyspecialist.png',                 neon: '#f97316' },
-  { name: 'Intuit',                         abbr: 'Int', logo: '/logos/intuit.png',   neon: '#2CA01C' },
-  { name: 'Microsoft',                      abbr: 'MS',  logo: '/logos/microsoftcertifiedfundamentalslogo.png',              neon: '#00A4EF' },
-  { name: 'Microsoft Office\nSpecialist',   abbr: 'MOS', logo: '/logos/microsoft-office-specialist-microsoft-officelogo.png', neon: '#D83B01' },
-  { name: 'Microsoft Certified\nEducator',  abbr: 'MCE', logo: '/logos/MicrosoftCertifiedEducator_Logo.jpg',                 neon: '#0078D4' },
-  { name: 'PMI',                            abbr: 'PMI', logo: '/logos/project-management-institutelol.svg',                 neon: '#FF6B00' },
-  { name: 'Unity',                          abbr: 'Uni', logo: '/logos/unity.png',                                       neon: '#ffffff' },
-  { name: 'Meta',                           abbr: 'Met', logo: '/logos/meta.png',                                       neon: '#0668E1' },
-  { name: 'CCS Generative AI',              abbr: 'CCS', logo: '/logos/ccs.png',                       neon: '#f97316' },
+  { name: 'IC3',                            abbr: 'IC3', logo: s3Url('/logos/IC3logo.png'),                                        neon: '#003087' },
+  { name: 'ITS',                            abbr: 'ITS', logo: s3Url('/logos/informationtechnologyspecialist.png'),                 neon: '#f97316' },
+  { name: 'Intuit',                         abbr: 'Int', logo: s3Url('/logos/intuit.png'),   neon: '#2CA01C' },
+  { name: 'Microsoft',                      abbr: 'MS',  logo: s3Url('/logos/microsoftcertifiedfundamentalslogo.png'),              neon: '#00A4EF' },
+  { name: 'Microsoft Office\nSpecialist',   abbr: 'MOS', logo: s3Url('/logos/microsoft-office-specialist-microsoft-officelogo.png'), neon: '#D83B01' },
+  { name: 'Microsoft Certified\nEducator',  abbr: 'MCE', logo: s3Url('/logos/MicrosoftCertifiedEducator_Logo.jpg'),                 neon: '#0078D4' },
+  { name: 'PMI',                            abbr: 'PMI', logo: s3Url('/logos/project-management-institutelol.svg'),                 neon: '#FF6B00' },
+  { name: 'Unity',                          abbr: 'Uni', logo: s3Url('/logos/unity.png'),                                       neon: '#ffffff' },
+  { name: 'Meta',                           abbr: 'Met', logo: s3Url('/logos/meta.png'),                                       neon: '#0668E1' },
+  { name: 'CCS Generative AI',              abbr: 'CCS', logo: s3Url('/logos/ccs.png'),                       neon: '#f97316' },
 ];
 
 /* â"€â"€â"€ Interactive Partner Explorer data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
@@ -31,7 +32,7 @@ const partnerExplorerData = [
   {
     name: 'Adobe',
     abbr: 'Ado',
-    logo: '/logos/adobe.webp',
+    logo: s3Url('/logos/adobe.webp'),
     count: 7,
     certifications: [
       'Adobe Certified Professional - Photoshop',
@@ -46,7 +47,7 @@ const partnerExplorerData = [
   {
     name: 'Apple',
     abbr: 'App',
-    logo: '/logos/apple.png',
+    logo: s3Url('/logos/apple.png'),
     count: 2,
     certifications: [
       'App Development with Swift - Certified User',
@@ -56,7 +57,7 @@ const partnerExplorerData = [
   {
     name: 'Autodesk',
     abbr: 'Aut',
-    logo: '/logos/Autodesklogo.png',
+    logo: s3Url('/logos/Autodesklogo.png'),
     count: 7,
     certifications: [
       'Autodesk Certified User - AutoCAD',
@@ -71,7 +72,7 @@ const partnerExplorerData = [
   {
     name: 'Cisco',
     abbr: 'Cis',
-    logo: '/logos/cisco.png',
+    logo: s3Url('/logos/cisco.png'),
     count: 2,
     certifications: [
       'Cisco Certified Support Technician - Networking',
@@ -81,7 +82,7 @@ const partnerExplorerData = [
   {
     name: 'Communication Skills for Business',
     abbr: 'Com',
-    logo: '/logos/communicationskillsforbusinesslogo.png',
+    logo: s3Url('/logos/communicationskillsforbusinesslogo.png'),
     count: 2,
     certifications: [
       'CSB - Professional Communication',
@@ -98,7 +99,7 @@ const partnerExplorerData = [
   {
     name: 'IC3 Digital Literacy',
     abbr: 'IC3',
-    logo: '/logos/IC3logo.png',
+    logo: s3Url('/logos/IC3logo.png'),
     count: 5,
     certifications: [
       'IC3 Digital Literacy - Global Standard 6',
@@ -111,7 +112,7 @@ const partnerExplorerData = [
   {
     name: 'Information Technology Specialist',
     abbr: 'ITS',
-    logo: '/logos/informationtechnologyspecialist.png',
+    logo: s3Url('/logos/informationtechnologyspecialist.png'),
     count: 15,
     certifications: [
       'Artificial Intelligence',
@@ -134,7 +135,7 @@ const partnerExplorerData = [
   {
     name: 'Intuit',
     abbr: 'Int',
-    logo: '/logos/intuit.png',
+    logo: s3Url('/logos/intuit.png'),
     count: 3,
     certifications: [
       'Intuit - QuickBooks Certified User Online',
@@ -145,7 +146,7 @@ const partnerExplorerData = [
   {
     name: 'Microsoft Certified Fundamentals',
     abbr: 'MCF',
-    logo: '/logos/microsoftcertifiedfundamentalslogo.png',
+    logo: s3Url('/logos/microsoftcertifiedfundamentalslogo.png'),
     count: 8,
     certifications: [
       'Microsoft Azure Fundamentals (AZ-900)',
@@ -161,7 +162,7 @@ const partnerExplorerData = [
   {
     name: 'Microsoft Office Specialist',
     abbr: 'MOS',
-    logo: '/logos/microsoft-office-specialist-microsoft-officelogo.png',
+    logo: s3Url('/logos/microsoft-office-specialist-microsoft-officelogo.png'),
     count: 5,
     certifications: [
       'MOS - Word',
@@ -174,21 +175,21 @@ const partnerExplorerData = [
   {
     name: 'Microsoft Certified Educator',
     abbr: 'MCE',
-    logo: '/logos/MicrosoftCertifiedEducator_Logo.jpg',
+    logo: s3Url('/logos/MicrosoftCertifiedEducator_Logo.jpg'),
     count: 1,
     certifications: ['Technology Literacy for Educators (62-193)'],
   },
   {
     name: 'PMI',
     abbr: 'PMI',
-    logo: '/logos/project-management-institutelol.svg',
+    logo: s3Url('/logos/project-management-institutelol.svg'),
     count: 1,
     certifications: ['PMI - Project Management Ready'],
   },
   {
     name: 'Unity',
     abbr: 'Uni',
-    logo: '/logos/unity.png',
+    logo: s3Url('/logos/unity.png'),
     count: 3,
     certifications: [
       'Unity Certified User: Programmer',
@@ -199,14 +200,14 @@ const partnerExplorerData = [
   {
     name: 'Meta',
     abbr: 'Met',
-    logo: '/logos/meta.png',
+    logo: s3Url('/logos/meta.png'),
     count: 1,
     certifications: ['Meta Certified: Digital Marketing Associate'],
   },
   {
     name: 'Critical Career Skills',
     abbr: 'CCS',
-    logo: '/logos/ccs.png',
+    logo: s3Url('/logos/ccs.png'),
     count: 1,
     certifications: ['CCS Generative AI Foundations'],
   },
@@ -241,11 +242,7 @@ function PartnerExplorer({
       />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div
           className="text-center mb-12"
         >
           <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">
@@ -257,7 +254,7 @@ function PartnerExplorer({
           <p className="text-gray-500 max-w-xl mx-auto">
             Select a partner to explore all available certifications and enroll directly.
           </p>
-        </motion.div>
+        </div>
 
         {/* Explorer Panel */}
         <div className="flex flex-col md:flex-row gap-0 rounded-2xl overflow-hidden shadow-2xl shadow-orange-200/50 border border-orange-100">
@@ -333,13 +330,9 @@ function PartnerExplorer({
               <h3 className="font-bold text-gray-900">{selected.name}</h3>
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
+            
+              <div
                 key={selected.name}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25 }}
                 className="p-4 overflow-y-auto max-h-[420px]"
               >
                 <div className="space-y-2">
@@ -351,11 +344,8 @@ function PartnerExplorer({
                       .replace(/-+/g, '-')
                       .trim();
                     return (
-                      <motion.div
+                      <div
                         key={cert}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.04 }}
                         className="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all group"
                       >
                         <div className="flex items-center gap-3 min-w-0">
@@ -365,30 +355,26 @@ function PartnerExplorer({
                         {/* Two actions: view detail page OR earn certificate directly */}
                         <div className="flex items-center gap-2 ml-3 flex-shrink-0">
                           <Link href={`/certifications/${slug}`}>
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
+                            <button
                               className="px-3 py-1.5 rounded-full text-xs font-semibold text-orange-600 border border-orange-300 hover:bg-orange-50 transition-colors"
                             >
                               View
-                            </motion.button>
+                            </button>
                           </Link>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                          <button
                             onClick={() => onEarnCertificate(cert, selected.name)}
                             className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
                             style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
                           >
                             Earn Certificate
-                          </motion.button>
+                          </button>
                         </div>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            
           </div>
         </div>
       </div>
@@ -418,23 +404,15 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.85, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+    <div
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       className="relative group cursor-pointer"
     >
       {/* Neon glow layer */}
-      <AnimatePresence>
+      
         {hovered && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.25 }}
+          <div
             className="absolute inset-0 rounded-2xl pointer-events-none"
             style={{
               boxShadow: `0 0 24px 6px ${partner.neon}55, 0 0 48px 12px ${partner.neon}22`,
@@ -443,31 +421,22 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
             }}
           />
         )}
-      </AnimatePresence>
+      
 
-      <motion.div
-        animate={{
-          y: hovered ? -10 : 0,
-          scale: hovered ? 1.06 : 1,
-        }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      <div
         className="relative bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col items-center text-center overflow-hidden"
         style={{ minHeight: 140 }}
       >
         {/* Shimmer sweep on hover */}
-        <motion.div
+        <div
           className="absolute inset-0 pointer-events-none"
-          animate={{ x: hovered ? ['-100%', '200%'] : '-100%' }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
           style={{
             background: `linear-gradient(105deg, transparent 40%, ${partner.neon}18 50%, transparent 60%)`,
           }}
         />
 
         {/* Logo */}
-        <motion.div
-          animate={{ rotate: hovered ? [0, -4, 4, 0] : 0, scale: hovered ? 1.12 : 1 }}
-          transition={{ duration: 0.4 }}
+        <div
           className="mb-3 flex h-14 w-28 items-center justify-center"
         >
           {partner.logo ? (
@@ -481,7 +450,7 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
               {partner.abbr}
             </span>
           )}
-        </motion.div>
+        </div>
 
         {/* Name */}
         <p className="font-bold text-gray-800 text-xs leading-snug whitespace-pre-line">
@@ -489,14 +458,12 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
         </p>
 
         {/* Animated bottom bar */}
-        <motion.div
+        <div
           className="absolute bottom-0 left-0 h-[3px] rounded-b-2xl"
-          animate={{ width: hovered ? '100%' : '0%' }}
-          transition={{ duration: 0.35 }}
           style={{ background: `linear-gradient(90deg, ${partner.neon}, ${partner.neon}88)` }}
         />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -572,11 +539,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div
           className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 bg-orange-100 text-orange-600 border border-orange-200">
@@ -589,7 +552,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
           <p className="text-gray-500 text-base sm:text-lg max-w-xl mx-auto">
             These are the actual certificates you'll earn - issued directly by global companies.
           </p>
-        </motion.div>
+        </div>
 
         {/* Company filter pills */}
         <div className="flex flex-wrap gap-2 justify-center mb-10">
@@ -615,20 +578,12 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
           {/* Left - Big certificate preview */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className="sticky top-24"
           >
-            <AnimatePresence mode="wait">
-              <motion.div
+            
+              <div
                 key={current.file}
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
                 {/* Glow behind image */}
@@ -660,36 +615,26 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
                     <p className="font-black text-gray-900 text-sm">{current.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5">Issued by <span className="font-semibold text-gray-600">{current.company}</span></p>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={() => onEnroll(current.name, current.company)}
                     className="px-5 py-2.5 rounded-xl font-bold text-white text-xs flex items-center gap-2 flex-shrink-0"
                     style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
                   >
                      Earn This
-                  </motion.button>
+                  </button>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
+              </div>
+            
+          </div>
 
           {/* Right - Thumbnail grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[600px] overflow-y-auto pr-1"
             style={{ scrollbarWidth: 'thin', scrollbarColor: '#f97316 #f1f1f1' }}
           >
             {filtered.map((cert, i) => (
-              <motion.div
+              <div
                 key={cert.file}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.03 }}
                 onClick={() => setSelected(i)}
                 className={`relative rounded-xl overflow-hidden cursor-pointer border-2 transition-all group ${
                   filtered[selected]?.file === cert.file
@@ -716,32 +661,26 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-[10px] font-semibold leading-tight line-clamp-2">{cert.name}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+        <div
           className="mt-12 text-center"
         >
           <p className="text-gray-500 text-sm mb-4">
             <span className="font-bold text-gray-800">{ALL_CERTIFICATES.length} certificates</span> available across 16+ global companies
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(249,115,22,0.4)' }}
-            whileTap={{ scale: 0.97 }}
+          <button
             onClick={() => onEnroll('', '')}
             className="px-10 py-4 rounded-2xl font-black text-white text-base"
             style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
           >
              Start Earning Your Certificate Today
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -825,9 +764,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
         }} />
 
       {/* Cream-orange wash */}
-      <motion.div
-        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'], opacity: [0.35, 0.55, 0.35] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
@@ -835,9 +772,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
           backgroundSize: '220% 220%',
         }}
       />
-      <motion.div
-        animate={{ opacity: [0.2, 0.36, 0.2] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+      <div
         className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
         style={{
           background:
@@ -848,23 +783,15 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+        <div
           className="text-center mb-16 sm:mb-20"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+          <span
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
             style={{ background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.4)', color: '#f97316' }}
           >
              Your Path to Success
-          </motion.span>
+          </span>
 
           <h2 className="text-3xl sm:text-5xl font-black text-gray-950 leading-tight mb-4">
             Gain Your{' '}
@@ -873,48 +800,36 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
               style={{ color: '#f97316', textShadow: '0 12px 30px rgba(249,115,22,0.22)' }}
             >
               Certificate
-              <motion.span
+              <span
                 className="absolute -bottom-1 left-0 h-[3px] rounded-full w-full"
                 style={{ background: 'linear-gradient(90deg, #f97316, #fbbf24)' }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5, duration: 0.6 }}
               />
             </span>
           </h2>
           <p className="text-orange-950/60 text-base sm:text-lg max-w-xl mx-auto">
             Three simple steps. One powerful credential. Unlimited career opportunities.
           </p>
-        </motion.div>
+        </div>
 
         {/* Steps */}
         <div className="relative">
           {/* Connector line - desktop */}
           <div className="hidden lg:block absolute top-[72px] left-[calc(16.66%+40px)] right-[calc(16.66%+40px)] h-px"
             style={{ background: 'linear-gradient(90deg, #f97316, #6366f1, #10b981)' }}>
-            <motion.div
+            <div
               className="absolute inset-0 h-full"
               style={{ background: 'linear-gradient(90deg, #f97316, #6366f1, #10b981)', filter: 'blur(4px)' }}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity }}
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
             {steps.map((step, i) => (
-              <motion.div
+              <div
                 key={step.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="relative group"
               >
                 {/* Card */}
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
+                <div
                   className="relative rounded-2xl p-6 sm:p-8 overflow-hidden cursor-default"
                   style={{
                     background: 'rgba(255,255,255,0.86)',
@@ -924,7 +839,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                   }}
                 >
                   {/* Hover glow */}
-                  <motion.div
+                  <div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{ boxShadow: `inset 0 0 40px ${step.glow}`, border: `1px solid ${step.color}40` }}
                   />
@@ -941,9 +856,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                   </div>
 
                   {/* Icon circle */}
-                  <motion.div
-                    whileHover={{ rotate: [0, -8, 8, 0], scale: 1.1 }}
-                    transition={{ duration: 0.4 }}
+                  <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
                     style={{
                       background: `${step.color}15`,
@@ -952,7 +865,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                     }}
                   >
                     {step.icon}
-                  </motion.div>
+                  </div>
 
                   {/* Text */}
                   <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: step.color }}>
@@ -962,39 +875,29 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                   <p className="text-orange-950/60 text-sm leading-relaxed">{step.desc}</p>
 
                   {/* Bottom accent bar */}
-                  <motion.div
+                  <div
                     className="absolute bottom-0 left-0 h-[3px] rounded-b-2xl"
-                    initial={{ width: '0%' }}
-                    whileInView={{ width: '100%' }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.15, duration: 0.8 }}
                     style={{ background: `linear-gradient(90deg, ${step.color}, ${step.color}44)` }}
                   />
-                </motion.div>
+                </div>
 
                 {/* Arrow between cards - mobile */}
                 {i < steps.length - 1 && (
                   <div className="flex justify-center my-2 sm:hidden">
-                    <motion.div
-                      animate={{ y: [0, 4, 0] }}
-                      transition={{ duration: 1.2, repeat: Infinity }}
+                    <div
                       className="text-orange-500/50 text-2xl"
                     >
                       â†"
-                    </motion.div>
+                    </div>
                   </div>
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Floating stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.7 }}
+        <div
           className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
         >
           {[
@@ -1003,13 +906,8 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
             { val: '10K+', label: 'Students Certified', icon: '' },
             { val: '100%', label: 'Trusted & Verified', icon: '' },
           ].map((stat, i) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 + i * 0.1 }}
-              whileHover={{ scale: 1.05 }}
               className="rounded-2xl px-5 py-4 text-center"
               style={{
                 background: 'rgba(255,255,255,0.78)',
@@ -1020,9 +918,9 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
               <div className="text-2xl mb-1">{stat.icon}</div>
               <div className="text-2xl font-black text-gray-950">{stat.val}</div>
               <div className="text-xs text-orange-950/55 font-medium mt-0.5">{stat.label}</div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -1065,11 +963,7 @@ export default function CertificationsPage() {
         style={{ background: 'linear-gradient(135deg, #11121f 0%, #211612 58%, #f97316 180%)' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className="text-center mb-10 sm:mb-14"
           >
             <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">16+ Global Partners</span>
@@ -1077,7 +971,7 @@ export default function CertificationsPage() {
               Our Global <span style={{ color: '#f97316' }}>Certification Partners</span>
             </h2>
             <p className="text-white/70 max-w-xl mx-auto">Learn. Get Certified. Get Ahead.</p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
             {certificationPartners.map((partner, i) => (

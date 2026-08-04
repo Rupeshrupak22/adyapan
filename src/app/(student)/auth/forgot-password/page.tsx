@@ -3,7 +3,6 @@
 import api from '@/lib/api';
 import { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
@@ -34,9 +33,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 flex items-center justify-center px-4 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="w-full max-w-md"
       >
         {/* Back Link */}
@@ -55,9 +52,7 @@ export default function ForgotPasswordPage() {
 
           {success ? (
             // Success Message
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className="text-center"
             >
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -77,20 +72,18 @@ export default function ForgotPasswordPage() {
               >
                 Back to Sign In
               </Link>
-            </motion.div>
+            </div>
           ) : (
             // Form
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Error Message */}
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   className="p-4 rounded-lg bg-red-50 border border-red-200 flex items-start space-x-3"
                 >
                   <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-red-700">{error}</p>
-                </motion.div>
+                </div>
               )}
 
               {/* Email Input */}
@@ -112,9 +105,7 @@ export default function ForgotPasswordPage() {
               </div>
 
               {/* Submit Button */}
-              <motion.button
-                whileHover={{ scale: loading ? 1 : 1.02 }}
-                whileTap={{ scale: loading ? 1 : 0.98 }}
+              <button
                 type="submit"
                 disabled={loading}
                 className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -129,7 +120,7 @@ export default function ForgotPasswordPage() {
                     <span>Send Reset Link</span>
                   </>
                 )}
-              </motion.button>
+              </button>
 
               {/* Back to Sign In */}
               <div className="text-center">
@@ -143,7 +134,7 @@ export default function ForgotPasswordPage() {
             </form>
           )}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

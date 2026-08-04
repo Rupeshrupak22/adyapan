@@ -208,9 +208,24 @@ function SimpleButton({
   );
 }
 
-/* Stats marquee */
+/* Stats marquee — pauses when scrolled off-screen */
 const StatsMarquee = React.memo(function StatsMarquee() {
   const items = useMemo(() => [...STATS, ...STATS], []);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        el.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+      },
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div className="relative overflow-hidden py-3.5 my-10"
       style={{
@@ -223,6 +238,7 @@ const StatsMarquee = React.memo(function StatsMarquee() {
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to left, #fdf8f3, transparent)' }} />
       <div
+        ref={trackRef}
         className="flex gap-10 whitespace-nowrap"
         style={{
           animation: 'stats-marquee 24s linear infinite',

@@ -57,7 +57,7 @@ const HowItWorksSection = () => {
         if (!entry.isIntersecting || document.hidden) {
           video.pause();
         } else {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         }
       },
       { threshold: 0.15 }

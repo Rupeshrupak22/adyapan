@@ -1,135 +1,243 @@
 'use client';
+import { s3Url } from '@/lib/s3Url';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, ChevronRight as ArrowR } from 'lucide-react';
 
+
+const E = [0.22, 1, 0.36, 1] as const;
+
+/* ── data ── */
 const MOMENTS = [
-  { src: '/images/TECH-TEAM.jpeg',           alt: 'Team',        area: 'a' },
-  { src: '/images/charanfoo.jpeg',     alt: 'Office Visit - Charan', area: 'c' },
-  { src: '/images/jag.jpeg',           alt: 'Professional portrait', area: 'b' },
-  { src: '/images/HR-team.jpeg',           alt: 'Team office visit', area: 'h' },
-  { src: '/images/party.jpeg',           alt: 'Rup',         area: 'i' },
-  { src: '/images/team.jpg',  alt: 'Teaching 1',  area: 'g' },
-  { src: '/images/room-teaching.jpg', alt: 'Teaching 3',  area: 'd' },
-  { src: '/images/Founders.jpeg', alt: 'Teaching 2',  area: 'e' },
-  { src: '/images/cricket.jpg',        alt: 'Events',      area: 'f' },
+  { src: s3Url('/images/TECH-TEAM.jpeg'),           alt: 'Team',        area: 'a' },
+  { src: s3Url('/images/charanfoo.jpeg'),     alt: 'Office Visit - Charan', area: 'c' },
+  { src: s3Url('/images/jag.jpeg'),           alt: 'Professional portrait', area: 'b' },
+  { src: s3Url('/images/HR-team.jpeg'),           alt: 'Team office visit', area: 'h' },
+  { src: s3Url('/images/party.jpeg'),           alt: 'Rup',         area: 'i' },
+  { src: s3Url('/images/team.jpg'),  alt: 'Teaching 1',  area: 'g' },
+  { src: s3Url('/images/room-teaching.jpg'), alt: 'Teaching 3',  area: 'd' },
+  { src: s3Url('/images/Founders.jpeg'), alt: 'Teaching 2',  area: 'e' },
+  { src: s3Url('/images/cricket.jpg'),        alt: 'Events',      area: 'f' },
 ];
 
 const CARDS = [
-  { src: '/images/charanfoo.jpeg',        label: 'OFFICE VISIT', bg: 'bg-amber-700',  col: '#b45309' },
-  { src: '/images/TECH-TEAM.jpeg',       label: 'TECH TEAM',    bg: 'bg-slate-700',  col: '#334155' },
-  { src: '/images/team.jpg',             label: 'TEAM',         bg: 'bg-sky-700',    col: '#0369a1' },
-  { src: '/images/HR-team.jpeg',         label: 'HR TEAM',      bg: 'bg-red-600',    col: '#dc2626' },
-  { src: '/images/room-teaching.jpg',     label: 'CLASSROOM',    bg: 'bg-green-700',  col: '#15803d' },
-  { src: '/images/in-room-teaching01.jpg',label: 'HANDS-ON',     bg: 'bg-yellow-500', col: '#ca8a04' },
-  { src: '/images/cricket.jpg',           label: 'EVENTS',       bg: 'bg-purple-700', col: '#7e22ce' },
-  { src: '/images/party.jpeg',           label: 'PARTIES',      bg: 'bg-orange-600', col: '#ea580c' },
+  { src: s3Url('/images/charanfoo.jpeg'),        label: 'OFFICE VISIT', bg: 'bg-amber-700',  col: '#b45309' },
+  { src: s3Url('/images/TECH-TEAM.jpeg'),       label: 'TECH TEAM',    bg: 'bg-slate-700',  col: '#334155' },
+  { src: s3Url('/images/team.jpg'),             label: 'TEAM',         bg: 'bg-sky-700',    col: '#0369a1' },
+  { src: s3Url('/images/HR-team.jpeg'),         label: 'HR TEAM',      bg: 'bg-red-600',    col: '#dc2626' },
+  { src: s3Url('/images/room-teaching.jpg'),     label: 'CLASSROOM',    bg: 'bg-green-700',  col: '#15803d' },
+  { src: s3Url('/images/in-room-teaching01.jpg'),label: 'HANDS-ON',     bg: 'bg-yellow-500', col: '#ca8a04' },
+  { src: s3Url('/images/cricket.jpg'),           label: 'EVENTS',       bg: 'bg-purple-700', col: '#7e22ce' },
+  { src: s3Url('/images/party.jpeg'),           label: 'PARTIES',      bg: 'bg-orange-600', col: '#ea580c' },
 ];
 
+/* ── scroll progress ── */
+function ScrollBar() {
+  const { scrollYProgress } = useScroll();
+  const s = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  return <div className="fixed top-0 left-0 right-0 h-[3px] z-[200] origin-left bg-[#ffa800]" style={{ scaleX: s }} />;
+}
+
+/* ── lightbox ── */
 function Lightbox({ images, idx, onClose, onPrev, onNext }: any) {
   return (
     <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center" onClick={onClose}>
       <button onClick={e => { e.stopPropagation(); onClose(); }}
-        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:rotate-90 hover:scale-110 transition-all">
-        <X className="w-4 h-4" />
-      </button>
+        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white"><X className="w-4 h-4" /></button>
       <button onClick={e => { e.stopPropagation(); onPrev(); }}
-        className="absolute left-4 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-[#ffa800]/40 transition-colors">
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-      <img src={images[idx].src} alt={images[idx].alt}
-        className="max-h-[80vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
-        onClick={e => e.stopPropagation()} />
+        className="absolute left-4 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-[#ffa800]/40 transition-colors"><ChevronLeft className="w-6 h-6" /></button>
+      
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img key={idx} src={images[idx].src} alt={images[idx].alt}
+          className="max-h-[80vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
+          onClick={e => e.stopPropagation()} />
+      
       <button onClick={e => { e.stopPropagation(); onNext(); }}
-        className="absolute right-4 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-[#ffa800]/40 transition-colors">
-        <ChevronRight className="w-6 h-6" />
-      </button>
+        className="absolute right-4 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-[#ffa800]/40 transition-colors"><ChevronRight className="w-6 h-6" /></button>
+      <div className="flex gap-1.5 mt-6">
+        {images.map((_: any, i: number) => (
+          <div key={i} className="h-1.5 rounded-full" />
+        ))}
+      </div>
     </div>
   );
 }
 
-export default function GalleryPageClient() {
-  const [lightbox, setLightbox] = useState<{ open: boolean; idx: number; list: any[] }>({ open: false, idx: 0, list: [] });
+export default function GalleryPage() {
+  const [lb, setLb] = useState<number | null>(null);
+  const [cardLb, setCardLb] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const closeLb = () => setLb(null);
+  const prev = () => setLb(v => v === null ? null : (v - 1 + MOMENTS.length) % MOMENTS.length);
+  const next = () => setLb(v => v === null ? null : (v + 1) % MOMENTS.length);
+  const closeCardLb = () => setCardLb(null);
+  const prevCard = () => setCardLb(v => v === null ? null : (v - 1 + CARDS.length) % CARDS.length);
+  const nextCard = () => setCardLb(v => v === null ? null : (v + 1) % CARDS.length);
 
   useEffect(() => {
-    const fn = (e: KeyboardEvent) => {
-      if (!lightbox.open) return;
-      if (e.key === 'Escape') setLightbox(p => ({ ...p, open: false }));
-      if (e.key === 'ArrowLeft') setLightbox(p => ({ ...p, idx: (p.idx - 1 + p.list.length) % p.list.length }));
-      if (e.key === 'ArrowRight') setLightbox(p => ({ ...p, idx: (p.idx + 1) % p.list.length }));
+    const k = (e: KeyboardEvent) => {
+      if (lb !== null) {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'Escape') closeLb();
+      }
+      if (cardLb !== null) {
+        if (e.key === 'ArrowLeft') prevCard();
+        if (e.key === 'ArrowRight') nextCard();
+        if (e.key === 'Escape') closeCardLb();
+      }
     };
-    window.addEventListener('keydown', fn);
-    return () => window.removeEventListener('keydown', fn);
-  }, [lightbox]);
+    window.addEventListener('keydown', k);
+    return () => window.removeEventListener('keydown', k);
+  }, [lb, cardLb]);
 
-  const openAt = (list: any[], idx: number) => setLightbox({ open: true, idx, list });
+  const scrollCards = (dir: number) => {
+    if (scrollRef.current) scrollRef.current.scrollBy({ left: dir * 280, behavior: 'smooth' });
+  };
 
   return (
-    <main className="min-h-screen bg-[#fafafa] font-sans selection:bg-[#ffa800] selection:text-white">
-      {/* Hero */}
-      <section className="relative pt-24 pb-16 px-6 overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-[#ffa800]/20 text-[#ffa800] border border-[#ffa800]/30 mb-6">
-            Life at Adyapan
-          </span>
-          <h1 className="text-4xl sm:text-6xl font-black mb-6 tracking-tight">
-            Moments That <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffa800] to-[#ff6b00]">Define Us</span>
-          </h1>
-          <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            From interactive classrooms to team celebrations, explore life behind the scenes at Adyapan Edutech.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white font-sans overflow-x-hidden">
+      <ScrollBar />
 
-      {/* Grid Section */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {MOMENTS.map((item, i) => (
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden min-h-[480px] flex items-center">
+        {/* Video background */}
+        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ zIndex: 0 }}>
+          <source src={s3Url('/videos/Website collage slow.mp4')} type="video/mp4" />
+        </video>
+        
+        {/* Background accents */}
+        <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 z-10" />
+        <div className="absolute bottom-8 left-1/3 w-3 h-3 rounded-full bg-white/30 z-10" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 w-full relative z-10">
+          {/* Left text */}
+          <div className="z-10 max-w-xl">
             <div
-              key={i}
-              onClick={() => openAt(MOMENTS, i)}
-              className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all"
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
-                <p className="text-white font-bold text-sm">{item.alt}</p>
-              </div>
+              className="bg-black/40 backdrop-blur-sm p-5 sm:p-6 rounded-3xl w-fit">
+              <button className="mb-4 px-5 py-2 rounded-full bg-white text-black text-xs font-bold uppercase tracking-wider">
+                Join the Batch &rarr;
+              </button>
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.05] mb-3">
+                The Ultimate<br />Journey<br />
+                <span className="text-yellow-300">Begins Now</span>
+              </h1>
+              <p className="text-white/90 text-sm max-w-xs leading-relaxed">
+                Step into the learning competition where dreams come true - or vanish forever. Join Adyapan and face your destiny.
+              </p>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* Categories Cards Section */}
-      <section className="py-16 px-6 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">Explore by Category</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {CARDS.map((card, i) => (
-              <div
-                key={i}
-                onClick={() => openAt(CARDS, i)}
-                className="relative h-48 rounded-2xl overflow-hidden cursor-pointer group shadow-md hover:-translate-y-1 transition-all"
-              >
-                <Image
-                  src={card.src}
-                  alt={card.label}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center p-4">
-                  <span className="text-white font-black text-sm tracking-wider uppercase text-center border-b-2 border-[#ffa800] pb-1">
-                    {card.label}
-                  </span>
+      {/* ── WELCOME SECTION ── */}
+      <section className="bg-[#111] py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-6 leading-tight">
+              Welcome to the<br /><span className="text-[#ffa800]">Adyapan Gallery</span>
+            </h2>
+            <p className="text-gray-400 text-sm leading-7 mb-4">
+              Enter a world of learning that transcends imagination. Adyapan gathers students from all walks of life, each driven by a unique, unyielding dream. Through intense trials and fierce challenges, only one will emerge victorious, fulfilling their deepest desire.
+            </p>
+            <p className="text-gray-500 text-sm leading-7 mb-8">
+              Are you ready to face destiny? These moments captured below tell the story of every batch that walked through our doors.
+            </p>
+            <button className="px-6 py-3 bg-[#ffa800] text-black font-bold text-sm rounded-lg">
+              Learn More
+            </button>
+          </div>
+          <div
+            className="relative rounded-2xl overflow-hidden h-64 sm:h-80">
+            <Image src={s3Url('/images/team.jpg')} alt="Team" fill className="object-cover" />
+          </div>
+        </div>
+      </section>
+
+      {/* ── MEET THE TEAM (card carousel like "Meet the Contenders") ── */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="mb-10">
+            <h2 className="text-3xl sm:text-4xl font-black text-black">Meet the Team</h2>
+            <p className="text-gray-500 text-sm mt-2">Passion, Grit, and Relentless Drive</p>
+          </div>
+
+          {/* Carousel */}
+          <div className="relative">
+            <button onClick={() => scrollCards(-1)}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 z-10 w-9 h-9 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:bg-[#ffa800] transition-colors">
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-2 px-2" style={{ scrollbarWidth: 'none' }}>
+              {CARDS.map((c, i) => (
+                <div key={i} className={`flex-shrink-0 w-72 sm:w-80 h-56 sm:h-64 rounded-2xl overflow-hidden relative cursor-pointer ${c.bg}`}
+                  onClick={() => setCardLb(i)}>
+                  <Image src={c.src} alt={c.label} fill className="object-cover mix-blend-overlay opacity-70" style={{ objectPosition: 'center center' }} />
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <p className="text-white font-black text-lg tracking-wider drop-shadow-lg">{c.label}</p>
+                    {/* Decorative icon */}
+                    <div className="w-8 h-8 rounded-full bg-white/20 border border-white/40 mt-2 flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">{i + 1}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => scrollCards(1)}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 z-10 w-9 h-9 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:bg-[#ffa800] transition-colors">
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── MOMENTS OF GLORY (masonry grid) ── */}
+      <section className="relative bg-[#111] py-16 sm:py-20 overflow-hidden">
+        {/* Video background */}
+        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-20" style={{ zIndex: 0 }}>
+          <source src={s3Url('/videos/Website collage slow.mp4')} type="video/mp4" />
+        </video>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">Moments of Glory</h2>
+            <p className="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
+              Discover the unforgettable highlights and dramatic showdowns at Adyapan. These images capture the raw emotion, tension, and triumphs that define every batch.
+            </p>
+          </div>
+
+          {/* Mobile: simple 2-col grid. Desktop: masonry */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:hidden">
+            {MOMENTS.map((img, i) => (
+              <div key={i} className="relative overflow-hidden rounded-xl cursor-pointer group aspect-square"
+                onClick={() => setLb(i)}>
+                <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-110" style={i === 0 ? { objectPosition: '60% center' } : undefined} />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop masonry grid */}
+          <div className="hidden md:grid gap-3" style={{
+            gridTemplateAreas: `"a b c" "a d c" "g g h" "e i f"`,
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gridTemplateRows: '180px 180px 240px 220px',
+          }}>
+            {MOMENTS.map((img, i) => (
+              <div key={i} className="relative overflow-hidden rounded-xl cursor-pointer group"
+                style={{ gridArea: img.area }}
+                onClick={() => setLb(i)}>
+                <Image src={img.src} alt={img.alt} fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110" style={i === 0 ? { objectPosition: '60% center' } : undefined} />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-12 h-12 rounded-full bg-white/20 border-2 border-white/60 backdrop-blur-sm flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             ))}
@@ -137,16 +245,13 @@ export default function GalleryPageClient() {
         </div>
       </section>
 
-      {/* Lightbox Modal */}
-      {lightbox.open && (
-        <Lightbox
-          images={lightbox.list}
-          idx={lightbox.idx}
-          onClose={() => setLightbox(p => ({ ...p, open: false }))}
-          onPrev={() => setLightbox(p => ({ ...p, idx: (p.idx - 1 + p.list.length) % p.list.length }))}
-          onNext={() => setLightbox(p => ({ ...p, idx: (p.idx + 1) % p.list.length }))}
-        />
-      )}
-    </main>
+      {/* ── LIGHTBOX ── */}
+      
+        {lb !== null && <Lightbox images={MOMENTS} idx={lb} onClose={closeLb} onPrev={prev} onNext={next} />}
+      
+      
+        {cardLb !== null && <Lightbox images={CARDS.map(c => ({ src: c.src, alt: c.label }))} idx={cardLb} onClose={closeCardLb} onPrev={prevCard} onNext={nextCard} />}
+      
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { s3Url } from '@/lib/s3Url';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ExternalLink, Linkedin, Mail, Code2, Globe, Smartphone, Database, Server, Layout, Layers, Rocket, Award, Briefcase, GraduationCap, MapPin, Calendar, Download, ChevronRight, Sparkles, Zap, Terminal } from 'lucide-react';
@@ -224,7 +225,7 @@ export default function DeveloperPage() {
               <div className="relative w-72 h-72 md:w-[340px] md:h-[340px] rounded-full p-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500">
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#0a0a0f]">
                   <Image
-                    src="/images/rupesh-developer.jpg"
+                    src={s3Url('/images/rupesh-developer.jpg')}
                     alt="Rupesh Kumar Rupak"
                     width={340}
                     height={340}

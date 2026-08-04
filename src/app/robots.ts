@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       // Allow all public pages
       {
         userAgent: '*',
-        allow: '/',
+        allow: ['/', '/favicon.ico', '/icon-*.png', '/apple-touch-icon.png', '/site.webmanifest'],
         disallow: [
           '/admin/',
           '/superadmin/',

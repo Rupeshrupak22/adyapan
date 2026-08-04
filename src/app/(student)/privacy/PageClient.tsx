@@ -1,7 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-
 export default function PrivacyPolicy() {
   const sections = [
     {
@@ -98,7 +96,7 @@ export default function PrivacyPolicy() {
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-white py-16 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+        <div className="mb-10">
           <Link href="/" className="text-sm text-orange-500 hover:underline mb-4 inline-block">Back to Home</Link>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-orange-100 border-2 border-orange-200 flex items-center justify-center flex-shrink-0">
@@ -115,16 +113,13 @@ export default function PrivacyPolicy() {
               This policy explains how we collect, use, and safeguard your personal information when you use our platform.
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Sections */}
         <div className="space-y-8">
           {sections.map((section, i) => (
-            <motion.div
+            <div
               key={section.title}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
             >
               <h2 className="text-base font-bold text-gray-900 mb-3">{section.title}</h2>
@@ -136,7 +131,7 @@ export default function PrivacyPolicy() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
 

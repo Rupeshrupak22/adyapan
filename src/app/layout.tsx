@@ -62,10 +62,11 @@ export const metadata: Metadata = {
     description: 'Industry-relevant courses with live classes, real internship experience, and placement support.',
     images: [
       {
-        url:    '/icon.png',
+        url:    '/icon-512x512.png',
         width:  512,
         height: 512,
         alt:    'Adyapan Logo',
+        type:   'image/png',
       },
     ],
   },
@@ -76,7 +77,7 @@ export const metadata: Metadata = {
     creator:     '@adyapan',
     title:       'Adyapan - Learn, Earn & Get Placed',
     description: 'Industry-relevant courses with live classes, real internship experience, and placement support.',
-    images:      ['/icon.png'],
+    images:      ['/icon-512x512.png'],
   },
 
   alternates: {
@@ -85,11 +86,14 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/logo-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/favicon.ico',      sizes: 'any',     type: 'image/x-icon' },
+      { url: '/icon-48x48.png',   sizes: '48x48',   type: 'image/png' },
+      { url: '/icon-96x96.png',   sizes: '96x96',   type: 'image/png' },
+      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
-    apple:    '/logo-192.png',
+    shortcut: [{ url: '/favicon.ico', type: 'image/x-icon' }],
+    apple:    [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 
   manifest: '/site.webmanifest',
@@ -107,6 +111,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-scroll-behavior="smooth" className={inter.variable}>
       <head>
+        {/* ── Favicon – explicit links for Google & browser compatibility ── */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon-48x48.png" type="image/png" sizes="48x48" />
+        <link rel="icon" href="/icon-96x96.png" type="image/png" sizes="96x96" />
+        <link rel="icon" href="/icon-192x192.png" type="image/png" sizes="192x192" />
+        <link rel="icon" href="/icon-512x512.png" type="image/png" sizes="512x512" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         {/* Preconnect to critical third-party origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -120,7 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type':    'EducationalOrganization',
               name:       'Adyapan Edutech Pvt. Ltd.',
               url:        APP_URL,
-              logo:       `${APP_URL}/logo-192.png`,
+              logo:       `${APP_URL}/icon-512x512.png`,
               description:'India\'s leading EdTech platform offering 65+ industry-relevant courses with placement support.',
               sameAs: [
                 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all',

@@ -397,7 +397,7 @@ export default function CoursePageClient() {
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
+            <div>
               <h1 className="text-4xl font-bold text-gray-800 mb-4">{course.title} Course</h1>
               <div className="flex items-center space-x-2 mb-6">
                 <div className="flex items-center">
@@ -416,11 +416,9 @@ export default function CoursePageClient() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col w-full sm:w-auto">
-                  <motion.a
+                  <a
                     href={brochureHref || undefined}
                     download={brochureFile || undefined}
-                    whileHover={{ scale: brochureLoading ? 1 : 1.05 }}
-                    whileTap={{ scale: brochureLoading ? 1 : 0.95 }}
                     aria-disabled={brochureLoading || !brochureHref}
                     onClick={(event) => {
                       setBrochureError('');
@@ -439,20 +437,19 @@ export default function CoursePageClient() {
                     ) : (
                       <><Download className="w-4 h-4" /><span>Download Brochure</span></>
                     )}
-                  </motion.a>
+                  </a>
                   {brochureError && <p className="text-xs text-red-500 mt-1.5 text-center">{brochureError}</p>}
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                <button
                   onClick={() => setIsPricingOpen(true)}
                   className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
                 >
                   <span>Enroll now</span>
-                </motion.button>
+                </button>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="relative">
+            <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <div className="relative w-full h-80 bg-black">
                   <iframe
@@ -466,7 +463,7 @@ export default function CoursePageClient() {
                   />
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -509,12 +506,8 @@ export default function CoursePageClient() {
 
           <div className="space-y-5">
             {course.curriculum.modules.map((module: any, index: number) => (
-              <motion.div
+              <div
                 key={module.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-lg"
               >
                 <button
@@ -540,13 +533,9 @@ export default function CoursePageClient() {
                     {activeModule === index ? <ChevronUp className="mt-4 h-5 w-5 flex-shrink-0 text-gray-400" /> : <ChevronDown className="mt-4 h-5 w-5 flex-shrink-0 text-gray-400" />}
                   </div>
                 </button>
-                <AnimatePresence>
+                
                   {activeModule === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28 }}
+                    <div
                       className="border-t border-gray-100 bg-white"
                     >
                       <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1fr_0.75fr]">
@@ -577,10 +566,10 @@ export default function CoursePageClient() {
                           </div>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
-              </motion.div>
+                
+              </div>
             ))}
           </div>
         </div>

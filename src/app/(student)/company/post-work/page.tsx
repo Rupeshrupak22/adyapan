@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle, Zap, Layers, ArrowRight, Star, Briefcase } from 'lucide-react';
 
@@ -34,16 +33,11 @@ export default function PostWorkPage() {
 
       {/* Hero */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <div
           className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-xs font-bold uppercase tracking-widest mb-4">
-            <motion.span
-              animate={{ scale: [1, 1.4, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+            <span
               className="w-2 h-2 rounded-full bg-orange-500"
             />
             Post Work
@@ -55,17 +49,13 @@ export default function PostWorkPage() {
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Post a job vacancy for students, or submit a full project for our team to build.
           </p>
-        </motion.div>
+        </div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
 
           {/* Post a Job */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            whileHover={{ y: -6, boxShadow: '0 24px 48px rgba(249,115,22,0.12)' }}
+          <div
             className="relative bg-white rounded-3xl border-2 border-gray-200 hover:border-orange-300 p-8 flex flex-col transition-all duration-300 group"
           >
             <div className="w-14 h-14 rounded-2xl bg-orange-50 border-2 border-orange-200 flex items-center justify-center mb-5">
@@ -89,14 +79,10 @@ export default function PostWorkPage() {
             >
               Post a Job <ArrowRight className="w-4 h-4" />
             </Link>
-          </motion.div>
+          </div>
 
           {/* Build My Project - Featured */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            whileHover={{ y: -6, boxShadow: '0 24px 64px rgba(249,115,22,0.25)' }}
+          <div
             className="relative bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl border-2 border-orange-400 p-8 flex flex-col transition-all duration-300 overflow-hidden"
           >
             {/* Popular badge */}
@@ -129,14 +115,11 @@ export default function PostWorkPage() {
             >
               Build My Project <ArrowRight className="w-4 h-4" />
             </Link>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom notes */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+        <div
           className="text-center mt-10 space-y-2"
         >
           <p className="text-sm text-gray-400">
@@ -151,7 +134,7 @@ export default function PostWorkPage() {
               View all jobs &rarr;
             </Link>
           </p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

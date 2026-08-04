@@ -233,13 +233,11 @@ function CheckoutPageInner() {
             {plan.label}
           </span>
           {plan.badge && (
-            <motion.span
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+            <span
               className="inline-block rounded-full bg-black text-white px-3 py-1 text-xs font-bold"
             >
                {plan.badge}
-            </motion.span>
+            </span>
           )}
         </div>
 
@@ -259,13 +257,11 @@ function CheckoutPageInner() {
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-base"></span>
               <span>Valid till <strong>{plan.validTill}</strong></span>
-              <motion.span
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity }}
+              <span
                 className="rounded-full bg-blue-100 text-blue-700 px-2 py-0.5 font-bold text-[10px]"
               >
                 {plan.totalDays} Days
-              </motion.span>
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-base">Time</span>
@@ -278,15 +274,13 @@ function CheckoutPageInner() {
         <div className="space-y-1.5">
           <p className="text-xs font-bold text-gray-700 uppercase tracking-wide">What's Included</p>
           {plan.benefits.map(f => (
-            <motion.div
+            <div
               key={f}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-2 text-xs text-gray-700"
             >
               <span className="w-4 h-4 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0 font-bold text-[10px]"></span>
               {f}
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -385,14 +379,14 @@ function CheckoutPageInner() {
   if (step === 'success') {
     return (
       <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-white flex items-center justify-center px-4 py-16">
-        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200 }}
+        <div
           className="max-w-md w-full text-center bg-white rounded-3xl shadow-2xl p-10 border border-orange-100">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
+          <div
             className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-          </motion.div>
+          </div>
           <h1 className="text-2xl font-black text-gray-900 mb-2">Payment Successful! </h1>
           <p className="text-gray-500 mb-1">Welcome to <span className="text-orange-600 font-bold">ADYAPAN SCHOOL</span></p>
           <p className="text-sm text-gray-400 mb-2">A confirmation has been sent to <strong>{email}</strong></p>
@@ -408,7 +402,7 @@ function CheckoutPageInner() {
             Go to Dashboard &rarr;
           </Link>
           <Link href="/programs" className="block mt-3 text-sm text-gray-400 hover:text-gray-600">Browse more courses</Link>
-        </motion.div>
+        </div>
       </main>
     );
   }
@@ -431,7 +425,7 @@ function CheckoutPageInner() {
 
         {/* â"€â"€ Logged-in banner â"€â"€ */}
         {loggedInUser && (
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+          <div
             className="mb-4 rounded-2xl bg-white border border-green-100 shadow-sm px-5 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
@@ -443,11 +437,11 @@ function CheckoutPageInner() {
               </div>
             </div>
             <span className="text-xs text-green-600 font-semibold flex items-center gap-1"> Verified</span>
-          </motion.div>
+          </div>
         )}
 
         {/* â"€â"€ Urgency bar â"€â"€ */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        <div
           className="mb-6 rounded-2xl overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #f97316, #dc2626)' }}>
           <div className="px-4 sm:px-5 py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-3">
@@ -463,7 +457,7 @@ function CheckoutPageInner() {
               <span className="bg-white/20 rounded-lg px-2 py-1 font-mono">{hh}:{mm}:{ss}</span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* â"€â"€ Mobile summary accordion â"€â"€ */}
         <div className="lg:hidden mb-4">
@@ -478,13 +472,13 @@ function CheckoutPageInner() {
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${summaryOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </div>
           </button>
-          <AnimatePresence>
+          
             {summaryOpen && (
-              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+              <div className="overflow-hidden">
                 <div className="pt-3"><OrderSummary compact /></div>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          
         </div>
 
         {/* â"€â"€ Main grid â"€â"€ */}
@@ -494,7 +488,7 @@ function CheckoutPageInner() {
           <div className="flex-1 space-y-4 min-w-0">
 
             {/* STEP 1 */}
-            <motion.div layout className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
+            <div layout className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
               {/* header */}
               <div className={`px-6 py-4 flex items-center gap-3 ${step === 'details' ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-white border-b border-gray-100'}`}>
                 <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${step === 'details' ? 'bg-white text-orange-600' : 'bg-green-500 text-white'}`}>
@@ -503,9 +497,9 @@ function CheckoutPageInner() {
                 <h2 className={`font-bold text-base ${step === 'details' ? 'text-white' : 'text-gray-700'}`}>Basic Details</h2>
               </div>
 
-              <AnimatePresence>
+              
                 {step === 'details' && (
-                  <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  <form
                     onSubmit={handleProceed} className="p-6 space-y-5">
 
                     {/* name + phone */}
@@ -590,15 +584,15 @@ function CheckoutPageInner() {
                       <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
                     )}
 
-                    <motion.button type="submit" disabled={paying} whileHover={{ scale: paying ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}
+                    <button type="submit" disabled={paying}
                       className="w-full sm:w-auto px-10 py-3.5 rounded-xl font-bold text-white text-sm shadow-lg disabled:opacity-60"
                       style={{ background: paying ? '#9ca3af' : 'linear-gradient(135deg, #f97316, #ea580c)' }}>
                       {paying ? 'Opening Razorpay...' : 'Proceed to Payment'}
-                    </motion.button>
-                  </motion.form>
+                    </button>
+                  </form>
                 )}
-              </AnimatePresence>
-            </motion.div>
+              
+            </div>
 
             {/* bottom links */}
             <div className="flex items-center gap-4 text-sm text-gray-400 pb-4">

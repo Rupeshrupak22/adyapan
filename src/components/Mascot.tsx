@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 
@@ -141,18 +141,55 @@ export default function Mascot() {
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
     cancelAnimationFrame(rafRef.current);
-    const draw = () => {
-      if (video.readyState >= 2 && video.videoWidth > 0) {
-        const w = video.videoWidth, h = video.videoHeight;
-        if (canvas.width !== w)  canvas.width  = w;
-        if (canvas.height !== h) canvas.height = h;
-        ctx.clearRect(0, 0, w, h);
-        ctx.drawImage(video, 0, 0, w, h);
-        removeWhiteBg(ctx, w, h);
+
+    // Offscreen buffer: removeWhiteBg runs here once per decoded frame,
+    // then composited to the visible canvas — no getImageData on display canvas.
+    const offscreen = document.createElement('canvas');
+    const offCtx = offscreen.getContext('2d', { willReadFrequently: true });
+
+    const processFrame = () => {
+      if (video.readyState < 2 || !video.videoWidth) return;
+      const w = video.videoWidth, h = video.videoHeight;
+      if (offscreen.width !== w)  offscreen.width  = w;
+      if (offscreen.height !== h) offscreen.height = h;
+      if (offCtx) {
+        offCtx.clearRect(0, 0, w, h);
+        offCtx.drawImage(video, 0, 0, w, h);
+        removeWhiteBg(offCtx, w, h);
       }
-      rafRef.current = requestAnimationFrame(draw);
+      if (canvas.width !== w)  canvas.width  = w;
+      if (canvas.height !== h) canvas.height = h;
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(offscreen, 0, 0);
     };
-    rafRef.current = requestAnimationFrame(draw);
+
+    // requestVideoFrameCallback (Chrome 83+): fires once per decoded video frame
+    // instead of every rAF — reduces removeWhiteBg calls by ~80% on a 24fps video.
+    const supportsRVFC = 'requestVideoFrameCallback' in video;
+
+    if (supportsRVFC) {
+      let rvfcId = 0;
+      const onFrame = () => {
+        processFrame();
+        if (!video.paused && !video.ended) {
+          rvfcId = (video as any).requestVideoFrameCallback(onFrame);
+        }
+      };
+      rvfcId = (video as any).requestVideoFrameCallback(onFrame);
+      rafRef.current = -1; // sentinel so cancelAnimationFrame(-1) is a no-op
+      (rafRef as any)._rvfcCancel = () => {
+        if (rvfcId) (video as any).cancelVideoFrameCallback(rvfcId);
+      };
+    } else {
+      // rAF fallback — throttle to 24fps
+      const INTERVAL = 1000 / 24;
+      let lastT = 0;
+      const draw = (ts: number) => {
+        if (ts - lastT >= INTERVAL) { lastT = ts; processFrame(); }
+        rafRef.current = requestAnimationFrame(draw);
+      };
+      rafRef.current = requestAnimationFrame(draw);
+    }
   }, []);
 
   /* â"€â"€ Load juggle video â"€â"€ */
@@ -183,7 +220,12 @@ export default function Mascot() {
     getKickPoseCanvas();
     getBallCanvas();
     const t = setTimeout(() => setMounted(true), 500);
-    return () => { clearTimeout(t); cancelAnimationFrame(rafRef.current); };
+    return () => {
+      clearTimeout(t);
+      cancelAnimationFrame(rafRef.current);
+      // Also cancel requestVideoFrameCallback if it was used
+      if ((rafRef as any)._rvfcCancel) (rafRef as any)._rvfcCancel();
+    };
   }, [loadVideo]);
 
   /* â"€â"€ Update ball diameter on resize â"€â"€ */

@@ -120,16 +120,11 @@ function ProfileModal({ talent, onClose }: { talent: Talent; onClose: () => void
   }, [onClose]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+    <div
       className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 24 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.94, y: 24 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      <div
         className="relative my-8 w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl"
       >
         {/* Header */}
@@ -325,8 +320,8 @@ function ProfileModal({ talent, onClose }: { talent: Talent; onClose: () => void
             </div>
           )}
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -347,11 +342,8 @@ function TalentCard({
   const isUpdating    = shortlisting === talent._id;
 
   return (
-    <motion.div
+    <div
       layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
       className="group rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-[0_12px_40px_rgba(249,115,22,0.12)]"
     >
       <div className="flex items-start gap-4">
@@ -460,7 +452,7 @@ function TalentCard({
           )}
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -799,7 +791,7 @@ export default function FindEmployeePage() {
             )}
 
             {!loading && !dbError && talents.length > 0 && (
-              <AnimatePresence mode="popLayout">
+              
                 <div className={viewMode === 'grid' ? 'grid gap-4 sm:grid-cols-2' : 'space-y-4'}>
                   {talents.map(talent => (
                     <TalentCard
@@ -811,7 +803,7 @@ export default function FindEmployeePage() {
                     />
                   ))}
                 </div>
-              </AnimatePresence>
+              
             )}
           </main>
 
@@ -858,11 +850,11 @@ export default function FindEmployeePage() {
       </div>
 
       {/* â"€â"€ Profile Modal â"€â"€ */}
-      <AnimatePresence>
+      
         {profileTalent && (
           <ProfileModal talent={profileTalent} onClose={() => setProfileTalent(null)} />
         )}
-      </AnimatePresence>
+      
     </div>
   );
 }

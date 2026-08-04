@@ -1,5 +1,6 @@
 'use client';
 
+import { s3Url } from '@/lib/s3Url';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -165,11 +166,6 @@ function CounselorModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-};
-
 const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.08 } },
@@ -285,61 +281,61 @@ const faqs = [
 const companies = [
   {
     name: 'TCS',
-    logo: '/logos/companies/tcs.png',       
+    logo: s3Url('/logos/companies/tcs.png'),       
     color: 'from-blue-500 to-blue-700',
     bg: 'from-blue-500/20 to-blue-700/20',
   },
   {
     name: 'Infosys',
-    logo: '/logos/companies/infosys.png',        
+    logo: s3Url('/logos/companies/infosys.png'),        
     color: 'from-indigo-500 to-indigo-700',
     bg: 'from-indigo-500/20 to-indigo-700/20',
   },
   {
     name: 'Wipro',
-    logo: '/logos/companies/wipro.png',          
+    logo: s3Url('/logos/companies/wipro.png'),          
     color: 'from-purple-500 to-purple-700',
     bg: 'from-purple-500/20 to-purple-700/20',
   },
   {
     name: 'HCL',
-    logo: '/logos/companies/hcl.png',           
+    logo: s3Url('/logos/companies/hcl.png'),           
     color: 'from-green-500 to-green-700',
     bg: 'from-green-500/20 to-green-700/20',
   },
   {
     name: 'Tech Mahindra',
-    logo: '/logos/companies/techmahindra.png', 
+    logo: s3Url('/logos/companies/techmahindra.png'), 
     color: 'from-red-500 to-red-700',
     bg: 'from-red-500/20 to-red-700/20',
   },
   {
     name: 'Accenture',
-    logo: '/logos/companies/accenture.png',      
+    logo: s3Url('/logos/companies/accenture.png'),      
     color: 'from-violet-500 to-violet-700',
     bg: 'from-violet-500/20 to-violet-700/20',
   },
   {
     name: 'Cognizant',
-    logo: '/logos/companies/cognizant.png',     
+    logo: s3Url('/logos/companies/cognizant.png'),     
     color: 'from-blue-400 to-cyan-600',
     bg: 'from-blue-400/20 to-cyan-600/20',
   },
   {
     name: 'Capgemini',
-    logo: '/logos/companies/capgemini.png',      
+    logo: s3Url('/logos/companies/capgemini.png'),      
     color: 'from-sky-500 to-sky-700',
     bg: 'from-sky-500/20 to-sky-700/20',
   },
   {
     name: 'IBM',
-    logo: '/logos/companies/ibm.png',            
+    logo: s3Url('/logos/companies/ibm.png'),            
     color: 'from-blue-600 to-blue-900',
     bg: 'from-blue-600/20 to-blue-900/20',
   },
   {
     name: 'Deloitte',
-    logo: '/logos/companies/deloitte.png',      
+    logo: s3Url('/logos/companies/deloitte.png'),      
     color: 'from-emerald-500 to-emerald-700',
     bg: 'from-emerald-500/20 to-emerald-700/20',
   },
@@ -359,17 +355,13 @@ const initialForm = {
 
 function SectionIntro({ kicker, title, desc, titleClassName, descClassName }: { kicker: string; title: string; desc?: string; titleClassName?: string; descClassName?: string }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: '-80px' }}
+    <div
       className="mx-auto mb-12 max-w-3xl text-center"
     >
       <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-orange-500">{kicker}</p>
       <h2 className={`text-3xl font-black leading-tight sm:text-4xl lg:text-5xl ${titleClassName ?? 'text-[#111827]'}`}>{title}</h2>
       {desc && <p className={`mt-4 text-base leading-7 sm:text-lg ${descClassName ?? 'text-gray-600'}`}>{desc}</p>}
-    </motion.div>
+    </div>
   );
 }
 
@@ -428,45 +420,43 @@ export default function OfflineServicesPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-[#111827]">
       {/* â"€â"€ Toast â"€â"€ */}
-      <AnimatePresence>
+      
         {toast && <Toast message={toast.message} type={toast.type} onClose={closeToast} />}
-      </AnimatePresence>
+      
 
       {/* â"€â"€ Counselor Modal â"€â"€ */}
       {showCounselor && <CounselorModal onClose={closeCounselor} />}
       <section className="relative isolate overflow-hidden bg-[#11121f] px-4 pb-16 pt-16 text-white sm:px-6 lg:px-8 lg:pb-24 lg:pt-20">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(255,168,0,0.30),transparent_28%),radial-gradient(circle_at_82%_8%,rgba(249,115,22,0.22),transparent_26%),linear-gradient(135deg,#11121f_0%,#17172b_50%,#080913_100%)]" />
-        <motion.div
-          animate={{ opacity: [0.35, 0.7, 0.35], scale: [1, 1.08, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        <div
           className="absolute left-1/2 top-20 -z-10 h-80 w-80 -translate-x-1/2 rounded-full bg-orange-500/25 blur-3xl"
         />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:72px_72px]" />
 
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
-          <motion.div variants={stagger} initial="hidden" animate="show" className="relative z-10">
-            <motion.div variants={fadeUp} className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-300/30 bg-white/10 px-4 py-2 text-sm font-bold text-orange-100 shadow-[0_0_30px_rgba(255,168,0,0.16)] backdrop-blur-xl">
+          <div className="relative z-10">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-300/30 bg-white/10 px-4 py-2 text-sm font-bold text-orange-100 shadow-[0_0_30px_rgba(255,168,0,0.16)] backdrop-blur-xl">
               <Sparkles className="h-4 w-4 text-[#ffa800]" />
               Stipend up to Rs. 15,000 + Placement Support Till Placement
-            </motion.div>
+            </div>
 
-            <motion.h1 variants={fadeUp} className="max-w-4xl text-4xl font-black leading-[1.03] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-4xl font-black leading-[1.03] tracking-tight sm:text-6xl lg:text-7xl">
               6-Month Offline Internship Program
-            </motion.h1>
+            </h1>
 
-            <motion.p variants={fadeUp} className="mt-6 max-w-2xl text-lg leading-8 text-white/76 sm:text-xl">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/76 sm:text-xl">
               Learn practically, build real projects, prepare for interviews, and become industry-ready with offline training.
-            </motion.p>
+            </p>
 
-            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-center gap-2 text-sm font-semibold text-white/82">
+            <div className="mt-6 flex flex-wrap items-center gap-2 text-sm font-semibold text-white/82">
               {['Offline Classes', 'Practical Projects', 'Industry Mentors'].map((item) => (
                 <span key={item} className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 backdrop-blur">
                   {item}
                 </span>
               ))}
-            </motion.div>
+            </div>
 
-            <motion.div variants={fadeUp} className="relative mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="relative mt-9 flex flex-col gap-3 sm:flex-row">
               <div className="absolute -inset-4 -z-10 rounded-full bg-orange-500/20 blur-2xl" />
               <button
                 type="button"
@@ -484,9 +474,9 @@ export default function OfflineServicesPage() {
               >
                 <Download className="h-5 w-5" /> Download Brochure
               </button>
-            </motion.div>
+            </div>
 
-            <motion.div variants={fadeUp} className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
                 { icon: IndianRupee, label: 'Rs. 15K Stipend' },
                 { icon: Award, label: 'Special Certificate' },
@@ -498,20 +488,17 @@ export default function OfflineServicesPage() {
                   <p className="text-sm font-extrabold text-white">{label}</p>
                 </div>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="relative mx-auto w-full max-w-xl"
           >
             <div className="absolute -inset-5 rounded-[2rem] bg-gradient-to-br from-orange-400/30 via-white/5 to-transparent blur-2xl" />
             <div className="relative overflow-hidden rounded-[2rem] border border-white/14 bg-white/10 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.55rem] bg-orange-50">
                 <Image
-                  src="/images/room-teaching3.jpg"
+                  src={s3Url('/images/room-teaching3.jpg')}
                   alt="Students attending practical offline training at Adyapan"
                   fill
                   priority
@@ -522,18 +509,14 @@ export default function OfflineServicesPage() {
               </div>
             </div>
 
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            <div
               className="absolute -left-2 top-10 rounded-2xl border border-white/18 bg-white/90 p-4 text-[#111827] shadow-2xl backdrop-blur-xl sm:-left-8"
             >
               <p className="text-xs font-bold uppercase tracking-widest text-gray-500">Live Path</p>
               <p className="mt-1 text-lg font-black">Train - Build - Place</p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+            <div
               className="absolute -right-2 bottom-14 rounded-2xl border border-orange-200 bg-white/92 p-4 text-[#111827] shadow-2xl backdrop-blur-xl sm:-right-8"
             >
               <div className="flex items-center gap-3">
@@ -545,8 +528,8 @@ export default function OfflineServicesPage() {
                   <p className="text-base font-semibold text-white">Till Placement</p>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -573,11 +556,10 @@ export default function OfflineServicesPage() {
             title="Everything a student needs to become industry-ready"
             desc="Offline discipline, practical projects, mentor feedback, and placement support in one high-impact internship experience."
           />
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {features.map(({ icon: Icon, title, desc }) => (
-              <motion.div
+              <div
                 key={title}
-                variants={fadeUp}
                 className="group rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_12px_36px_rgba(17,24,39,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_55px_rgba(249,115,22,0.16)]"
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-gradient-to-br group-hover:from-[#ffa800] group-hover:to-[#f97316] group-hover:text-white">
@@ -585,9 +567,9 @@ export default function OfflineServicesPage() {
                 </div>
                 <h3 className="text-base font-black leading-snug text-[#111827]">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-gray-600">{desc}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -595,28 +577,28 @@ export default function OfflineServicesPage() {
         <div className="mx-auto max-w-7xl">
           <SectionIntro kicker="Why Offline Internship?" title="Classroom energy meets real career outcomes" />
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="relative min-h-[420px] overflow-hidden rounded-[2rem] shadow-2xl">
-              <Image src="/images/in-room-teaching01.jpg" alt="Offline classroom training at Adyapan" fill loading="lazy" sizes="(min-width: 1024px) 45vw, 92vw" className="object-cover" />
+            <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] shadow-2xl">
+              <Image src={s3Url('/images/in-room-teaching01.jpg')} alt="Offline classroom training at Adyapan" fill loading="lazy" sizes="(min-width: 1024px) 45vw, 92vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/20 bg-white/12 p-5 text-white backdrop-blur-xl">
                 <p className="text-sm font-semibold text-orange-200">Built for students who learn better in person</p>
                 <p className="mt-2 text-2xl font-black">Mentor-led training, live doubt solving, and project accountability.</p>
               </div>
-            </motion.div>
-            <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-4 sm:grid-cols-2">
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { icon: Users, title: 'Real classroom focus', desc: 'Stay consistent with peer energy, direct mentor feedback, and structured attendance.' },
                 { icon: Briefcase, title: 'Project-first learning', desc: 'Every module pushes you toward proof-of-work projects you can show recruiters.' },
                 { icon: Trophy, title: 'Interview confidence', desc: 'Practice offline until you can explain your work clearly and calmly.' },
                 { icon: Zap, title: 'Career momentum', desc: 'Placement actions start early, so your learning and job prep move together.' },
               ].map(({ icon: Icon, title, desc }) => (
-                <motion.div key={title} variants={fadeUp} className="rounded-2xl bg-white p-6 shadow-sm">
+                <div key={title} className="rounded-2xl bg-white p-6 shadow-sm">
                   <Icon className="mb-4 h-7 w-7 text-orange-500" />
                   <h3 className="text-lg font-black text-[#111827]">{title}</h3>
                   <p className="mt-2 text-sm leading-6 text-gray-600">{desc}</p>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -626,13 +608,8 @@ export default function OfflineServicesPage() {
           <SectionIntro kicker="Journey Timeline" title="Your 6-step offline internship journey" />
           <div className="relative grid gap-4 md:grid-cols-3 lg:grid-cols-6">
             {journey.map((step, index) => (
-              <motion.div
+              <div
                 key={step.title}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
                 className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-[0_16px_48px_rgba(249,115,22,0.14)]"
               >
                 {/* Image */}
@@ -656,7 +633,7 @@ export default function OfflineServicesPage() {
                   <h3 className="font-black text-[#111827] leading-snug">{step.title}</h3>
                   <p className="mt-1.5 text-xs leading-5 text-gray-500">{step.desc}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -665,11 +642,10 @@ export default function OfflineServicesPage() {
       <section className="bg-[#11121f] px-4 py-20 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionIntro kicker="Internship Kit" title="A premium offline starter kit" desc="Everything feels more official when your program gives you tools, identity, and proof." titleClassName="text-white" descClassName="text-white/80" />
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {kit.map(({ icon: Icon, title, desc, img, alt }) => (
-              <motion.div
+              <div
                 key={title}
-                variants={fadeUp}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-white/8 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-[0_20px_60px_rgba(255,168,0,0.18)]"
               >
                 {/* Image */}
@@ -693,15 +669,15 @@ export default function OfflineServicesPage() {
                   <h3 className="text-base font-black text-white">{title}</h3>
                   <p className="mt-1.5 text-sm leading-6 text-white/60">{desc}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <div>
             <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-orange-500">Placement & Stipend</p>
             <h2 className="text-3xl font-black leading-tight text-[#111827] sm:text-5xl">Placement Support Till You Get Placed</h2>
             <p className="mt-5 text-lg leading-8 text-gray-600">
@@ -710,23 +686,23 @@ export default function OfflineServicesPage() {
             <button type="button" onClick={() => setShowCounselor(true)} suppressHydrationWarning className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#111827] px-7 py-4 font-black text-white transition hover:bg-[#f97316] sm:w-auto">
               Talk to Counselor <Phone className="h-5 w-5" />
             </button>
-          </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }} className="grid gap-4 sm:grid-cols-2">
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
             {placement.map((item) => (
-              <motion.div key={item} variants={fadeUp} whileHover={{ scale: 1.05, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/70 p-5 cursor-pointer hover:shadow-lg hover:border-orange-200">
+              <div key={item} className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/70 p-5 cursor-pointer hover:shadow-lg hover:border-orange-200">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-orange-500 shadow-sm">
                   <Check className="h-5 w-5" />
                 </span>
                 <span className="font-extrabold text-[#111827]">{item}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section id="enroll-form" className="bg-[#fff7ed] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-24">
             <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-orange-500">Enroll Now</p>
             <h2 className="text-3xl font-black leading-tight text-[#111827] sm:text-5xl">Reserve your seat for the offline internship</h2>
             <p className="mt-5 text-lg leading-8 text-gray-600">
@@ -739,15 +715,15 @@ export default function OfflineServicesPage() {
                 { icon: GraduationCap, text: 'Course fit review' },
                 { icon: ShieldCheck, text: 'Admin lead tracking' },
               ].map(({ icon: Icon, text }) => (
-                <motion.div key={text} whileHover={{ scale: 1.05, y: -4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="rounded-2xl bg-white p-4 shadow-sm cursor-pointer hover:shadow-lg hover:border hover:border-orange-100">
+                <div key={text} className="rounded-2xl bg-white p-4 shadow-sm cursor-pointer hover:shadow-lg hover:border hover:border-orange-100">
                   <Icon className="mb-2 h-5 w-5 text-orange-500" />
                   <p className="text-sm font-black text-[#111827]">{text}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.form variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} onSubmit={handleSubmit} className="rounded-[2rem] border border-orange-100 bg-white p-5 shadow-[0_24px_80px_rgba(249,115,22,0.15)] sm:p-8">
+          <form onSubmit={handleSubmit} className="rounded-[2rem] border border-orange-100 bg-white p-5 shadow-[0_24px_80px_rgba(249,115,22,0.15)] sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { name: 'name', label: 'Name', type: 'text', required: true },
@@ -824,7 +800,7 @@ export default function OfflineServicesPage() {
                 Talk to Counselor <Phone className="h-5 w-5" />
               </button>
             </div>
-          </motion.form>
+          </form>
         </div>
       </section>
 
@@ -833,7 +809,7 @@ export default function OfflineServicesPage() {
           <SectionIntro kicker="Student Stories" title="Trusted by students preparing for real careers" />
           <div className="grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
-              <motion.div key={item.name} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} whileHover={{ scale: 1.04, y: -6 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm cursor-pointer hover:shadow-xl hover:border-orange-100">
+              <div key={item.name} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm cursor-pointer hover:shadow-xl hover:border-orange-100">
                 <div className="mb-4 flex gap-1 text-orange-400">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                 </div>
@@ -842,7 +818,7 @@ export default function OfflineServicesPage() {
                   <p className="font-black text-[#111827]">{item.name}</p>
                   <p className="text-sm font-semibold text-orange-500">{item.role}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -860,15 +836,11 @@ export default function OfflineServicesPage() {
           }
         `}</style>
         <div className="mx-auto max-w-7xl">
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <p
             className="mb-8 text-center text-sm font-bold uppercase tracking-[0.22em] text-white/50"
           >
             Recruiter and company exposure ecosystem
-          </motion.p>
+          </p>
           
           {/* Marquee Container */}
           <div className="relative">
@@ -999,19 +971,19 @@ export default function OfflineServicesPage() {
           <SectionIntro kicker="FAQs" title="Questions students ask before enrolling" />
           <div className="space-y-3">
             {faqs.map((faq, index) => (
-              <motion.div key={faq.q} whileHover={{ scale: 1.02, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm cursor-pointer hover:shadow-md hover:border-orange-100">
+              <div key={faq.q} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm cursor-pointer hover:shadow-md hover:border-orange-100">
                 <button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)} suppressHydrationWarning className="flex w-full items-center justify-between gap-4 p-5 text-left">
                   <span className="font-black text-[#111827]">{faq.q}</span>
                   <ChevronDown className={`h-5 w-5 flex-shrink-0 text-orange-500 transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
                 </button>
-                <AnimatePresence initial={false}>
+                
                   {openFaq === index && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }}>
+                    <div>
                       <p className="border-t border-gray-100 px-5 pb-5 pt-4 text-sm leading-7 text-gray-600">{faq.a}</p>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
-              </motion.div>
+                
+              </div>
             ))}
           </div>
         </div>

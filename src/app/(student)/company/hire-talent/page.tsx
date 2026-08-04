@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 import { 
@@ -8,23 +7,6 @@ import {
   Brain, Cpu, Globe, BarChart, Briefcase, BookOpen, ChevronRight
 } from 'lucide-react';
 import AuthNavButtons from '@/components/AuthNavButtons';
-
-const customEase = [0.22, 1, 0.36, 1] as const;
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: customEase } },
-};
-
-const staggerContainer = (stagger = 0.12, delayChildren = 0.1) => ({
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: stagger,
-      delayChildren,
-    },
-  },
-});
 
 const programCategories = [
   {
@@ -466,10 +448,7 @@ export default function HireTalentPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-6 bg-gradient-to-br from-[#1a2a4e] via-[#0f1419] to-[#0f1419]">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: customEase }}
+          <div
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
@@ -482,37 +461,34 @@ export default function HireTalentPage() {
             </p>
 
             {/* Stats */}
-            <motion.div
-              variants={staggerContainer(0.1, 0.2)}
-              initial="hidden"
-              animate="show"
+            <div
               className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"
             >
-              <motion.div variants={fadeUp} className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
+              <div className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
                 <div className="text-4xl font-black text-[#ffa800] mb-2">1000+</div>
                 <p className="text-gray-300 font-semibold">Ready to Hire</p>
                 <p className="text-sm text-gray-500">Across All Programs</p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={fadeUp} className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
+              <div className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
                 <div className="text-4xl font-black text-[#ffa800] mb-2">67+</div>
                 <p className="text-gray-300 font-semibold">Active Programs</p>
                 <p className="text-sm text-gray-500">Industry-Aligned</p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={fadeUp} className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
+              <div className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
                 <div className="text-4xl font-black text-[#ffa800] mb-2">95%</div>
                 <p className="text-gray-300 font-semibold">Job Readiness</p>
                 <p className="text-sm text-gray-500">Verified Skills</p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={fadeUp} className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
+              <div className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
                 <div className="text-4xl font-black text-[#ffa800] mb-2">500+</div>
                 <p className="text-gray-300 font-semibold">Partner Companies</p>
                 <p className="text-sm text-gray-500">Hiring Successfully</p>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -522,14 +498,11 @@ export default function HireTalentPage() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar - Program Categories */}
             <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: customEase }}
+              <div
                 className="space-y-2"
               >
                 {programCategories.map((category, i) => (
-                  <motion.button
+                  <button
                     key={category.id}
                     onClick={() => handleCategoryChange(category.id)}
                     className={`w-full text-left p-4 rounded-xl transition-all duration-300 ${
@@ -537,8 +510,6 @@ export default function HireTalentPage() {
                         ? 'bg-[#ffa800] text-white'
                         : 'bg-[#1a2a4e]/30 text-gray-300 hover:bg-[#1a2a4e]/50'
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-3">
                       <category.icon className="w-5 h-5" />
@@ -548,26 +519,21 @@ export default function HireTalentPage() {
                       </div>
                       <ChevronRight className="w-4 h-4" />
                     </div>
-                  </motion.button>
+                  </button>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
             {/* Main Content - Talent Programs */}
             <div className="lg:col-span-3">
-              <motion.div
+              <div
                 key={activeCategory}
-                variants={staggerContainer(0.15, 0.1)}
-                initial="hidden"
-                animate="show"
                 className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
                 {visiblePrograms.map((program, i) => (
-                  <motion.div
+                  <div
                     key={i}
-                    variants={fadeUp}
                     className="bg-[#1a2a4e]/30 rounded-2xl overflow-hidden border border-gray-700 hover:border-[#ffa800]/50 transition-all duration-300 group"
-                    whileHover={{ y: -5 }}
                   >
                     {/* Program Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -612,36 +578,29 @@ export default function HireTalentPage() {
                           <p className="text-white font-bold text-lg">{program.graduates}</p>
                           <p className="text-gray-400 text-sm">Available Now</p>
                         </div>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <button
                           className="px-4 py-2 bg-[#ffa800] text-white rounded-lg font-semibold text-sm hover:bg-[#e69500] transition-colors"
                         >
                           View Talent
-                        </motion.button>
+                        </button>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
 
               {/* Load More */}
               {hasMorePrograms && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
+                <div
                   className="text-center mt-12 col-span-full"
                 >
-                  <motion.button
+                  <button
                     onClick={handleLoadMore}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                     className="px-8 py-3 bg-[#1a2a4e] text-white rounded-lg font-semibold hover:bg-[#1a2a4e]/80 transition-colors border border-gray-700"
                   >
                     Load More Programs
-                  </motion.button>
-                </motion.div>
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -651,11 +610,7 @@ export default function HireTalentPage() {
       {/* CTA Section */}
       <section className="py-20 px-6 bg-gradient-to-r from-[#ffa800]/10 to-[#ff6b00]/10 border-t border-gray-800">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: customEase }}
-            viewport={{ once: true }}
+          <div
           >
             <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
               Ready to Hire Top Talent?
@@ -665,7 +620,7 @@ export default function HireTalentPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <div>
                 <Link
                   href="/company/hire-talent"
                   className="inline-flex items-center px-8 py-4 bg-[#ffa800] text-white rounded-lg font-bold text-lg hover:bg-[#e69500] transition-colors"
@@ -673,22 +628,22 @@ export default function HireTalentPage() {
                   Start Hiring Now
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </Link>
-              </motion.div>
+              </div>
               
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <div>
                 <Link
                   href="#"
                   className="inline-flex items-center px-8 py-4 bg-transparent text-white rounded-lg font-bold text-lg border-2 border-gray-600 hover:border-[#ffa800] transition-colors"
                 >
                   Schedule Consultation
                 </Link>
-              </motion.div>
+              </div>
             </div>
 
             <p className="text-gray-500 text-sm mt-8">
               No upfront costs | Pre-vetted candidates | 30-day replacement guarantee
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

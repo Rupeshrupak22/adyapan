@@ -57,18 +57,14 @@ function CustomDropdown({
         <span className={value ? 'text-gray-800' : 'text-gray-400'}>
           {value ? (renderSelected ? renderSelected(value) : value) : placeholder}
         </span>
-        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
+        <span>
           <ChevronDown className="w-4 h-4 text-gray-400" />
-        </motion.span>
+        </span>
       </button>
 
-      <AnimatePresence>
+      
         {open && (
-          <motion.ul
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.98 }}
-            transition={{ duration: 0.15 }}
+          <ul
             className="absolute z-50 mt-1 w-full bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden max-h-52 overflow-y-auto"
           >
             {options.map((opt) => (
@@ -86,9 +82,9 @@ function CustomDropdown({
                 )}
               </li>
             ))}
-          </motion.ul>
+          </ul>
         )}
-      </AnimatePresence>
+      
     </div>
   );
 }
@@ -116,18 +112,14 @@ function CountryCodePicker({ value, onChange }: { value: string; onChange: (v: s
       >
         <span className="text-base">{selected.flag}</span>
         <span>{selected.code}</span>
-        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
+        <span>
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-        </motion.span>
+        </span>
       </button>
 
-      <AnimatePresence>
+      
         {open && (
-          <motion.ul
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.98 }}
-            transition={{ duration: 0.15 }}
+          <ul
             className="absolute z-50 mt-1 left-0 w-52 bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
           >
             {COUNTRY_CODES.map((c) => (
@@ -147,9 +139,9 @@ function CountryCodePicker({ value, onChange }: { value: string; onChange: (v: s
                 )}
               </li>
             ))}
-          </motion.ul>
+          </ul>
         )}
-      </AnimatePresence>
+      
     </div>
   );
 }
@@ -198,9 +190,7 @@ export default function CampusAmbassadorApplyPage() {
   if (submitted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-white px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <div
           className="bg-white rounded-3xl shadow-2xl p-10 max-w-md w-full text-center"
         >
           <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-6">
@@ -216,7 +206,7 @@ export default function CampusAmbassadorApplyPage() {
           >
             Back to Campus Ambassador
           </a>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -226,7 +216,7 @@ export default function CampusAmbassadorApplyPage() {
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+        <div className="text-center mb-10">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-orange-300 bg-orange-50 mb-4">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             <span className="text-xs font-bold text-orange-700 uppercase tracking-widest">Campus Ambassador Program</span>
@@ -235,13 +225,10 @@ export default function CampusAmbassadorApplyPage() {
             Apply <span className="text-orange-500">Directly</span>
           </h1>
           <p className="text-gray-500 text-lg">Fill in your details and we'll get back to you within 2"3 business days.</p>
-        </motion.div>
+        </div>
 
         {/* Form */}
-        <motion.form
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+        <form
           onSubmit={handleSubmit}
           className="bg-white rounded-3xl shadow-xl p-8 space-y-5"
         >
@@ -350,11 +337,9 @@ export default function CampusAmbassadorApplyPage() {
           </div>
 
           {/* Submit */}
-          <motion.button
+          <button
             type="submit"
             disabled={loading}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
             className="w-full py-4 bg-gradient-to-r from-[#ffa800] to-[#ff8c00] text-white rounded-xl font-bold text-lg hover:from-[#e69500] hover:to-[#e67e00] transition-all shadow-lg disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {loading ? (
@@ -368,8 +353,8 @@ export default function CampusAmbassadorApplyPage() {
             ) : (
               <>Submit Application <ChevronRight className="w-5 h-5" /></>
             )}
-          </motion.button>
-        </motion.form>
+          </button>
+        </form>
       </div>
     </div>
   );

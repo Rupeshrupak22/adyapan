@@ -78,10 +78,8 @@ function ProjectCard({ project }: { project: ProjectRequest }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <motion.div
+    <div
       layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-2xl border-2 border-gray-100 hover:border-orange-200 transition-all overflow-hidden"
     >
       {/* Header */}
@@ -150,13 +148,9 @@ function ProjectCard({ project }: { project: ProjectRequest }) {
       </div>
 
       {/* Expanded details */}
-      <AnimatePresence>
+      
         {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+          <div
             className="overflow-hidden"
           >
             <div className="px-5 pb-5 border-t border-gray-100 pt-4 space-y-4">
@@ -200,10 +194,10 @@ function ProjectCard({ project }: { project: ProjectRequest }) {
                 <p className="text-xs font-mono text-gray-600 bg-gray-50 px-3 py-2 rounded-lg break-all">{project.paymentId}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </motion.div>
+      
+    </div>
   );
 }
 
@@ -258,16 +252,14 @@ export default function MyProjectsPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="mb-8"
         >
           <h1 className="text-3xl font-extrabold text-gray-900">
             My <span className="text-orange-500">Projects</span>
           </h1>
           <p className="text-gray-500 text-sm mt-1">Track the status of your submitted project requests.</p>
-        </motion.div>
+        </div>
 
         {loading ? (
           <div className="space-y-4">
@@ -279,9 +271,7 @@ export default function MyProjectsPage() {
             {error}
           </div>
         ) : projects.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className="text-center py-20"
           >
             <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center mx-auto mb-5">
@@ -298,7 +288,7 @@ export default function MyProjectsPage() {
             >
               Build My Project <ArrowRight className="w-4 h-4" />
             </Link>
-          </motion.div>
+          </div>
         ) : (
           <div className="space-y-4">
             {projects.map((p) => (

@@ -94,10 +94,7 @@ function ApplyModal({ job, user, onClose, onSuccess }: {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+      <div
         className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden"
       >
         {/* Header */}
@@ -156,7 +153,7 @@ function ApplyModal({ job, user, onClose, onSuccess }: {
             </button>
           </div>
         </form>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -239,7 +236,7 @@ export default function JobDetailPage() {
           {/* Main content */}
           <div className="lg:col-span-2 space-y-5">
             {/* Job header card */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            <div
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               <div className="flex items-start gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
@@ -278,18 +275,18 @@ export default function JobDetailPage() {
                   </span>
                 )}
               </div>
-            </motion.div>
+            </div>
 
             {/* Description */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            <div
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               <h2 className="font-bold text-gray-900 mb-3">Job Description</h2>
               <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{job.description}</p>
-            </motion.div>
+            </div>
 
             {/* Responsibilities */}
             {job.responsibilities?.length > 0 && (
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+              <div
                 className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <h2 className="font-bold text-gray-900 mb-3">Responsibilities</h2>
                 <ul className="space-y-2">
@@ -300,12 +297,12 @@ export default function JobDetailPage() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             )}
 
             {/* Skills */}
             {job.requiredSkills?.length > 0 && (
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              <div
                 className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <h2 className="font-bold text-gray-900 mb-3">Required Skills</h2>
                 <div className="flex flex-wrap gap-2">
@@ -315,14 +312,14 @@ export default function JobDetailPage() {
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
 
           {/* Sidebar */}
           <div className="space-y-4">
             {/* Apply card */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+            <div
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sticky top-6">
               {applied ? (
                 <div className="text-center py-4">
@@ -359,10 +356,10 @@ export default function JobDetailPage() {
                   )}
                 </>
               )}
-            </motion.div>
+            </div>
 
             {/* Job details card */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            <div
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
               <h3 className="font-bold text-gray-900 mb-4 text-sm">Job Details</h3>
               <div className="space-y-3 text-sm">
@@ -384,10 +381,10 @@ export default function JobDetailPage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Company card */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            <div
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
               <h3 className="font-bold text-gray-900 mb-3 text-sm">About Company</h3>
               <div className="flex items-center gap-3 mb-3">
@@ -407,13 +404,13 @@ export default function JobDetailPage() {
                   <ExternalLink className="w-3.5 h-3.5" /> Visit Website
                 </a>
               )}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Apply modal */}
-      <AnimatePresence>
+      
         {showApply && (
           <ApplyModal
             job={job}
@@ -422,7 +419,7 @@ export default function JobDetailPage() {
             onSuccess={() => { setShowApply(false); setApplied(true); }}
           />
         )}
-      </AnimatePresence>
+      
     </div>
   );
 }

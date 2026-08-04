@@ -117,9 +117,6 @@ function ProgressRing({ pct, size = 56 }: { pct: number; size?: number }) {
         stroke={pct === 100 ? '#22c55e' : '#ffa800'} strokeWidth={6}
         strokeLinecap="round"
         strokeDasharray={circ}
-        initial={{ strokeDashoffset: circ }}
-        animate={{ strokeDashoffset: circ - dash }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
       />
     </svg>
   );
@@ -142,9 +139,7 @@ function CertificateCard({
   const isDownloading = downloading === course.slug;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className={`rounded-2xl border p-5 flex flex-col gap-3 ${
         isComplete
           ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200'
@@ -225,7 +220,7 @@ function CertificateCard({
           <span>Certification guidance will be shared during onboarding</span>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 }
 
@@ -263,9 +258,7 @@ function CourseCard({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
     >
       {/* Thumbnail */}
@@ -318,11 +311,8 @@ function CourseCard({
             <span className={`font-bold ${isComplete ? 'text-green-600' : 'text-[#ffa800]'}`}>{pct}%</span>
           </div>
           <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div
+            <div
               className={`h-full rounded-full ${isComplete ? 'bg-green-500' : 'bg-gradient-to-r from-[#ffa800] to-[#ff6b00]'}`}
-              initial={{ width: 0 }}
-              animate={{ width: `${pct}%` }}
-              transition={{ duration: 1, ease: 'easeOut' }}
             />
           </div>
         </div>
@@ -347,15 +337,13 @@ function CourseCard({
               )}
             </button>
           ) : (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
+            <button
               onClick={() => continueLessonId && onMarkLesson(course.slug, continueLessonId, continueModuleId)}
               className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white text-sm font-bold transition-all"
               style={{ background: 'linear-gradient(135deg,#ffa800,#ff6b00)' }}
             >
               <ExternalLink className="w-4 h-4" /> Connect to Learning Platform
-            </motion.button>
+            </button>
           )}
           <button
             onClick={() => onToggleExpand(course.slug)}
@@ -374,13 +362,9 @@ function CourseCard({
         )}
 
         {/* Expandable modules */}
-        <AnimatePresence>
+        
           {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+            <div
               className="overflow-hidden"
             >
               <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
@@ -427,11 +411,11 @@ function CourseCard({
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -593,9 +577,7 @@ function EnrollmentOnboardingCard({
   const enrollmentId = enrollment.id.slice(-8).toUpperCase();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
     >
       <div className="h-32 bg-gradient-to-br from-[#111827] via-[#1f2937] to-[#ff6b00] relative overflow-hidden">
@@ -657,7 +639,7 @@ function EnrollmentOnboardingCard({
           </button>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -802,9 +784,7 @@ function StudentDashboardInner() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         {/*  Welcome header  */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="mb-8"
         >
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
@@ -815,7 +795,7 @@ function StudentDashboardInner() {
               ? 'You have no active enrollment yet. Explore our programs to begin your onboarding.'
               : 'Thank you for enrolling with Adyapan. Your student onboarding is being managed by our academic support team.'}
           </p>
-        </motion.div>
+        </div>
 
         {/*  Stats cards  */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -825,11 +805,8 @@ function StudentDashboardInner() {
             { icon: KeyRound,    label: 'LMS Access',       value: lmsAccess ? 'Ready' : 'Pending', color: 'text-green-600',  bg: 'bg-green-50',  border: 'border-green-100' },
             { icon: Award,       label: 'Certificates',     value: completedCourses,      color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
           ].map(({ icon: Icon, label, value, color, bg, border }, i) => (
-            <motion.div
+            <div
               key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
               className={`rounded-2xl border ${border} ${bg} p-4 flex items-center gap-3`}
             >
               <div className={`w-10 h-10 rounded-xl ${bg} border ${border} flex items-center justify-center flex-shrink-0`}>
@@ -839,15 +816,13 @@ function StudentDashboardInner() {
                 <p className={`text-xl font-extrabold ${color} leading-none`}>{value}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{label}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/*  No courses state  */}
         {totalCourses === 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div
             className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm"
           >
             <div className="w-20 h-20 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-5">
@@ -864,15 +839,13 @@ function StudentDashboardInner() {
             >
               <Zap className="w-4 h-4" /> Explore Programs
             </Link>
-          </motion.div>
+          </div>
         )}
 
         {/*  Course grid  */}
         {totalCourses > 0 && (
           <>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className="mb-8 rounded-3xl border border-orange-100 bg-white p-6 sm:p-7 shadow-sm"
             >
               <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_0.65fr] gap-6">
@@ -912,7 +885,7 @@ function StudentDashboardInner() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_0.8fr] gap-6 mb-8">
               <LMSAccessPanel lmsAccess={lmsAccess} onCopy={handleCopy} />
@@ -940,14 +913,10 @@ function StudentDashboardInner() {
               ))}
             </div>
 
-            <AnimatePresence mode="wait">
+            
               {activeTab === 'courses' && (
-                <motion.div
+                <div
                   key="courses"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-extrabold text-gray-900">
@@ -969,10 +938,7 @@ function StudentDashboardInner() {
                   </div>
 
                   {/* Enrollment Summary */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
+                  <div
                     className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
                   >
                     <h3 className="font-extrabold text-gray-900 mb-4 flex items-center gap-2">
@@ -990,11 +956,8 @@ function StudentDashboardInner() {
                               </span>
                             </div>
                             <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                              <motion.div
+                              <div
                                 className="h-full rounded-full bg-gradient-to-r from-[#ffa800] to-[#ff6b00]"
-                                initial={{ width: 0 }}
-                                animate={{ width: lmsAccess ? '100%' : '38%' }}
-                                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 }}
                               />
                             </div>
                             <div className="flex items-center justify-between mt-1">
@@ -1009,17 +972,13 @@ function StudentDashboardInner() {
                         );
                       })}
                     </div>
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
               )}
 
               {activeTab === 'certificates' && (
-                <motion.div
+                <div
                   key="certificates"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
                 >
                   {/*  Earned Certificates  */}
                   <div className="mb-6">
@@ -1051,9 +1010,9 @@ function StudentDashboardInner() {
                     </div>
                   )}
 
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
           </>
         )}
 

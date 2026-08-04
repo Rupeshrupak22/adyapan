@@ -23,7 +23,7 @@ const certificates = [
     id: 'internship',
     title: 'Certificate of Internship Completion',
     subtitle: 'Internship Completion',
-    image: '/images/SAMPLEintern.png',
+    image: s3Url('/images/SAMPLEintern.png'),
     description: 'Awarded to interns who successfully complete their internship within the ADYAPAN framework by SR\'S ADYAPAN EDUTECH PVT. LTD.',
     points: [
       'Certifies real-world internship experience',
@@ -37,7 +37,7 @@ const certificates = [
     id: 'project',
     title: 'Certificate of Project Completion',
     subtitle: 'Project Completion',
-    image: '/images/SampleProject.png',
+    image: s3Url('/images/SampleProject.png'),
     description: 'Awarded to students who successfully deliver a project within ADYAPAN. Certifies practical learning and project execution expertise.',
     points: [
       'Certifies successful project delivery',
@@ -51,7 +51,7 @@ const certificates = [
     id: 'achievement',
     title: 'Certificate of Achievement - Best Performance',
     subtitle: 'Best Performance',
-    image: '/images/SAMPLEPerformer.png',
+    image: s3Url('/images/SAMPLEPerformer.png'),
     description: 'Awarded to top-performing students recognised as Best Performer at ADYAPAN. Certifies exceptional dedication, leadership, and outstanding results.',
     points: [
       'Recognises exceptional performance & leadership',

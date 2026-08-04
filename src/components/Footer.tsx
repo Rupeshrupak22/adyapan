@@ -3,8 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-
 /* â"€â"€â"€ Data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 
 const platformLinks = [
@@ -101,15 +99,11 @@ const Footer = () => {
 
       {/* Ambient glow blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.04, 0.08, 0.04] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        <div
           className="absolute -top-32 -left-32 w-80 h-80 rounded-full"
           style={{ background: 'radial-gradient(circle, #f97316, transparent)' }}
         />
-        <motion.div
-          animate={{ scale: [1.1, 1, 1.1], opacity: [0.03, 0.07, 0.03] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        <div
           className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full"
           style={{ background: 'radial-gradient(circle, #fbbf24, transparent)' }}
         />
@@ -133,9 +127,7 @@ const Footer = () => {
           {/* â"€â"€ Col 1: Brand â"€â"€ */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-4 group" aria-label="Adyapan home">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+              <div
               >
                 <Image
                   src="/newadylogo.png"
@@ -145,7 +137,7 @@ const Footer = () => {
                   className="h-10 w-auto"
                   loading="lazy"
                 />
-              </motion.div>
+              </div>
             </Link>
 
             <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
@@ -155,19 +147,17 @@ const Footer = () => {
             {/* Social icons */}
             <div className="flex items-center gap-3 flex-wrap">
               {socialLinks.map(({ href, label, icon, buttonClass }) => (
-                <motion.a
+                <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Follow us on ${label}`}
-                  whileHover={{ scale: 1.08, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
                   className={`flex items-center gap-2 px-4 py-2.5 text-white rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 ${buttonClass}`}
                 >
                   {icon}
                   {label}
-                </motion.a>
+                </a>
               ))}
             </div>
           </div>
@@ -323,14 +313,8 @@ const Footer = () => {
         >
           <div className="flex items-center justify-center flex-wrap px-4">
             {'adyapan'.split('').map((letter, i) => (
-              <motion.span
+              <span
                 key={i}
-                whileHover={{
-                  y: [0, -8, 6, -5, 4, -2, 0],
-                  x: [0, -4, 4, -3, 3, -1, 0],
-                  rotate: [0, -8, 8, -5, 5, -2, 0],
-                  transition: { duration: 0.5, ease: 'easeInOut' },
-                }}
                 className="inline-block cursor-default select-none font-black"
                 style={{
                   fontSize: 'clamp(2.8rem, 10vw, 7rem)',
@@ -341,7 +325,7 @@ const Footer = () => {
                 }}
               >
                 {letter}
-              </motion.span>
+              </span>
             ))}
           </div>
         </div>

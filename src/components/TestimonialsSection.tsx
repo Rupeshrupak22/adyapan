@@ -1,5 +1,6 @@
 'use client';
 
+import { s3Url } from '@/lib/s3Url';
 import React from 'react';
 
 const testimonials = [
@@ -65,7 +66,7 @@ const TestimonialsSection = () => {
             {/* Full Blend Image */}
             <div className="relative flex-1 flex items-end justify-center lg:justify-start">
               <img
-                src="/images/Homereview.png"
+                src={s3Url('/images/Homereview.png')}
                 alt="Adyapan Character"
                 loading="lazy"
                 decoding="async"

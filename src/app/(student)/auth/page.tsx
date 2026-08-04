@@ -12,19 +12,13 @@ import { Eye, EyeOff, CheckCircle, AlertCircle, ArrowRight, Sparkles, Users, Boo
 function Orbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <motion.div
-        animate={{ x: [0, 60, 0], y: [0, -40, 0], scale: [1, 1.15, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      <div
         className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-gradient-to-br from-[#ffa800]/30 to-orange-300/10 blur-3xl"
       />
-      <motion.div
-        animate={{ x: [0, -50, 0], y: [0, 60, 0], scale: [1.1, 1, 1.1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+      <div
         className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-orange-400/20 to-amber-200/10 blur-3xl"
       />
-      <motion.div
-        animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+      <div
         className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-yellow-300/15 to-orange-200/10 blur-3xl"
       />
     </div>
@@ -34,11 +28,7 @@ function Orbs() {
 /*  Floating stat card  */
 function StatCard({ value, label, icon, delay }: { value: string; label: string; icon: string; delay: number }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.6 }}
-      whileHover={{ y: -4, scale: 1.03 }}
+    <div
       className="bg-white/80 backdrop-blur-sm rounded-2xl px-5 py-4 shadow-lg border border-white/60 flex items-center gap-3"
     >
       <span className="text-2xl">{icon}</span>
@@ -46,7 +36,7 @@ function StatCard({ value, label, icon, delay }: { value: string; label: string;
         <div className="text-xl font-extrabold text-gray-900 leading-none">{value}</div>
         <div className="text-xs text-gray-500 mt-0.5">{label}</div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -153,11 +143,7 @@ function EmailInput({
 
       {/* Saved email dropdown */}
       {showDropdown && suggestions.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.15 }}
+        <div
           className="absolute z-50 top-full mt-1.5 w-full bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden"
         >
           <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider px-3 pt-2.5 pb-1">
@@ -184,7 +170,7 @@ function EmailInput({
               </svg>
             </button>
           ))}
-        </motion.div>
+        </div>
       )}
     </div>
   );
@@ -360,10 +346,7 @@ function AuthPageContent() {
 
       {/*  LEFT PANEL  form  */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-6 py-16 lg:px-12">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="w-full max-w-md"
         >
           {/* Logo */}
@@ -372,11 +355,8 @@ function AuthPageContent() {
           </Link>
 
           {/* Heading */}
-          <motion.div
+          <div
             key={`${showAsLogin}-${userType}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
             className="mb-7"
           >
             <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">
@@ -397,44 +377,34 @@ function AuthPageContent() {
                 ? (isOrg ? 'Sign in to access the Admin portal' : 'Sign in to continue learning')
                 : 'Learn, earn & get placed with Adyapan'}
             </p>
-          </motion.div>
+          </div>
 
           {/* Alerts */}
-          <AnimatePresence>
+          
             {error && (
-              <motion.div
-                initial={{ opacity: 0, y: -8, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -8, height: 0 }}
+              <div
                 className="mb-4 p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5"
               >
                 <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-red-700">{error}</p>
-              </motion.div>
+              </div>
             )}
             {success && (
-              <motion.div
-                initial={{ opacity: 0, y: -8, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -8, height: 0 }}
+              <div
                 className="mb-4 p-3.5 rounded-xl bg-green-50 border border-green-200 flex items-start gap-2.5"
               >
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-green-700">{success}</p>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
-            <AnimatePresence mode="wait">
+            
               {!showAsLogin && (
-                <motion.div
+                <div
                   key={`names-${userType}`}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
                   className="grid grid-cols-2 gap-3"
                 >
                   <FloatInput
@@ -451,9 +421,9 @@ function AuthPageContent() {
                     onChange={handleInputChange}
                     required
                   />
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
             <EmailInput
               value={formData.email}
@@ -476,13 +446,9 @@ function AuthPageContent() {
               }
             />
 
-            <AnimatePresence>
+            
               {!showAsLogin && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                <div
                 >
                   <FloatInput
                     label="Confirm Password"
@@ -499,9 +465,9 @@ function AuthPageContent() {
                       </button>
                     }
                   />
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
 
             {showAsLogin && (
@@ -514,11 +480,9 @@ function AuthPageContent() {
             )}
 
             {/* Submit */}
-            <motion.button
+            <button
               type="submit"
-              disabled={loading}
-              whileHover={loading ? {} : { scale: 1.02, boxShadow: '0 8px 30px rgba(255,168,0,0.4)' }}
-              whileTap={loading ? {} : { scale: 0.98 }}
+              disabled={loading} : { scale: 1.02, boxShadow: '0 8px 30px rgba(255,168,0,0.4)' }} : { scale: 0.98 }}
               className="w-full mt-2 py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(135deg, #ffa800 0%, #ff6b00 100%)' }}
             >
@@ -527,7 +491,7 @@ function AuthPageContent() {
               ) : (
                 <><span>{showAsLogin ? 'Sign In' : 'Create Account'}</span><ArrowRight className="w-4 h-4" /></>
               )}
-            </motion.button>
+            </button>
 
             {/* Divider */}
             <div className="flex items-center gap-3 my-1">
@@ -537,10 +501,8 @@ function AuthPageContent() {
             </div>
 
             {/* Google */}
-            <motion.button
+            <button
               type="button"
-              whileHover={{ scale: 1.02, backgroundColor: '#f9fafb' }}
-              whileTap={{ scale: 0.98 }}
               onClick={handleGoogleAuth}
               className="w-full py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-700 text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
             >
@@ -551,7 +513,7 @@ function AuthPageContent() {
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
               Continue with Google
-            </motion.button>
+            </button>
           </form>
 
           {/* Switch mode  students only, org is login-only */}
@@ -564,7 +526,7 @@ function AuthPageContent() {
               </button>
             </p>
           )}
-        </motion.div>
+        </div>
       </div>
 
       {/*  RIGHT PANEL  visual  */}
@@ -574,10 +536,8 @@ function AuthPageContent() {
         {/* Animated mesh */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(6)].map((_, i) => (
-            <motion.div
+            <div
               key={i}
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 20 + i * 5, repeat: Infinity, ease: 'linear' }}
               className="absolute rounded-full border border-white/5"
               style={{
                 width: `${200 + i * 80}px`,
@@ -587,19 +547,14 @@ function AuthPageContent() {
               }}
             />
           ))}
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity }}
+          <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-[#ffa800]/20 blur-3xl"
           />
         </div>
 
         <div className="relative z-10 px-12 max-w-md w-full">
           {/* Headline */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+          <div
             className="mb-10"
           >
             <div className="flex items-center gap-2 mb-4">
@@ -620,31 +575,25 @@ function AuthPageContent() {
                 ? 'Secure admin portal for Adyapan. Manage students, enrollments, payments, and platform operations.'
                 : 'Master industry skills, earn while you learn, and land your dream job with Adyapan\'s expert-led programs.'}
             </p>
-          </motion.div>
+          </div>
 
           {/* Feature list */}
-          <motion.div
+          <div
             key={`features-${showAsLogin}-${userType}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
             className="space-y-3 mb-10"
           >
             {features.map((f, i) => (
-              <motion.div
+              <div
                 key={f}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + i * 0.08 }}
                 className="flex items-center gap-3 group"
               >
                 <div className="w-6 h-6 rounded-full bg-[#ffa800]/20 border border-[#ffa800]/40 flex items-center justify-center flex-shrink-0 group-hover:bg-[#ffa800]/30 transition-colors">
                   <CheckCircle className="w-3.5 h-3.5 text-[#ffa800]" />
                 </div>
                 <span className="text-gray-300 text-sm group-hover:text-white transition-colors">{f}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-3">
@@ -660,12 +609,8 @@ function AuthPageContent() {
                   { v: '95%',  l: 'Placement', Icon: TrendingUp },
                 ]
             ).map(({ v, l, Icon }, idx) => (
-              <motion.div
+              <div
                 key={v}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + idx * 0.1 }}
-                whileHover={{ y: -3, scale: 1.04 }}
                 className="bg-white/5 border border-white/10 rounded-xl p-3 text-center hover:bg-white/10 hover:border-[#ffa800]/30 transition-all cursor-default"
               >
                 <div className="flex justify-center mb-1.5">
@@ -673,7 +618,7 @@ function AuthPageContent() {
                 </div>
                 <div className="text-white font-extrabold text-lg leading-none">{v}</div>
                 <div className="text-gray-500 text-[10px] mt-0.5">{l}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

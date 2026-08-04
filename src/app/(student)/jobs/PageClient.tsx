@@ -61,7 +61,7 @@ function JobCard({ job }: { job: Job }) {
   const visibleSkills = job.requiredSkills?.slice(0, 4) ?? [];
   const extraSkills   = (job.requiredSkills?.length ?? 0) - 4;
   return (
-    <motion.div layout initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-8 }}
+    <div layout
       className="bg-white rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all p-5 flex flex-col gap-3">
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
@@ -94,7 +94,7 @@ function JobCard({ job }: { job: Job }) {
         ? <button disabled className="w-full py-2.5 rounded-xl text-sm font-bold text-gray-400 bg-gray-100 cursor-not-allowed">Expired</button>
         : <Link href={`/jobs/${job._id}`} className="w-full py-2.5 rounded-xl text-sm font-bold text-white text-center flex items-center justify-center gap-2 shadow-sm shadow-orange-200 hover:shadow-md transition-all" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>View &amp; Apply</Link>
       }
-    </motion.div>
+    </div>
   );
 }
 
@@ -150,13 +150,13 @@ export default function JobsPage() {
         <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none"/>
         <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none"/>
         <div className="relative max-w-3xl mx-auto text-center">
-          <motion.h1 initial={{opacity:0,y:-16}} animate={{opacity:1,y:0}} className="text-3xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight">Find Your Next Opportunity</motion.h1>
-          <motion.p initial={{opacity:0,y:-8}} animate={{opacity:1,y:0}} transition={{delay:0.08}} className="text-orange-100 text-base mb-8">Explore internships, full-time roles, and freelance gigs curated for students.</motion.p>
-          <motion.div initial={{opacity:0,scale:0.97}} animate={{opacity:1,scale:1}} transition={{delay:0.12}} className="relative max-w-xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight">Find Your Next Opportunity</h1>
+          <p className="text-orange-100 text-base mb-8">Explore internships, full-time roles, and freelance gigs curated for students.</p>
+          <div className="relative max-w-xl mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"/>
             <input type="text" placeholder="Search jobs, companies, skills..." value={search} onChange={e=>setSearch(e.target.value)} className="w-full pl-12 pr-12 py-4 rounded-2xl text-gray-800 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-orange-300 bg-white"/>
             {search&&<button onClick={()=>setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><X className="w-4 h-4"/></button>}
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -176,9 +176,9 @@ export default function JobsPage() {
           </button>
           {hasFilters&&<button onClick={clearFilters} className="flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-600 transition-colors"><X className="w-3.5 h-3.5"/>Clear</button>}
         </div>
-        <AnimatePresence>
+        
           {showFilters&&(
-            <motion.div key="filters" initial={{opacity:0,height:0}} animate={{opacity:1,height:'auto'}} exit={{opacity:0,height:0}} className="overflow-hidden">
+            <div key="filters" className="overflow-hidden">
               <div className="bg-white rounded-2xl border border-gray-100 p-4 flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[180px]">
                   <label className="block text-xs font-semibold text-gray-500 mb-1.5">Employment Type</label>
@@ -201,9 +201,9 @@ export default function JobsPage() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        
         {!loading&&!error&&<p className="text-sm text-gray-500">{total>0&&<>Showing <span className="font-semibold text-gray-700">{jobs.length}</span> of <span className="font-semibold text-gray-700">{total}</span> jobs</>}</p>}
       </div>
 
@@ -211,19 +211,19 @@ export default function JobsPage() {
         {error&&<div className="flex items-center gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-sm"><AlertCircle className="w-5 h-5 flex-shrink-0"/>{error}</div>}
         {loading&&<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">{[...Array(6)].map((_,i)=><SkeletonCard key={i}/>)}</div>}
         {!loading&&!error&&jobs.length===0&&(
-          <motion.div initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} className="text-center py-24 bg-white rounded-2xl border border-gray-100">
+          <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
             <Briefcase className="w-14 h-14 text-gray-200 mx-auto mb-4"/>
             <p className="text-gray-600 font-semibold text-lg mb-1">No jobs available right now.</p>
             <p className="text-gray-400 text-sm">Please check again soon.</p>
             {hasFilters&&<button onClick={clearFilters} className="mt-5 px-5 py-2 rounded-xl text-sm font-bold text-orange-500 border border-orange-200 hover:bg-orange-50 transition-all">Clear filters</button>}
-          </motion.div>
+          </div>
         )}
         {!loading&&!error&&jobs.length>0&&(
-          <AnimatePresence mode="wait">
-            <motion.div key={`${page}-${debouncedSearch}-${empType}-${workMode}`} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+            <div key={`${page}-${debouncedSearch}-${empType}-${workMode}`} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {jobs.map(job=><JobCard key={job._id} job={job}/>)}
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          
         )}
         {!loading&&totalPages>1&&(
           <div className="flex items-center justify-center gap-2 mt-10">

@@ -48,11 +48,9 @@ function FloatInput({
 function RoleCard({ role, selected, onClick }: { role: Role; selected: boolean; onClick: () => void }) {
   const isStudent = role === 'student';
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onClick}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
       className={`flex-1 flex flex-col items-center gap-2 py-4 px-3 rounded-2xl border-2 transition-all duration-300 cursor-pointer ${
         selected
           ? 'border-[#ffa800] bg-[#ffa800]/8 shadow-md shadow-[#ffa800]/20'
@@ -73,12 +71,12 @@ function RoleCard({ role, selected, onClick }: { role: Role; selected: boolean; 
         </div>
       </div>
       {selected && (
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
+        <div
           className="w-5 h-5 rounded-full bg-[#ffa800] flex items-center justify-center">
           <CheckCircle className="w-3 h-3 text-white" />
-        </motion.div>
+        </div>
       )}
-    </motion.button>
+    </button>
   );
 }
 
@@ -183,16 +181,13 @@ function SignupContent() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-white px-4 py-16 relative overflow-hidden">
       {/* Background orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div animate={{ x: [0, 60, 0], y: [0, -40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        <div
           className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-[#ffa800]/20 blur-3xl" />
-        <motion.div animate={{ x: [0, -50, 0], y: [0, 60, 0] }} transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        <div
           className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-orange-300/15 blur-3xl" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      <div
         className="relative z-10 w-full max-w-md"
       >
         <div className="bg-white rounded-3xl shadow-2xl shadow-orange-100/50 border border-gray-100 overflow-hidden">
@@ -212,14 +207,14 @@ function SignupContent() {
 
             {/* Program banner */}
             {(selectedProgram || selectedAmount) && (
-              <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+              <div
                 className="mb-5 p-3.5 rounded-xl bg-green-50 border border-green-200 flex items-start gap-2.5">
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-green-700">
                   Enrolling in: <strong>{selectedProgram}</strong>
                   {formattedAmount && <> - <strong>{formattedAmount}</strong></>}
                 </p>
-              </motion.div>
+              </div>
             )}
 
             {/* Role selector */}
@@ -229,32 +224,28 @@ function SignupContent() {
             </div>
 
             {/* Alerts */}
-            <AnimatePresence>
+            
               {error && (
-                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                <div
                   className="mb-4 p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5">
                   <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-red-700">{error}</p>
-                </motion.div>
+                </div>
               )}
               {success && (
-                <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                <div
                   className="mb-4 p-3.5 rounded-xl bg-green-50 border border-green-200 flex items-start gap-2.5">
                   <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-green-700">{success}</p>
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
               {/* Name fields - animate when role changes */}
-              <AnimatePresence mode="wait">
-                <motion.div
+              
+                <div
                   key={role}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.25 }}
                   className="grid grid-cols-2 gap-3"
                 >
                   {role === 'student' ? (
@@ -272,8 +263,8 @@ function SignupContent() {
                         onChange={e => setCompanyName(e.target.value)} required half />
                     </>
                   )}
-                </motion.div>
-              </AnimatePresence>
+                </div>
+              
 
               <FloatInput label="Email address" type="email" value={email}
                 onChange={e => { setEmail(e.target.value); setError(''); }}
@@ -313,11 +304,9 @@ function SignupContent() {
                 </span>
               </label>
 
-              <motion.button
+              <button
                 type="submit"
-                disabled={loading}
-                whileHover={loading ? {} : { scale: 1.02, boxShadow: '0 8px 30px rgba(255,168,0,0.4)' }}
-                whileTap={loading ? {} : { scale: 0.98 }}
+                disabled={loading} : { scale: 1.02, boxShadow: '0 8px 30px rgba(255,168,0,0.4)' }} : { scale: 0.98 }}
                 className="w-full py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ background: 'linear-gradient(135deg, #ffa800 0%, #ff6b00 100%)' }}
               >
@@ -325,7 +314,7 @@ function SignupContent() {
                   ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /><span>Creating account...</span></>
                   : <><span>Create Account</span><ArrowRight className="w-4 h-4" /></>
                 }
-              </motion.button>
+              </button>
 
               {/* Divider */}
               <div className="flex items-center gap-3">
@@ -335,10 +324,8 @@ function SignupContent() {
               </div>
 
               {/* Google */}
-              <motion.button
+              <button
                 type="button"
-                whileHover={{ scale: 1.02, backgroundColor: '#f9fafb' }}
-                whileTap={{ scale: 0.98 }}
                 onClick={handleGoogleSignUp}
                 className="w-full py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-700 text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
               >
@@ -349,7 +336,7 @@ function SignupContent() {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                 </svg>
                 Sign up with Google
-              </motion.button>
+              </button>
             </form>
 
             <p className="text-center text-sm text-gray-500 mt-5">
@@ -367,7 +354,7 @@ function SignupContent() {
             <span key={t} className="text-xs text-gray-400 font-medium">{t}</span>
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
