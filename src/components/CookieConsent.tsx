@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const STORAGE_KEY = 'adyapan_cookie_consent';
+const COOKIE_HANDLED_EVENT = 'adyapan_cookie_handled';
 
 interface CookiePrefs {
   necessary: boolean;
@@ -62,6 +63,8 @@ export default function CookieConsent() {
   const save = (p: CookiePrefs) => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch {}
     setVisible(false);
+    // Dispatch custom event so WelcomePopup knows cookies have been handled
+    window.dispatchEvent(new Event(COOKIE_HANDLED_EVENT));
   };
 
   const acceptAll  = () => save({ necessary: true, analytics: true, marketing: true, functional: true });

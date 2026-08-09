@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useAuthContext } from '@/context/AuthContext';
 
+const COOKIE_STORAGE_KEY = 'adyapan_cookie_consent';
+const COOKIE_HANDLED_EVENT = 'adyapan_cookie_handled';
+
 const WelcomePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, loading } = useAuthContext();
@@ -20,8 +23,25 @@ const WelcomePopup = () => {
     const popupDismissed = localStorage.getItem('welcomePopupDismissed');
     if (popupDismissed === 'true') return;
 
-    const t = setTimeout(() => setIsOpen(true), 1000);
-    return () => clearTimeout(t);
+    // Check if cookies have already been handled
+    const cookieConsent = localStorage.getItem(COOKIE_STORAGE_KEY);
+    if (cookieConsent) {
+      // Cookies already handled on a previous visit, show popup after delay
+      const t = setTimeout(() => setIsOpen(true), 1000);
+      return () => clearTimeout(t);
+    }
+
+    // Cookies not yet handled - wait for the cookie consent event
+    const handleCookieConsent = () => {
+      // Show welcome popup shortly after cookie consent is given
+      const t = setTimeout(() => setIsOpen(true), 600);
+      return () => clearTimeout(t);
+    };
+
+    window.addEventListener(COOKIE_HANDLED_EVENT, handleCookieConsent);
+    return () => {
+      window.removeEventListener(COOKIE_HANDLED_EVENT, handleCookieConsent);
+    };
   }, [loading, isAuthenticated]);
 
   const closePopup = () => {
@@ -136,7 +156,7 @@ const WelcomePopup = () => {
                   </motion.div>
                 </motion.div>
 
-                {/* Company Card */}
+                {/* Teacher Card */}
                 <motion.div
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -151,13 +171,13 @@ const WelcomePopup = () => {
                     className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center mb-6 relative z-10"
                   >
                     <svg className="w-5 h-5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                   </motion.div>
 
-                  <h3 className="text-2xl font-extrabold text-white mb-3 relative z-10">I'm a Company</h3>
+                  <h3 className="text-2xl font-extrabold text-white mb-3 relative z-10">I'm a Teacher</h3>
                   <p className="text-gray-400 text-sm mb-6 leading-relaxed relative z-10">
-                    Access pre-vetted talent and build a direct pipeline to your next full-time hire.
+                    Share your expertise, mentor students, and build your teaching career with Adyapan.
                   </p>
 
                   <motion.ul
@@ -167,12 +187,12 @@ const WelcomePopup = () => {
                     className="space-y-2 mb-8 relative z-10"
                   >
                     {[
-                      'Find verified talent',
-                      'Pre-assessed, job-ready students',
-                      'See real project portfolios',
-                      'Direct-to-hire pipeline',
-                      'Faster hiring with curated candidates',
-                      'Connect directly with skilled freshers',
+                      'Teach & mentor aspiring students',
+                      'Create & deliver live courses',
+                      'Earn from your expertise',
+                      'Access a growing student community',
+                      'Get teaching tools & resources',
+                      'Build your professional brand',
                     ].map((item) => (
                       <motion.li
                         key={item}
@@ -189,12 +209,12 @@ const WelcomePopup = () => {
 
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="relative z-10">
                     <Link
-                      href="/company"
+                      href="/auth?type=teacher"
                       onClick={handleActionClick}
                       className="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors"
                       style={{ background: '#ff9900', color: '#1a0800' }}
                     >
-                      Find Talent
+                      Start Teaching
                       <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
