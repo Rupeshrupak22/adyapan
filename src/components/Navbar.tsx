@@ -350,6 +350,23 @@ const Navbar = () => {
             </Link>
           </motion.div>
 
+          {/* Career link */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 + (links.length + 1) * 0.07, duration: 0.4 }}
+          >
+            <a
+              href="https://career.adyapan.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] 2xl:text-sm font-medium text-white hover:text-[#ffa800] transition-colors duration-200 whitespace-nowrap relative group"
+            >
+              Career
+              <span className="absolute -bottom-0.5 left-0 h-0.5 bg-[#ffa800] w-0 group-hover:w-full transition-all duration-300" />
+            </a>
+          </motion.div>
+
           {user ? (
             <ProfileDropdown
               user={user}
@@ -431,6 +448,15 @@ const Navbar = () => {
               >
                 Recruiter
               </Link>
+              <a
+                href="https://career.adyapan.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowMobile(false)}
+                className="text-sm font-medium py-2 text-white hover:text-[#ffa800] transition-colors duration-200"
+              >
+                Career
+              </a>
               <div className="border-t border-white/10 pt-3 flex gap-3">
                 {user ? (
                   <button
