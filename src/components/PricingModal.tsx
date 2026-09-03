@@ -205,13 +205,15 @@ export default function PricingModal({ isOpen, onClose }: PricingModalProps) {
 
                       {/* Plan name + price */}
                       <p className="text-xs font-semibold opacity-90 mt-1">{plan.name}</p>
-                      <p className="mt-1 text-xl font-extrabold sm:text-2xl">{plan.price}</p>
+                      <p className="mt-1 text-xl font-extrabold sm:text-2xl">
+                        {plan.price}
+                        <span className={`text-sm font-medium ml-1 line-through ${plan.isPremium ? 'text-white/60' : 'text-gray-900'}`}>
+                          /{plan.originalPrice}
+                        </span>
+                      </p>
                       <div className="flex items-center gap-1.5 mt-0.5">
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${plan.isPremium ? 'bg-white/20 text-white' : 'bg-green-100 text-green-700'}`}>
                           {plan.discount}% Off
-                        </span>
-                        <span className={`text-[10px] line-through font-medium ${plan.isPremium ? 'text-white/80' : 'text-gray-900'}`}>
-                          {plan.originalPrice}
                         </span>
                       </div>
                       {/* Savings */}

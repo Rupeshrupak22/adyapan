@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Auto Push to adyapan1",
+      "trigger": "Stop",
+      "description": "Automatically pushes to adyapan1 remote after every Kiro session ends",
+      "action": {
+        "type": "command",
+        "command": "cd /d D:\\GANJA && git push adyapan1 main --force 2>&1"
+      }
+    }
+  ]
+}
