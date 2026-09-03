@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { s3Url } from '@/lib/s3Url';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { CheckCircle, Award, TrendingUp, Users, Globe, Shield, ChevronRight } from 'lucide-react';
 import CertificationEnrollModal from '@/components/CertificationEnrollModal';
 
-/* â"€â"€â"€ Partner data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Partner data Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 const certificationPartners = [
   { name: 'Adobe',                          abbr: 'Ado', logo: s3Url('/logos/adobe.webp'),                    neon: '#FF0000' },
   { name: 'Apple',                          abbr: 'App', logo: s3Url('/logos/apple.png'),                                        neon: '#a0a0a0' },
@@ -27,7 +27,7 @@ const certificationPartners = [
   { name: 'CCS Generative AI',              abbr: 'CCS', logo: s3Url('/logos/ccs.png'),                       neon: '#f97316' },
 ];
 
-/* â"€â"€â"€ Interactive Partner Explorer data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Interactive Partner Explorer data Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 const partnerExplorerData = [
   {
     name: 'Adobe',
@@ -213,176 +213,131 @@ const partnerExplorerData = [
   },
 ];
 
-/* â"€â"€â"€ Interactive Partner Explorer Component â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 function PartnerExplorer({
   onEarnCertificate,
 }: {
   onEarnCertificate: (certName: string, companyName: string) => void;
 }) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const selected = partnerExplorerData[selectedIndex];
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const toggle = (i: number) => setExpandedIndex(prev => (prev === i ? null : i));
 
   return (
-    <section className="relative py-16 sm:py-20 overflow-hidden bg-[#fff7ed]">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse at 18% 8%, rgba(249,115,22,0.16), transparent 34%), radial-gradient(ellipse at 84% 22%, rgba(251,146,60,0.18), transparent 30%), linear-gradient(180deg, #fffaf3 0%, #ffedd5 54%, #fff7ed 100%)',
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.32]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(249,115,22,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.14) 1px, transparent 1px)',
-          backgroundSize: '72px 72px',
-        }}
-      />
+    <section className="relative py-16 sm:py-20 overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)' }}>
+      {/* Decorative blobs */}
+      <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, #f97316 0%, transparent 70%)', transform: 'translate(-30%, -30%)' }} />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, #f97316 0%, transparent 70%)', transform: 'translate(30%, 30%)' }} />
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Heading */}
-        <div
-          className="text-center mb-12"
-        >
-          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">
-            Explore by Partner
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-3 mb-4">
-            Certification <span className="text-orange-500">Partners</span>
+        <div className="text-center mb-12">
+          <span className="text-xs font-bold text-orange-400 uppercase tracking-widest">Explore by Partner</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-3 mb-4">
+            Certification <span className="text-orange-400">Partners</span>
           </h2>
-          <p className="text-gray-500 max-w-xl mx-auto">
-            Select a partner to explore all available certifications and enroll directly.
+          <p className="text-white/60 max-w-xl mx-auto">
+            Click on a partner to explore all available certifications and enroll directly.
           </p>
         </div>
 
-        {/* Explorer Panel */}
-        <div className="flex flex-col md:flex-row gap-0 rounded-2xl overflow-hidden shadow-2xl shadow-orange-200/50 border border-orange-100">
-          {/* Left - Partner List */}
-          <div className="w-full md:w-72 bg-white border-r border-gray-200 flex flex-col">
-            <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
-              <h3 className="font-bold text-gray-800 text-sm uppercase tracking-wider">
-                Certification Partners
-              </h3>
-            </div>
-
-            <div className="flex-1 max-h-[380px] md:max-h-[520px] overflow-y-auto overscroll-contain">
-              <div className="divide-y divide-gray-100">
-                {partnerExplorerData.map((partner, realIdx) => {
-                  const isActive = realIdx === selectedIndex;
-                  return (
-                    <button
-                      key={partner.name}
-                      onClick={() => setSelectedIndex(realIdx)}
-                      className={`w-full flex items-center gap-3 px-5 py-4 text-left transition-all ${
-                        isActive
-                          ? 'bg-orange-50 border-l-4 border-orange-500'
-                          : 'hover:bg-gray-50 border-l-4 border-transparent'
-                      }`}
-                    >
-                      <span
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden border ${
-                          isActive ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
-                        }`}
-                      >
-                        {partner.logo ? (
-                          <img
-                            src={partner.logo}
-                            alt={`${partner.name} logo`}
-                            className="w-full h-full object-contain p-1.5"
-                          />
-                        ) : (
-                          partner.abbr
-                        )}
-                      </span>
-                      <div className="min-w-0">
-                        <div className={`font-semibold text-sm ${isActive ? 'text-orange-700' : 'text-gray-800'}`}>
-                          {partner.name}
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          {partner.count} Certification{partner.count > 1 ? 's' : ''}
-                        </div>
-                      </div>
-                      {isActive && (
-                        <ChevronRight className="w-4 h-4 text-orange-500 ml-auto flex-shrink-0" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* Right - Certifications List */}
-          <div className="flex-1 bg-gray-50">
-            <div className="px-6 py-4 border-b border-gray-200 bg-white flex items-center gap-3">
-              <span className="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700 overflow-hidden border border-orange-100">
-                {selected.logo ? (
-                  <img
-                    src={selected.logo}
-                    alt={`${selected.name} logo`}
-                    className="w-full h-full object-contain p-1.5"
-                  />
-                ) : (
-                  selected.abbr
-                )}
-              </span>
-              <h3 className="font-bold text-gray-900">{selected.name}</h3>
-            </div>
-
-            
-              <div
-                key={selected.name}
-                className="p-4 overflow-y-auto max-h-[420px]"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {partnerExplorerData.map((partner, i) => {
+            const isOpen = expandedIndex === i;
+            return (
+              <motion.div
+                key={partner.name}
+                layout
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden backdrop-blur-sm ${
+                  isOpen
+                    ? 'border-orange-400 shadow-xl shadow-orange-500/20'
+                    : 'border-white/10 hover:border-orange-400/50 hover:shadow-lg hover:shadow-orange-500/10'
+                }`}
+                style={{ background: isOpen ? 'rgba(249,115,22,0.12)' : 'rgba(255,255,255,0.06)' }}
               >
-                <div className="space-y-2">
-                  {selected.certifications.map((cert, i) => {
-                    const slug = cert
-                      .toLowerCase()
-                      .replace(/[^a-z0-9\s-]/g, '')
-                      .replace(/\s+/g, '-')
-                      .replace(/-+/g, '-')
-                      .trim();
-                    return (
-                      <div
-                        key={cert}
-                        className="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all group"
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <span className="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0" />
-                          <span className="text-sm text-gray-800 font-medium truncate">{cert}</span>
-                        </div>
-                        {/* Two actions: view detail page OR earn certificate directly */}
-                        <div className="flex items-center gap-2 ml-3 flex-shrink-0">
-                          <Link href={`/certifications/${slug}`}>
-                            <button
-                              className="px-3 py-1.5 rounded-full text-xs font-semibold text-orange-600 border border-orange-300 hover:bg-orange-50 transition-colors"
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-center gap-4 p-4 transition-colors"
+                >
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden bg-white border border-white/20">
+                    {partner.logo ? (
+                      <img src={partner.logo} alt={partner.name} className="w-full h-full object-contain p-2" />
+                    ) : (
+                      <span className="text-sm font-black text-gray-700">{partner.abbr}</span>
+                    )}
+                  </div>
+                  <div className="flex-1 text-left min-w-0">
+                    <p className={`font-bold text-sm leading-tight ${isOpen ? 'text-orange-300' : 'text-white'}`}>
+                      {partner.name.replace(/\n/g, ' ')}
+                    </p>
+                    <p className="text-xs text-white/40 mt-0.5">{partner.count} Certification{partner.count > 1 ? 's' : ''}</p>
+                  </div>
+                  <motion.div
+                    animate={{ rotate: isOpen ? 90 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronRight className={`w-5 h-5 ${isOpen ? 'text-orange-400' : 'text-white/40'}`} />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 pt-1 space-y-2 border-t border-orange-400/20">
+                        {partner.certifications.map((cert) => {
+                          const slug = cert
+                            .toLowerCase()
+                            .replace(/[^a-z0-9\s-]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/-+/g, '-')
+                            .trim();
+                          return (
+                            <div
+                              key={cert}
+                              className="flex items-center justify-between rounded-xl px-3 py-2.5 border border-white/10 hover:border-orange-400/40 hover:bg-orange-500/10 transition-all"
                             >
-                              View
-                            </button>
-                          </Link>
-                          <button
-                            onClick={() => onEarnCertificate(cert, selected.name)}
-                            className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
-                            style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
-                          >
-                            Earn Certificate
-                          </button>
-                        </div>
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+                                <span className="text-xs text-white/80 font-medium truncate">{cert}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                                <Link href={`/certifications/${slug}`}>
+                                  <button className="px-2.5 py-1 rounded-full text-[10px] font-semibold text-orange-300 border border-orange-400/50 hover:bg-orange-500/20 transition-colors">
+                                    View
+                                  </button>
+                                </Link>
+                                <button
+                                  onClick={() => onEarnCertificate(cert, partner.name)}
+                                  className="px-2.5 py-1 rounded-full text-[10px] font-bold text-white"
+                                  style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}
+                                >
+                                  Enroll
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            
-          </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-/* â"€â"€â"€ Benefits â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
 const benefits = [
   { icon: <Globe className="w-6 h-6" />,       title: 'Industry Recognized',    desc: 'Globally accepted certifications' },
   { icon: <Shield className="w-6 h-6" />,      title: '100% Trusted & Verified', desc: 'Authentic certificates from top companies' },
@@ -399,7 +354,7 @@ const stats = [
   { icon: '', value: '100%', label: 'Trusted & Verified' },
 ];
 
-/* â"€â"€â"€ Partner Card â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Partner Card Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0]; i: number }) {
   const [hovered, setHovered] = useState(false);
 
@@ -467,7 +422,7 @@ function PartnerCard({ partner, i }: { partner: typeof certificationPartners[0];
   );
 }
 
-/* â"€â"€â"€ Certificate Showcase Section â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Certificate Showcase Section Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 const ALL_CERTIFICATES = [
   { name: 'Adobe Acrobat Pro',                      file: 'Adobe Acrobat Pro.png',                       company: 'Adobe' },
   { name: 'Adobe After Effects',                    file: 'Adobe After Effects.png',                     company: 'Adobe' },
@@ -686,7 +641,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
   );
 }
 
-/* â"€â"€â"€ Gain Your Certificate Section â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Gain Your Certificate Section Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: string) => void }) {
   const steps = [
     {
@@ -887,7 +842,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
                     <div
                       className="text-orange-500/50 text-2xl"
                     >
-                      â†"
+                      Ã¢â€ "
                     </div>
                   </div>
                 )}
@@ -926,7 +881,7 @@ function GainCertSection({ onEnroll }: { onEnroll: (cert: string, company: strin
   );
 }
 
-/* â"€â"€â"€ Page â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */
+/* Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ Page Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬Ã¢"â‚¬ */
 export default function CertificationsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCert, setModalCert] = useState({ certName: '', companyName: '' });
@@ -947,16 +902,16 @@ export default function CertificationsPage() {
         companyName={modalCert.companyName}
       />
 
-      {/* â"€â"€ Partner Explorer â"€â"€ */}
+      {/* Ã¢"â‚¬Ã¢"â‚¬ Partner Explorer Ã¢"â‚¬Ã¢"â‚¬ */}
       <PartnerExplorer onEarnCertificate={openModal} />
 
-      {/* â"€â"€ Gain Your Certificate Journey â"€â"€ */}
+      {/* Ã¢"â‚¬Ã¢"â‚¬ Gain Your Certificate Journey Ã¢"â‚¬Ã¢"â‚¬ */}
       <GainCertSection onEnroll={openModal} />
 
-      {/* â"€â"€ Sample Certificates Showcase â"€â"€ */}
+      {/* Ã¢"â‚¬Ã¢"â‚¬ Sample Certificates Showcase Ã¢"â‚¬Ã¢"â‚¬ */}
       <CertificateShowcase onEnroll={openModal} />
 
-      {/* â"€â"€ Partners â"€â"€ */}
+      {/* Ã¢"â‚¬Ã¢"â‚¬ Partners Ã¢"â‚¬Ã¢"â‚¬ */}
       <section
         id="partners"
         className="py-16 sm:py-20"

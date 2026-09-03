@@ -99,7 +99,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, planLabel, planP
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 overflow-y-auto">
           {/* backdrop */}
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -113,7 +113,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, planLabel, planP
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.93, y: 24 }}
             transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-            className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-y-auto my-auto max-h-[90vh]"
             onClick={e => e.stopPropagation()}
           >
             {/* saffron top bar */}
