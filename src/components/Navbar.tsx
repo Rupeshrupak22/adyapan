@@ -173,9 +173,10 @@ const Navbar = () => {
             </Link>
           </motion.div>
 
-          <div className="relative shrink-0" ref={dropdownRef}>
+          <div className="relative shrink-0" ref={dropdownRef} onMouseEnter={() => setShowPrograms(true)} onMouseLeave={() => setShowPrograms(false)}>
             <motion.button
               onClick={() => setShowPrograms(!showPrograms)}
+              onMouseEnter={() => setShowPrograms(true)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="flex items-center space-x-1.5 sm:space-x-2 px-2 min-[380px]:px-3 xl:px-4 py-1.5 bg-[#ffa800] text-white rounded-full text-xs 2xl:text-sm font-semibold hover:bg-[#e69500] transition-colors whitespace-nowrap shrink-0"
