@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { s3Url } from '@/lib/s3Url';
+import InternshipModal from './InternshipModal';
 
 const WORDS = ['Sell', 'Launch', 'Brand', 'Grow', 'Build'];
 
@@ -50,6 +51,7 @@ function HeroSection() {
   const [query,    setQuery]    = useState('');
   const [showDrop, setShowDrop] = useState(false);
   const [history,  setHistory]  = useState<string[]>([]);
+  const [internOpen, setInternOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef   = useRef<HTMLVideoElement>(null);
   const inputRef   = useRef<HTMLInputElement>(null);
@@ -155,6 +157,7 @@ function HeroSection() {
   const dropVisible = showDrop && (suggestions.length > 0 || showHistory || showPopular);
 
   return (
+    <>
     <section ref={sectionRef} className="relative overflow-hidden" style={{ minHeight: '92vh' }}>
 
       {/* Full background video */}
@@ -327,6 +330,17 @@ function HeroSection() {
                 </div>
               ))}
             </div>
+
+            {/* Apply for Internship button */}
+            <div>
+              <button
+                onClick={() => setInternOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+                style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 8px 24px rgba(249,115,22,0.4)' }}
+              >
+                🚀 Apply for Internship
+              </button>
+            </div>
           </div>
 
           {/* RIGHT - expanding cards */}
@@ -391,6 +405,8 @@ function HeroSection() {
         </div>
       </div>
     </section>
+    <InternshipModal isOpen={internOpen} onClose={() => setInternOpen(false)} />
+    </>
   );
 }
 
