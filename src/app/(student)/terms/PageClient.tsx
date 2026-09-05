@@ -42,11 +42,11 @@ export default function TermsOfService() {
     {
       title: '5. Refund Policy',
       content: [
-        'Refund requests must be submitted within 7 days of purchase.',
-        'Refunds are considered on a case-by-case basis.',
-        'No refunds will be issued after course content has been substantially accessed.',
-        'To request a refund, email support@adyapan.com with your order details.',
-        'Approved refunds will be processed within 7"10 business days.',
+        'Registration Fee once paid is strictly non-refundable and non-transferable under any circumstances.',
+        'No refund request will be accepted after 5 days from the date of full payment.',
+        'By making the payment, the student agrees to this condition.',
+        'To request a refund (within the 5-day window), email support@adyapan.com with your order details.',
+        'Approved refunds will be processed within 7–10 business days.',
       ],
     },
     {
