@@ -18,7 +18,7 @@ const FAQS = [
   { q: 'How do I enroll in a course?', a: 'Visit our Programs page, choose your course, and click Enroll Now. Payment is processed securely via Razorpay.' },
   { q: 'Are classes live or recorded?', a: 'All sessions are live and interactive. Recordings are available for revision after each class.' },
   { q: 'Do you provide placement support?', a: 'Yes — resume reviews, mock interviews, and direct recruiter connections are included in every program.' },
-  { q: 'Can I get a refund?', a: 'Refund requests are processed within 7 days of enrollment. Contact support for specific cases.' },
+  { q: 'Can I get a refund?', a: 'No refund reg. Fee and  full payment AF 5 days ' },
 ];
 
 export default function ContactPageClient() {
