@@ -556,10 +556,6 @@ export default function CoursePageClient() {
                         </div>
 
                         <div className="space-y-4">
-                          <div className="rounded-xl border border-orange-100 bg-orange-50 p-4">
-                            <p className="text-xs font-bold uppercase tracking-wide text-orange-700">Practical Lab</p>
-                            <p className="mt-2 text-sm leading-6 text-gray-700">{module.lab}</p>
-                          </div>
                           <div className="rounded-xl border border-green-100 bg-green-50 p-4">
                             <p className="text-xs font-bold uppercase tracking-wide text-green-700">What You Can Show</p>
                             <p className="mt-2 text-sm leading-6 text-gray-700">{module.outcome}</p>
