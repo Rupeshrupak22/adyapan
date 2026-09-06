@@ -158,7 +158,7 @@ const HowItWorksSection = () => {
           {/* Stats card */}
           <div className="absolute -top-6 -left-4 z-10 bg-[#d8e8c8] rounded-2xl px-6 py-4 flex gap-8 shadow-sm">
             <div>
-              <span className="text-3xl font-extrabold text-[#1a1a2e]">5K</span>
+              <span className="text-3xl font-extrabold text-[#1a1a2e]">10K+</span>
               <span className="text-xs text-gray-500 block uppercase tracking-wider mt-0.5">Active Learners</span>
             </div>
             <div className="w-px bg-[#c0d0b0]" />

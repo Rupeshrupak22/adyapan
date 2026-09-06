@@ -43,9 +43,9 @@ export default function CompanyPage() {
 
   const stats = [
     { icon: Users, value: 1000, suffix: '+', label: 'Job-Ready Students' },
-    { icon: Briefcase, value: 500, suffix: '+', label: 'Projects Completed' },
+    { icon: Briefcase, value: 200, suffix: '+', label: 'Projects Completed' },
     { icon: Star, value: 95, suffix: '%', label: 'Success Rate' },
-    { icon: Building2, value: 300, suffix: '+', label: 'Hiring Partners' },
+    { icon: Building2, value: 150, suffix: '+', label: 'Hiring Partners' },
     { icon: Clock, value: 24, suffix: 'H', label: 'Avg. Response Time' },
   ];
   const hireBenefits = ['Access a pool of verified students','View skills, projects & experience','Hire for internships, part-time or full-time','Build your dream team'];
@@ -53,7 +53,7 @@ export default function CompanyPage() {
   const features = [
     { icon: Shield, title: 'Verified Talent', desc: 'Every candidate is assessed and verified for real-world skills before joining our platform.' },
     { icon: Zap, title: 'Fast Hiring', desc: 'Go from posting to hiring in under 24 hours. No lengthy recruitment cycles.' },
-    { icon: TrendingUp, title: 'Proven Track Record', desc: '95% success rate across 500+ completed projects with top companies.' },
+    { icon: TrendingUp, title: 'Proven Track Record', desc: '95% success rate across 200+ completed projects with top companies.' },
     { icon: Users, title: 'Diverse Skill Pool', desc: 'Tech, design, marketing, finance - find talent across 67+ skill domains.' },
     { icon: Briefcase, title: 'Flexible Engagement', desc: 'Hire as interns, freelancers, or full-time. Scale up or down anytime.' },
     { icon: Star, title: 'Quality Guaranteed', desc: 'Not satisfied? We will find you a replacement at no extra cost.' },

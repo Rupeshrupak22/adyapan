@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 
 /* Data */
 const STATS = [
-  '50K+ Students',
+  '10K+ Students',
   '100+ Courses',
   'AI Powered Learning',
   'Career Support',
   'Industry Mentors',
   'Live Projects',
-  '100+ Hiring Partners',
+  '150+ Hiring Partners',
   'Adyapan Certificates',
 ];
 

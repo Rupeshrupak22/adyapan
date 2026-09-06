@@ -237,10 +237,10 @@ function CertificationsSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {[
-            { n: '300+', l: 'Hiring Partners' },
-            { n: '67+',  l: 'Programs' },
+            { n: '150+', l: 'Hiring Partners' },
+            { n: '70+',  l: 'Programs' },
             { n: '10K+', l: 'Certificates Issued' },
-            { n: '95*%',  l: 'Placement Rate' },
+            { n: '95%*', l: 'Placement Rate' },
           ].map(({ n, l }, i) => (
             <div
               key={l}

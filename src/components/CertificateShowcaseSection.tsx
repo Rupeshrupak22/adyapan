@@ -13,7 +13,7 @@ const certificates = [
     description: 'Awarded to students who successfully completed a course at ADYAPAN. Certifies academic excellence, skill development, and career-oriented learning.',
     points: [
       'Validates successful programme completion',
-      'Recognised by 300+ hiring partners',
+      'Recognised by 150+ hiring partners',
       'Includes programme name, duration & domain',
       'Signed by Co-Founder with official seal',
       'Stands as a promise of growth and lifelong learning',

@@ -483,7 +483,7 @@ export default function HireTalentPage() {
               </div>
 
               <div className="bg-[#1a2a4e]/50 rounded-2xl p-6 border border-gray-700">
-                <div className="text-4xl font-black text-[#ffa800] mb-2">500+</div>
+                <div className="text-4xl font-black text-[#ffa800] mb-2">150+</div>
                 <p className="text-gray-300 font-semibold">Partner Companies</p>
                 <p className="text-sm text-gray-500">Hiring Successfully</p>
               </div>

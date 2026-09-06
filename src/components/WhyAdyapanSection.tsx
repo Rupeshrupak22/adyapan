@@ -65,11 +65,11 @@ const WhyAdyapanSection = () => {
             <div className="absolute top-6 right-6 bg-[#c8e6c9] rounded-2xl px-6 py-3 z-10">
               <div className="flex gap-8">
                 <div>
-                  <div className="font-extrabold text-[#1a1a2e] text-xl">20K</div>
+                  <div className="font-extrabold text-[#1a1a2e] text-xl">10K+</div>
                   <div className="text-xs text-[#666] font-semibold">ACTIVE LEARNERS</div>
                 </div>
                 <div>
-                  <div className="font-extrabold text-[#1a1a2e] text-xl">250+</div>
+                  <div className="font-extrabold text-[#1a1a2e] text-xl">150+</div>
                   <div className="text-xs text-[#666] font-semibold">PARTNER COMPANIES</div>
                 </div>
               </div>

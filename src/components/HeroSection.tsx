@@ -321,8 +321,8 @@ function HeroSection() {
             <div className="flex items-center gap-8 flex-wrap">
               {[
                 { n: '10K+', l: 'Students' },
-                { n: '67+',  l: 'Programs' },
-                { n: '95%',  l: 'Placement' },
+                { n: '70+',  l: 'Programs' },
+                { n: '95%*', l: 'Placement' },
               ].map(({ n, l }) => (
                 <div key={l} className="text-white">
                   <div className="font-black text-2xl leading-none">{n}</div>
