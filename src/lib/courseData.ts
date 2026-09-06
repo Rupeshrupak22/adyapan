@@ -18,7 +18,7 @@ export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   'machine learning':               'https://youtu.be/7MVvXm1sgns',
   // Data
   'data science':                   'https://youtu.be/u9KHcqw052o',
-  'data engineering':               'https://youtu.be/tOp2TJkXjdI',
+  'data engineering':               'https://www.youtube.com/@adyapan21',
   'data analytics':                 'https://youtu.be/ylnlLbTjsnU',
   'database management':            'https://www.youtube.com/@adyapan21',
   'data structures':                'https://www.youtube.com/@adyapan21',
@@ -34,8 +34,8 @@ export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   'java full stack':                'https://www.youtube.com/watch?v=frCcSHS3Rio',
   'selenium testing':               'https://www.youtube.com/@adyapan21',
   // Cloud / DevOps
-  'devops engineering':             'https://youtu.be/YEhpSfLNhe0',
-  'devops':                         'https://youtu.be/YEhpSfLNhe0',
+  'devops engineering':             'https://www.youtube.com/@adyapan21',
+  'devops':                         'https://www.youtube.com/@adyapan21',
   'cloud computing':                'https://youtu.be/KEt387h652I',
   'amazon web services':            'https://youtu.be/aM9IYYiA2TY',
   'aws':                            'https://youtu.be/aM9IYYiA2TY',
@@ -80,7 +80,7 @@ export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   'vlsi':                           'https://youtu.be/xSb5VH_3kH8',
   'iot':                            'https://www.youtube.com/@adyapan21',
   'robotics':                       'https://www.youtube.com/@adyapan21',
-  'power systems':                  'https://www.youtube.com/watch?v=27r9XUgbljQ',
+  'power systems':                  'https://www.youtube.com/@adyapan21',
   // Economics
   'business & financial economics': 'https://www.youtube.com/@adyapan21',
   'data analysis for economics':    'https://www.youtube.com/@adyapan21',
