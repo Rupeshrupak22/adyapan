@@ -10,6 +10,8 @@ import { s3Url } from '@/lib/s3Url';
 export const YOUTUBE_CHANNEL_ID = 'UCWXy5qiG6WqTrHq14KR4Bmg';
 export const YOUTUBE_UPLOADS_PLAYLIST_ID = 'UUWXy5qiG6WqTrHq14KR4Bmg';
 
+// Only courses with a verified, correctly-matched YouTube video ID.
+// Courses with no specific video are intentionally omitted — the iframe is hidden for them.
 export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   // AI / ML
   'artificial intelligence':        'https://youtu.be/psK_6baeBVM',
@@ -18,95 +20,50 @@ export const YOUTUBE_VIDEO_MAP: Record<string, string> = {
   'machine learning':               'https://youtu.be/7MVvXm1sgns',
   // Data
   'data science':                   'https://youtu.be/u9KHcqw052o',
-  'data engineering':               'https://www.youtube.com/@adyapan21',
   'data analytics':                 'https://youtu.be/ylnlLbTjsnU',
-  'database management':            'https://www.youtube.com/@adyapan21',
-  'data structures':                'https://www.youtube.com/@adyapan21',
   'business analytics':             'https://youtu.be/C4eGK63uHQs',
   // Web / Dev
   'web development':                'https://youtu.be/rUmsWcxtCF4',
   'web 3.0':                        'https://youtu.be/TMMYc2Xy71w',
   'web 3':                          'https://youtu.be/TMMYc2Xy71w',
-  'app development':                'https://www.youtube.com/@adyapan21',
   'python full stack':              'https://youtu.be/7sV0xpH5mBg',
   'python programming':             'https://youtu.be/-6oPsFnwL1Q',
   'java programming':               'https://www.youtube.com/watch?v=frCcSHS3Rio',
   'java full stack':                'https://www.youtube.com/watch?v=frCcSHS3Rio',
-  'selenium testing':               'https://www.youtube.com/@adyapan21',
-  // Cloud / DevOps
-  'devops engineering':             'https://www.youtube.com/@adyapan21',
-  'devops':                         'https://www.youtube.com/@adyapan21',
+  // Cloud / Security
   'cloud computing':                'https://youtu.be/KEt387h652I',
   'amazon web services':            'https://youtu.be/aM9IYYiA2TY',
   'aws':                            'https://youtu.be/aM9IYYiA2TY',
-  // Security / Blockchain
   'cyber security':                 'https://www.youtube.com/watch?v=l2P6qQ-JTWY',
+  // Blockchain / Design
   'blockchain & bitcoin':           'https://youtu.be/h72Y6RbCZLU',
   'blockchain':                     'https://youtu.be/h72Y6RbCZLU',
   'bitcoin':                        'https://youtu.be/h72Y6RbCZLU',
-  // Design
   'ar/vr development':              'https://youtu.be/xIHZD3YoW3g',
   'ar/vr':                          'https://youtu.be/xIHZD3YoW3g',
   'ar vr':                          'https://youtu.be/xIHZD3YoW3g',
   'ui/ux design':                   'https://youtu.be/jCaAYmHnnHw',
   'ui/ux':                          'https://youtu.be/jCaAYmHnnHw',
   'ui ux':                          'https://youtu.be/jCaAYmHnnHw',
-  'graphic design':                 'https://www.youtube.com/@adyapan21',
-  'vfx':                            'https://www.youtube.com/@adyapan21',
   // Management / Commerce
   'finance':                        'https://youtu.be/qZctuN6wHfA',
-  'investment banking':             'https://www.youtube.com/@adyapan21',
-  'investment analysis':            'https://www.youtube.com/@adyapan21',
-  'financial economics':            'https://www.youtube.com/@adyapan21',
-  'chartered accountancy':          'https://www.youtube.com/@adyapan21',
   'acca f4':                        'https://youtu.be/ujUeNUhFOz0',
   'acca':                           'https://youtu.be/ujUeNUhFOz0',
-  'marketing management':           'https://www.youtube.com/@adyapan21',
-  'digital marketing':              'https://www.youtube.com/@adyapan21',
-  'social media marketing':         'https://www.youtube.com/@adyapan21',
   'hrm':                            'https://www.youtube.com/watch?v=y7wnUmnECTU',
   'human resource':                 'https://www.youtube.com/watch?v=y7wnUmnECTU',
-  'management consultancy':         'https://www.youtube.com/@adyapan21',
-  'supply chain':                   'https://www.youtube.com/@adyapan21',
-  'sap fica':                       'https://www.youtube.com/@adyapan21',
-  'salesforce':                     'https://www.youtube.com/@adyapan21',
-  'stock marketing':                'https://www.youtube.com/@adyapan21',
-  'spoken english':                 'https://www.youtube.com/@adyapan21',
   // ECE
   'embedded systems':               'https://youtu.be/HsICMiee2DM',
-  'hybrid and electric vehicle':    'https://www.youtube.com/@adyapan21',
-  'hybrid':                         'https://www.youtube.com/@adyapan21',
-  'electric vehicle':               'https://www.youtube.com/@adyapan21',
   'vlsi':                           'https://youtu.be/xSb5VH_3kH8',
-  'iot':                            'https://www.youtube.com/@adyapan21',
-  'robotics':                       'https://www.youtube.com/@adyapan21',
-  'power systems':                  'https://www.youtube.com/@adyapan21',
-  // Economics
-  'business & financial economics': 'https://www.youtube.com/@adyapan21',
-  'data analysis for economics':    'https://www.youtube.com/@adyapan21',
   // Mechanical
   'autocad':                        'https://youtu.be/6rbw-l_B4EI',
-  'catia':                          'https://www.youtube.com/@adyapan21',
-  'car design':                     'https://www.youtube.com/@adyapan21',
-  'quality':                        'https://www.youtube.com/@adyapan21',
   // Bio & Life Sciences
   'bioinformatics':                 'https://www.youtube.com/watch?v=YKfhLqtWtEc',
   'microbiology':                   'https://www.youtube.com/watch?v=0YMd8eCm1KQ',
   'molecular biology':              'https://www.youtube.com/watch?v=_xzXGKukdug',
-  'genetic engineering':            'https://www.youtube.com/@adyapan21',
-  'pharmacovigilance':              'https://www.youtube.com/@adyapan21',
   'nanotechnology':                 'https://youtu.be/KhHUeokRGlg',
   'nano technology':                'https://youtu.be/KhHUeokRGlg',
   'nano tech':                      'https://youtu.be/KhHUeokRGlg',
-  'food science':                   'https://www.youtube.com/@adyapan21',
-  'nutrition':                      'https://www.youtube.com/@adyapan21',
-  'sensory science':                'https://www.youtube.com/@adyapan21',
   'medical coding':                 'https://www.youtube.com/watch?v=lSJgOAfWUmw&t=751s',
-  // Civil
-  'construction':                   'https://www.youtube.com/@adyapan21',
-  'civil':                          'https://www.youtube.com/@adyapan21',
-  // Other engineering videos currently available on the channel
-  'chemical engineering':           'https://www.youtube.com/watch?v=DSKIlN7bbaA',
 };
 
 /** Default YouTube channel URL */
@@ -114,31 +71,27 @@ export const DEFAULT_YOUTUBE_URL = 'https://www.youtube.com/@adyapan21';
 
 /**
  * Given a course title, return the YouTube video URL.
- * Returns channel URL as fallback.
+ * Returns null if no specific video is mapped for this course.
  */
-export function getYouTubeUrl(title: string): string {
+export function getYouTubeUrl(title: string): string | null {
   const lower = title.toLowerCase();
   const keys = Object.keys(YOUTUBE_VIDEO_MAP).sort((a, b) => b.length - a.length);
   for (const key of keys) {
     if (lower.includes(key)) return YOUTUBE_VIDEO_MAP[key];
   }
-  return DEFAULT_YOUTUBE_URL;
+  return null;
 }
 
 /**
- * Extract YouTube video ID from URL or return the official uploads playlist.
+ * Extract YouTube embed URL from a specific video URL.
+ * Returns null if no specific video is mapped — caller should hide the iframe.
  */
-export function getYouTubeEmbedUrl(title: string): string {
+export function getYouTubeEmbedUrl(title: string): string | null {
   const url = getYouTubeUrl(title);
-  
-  // If only the channel is mapped, embed the official uploads playlist.
-  if (url.includes('@adyapan21') || url.includes('/channel/') || url.includes('/c/')) {
-    return `https://www.youtube.com/embed/videoseries?list=${YOUTUBE_UPLOADS_PLAYLIST_ID}`;
-  }
-  
-  // Extract video ID from various YouTube URL formats
+  if (!url) return null;
+
   let videoId = '';
-  
+
   // Format: https://www.youtube.com/watch?v=VIDEO_ID
   if (url.includes('watch?v=')) {
     videoId = url.split('watch?v=')[1].split('&')[0];
@@ -151,8 +104,8 @@ export function getYouTubeEmbedUrl(title: string): string {
   else if (url.includes('/embed/')) {
     videoId = url.split('/embed/')[1].split('?')[0];
   }
-  
-  return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 }
 
 // â"€â"€â"€ Thumbnail mapping: course name keywords -> local thumbnail file â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
