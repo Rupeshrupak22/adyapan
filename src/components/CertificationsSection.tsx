@@ -12,12 +12,6 @@ const partners = [
     color: '#4285F4',
   },
   {
-    name: 'Apple',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
-    bg: '#f9fafb',
-    color: '#1d1d1f',
-  },
-  {
     name: 'Microsoft',
     img: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg',
     bg: '#f3f4f6',
@@ -28,6 +22,18 @@ const partners = [
     img: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
     bg: '#fffbeb',
     color: '#FF9900',
+  },
+  {
+    name: 'Wipro',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg',
+    bg: '#f0fdf4',
+    color: '#341C5B',
+  },
+  {
+    name: 'Infosys',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg',
+    bg: '#eff6ff',
+    color: '#007CC3',
   },
   {
     name: 'Adobe',
@@ -46,6 +52,12 @@ const partners = [
     img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg',
     bg: '#eff6ff',
     color: '#1BA0D7',
+  },
+  {
+    name: 'Apple',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+    bg: '#f9fafb',
+    color: '#1d1d1f',
   },
 ];
 
@@ -171,12 +183,12 @@ function CertificationsSection() {
 
         {/* PARTNERS */}
         <div className="text-center mb-12">
-          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Certificate Partners</span>
+          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Recruitment Partners</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mt-3 mb-4">
-            Our <span className="text-orange-500">Certificate Partners</span>
+            Our Top <span className="text-orange-500">Recruitment Partners</span>
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Earn certificates co-branded with the world's most recognised technology companies.
+            Our students are hired by the world's most recognised technology companies.
           </p>
         </div>
       </div>

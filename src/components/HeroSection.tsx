@@ -331,6 +331,26 @@ function HeroSection() {
               ))}
             </div>
 
+            {/* Hiring Partners */}
+            <div>
+              <div className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Top Hiring Partners</div>
+              <div className="flex items-center gap-3 flex-wrap">
+                {[
+                  { name: 'Wipro',   img: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg' },
+                  { name: 'Infosys', img: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg' },
+                ].map(({ name, img }) => (
+                  <div
+                    key={name}
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
+                  >
+                    <img src={img} alt={name} className="h-5 w-auto object-contain brightness-0 invert" />
+                    <span className="text-white text-xs font-bold">{name}</span>
+                  </div>
+                ))}
+                <div className="text-white/40 text-xs font-medium">+ 148 more</div>
+              </div>
+            </div>
+
             {/* Apply for Internship button */}
             <div>
               <button
