@@ -240,7 +240,7 @@ function CertificationsSection() {
             { n: '300+', l: 'Hiring Partners' },
             { n: '67+',  l: 'Programs' },
             { n: '10K+', l: 'Certificates Issued' },
-            { n: '95%',  l: 'Placement Rate' },
+            { n: '95*%',  l: 'Placement Rate' },
           ].map(({ n, l }, i) => (
             <div
               key={l}

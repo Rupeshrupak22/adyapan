@@ -495,7 +495,7 @@ export default function AboutPageClient() {
             {[
               { number: '20K+', label: 'Students Trained' },
               { number: '70+', label: 'Programs Offered' },
-              { number: '95%', label: 'Placement Rate' },
+              { number: '95%*', label: 'Placement Rate' },
               { number: '250+', label: 'Partner Companies' }
             ].map((stat, i) => (
               <div

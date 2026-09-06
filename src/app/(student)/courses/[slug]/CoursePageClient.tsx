@@ -475,7 +475,7 @@ export default function CoursePageClient() {
             {[
               { icon: Users, label: 'Students Enrolled', value: '10,000+' },
               { icon: Clock, label: 'Course Duration', value: course.duration },
-              { icon: Award, label: 'Placement Rate', value: '95%' },
+              { icon: Award, label: 'Placement Rate', value: '95%*' },
               { icon: BookOpen, label: 'Live Sessions', value: '40+' },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="text-center p-4 rounded-xl bg-gray-50">

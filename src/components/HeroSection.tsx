@@ -29,7 +29,7 @@ const cards = [
   {
     img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop',
     label: 'Placement',
-    sub: '100% Placed',
+    sub: '95% Placed*',
     tag: 'Placement',
   },
 ];
