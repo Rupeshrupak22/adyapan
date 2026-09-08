@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -32,6 +34,11 @@ const nextConfig = {
   reactStrictMode: true,
   devIndicators:   false,
   transpilePackages: ['axios'],
+
+  // ─── Output file tracing root ─────────────────────────────────────────────
+  // Required when Next.js lives in a subdirectory (frontend/) on Vercel.
+  // Fixes: "middleware.js.nft.json not found" build error.
+  outputFileTracingRoot: path.join(__dirname, '../'),
 
   // ─── Image optimisation ──────────────────────────────────────────────────
   images: {
