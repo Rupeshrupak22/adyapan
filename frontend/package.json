@@ -4,20 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "next build",
     "start": "next start",
     "backend": "node backend/server.js",
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "seed:atlas": "node scripts/seed-atlas.js",
-    "seed:certificates": "node scripts/seed-certificates.js",
-    "seed:admin": "node scripts/seed-admin.js",
-    "seed:organization-users": "node scripts/seed-organization-users.js",
-    "seed:jobs": "node scripts/seedJobs.js",
-    "db:check": "node scripts/check-database-data.js",
-    "db:seed-recruiter": "node scripts/seed-sample-data.js"
+    "seed:atlas": "node ../database/scripts/seed-atlas.js",
+    "seed:certificates": "node ../database/scripts/seed-certificates.js",
+    "seed:admin": "node ../database/scripts/seed-admin.js",
+    "seed:organization-users": "node ../database/scripts/seed-organization-users.js",
+    "seed:jobs": "node ../database/scripts/seedJobs.js",
+    "db:check": "node ../database/scripts/check-database-data.js",
+    "db:seed-recruiter": "node ../database/scripts/seed-sample-data.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1091.0",
