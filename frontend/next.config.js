@@ -1,5 +1,3 @@
-const path = require('path');
-
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -35,10 +33,18 @@ const nextConfig = {
   devIndicators:   false,
   transpilePackages: ['axios'],
 
-  // ─── Output file tracing root ─────────────────────────────────────────────
-  // Required when Next.js lives in a subdirectory (frontend/) on Vercel.
-  // Fixes: "middleware.js.nft.json not found" build error.
-  outputFileTracingRoot: path.join(__dirname, '../'),
+  // ─── Server external packages ─────────────────────────────────────────────
+  // These packages are excluded from edge runtime bundling
+  // Prevents middleware.js.nft.json generation failure on Vercel
+  serverExternalPackages: [
+    'argon2',
+    'bcrypt',
+    '@aws-sdk/client-s3',
+    '@aws-sdk/s3-request-presigner',
+    'pdfkit',
+    'mongoose',
+    'nodemailer',
+  ],
 
   // ─── Image optimisation ──────────────────────────────────────────────────
   images: {
