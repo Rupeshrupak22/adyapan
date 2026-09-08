@@ -1,205 +1,193 @@
-﻿# Adyapan EdTech Platform
+﻿# Adyapan — EdTech Platform
 
-A modern, full-stack EdTech platform built with Next.js, featuring comprehensive authentication, dynamic content, and professional UI/UX design.
+> A full-stack EdTech platform offering 65+ industry-aligned courses with placement support, live mentorship, and certification.
 
-## ðŸš€ Features
-
-### ðŸ” **Authentication System**
-- Complete user authentication with JWT tokens
-- Secure password hashing with bcrypt
-- HTTP-only cookies for enhanced security
-- Protected routes and middleware
-- Password reset functionality
-- Role-based access (Students & Organizations)
-
-### ðŸŽ¨ **Modern UI/UX**
-- Responsive design with Tailwind CSS
-- Smooth animations with Framer Motion
-- Professional dark/light theme variations
-- Interactive components and micro-interactions
-- Background video integration
-- Mobile-first approach
-
-### ðŸ“± **Pages & Features**
-- **Home Page**: Hero section with dynamic content
-- **About Us**: Company story with founder profiles
-- **Company Pages**: Dedicated B2B experience
-- **Campus Ambassador**: Professional recruitment program
-- **Authentication**: Login/Signup with form validation
-- **Dashboard**: User-specific content areas
-
-### ðŸ›  **Technical Stack**
-- **Frontend**: Next.js 14, React, TypeScript
-- **Styling**: Tailwind CSS, Framer Motion
-- **Authentication**: JWT, bcrypt, HTTP-only cookies
-- **Database**: Prisma ORM (ready for PostgreSQL/MySQL)
-- **Deployment**: Vercel-ready configuration
-
-## ðŸ— **Project Structure**
-
-```
-src/
-â”œâ”€â”€ app/                    # Next.js App Router
-â”‚   â”œâ”€â”€ api/               # API routes
-â”‚   â”‚   â””â”€â”€ auth/          # Authentication endpoints
-â”‚   â”œâ”€â”€ auth/              # Authentication pages
-â”‚   â”œâ”€â”€ about/             # About Us pages
-â”‚   â”œâ”€â”€ company/           # Company-specific pages
-â”‚   â””â”€â”€ dashboard/         # User dashboards
-â”œâ”€â”€ components/            # Reusable UI components
-â”œâ”€â”€ context/              # React Context providers
-â”œâ”€â”€ hooks/                # Custom React hooks
-â”œâ”€â”€ lib/                  # Utility functions
-â””â”€â”€ types/                # TypeScript type definitions
-```
-
-## ðŸš€ **Getting Started**
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Git
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/adyapan-edtech-platform.git
-   cd adyapan-edtech-platform
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Update `.env.local` with real values from your deployment providers. Do not commit real secrets.
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-## ðŸ“¦ **Available Scripts**
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run type-check   # Run TypeScript compiler
-```
-
-## ðŸ”§ **Configuration**
-
-### Database Setup
-```bash
-# Generate Prisma client
-npx prisma generate
-
-# Run database migrations
-npx prisma db push
-
-# Open Prisma Studio
-npx prisma studio
-```
-
-### Authentication Configuration
-The platform uses JWT-based authentication with the following features:
-- Secure password hashing
-- HTTP-only cookie storage
-- Automatic token refresh
-- Role-based access control
-
-## ðŸŽ¯ **Key Features Implemented**
-
-### âœ… **Authentication System**
-- [x] User registration and login
-- [x] JWT token management
-- [x] Password reset functionality
-- [x] Protected routes
-- [x] Role-based access
-
-### âœ… **UI/UX Design**
-- [x] Responsive design
-- [x] Dark/Light theme support
-- [x] Smooth animations
-- [x] Professional layouts
-- [x] Interactive components
-
-### âœ… **Content Management**
-- [x] Dynamic page content
-- [x] Company profiles
-- [x] User dashboards
-- [x] Campus ambassador program
-
-## ðŸš€ **Deployment**
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Configure environment variables
-4. Deploy automatically on every push
-
-### Manual Deployment
-```bash
-npm run build
-npm run start
-```
-
-## ðŸ¤ **Contributing**
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## ðŸ“„ **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ðŸ‘¥ **Team**
-
-- **Sai Charan** - Founder
-- **Niranjan Reddy** - Co-Founder
-- **Dr. Dhiraj Singh** - Head, Training & Placement Cell
-- **Gunjan Avasthi** - Human Resource Manager
-
-## ðŸ“ž **Contact**
-
-For any inquiries about this project:
-- Website: [Adyapan EdTech Platform](https://your-domain.com)
-- Email: contact@adyapan.com
-
-## Security Setup Before Deployment
-
-Copy `.env.example` to `.env.local` for local development and configure matching environment variables in your production host. Use real values only in environment settings, never in Git.
-
-Required production values include `MONGODB_URI`, `JWT_SECRET`, `COOKIE_SECRET`, `ADMIN_EMAIL`, `ADMIN_ACCESS_KEY`, Razorpay keys, email credentials, Cloudinary keys, and Cloudflare Turnstile keys if CAPTCHA is enabled.
-
-Admin access is restricted to `/admin/login` and requires email, password, and the admin access key. Payments must be verified by backend API routes only; never trust frontend payment status.
-
-Before pushing to GitHub, run:
-
-```bash
-git ls-files | rg "(^|/)node_modules/|^\\.env$|^\\.next/|\\.log$|tsbuildinfo$"
-```
-
-The command should print nothing.
+[![Frontend CI](https://github.com/Rupeshrupak22/adyapan/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/Rupeshrupak22/adyapan/actions/workflows/frontend-ci.yml)
+[![Backend CI](https://github.com/Rupeshrupak22/adyapan/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/Rupeshrupak22/adyapan/actions/workflows/backend-ci.yml)
 
 ---
 
-**Built with â¤ï¸ by the Adyapan Team**"# adyapan1" 
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 14, React 18, TypeScript, Tailwind CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas (Mongoose) |
+| Auth | JWT, Google OAuth |
+| Payments | Razorpay (Live) |
+| Email | Resend, SendGrid |
+| Storage | AWS S3 |
+| Frontend Deploy | Vercel |
+| Backend Deploy | Render |
+
+---
+
+## Project Structure
+
+```
+adyapan/
+│
+├── frontend/                    # Next.js web application (→ Vercel)
+│   ├── src/
+│   │   ├── app/                 # Next.js App Router (pages & API routes)
+│   │   │   ├── (student)/       # Student-facing pages
+│   │   │   ├── admin/           # Admin panel
+│   │   │   ├── superadmin/      # Superadmin panel
+│   │   │   ├── organization/    # Recruiter / company portal
+│   │   │   └── api/             # Next.js API routes
+│   │   ├── components/          # Reusable UI components
+│   │   ├── models/              # Mongoose models (TypeScript)
+│   │   ├── lib/                 # DB connection, auth, email utilities
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── context/             # React context providers
+│   │   ├── types/               # Global TypeScript types
+│   │   └── utils/               # Helper functions
+│   ├── public/                  # Static assets
+│   ├── .env                     # Frontend environment variables
+│   ├── next.config.js
+│   ├── middleware.ts             # Auth middleware
+│   ├── tailwind.config.js
+│   └── package.json
+│
+├── backend/                     # Express REST API (→ Render)
+│   ├── src/
+│   │   ├── config/              # DB, S3, Razorpay configs
+│   │   ├── controllers/         # Route handler logic
+│   │   ├── middleware/          # Auth, error handling, file upload
+│   │   ├── models/              # Mongoose models (JavaScript)
+│   │   ├── routes/              # Express route definitions
+│   │   ├── utils/               # Email templates, media utils
+│   │   └── scripts/             # Admin seed scripts
+│   ├── .env                     # Backend environment variables
+│   ├── server.js                # Express app entry point
+│   └── package.json
+│
+├── database/                    # Database utilities & migrations
+│   ├── scripts/                 # Seed scripts, data migration
+│   └── prisma/                  # Prisma schema (SQLite dev)
+│
+├── .github/
+│   ├── workflows/
+│   │   ├── frontend-ci.yml      # Lint + build on every push
+│   │   ├── backend-ci.yml       # Lint + auto deploy to Render
+│   │   └── security-scan.yml    # Weekly npm audit + secret scan
+│   └── PULL_REQUEST_TEMPLATE.md
+│
+├── .gitignore
+└── README.md
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm 9+
+- MongoDB Atlas account
+- Render account (backend)
+- Vercel account (frontend)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Rupeshrupak22/adyapan.git
+cd adyapan
+```
+
+### 2. Setup Frontend
+
+```bash
+cd frontend
+cp .env.example .env
+# Fill in your values in .env
+npm install
+npm run dev
+```
+
+Frontend runs at: `http://localhost:3000`
+
+### 3. Setup Backend
+
+```bash
+cd backend
+cp .env.example .env
+# Fill in your values in .env
+npm install
+npm run dev
+```
+
+Backend runs at: `http://localhost:5000`
+
+---
+
+## Environment Variables
+
+| File | Purpose |
+|------|---------|
+| `frontend/.env` | Next.js, Auth, DB, Payments (public keys) |
+| `backend/.env` | Express, DB, Payments (secret keys), Email |
+| `database/.env` | Seed scripts, DB connection |
+
+See `.env.example` in each folder for required variables.
+
+---
+
+## Deployment
+
+### Frontend → Vercel
+1. Connect GitHub repo to Vercel
+2. Set **Root Directory** = `frontend`
+3. Add all env vars from `frontend/.env.example`
+
+### Backend → Render
+1. Connect GitHub repo to Render
+2. Set **Root Directory** = `backend`
+3. Set **Build Command** = `npm install`
+4. Set **Start Command** = `node server.js`
+5. Add all env vars from `backend/.env.example`
+
+---
+
+## API Overview
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | User registration |
+| POST | `/api/auth/login` | User login |
+| GET | `/api/courses` | List all courses |
+| GET | `/api/courses/:slug` | Get course by slug |
+| POST | `/api/payments/create-order` | Create Razorpay order |
+| POST | `/api/payments/verify` | Verify payment |
+| GET | `/api/enrollments` | Get user enrollments |
+| POST | `/api/admin/login` | Admin login (3-factor) |
+
+---
+
+## Key Features
+
+- **65+ Courses** across CSE, Management, ECE, Bio Sciences, Civil Engineering
+- **3-Factor Admin Auth** — Email + Password + Access Key (SHA-256)
+- **Razorpay Live Payments** with webhook verification
+- **AWS S3** for course thumbnails, brochures, certificates
+- **Role-based Access** — Student, Admin, SuperAdmin, Recruiter
+- **PDF Certificate Generation** with unique verification codes
+- **Google OAuth** login
+- **Resend Email** for transactional emails
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m "feat: add your feature"`
+4. Push to branch: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+---
+
+## License
+
+Private — All rights reserved © 2026 Adyapan Skills Pvt. Ltd.
