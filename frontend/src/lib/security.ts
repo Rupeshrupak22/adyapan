@@ -109,7 +109,9 @@ export function isSpamSubmission(body: Record<string, unknown>): boolean {
 
 export async function verifyTurnstileToken(token: string | undefined, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
+  // If no secret configured, skip verification entirely (no Turnstile widget on form)
   if (!secret || secret.includes('placeholder') || secret.includes('your_')) return true;
+  // Secret is configured but no token sent — fail
   if (!token) return false;
 
   try {

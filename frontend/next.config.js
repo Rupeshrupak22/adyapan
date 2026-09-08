@@ -10,9 +10,9 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://challenges.cloudflare.com",
-      "style-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: blob: https:",
-      "font-src 'self' data:",
+      "font-src 'self' data: https://fonts.gstatic.com",
       "media-src 'self' data: blob: https: https://*.amazonaws.com https://adyapan-website-storage.s3.ap-south-1.amazonaws.com",
       "connect-src 'self' https://api.razorpay.com https://*.mongodb.net https://challenges.cloudflare.com https://*.amazonaws.com https://adyapan-website-storage.s3.ap-south-1.amazonaws.com",
       "frame-src https://api.razorpay.com https://checkout.razorpay.com https://challenges.cloudflare.com https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
