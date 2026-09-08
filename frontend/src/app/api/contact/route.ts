@@ -21,7 +21,7 @@ const ContactSchema = z.object({
   email: z.string().refine(isStrictEmail, strictEmailMessage()).transform(normalizeEmail),
   phone: z.string().max(20).optional().default('').transform((v) => cleanText(v ?? '', 20)),
   subject: z.string().min(1).max(150).transform((v) => cleanText(v, 150)),
-  message: z.string().min(10).max(2000).transform((v) => cleanText(v, 2000)),
+  message: z.string().min(1).max(2000).transform((v) => cleanText(v, 2000)),
   cfTurnstileToken: z.string().optional(),
 });
 
