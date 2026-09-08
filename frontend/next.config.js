@@ -70,11 +70,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // ─── Experimental performance features ───────────────────────────────────
-  experimental: {
-    optimizePackageImports: ['framer-motion', 'recharts'],
-  },
-
   // ─── Security & Caching Headers ──────────────────────────────────────────
   async headers() {
     return [
