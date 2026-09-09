@@ -20,7 +20,7 @@ const mongoSanitize      = require('express-mongo-sanitize');
 const cookieParser       = require('cookie-parser');
 const dotenv             = require('dotenv');
 const path               = require('path');
-const connectDB          = require('./config/db');
+const connectDB          = require('./src/config/db');
 
 // ── Load environment variables ────────────────────────────────
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -37,17 +37,17 @@ if (missingEnv.length > 0) {
 }
 
 // ── Pre-load all Mongoose models ──────────────────────────────
-require('./models/index');
+require('./src/models/index');
 
 // ── Routes ────────────────────────────────────────────────────
 const userRoutes           = require('./src/routes/userRoutes');
-const paymentRoutes        = require('./routes/paymentRoutes');
-const projectRequestRoutes = require('./routes/projectRequestRoutes');
-const authRoutes           = require('./routes/authRoutes');
-const courseRoutes         = require('./routes/courseRoutes');
-const enrollmentRoutes     = require('./routes/enrollmentRoutes');
-const adminRoutes          = require('./routes/adminRoutes');
-const uploadRoutes         = require('./routes/uploadRoutes');
+const paymentRoutes        = require('./src/routes/paymentRoutes');
+const projectRequestRoutes = require('./src/routes/projectRequestRoutes');
+const authRoutes           = require('./src/routes/authRoutes');
+const courseRoutes         = require('./src/routes/courseRoutes');
+const enrollmentRoutes     = require('./src/routes/enrollmentRoutes');
+const adminRoutes          = require('./src/routes/adminRoutes');
+const uploadRoutes         = require('./src/routes/uploadRoutes');
 
 const app  = express();
 const PORT = process.env.PORT || process.env.BACKEND_PORT || 5000;
