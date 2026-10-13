@@ -72,7 +72,7 @@ function CertificateShowcaseSection() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Adyapan Schools</span>
+          <span className="text-xs font-bold text-orange-500 uppercase tracking-widest">Adyapans</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1a1a2e] mt-2 mb-3">
             Work-Ready Certification
           </h2>

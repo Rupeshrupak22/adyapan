@@ -52,7 +52,7 @@ const talents = [
     certifications: ['NPTEL: Management Information System','LinuxWorld Pvt Ltd: JAZBAA 4.0 Webinar'],
   },
   {
-    name: 'Vinay Kumar', company: 'Adyapan School', role: 'Full Stack Developer',
+    name: 'Vinay Kumar', company: 'Adyapan', role: 'Full Stack Developer',
     status: 'placed', placed: true, availability: 'Not Available', packageExpectation: 'Not disclosed',
     skills: ['Python','Java','C++','R','SQL','JavaScript','Node.js','Express.js','REST API','PostgreSQL','MySQL','Supabase','ETL','Power BI','DAX','Power Query','Tableau','Excel','Git','GitHub','Postman','Docker','AWS','OOP','DSA'],
     education: 'B.Tech CSE, Lovely Professional University, Since Aug 2022, CGPA 7.00/10',
@@ -64,7 +64,7 @@ const talents = [
     email: 'vinayrailkw@gmail.com', phone: '+91-8558877045',
     location: 'Punjab, India', resumeUrl: '',
     objective: 'Full-stack data analytics developer experienced in building REST APIs, dashboards, ETL workflows, and scalable data-driven applications. Strong foundation in DSA, SQL, backend development, and BI.',
-    profileSummary: 'Placed Full Stack Developer at Adyapan School. Skilled in Node.js, Express.js, PostgreSQL, Supabase, Power BI, and data analytics. Built REST APIs, ETL pipelines, and BI dashboards.',
+    profileSummary: 'Placed Full Stack Developer at Adyapan. Skilled in Node.js, Express.js, PostgreSQL, Supabase, Power BI, and data analytics. Built REST APIs, ETL pipelines, and BI dashboards.',
     experience: [
       {
         company: 'CipherSchools & LPU', role: 'DSA Intern', duration: 'Aug 2022 â€“ Dec 2022', location: 'Punjab, India',

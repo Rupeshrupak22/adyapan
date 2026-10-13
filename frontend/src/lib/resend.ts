@@ -49,7 +49,7 @@ function getConfig() {
   const apiKey = clean(process.env.RESEND_API_KEY);
   const adminEmail = clean(process.env.ADMIN_EMAIL);
   const fromEmail = clean(process.env.RESEND_FROM_EMAIL) || 'onboarding@resend.dev';
-  const fromName = clean(process.env.RESEND_FROM_NAME) || 'Adyapan School';
+  const fromName = clean(process.env.RESEND_FROM_NAME) || 'Adyapan';
 
   if (!apiKey || apiKey === 'ADD_NEW_RESEND_API_KEY_HERE') {
     devLog('[Resend] RESEND_API_KEY is not configured. Skipping email notification.');
@@ -149,7 +149,7 @@ function studentHtml(name: string) {
               </td>
             </tr>
             <tr>
-              <td style="padding:16px 28px;background:#111827;color:#f9fafb;font-size:12px;">Adyapan School</td>
+              <td style="padding:16px 28px;background:#111827;color:#f9fafb;font-size:12px;">Adyapan</td>
             </tr>
           </table>
         </td>
