@@ -134,15 +134,14 @@ export async function GET(request: NextRequest) {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 12);
 
-    const fallbackUnread = isAdmin && portal === 'admin'
-      ? await Promise.all([
-          ContactMessage.countDocuments({ status: 'new' }),
-          CertificationEnrollment.countDocuments({ status: 'new' }),
-          OfflineInternshipLead.countDocuments({ status: 'new' }),
-        ]).then(counts => counts.reduce((sum, count) => sum + count, 0))
-      : 0;
-
-    const unreadCount = since ? items.filter(item => item.isNew).length : fallbackUnread;
+    // Unread is purely time-based: count items created after the client's
+    // last-seen timestamp. When the client has never seen notifications yet
+    // (no `since`), treat everything currently shown as unread so the first
+    // badge is meaningful — but once the user marks read, `since` advances and
+    // the count clears for good (no status-based count that can't be cleared).
+    const unreadCount = since
+      ? items.filter(item => item.isNew).length
+      : items.length;
     const latestAt = items[0]?.createdAt || new Date().toISOString();
 
     return NextResponse.json({ success: true, items, unreadCount, latestAt });

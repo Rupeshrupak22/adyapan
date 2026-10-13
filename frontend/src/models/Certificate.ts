@@ -18,6 +18,8 @@ export interface CertificateDocument {
   status: 'ready' | 'pending';
   emailSent: boolean;
   emailSentAt?: Date;
+  emailSentBy?: string;
+  emailSentCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -50,6 +52,8 @@ const certificateSchema = new Schema<CertificateDocument>(
     status:          { type: String, enum: ['ready', 'pending'], default: 'pending', index: true },
     emailSent:       { type: Boolean, default: false },
     emailSentAt:     { type: Date },
+    emailSentBy:     { type: String, default: '' },  // admin name/email who sent it
+    emailSentCount:  { type: Number, default: 0 },   // how many times emailed
   },
   { timestamps: true }
 );

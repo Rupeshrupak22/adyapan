@@ -169,6 +169,11 @@ export async function sendLeadNotificationEmails(payload: LeadNotificationPayloa
   const studentEmail = clean(payload.email);
   const studentName = clean(payload.name) || 'there';
 
+  // To conserve the email quota, the student "Thank you" auto-reply is OFF by
+  // default. Only the admin notification is sent for every lead. Set
+  // LEAD_STUDENT_AUTOREPLY=true to re-enable the student acknowledgement email.
+  const studentAutoReply = String(process.env.LEAD_STUDENT_AUTOREPLY || '').toLowerCase() === 'true';
+
   try {
     const tasks = [
       resend.emails.send({
@@ -180,7 +185,7 @@ export async function sendLeadNotificationEmails(payload: LeadNotificationPayloa
       }),
     ];
 
-    if (studentEmail) {
+    if (studentAutoReply && studentEmail) {
       tasks.push(
         resend.emails.send({
           from: config.from,

@@ -124,15 +124,20 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
       );
     }
 
-    // Mark as emailed
+    // Mark as emailed — record when, by whom, and how many times
+    const sentAt = new Date();
+    const sentBy = (auth as any).name || (auth as any).email || 'Admin';
     await Certificate.findByIdAndUpdate(id, {
-      $set: { emailSent: true, emailSentAt: new Date() },
+      $set:  { emailSent: true, emailSentAt: sentAt, emailSentBy: sentBy },
+      $inc:  { emailSentCount: 1 },
     });
 
     return NextResponse.json({
       success: true,
       message: `Certificate email sent to ${email}`,
       attachmentCount: attachments.length,
+      emailSentAt: sentAt.toISOString(),
+      emailSentBy: sentBy,
     });
   } catch (err: any) {
     console.error('[Certificate SendEmail]', err.message);

@@ -165,7 +165,9 @@ export default function PortalLayout({ children, portalType }: PortalLayoutProps
 
   const markNotificationsRead = () => {
     if (!notificationStorageKey) return;
-    const seenAt = latestNotificationAt || new Date().toISOString();
+    // Mark everything up to "now" as seen. Using current time (never older than
+    // the newest item) guarantees no item stays flagged as new.
+    const seenAt = new Date().toISOString();
     window.localStorage.setItem(notificationStorageKey, seenAt);
     setUnreadCount(0);
     setNotifications(items => items.map(item => ({ ...item, isNew: false })));

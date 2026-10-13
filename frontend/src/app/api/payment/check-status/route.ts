@@ -25,6 +25,7 @@ import jwt from 'jsonwebtoken';
 import { connectToDatabase } from '@/lib/mongodb';
 import { requireJwtSecret, getClientIp, isRateLimited, rateLimitResponse, normalizeName, normalizeEmail, normalizeIndianMobile } from '@/lib/security';
 import { sendPaymentSuccessEmail } from '@/lib/email';
+import { wasEmailSent, logEmail } from '@/lib/db-service';
 import Payment from '@/models/Payment';
 import Enrollment from '@/models/Enrollment';
 import Progress from '@/models/Progress';
@@ -297,16 +298,46 @@ export async function GET(req: NextRequest) {
         );
 
         if (email && name) {
-          sendPaymentSuccessEmail({
-            name,
-            email,
-            courseName: PLAN_SLUGS[securePlanKey] || planName,
-            courseSlug: securePlanKey,
-            planLabel,
-            amount: pricing.totalAmount,
-            paymentId: capturedPayment.id,
-            orderId,
-          }).catch((err) => console.error('[Payment] Receipt email failed:', err?.message));
+          // Dedup: verify/webhook may have already sent this receipt. Only send
+          // (and log) once per paymentId to avoid burning the email quota.
+          const courseNameResolved = PLAN_SLUGS[securePlanKey] || planName;
+          (async () => {
+            const alreadySent = await wasEmailSent('paymentId', capturedPayment.id, 'payment_success');
+            if (alreadySent) return;
+            let emailStatus: 'sent' | 'failed' = 'failed';
+            let errorMessage = '';
+            try {
+              const sent = await sendPaymentSuccessEmail({
+                name,
+                email,
+                courseName: courseNameResolved,
+                courseSlug: securePlanKey,
+                planLabel,
+                amount: pricing.totalAmount,
+                paymentId: capturedPayment.id,
+                orderId,
+              });
+              emailStatus = sent ? 'sent' : 'failed';
+              if (!sent) errorMessage = 'Resend email was not sent.';
+            } catch (err: any) {
+              errorMessage = err?.message || 'Unknown error';
+              console.error('[Payment] Receipt email failed:', errorMessage);
+            }
+            await logEmail({
+              userId: '',
+              email,
+              emailType: 'payment_success',
+              subject: `Payment Confirmed - ${courseNameResolved}`,
+              status: emailStatus,
+              provider: 'resend',
+              errorMessage,
+              paymentId: capturedPayment.id,
+              orderId,
+              courseSlug: securePlanKey,
+              courseName: courseNameResolved,
+              amount: pricing.totalAmount,
+            });
+          })().catch((err) => console.error('[Payment] Receipt email flow error:', err?.message));
         }
 
         console.log(`[Payment] Status check - Captured payment found: ${capturedPayment.id}`);

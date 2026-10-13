@@ -596,114 +596,115 @@ export async function sendAdminCertificateEmail(p: AdminCertificateEmailPayload)
 
   const verifyUrl = p.verifyUrl || `${APP_URL}/verify-certificate`;
   const date = new Date(p.issuedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+  const logoUrl = `${APP_URL}/adyapan-logo.png`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/></head>
-<body style="margin:0;padding:0;background:#f5f0eb;font-family:'Segoe UI',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f0eb;padding:40px 16px;">
+<body style="margin:0;padding:0;background:#eef0f3;font-family:'Segoe UI',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#eef0f3;padding:32px 16px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.10);">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+  <!-- LOGO BAND -->
+  <tr>
+    <td style="padding:26px 40px 22px;text-align:center;border-bottom:1px solid #f0f0f0;">
+      <img src="${logoUrl}" alt="Adyapan Edutech Pvt. Ltd." width="190" style="display:inline-block;width:190px;max-width:70%;height:auto;border:0;outline:none;text-decoration:none;" />
+    </td>
+  </tr>
 
   <!-- HEADER -->
   <tr>
-    <td style="background:linear-gradient(135deg,#ffa800 0%,#ff6b00 100%);padding:40px 40px 32px;text-align:center;">
-      <div style="width:72px;height:72px;background:rgba(255,255,255,0.2);border-radius:50%;margin:0 auto 20px;line-height:72px;font-size:36px;">&#127881;</div>
-      <h1 style="margin:0 0 8px;color:#ffffff;font-size:26px;font-weight:800;">Congratulations!</h1>
-      <p style="margin:0;color:rgba(255,255,255,0.9);font-size:15px;">Your official certificate from Adyapan Edutech</p>
+    <td style="background:linear-gradient(135deg,#ffa800 0%,#ff6b00 100%);padding:30px 40px;text-align:center;">
+      <h1 style="margin:0 0 6px;color:#ffffff;font-size:23px;font-weight:700;letter-spacing:0.3px;">Congratulations, ${p.name}!</h1>
+      <p style="margin:0;color:rgba(255,255,255,0.92);font-size:14px;">Your official certificate from Adyapan Edutech Pvt. Ltd.</p>
     </td>
   </tr>
 
   <!-- BODY -->
-  <tr><td style="padding:36px 40px 0;">
-    <p style="margin:0 0 16px;font-size:16px;color:#374151;">Dear <strong>${p.name}</strong>,</p>
+  <tr><td style="padding:34px 40px 8px;">
+    <p style="margin:0 0 18px;font-size:15px;color:#1f2937;">Dear <strong>${p.name}</strong>,</p>
 
-    <p style="margin:0 0 16px;font-size:14px;color:#6b7280;line-height:1.8;">
+    <p style="margin:0 0 16px;font-size:14px;color:#4b5563;line-height:1.9;">
       Warm greetings from <strong>Adyapan Edutech Pvt. Ltd.</strong>
     </p>
 
-    <p style="margin:0 0 16px;font-size:15px;font-weight:700;color:#ea580c;">
-      &#127881; Congratulations on successfully completing your program!
+    <p style="margin:0 0 16px;font-size:14px;color:#4b5563;line-height:1.9;">
+      Congratulations on successfully completing your program. We are pleased to share your
+      <strong>official certificate</strong> issued by <strong>Adyapan Edutech Pvt. Ltd.</strong>,
+      in recognition of your successful completion, participation, and efforts throughout the program.
     </p>
 
-    <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.8;">
-      We are pleased to share your <strong>official certificate</strong> issued by
-      <strong>Adyapan Edutech Pvt. Ltd.</strong> in recognition of your successful completion,
-      participation, and efforts throughout the program.
+    <p style="margin:0 0 26px;font-size:14px;color:#4b5563;line-height:1.9;">
+      Please find your certificate attached to this email. We recommend keeping a digital copy safely
+      for your future academic, professional, internship, and career-related requirements.
     </p>
-
-    <!-- CERTIFICATE ATTACHED NOTE -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:16px;margin-bottom:24px;">
-      <tr><td style="padding:18px 22px;">
-        <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#92400e;">&#128220; Your Certificate is Attached</p>
-        <p style="margin:0;font-size:13px;color:#78350f;line-height:1.7;">
-          Please find your certificate attached to this email. We recommend keeping a digital copy
-          safely for your future academic, professional, internship, and career-related requirements.
-        </p>
-      </td></tr>
-    </table>
 
     <!-- CERTIFICATE DETAILS -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;margin-bottom:24px;">
-      <tr><td style="padding:16px 20px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #ececec;border-radius:10px;margin-bottom:26px;">
+      <tr><td style="padding:4px 22px;">
         ${[
           ['Certificate ID', p.certificateId],
           ['Name', p.name],
           ['Program', p.courseName],
           ['Issue Date', date],
-        ].map(([k, v]) => `
-        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
+        ].map(([k, v], i, arr) => `
+        <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td style="font-size:13px;color:#9ca3af;width:42%;">${k}</td>
-            <td style="font-size:13px;color:#111827;font-weight:600;text-align:right;">${v}</td>
+            <td style="padding:14px 0;font-size:13px;color:#9ca3af;${i < arr.length - 1 ? 'border-bottom:1px solid #f3f3f3;' : ''}">${k}</td>
+            <td style="padding:14px 0;font-size:13px;color:#111827;font-weight:600;text-align:right;${i < arr.length - 1 ? 'border-bottom:1px solid #f3f3f3;' : ''}">${v}</td>
           </tr>
         </table>`).join('')}
       </td></tr>
     </table>
 
     <!-- VERIFY -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;margin-bottom:28px;">
-      <tr><td style="padding:18px 22px;">
-        <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#1e40af;">&#128274; Verify Your Certificate</p>
-        <p style="margin:0 0 14px;font-size:13px;color:#374151;line-height:1.7;">
-          Your certificate can be verified online through the official Adyapan Certificate Verification Portal.
-          You can use the certificate details to verify its authenticity at any time.
-        </p>
-        <a href="${verifyUrl}" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#ffa800,#ff6b00);color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;border-radius:12px;">
-          Verify Certificate &rarr;
+    <p style="margin:0 0 10px;font-size:14px;color:#4b5563;line-height:1.9;">
+      Your certificate can be verified online at any time through the official
+      Adyapan Certificate Verification Portal:
+    </p>
+    <table cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+      <tr><td style="border-radius:8px;background:linear-gradient(135deg,#ffa800,#ff6b00);">
+        <a href="${verifyUrl}" style="display:inline-block;padding:13px 32px;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;border-radius:8px;">
+          Verify Certificate
         </a>
       </td></tr>
     </table>
 
-    <p style="margin:0 0 16px;font-size:14px;color:#6b7280;line-height:1.8;">
+    <p style="margin:0 0 16px;font-size:14px;color:#4b5563;line-height:1.9;">
       We truly appreciate your dedication, participation, and commitment throughout the learning journey.
-      We hope the knowledge and experience gained through this program will support you in achieving
-      your academic and professional goals.
+      We hope the knowledge and experience gained through this program will support you in achieving your
+      academic and professional goals.
     </p>
 
-    <p style="margin:0 0 24px;font-size:15px;font-weight:700;color:#ea580c;">
-      Once again, congratulations on your achievement! &#127942;
+    <p style="margin:0 0 26px;font-size:14px;color:#4b5563;line-height:1.9;">
+      Once again, congratulations on your achievement. We wish you continued success, growth, and many
+      more accomplishments in the future.
     </p>
 
-    <p style="margin:0 0 28px;font-size:14px;color:#6b7280;line-height:1.8;">
-      We wish you continued success, growth, and many more accomplishments in the future.
-    </p>
-
-    <p style="margin:0 0 4px;font-size:14px;color:#374151;">Warm Regards,</p>
-    <p style="margin:0 0 2px;font-size:14px;font-weight:700;color:#111827;">Adyapan Edutech Pvt. Ltd.</p>
-    <p style="margin:0 0 2px;font-size:13px;color:#6b7280;">
-      &#127760; <a href="${APP_URL}" style="color:#ea580c;text-decoration:none;">www.adyapan.com</a>
-    </p>
-    <p style="margin:0 0 20px;font-size:13px;color:#6b7280;">
-      &#128231; <a href="mailto:support@adyapan.com" style="color:#ea580c;text-decoration:none;">support@adyapan.com</a>
-    </p>
-    <p style="margin:0 0 36px;font-size:13px;font-weight:700;color:#ffa800;letter-spacing:0.5px;">Learn &middot; Grow &middot; Achieve</p>
+    <!-- SIGNATURE -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #f0f0f0;margin-top:8px;">
+      <tr><td style="padding:22px 0 36px;">
+        <p style="margin:0 0 4px;font-size:14px;color:#4b5563;">Warm Regards,</p>
+        <p style="margin:0 0 2px;font-size:15px;font-weight:700;color:#111827;">Team Adyapan Edutech Pvt. Ltd.</p>
+        <p style="margin:0;font-size:13px;color:#6b7280;">
+          <a href="${APP_URL}" style="color:#ea580c;text-decoration:none;">www.adyapan.com</a>
+          &nbsp;&middot;&nbsp;
+          <a href="mailto:support@adyapan.com" style="color:#ea580c;text-decoration:none;">support@adyapan.com</a>
+        </p>
+      </td></tr>
+    </table>
   </td></tr>
 
   <!-- FOOTER -->
   <tr>
-    <td style="background:#1a1a2e;padding:24px 40px;text-align:center;">
-      <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#ffa800;">Adyapan Edutech Pvt. Ltd.</p>
+    <td style="background:#1a1a2e;padding:28px 40px;text-align:center;">
+      <img src="${logoUrl}" alt="Adyapan Edutech Pvt. Ltd." width="170" style="display:inline-block;width:170px;max-width:60%;height:auto;margin-bottom:12px;border:0;outline:none;text-decoration:none;" />
+      <p style="margin:0 0 8px;font-size:12px;color:#9ca3af;">
+        <a href="${APP_URL}" style="color:#9ca3af;text-decoration:none;">www.adyapan.com</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:support@adyapan.com" style="color:#9ca3af;text-decoration:none;">support@adyapan.com</a>
+      </p>
       <p style="margin:0;font-size:11px;color:#6b7280;">&copy; ${new Date().getFullYear()} Adyapan Skills &middot; All rights reserved</p>
     </td>
   </tr>
@@ -747,7 +748,7 @@ support@adyapan.com
 
 Learn - Grow - Achieve`;
 
-  const subject = `Your Certificate - ${p.courseName} | Adyapan Edutech`;
+  const subject = `Congratulations! Your Certificate is Ready`;
 
   try {
     const resend = new Resend(config.apiKey);

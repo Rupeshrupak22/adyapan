@@ -8,6 +8,7 @@ import {
   CheckCircle, Clock, Download, Mail, Plus, X,
   Loader2, AlertCircle, ChevronDown, Pencil, Trash2,
   FileText, ImageIcon, UploadCloud, CheckCircle2,
+  Eye, Calendar, User, Hash,
 } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────
@@ -25,6 +26,9 @@ interface Certificate {
   certificateTypes: string[];
   status: string;
   emailSent: boolean;
+  emailSentAt?: string | null;
+  emailSentBy?: string;
+  emailSentCount?: number;
   issuedAt: string;
   downloadUrl: string;
   certificateUrl: string;
@@ -637,6 +641,101 @@ function DeleteModal({ cert, onClose, onSuccess }: { cert: Certificate | null; o
   );
 }
 
+// ── View Details Modal ────────────────────────────────────────
+function ViewModal({ cert, onClose }: { cert: Certificate | null; onClose: () => void }) {
+  if (!cert) return null;
+
+  const fmtDateTime = (iso?: string | null) =>
+    iso ? new Date(iso).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+  const fmtDate = (iso?: string | null) =>
+    iso ? new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+
+  const types = cert.certificateTypes?.length ? cert.certificateTypes : [cert.certificateType];
+
+  return (
+    <Modal open={!!cert} onClose={onClose} title="Certificate Details" subtitle={cert.certificateId}>
+      <div className="px-6 py-5 space-y-5 max-h-[80vh] overflow-y-auto">
+        {/* Student + course */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-gray-50 rounded-xl p-3">
+            <p className="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1 flex items-center gap-1"><User className="w-3 h-3" /> Student</p>
+            <p className="text-sm font-bold text-gray-900">{cert.studentName}</p>
+            <p className="text-xs text-gray-500 truncate">{cert.studentEmail || '—'}</p>
+          </div>
+          <div className="bg-gray-50 rounded-xl p-3">
+            <p className="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1 flex items-center gap-1"><Award className="w-3 h-3" /> Course</p>
+            <p className="text-sm font-bold text-gray-900">{cert.courseName}</p>
+            <p className="text-xs text-gray-500 truncate font-mono">{cert.courseSlug}</p>
+          </div>
+        </div>
+
+        {/* Meta rows */}
+        <div className="rounded-xl border border-gray-100 divide-y divide-gray-50">
+          {[
+            ['Certificate ID', cert.certificateId, Hash],
+            ['Type(s)', types.map(prettyType).join(', '), Award],
+            ['Status', cert.status === 'ready' ? 'Ready' : 'Pending', CheckCircle],
+            ['Issued Date', fmtDate(cert.issuedAt), Calendar],
+            ['Files Attached', String(cert.certificateFiles?.length || 0), FileText],
+          ].map(([label, value, Icon]: any) => (
+            <div key={label} className="flex items-center justify-between px-4 py-2.5">
+              <span className="text-xs text-gray-400 flex items-center gap-1.5"><Icon className="w-3.5 h-3.5" /> {label}</span>
+              <span className="text-sm font-medium text-gray-800 text-right max-w-[60%] truncate">{value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Email history */}
+        <div className={`rounded-xl p-4 border ${cert.emailSent ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
+          <p className={`text-xs font-bold uppercase tracking-wide mb-2 flex items-center gap-1.5 ${cert.emailSent ? 'text-green-700' : 'text-amber-700'}`}>
+            <Mail className="w-3.5 h-3.5" /> Email History
+          </p>
+          {cert.emailSent ? (
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500 flex items-center gap-1.5"><Calendar className="w-3 h-3" /> Last sent</span>
+                <span className="text-sm font-semibold text-gray-900">{fmtDateTime(cert.emailSentAt)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500 flex items-center gap-1.5"><User className="w-3 h-3" /> Sent by</span>
+                <span className="text-sm font-semibold text-gray-900">{cert.emailSentBy || 'Admin'}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500 flex items-center gap-1.5"><Hash className="w-3 h-3" /> Times sent</span>
+                <span className="text-sm font-semibold text-gray-900">{cert.emailSentCount || 1}</span>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-amber-700">Not emailed yet. Use the mail button to send this certificate.</p>
+          )}
+        </div>
+
+        {/* Files list */}
+        {cert.certificateFiles && cert.certificateFiles.length > 0 && (
+          <div>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Attached Files</p>
+            <div className="space-y-2">
+              {cert.certificateFiles.map((f, i) => (
+                <a key={i} href={f.url} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-100 hover:border-[#ffa800]/40 hover:bg-orange-50/40 transition-all">
+                  <FileText className="w-4 h-4 text-[#ffa800] shrink-0" />
+                  <span className="text-sm text-gray-700 truncate flex-1">{f.name || `File ${i + 1}`}</span>
+                  <Download className="w-3.5 h-3.5 text-gray-400" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <button onClick={onClose}
+          className="w-full py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 border border-gray-200 transition-colors">
+          Close
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
 // ── Main Page ─────────────────────────────────────────────────
 export default function CertificatesPage() {
   const [certs, setCerts]               = useState<Certificate[]>([]);
@@ -649,6 +748,7 @@ export default function CertificatesPage() {
   const [showAdd, setShowAdd]           = useState(false);
   const [editCert, setEditCert]         = useState<Certificate | null>(null);
   const [deleteCert, setDeleteCert]     = useState<Certificate | null>(null);
+  const [viewCert, setViewCert]         = useState<Certificate | null>(null);
   const [sendingId, setSendingId]       = useState<string | null>(null);
   const [toast, setToast]               = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
@@ -669,9 +769,18 @@ export default function CertificatesPage() {
       });
       const data = await res.json();
       if (!res.ok) { showToast('error', data.error || 'Failed to send email'); return; }
-      showToast('success', data.message || 'Certificate email sent');
-      // Reflect emailSent locally without a full refetch
-      setCerts(prev => prev.map(c => c.id === cert.id ? { ...c, emailSent: true } : c));
+      const whenStr = data.emailSentAt
+        ? new Date(data.emailSentAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        : '';
+      showToast('success', `Email sent to ${cert.studentEmail}${whenStr ? ` · ${whenStr}` : ''}`);
+      // Reflect the send locally without a full refetch
+      setCerts(prev => prev.map(c => c.id === cert.id ? {
+        ...c,
+        emailSent: true,
+        emailSentAt: data.emailSentAt || new Date().toISOString(),
+        emailSentBy: data.emailSentBy || c.emailSentBy,
+        emailSentCount: (c.emailSentCount || 0) + 1,
+      } : c));
     } catch {
       showToast('error', 'Network error — please try again');
     } finally {
@@ -803,11 +912,24 @@ export default function CertificatesPage() {
                       )}
                     </td>
                     <td className="px-4 py-3"><StatusBadge status={cert.status} /></td>
-                    <td className="px-4 py-3 text-xs text-gray-500 whitespace-nowrap">
-                      {new Date(cert.issuedAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'2-digit' })}
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <p className="text-xs text-gray-500">
+                        {new Date(cert.issuedAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'2-digit' })}
+                      </p>
+                      {cert.emailSent && cert.emailSentAt && (
+                        <p className="text-[10px] text-green-600 mt-0.5 flex items-center gap-0.5" title={cert.emailSentBy ? `Sent by ${cert.emailSentBy}` : undefined}>
+                          <Mail className="w-2.5 h-2.5" />
+                          Mailed {new Date(cert.emailSentAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short' })}
+                          {cert.emailSentCount && cert.emailSentCount > 1 ? ` (${cert.emailSentCount}x)` : ''}
+                        </p>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
+                        <button onClick={() => setViewCert(cert)}
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-[#ffa800] hover:bg-orange-50 transition-all" title="View details">
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
                         <button onClick={() => setEditCert(cert)}
                           className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-all" title="Edit">
                           <Pencil className="w-3.5 h-3.5" />
@@ -827,7 +949,9 @@ export default function CertificatesPage() {
                               : 'text-gray-400 hover:text-blue-500 hover:bg-blue-50'
                           }`}
                           title={cert.studentEmail
-                            ? (cert.emailSent ? 'Email sent — click to resend' : 'Send certificate email')
+                            ? (cert.emailSent
+                                ? `Emailed${cert.emailSentAt ? ' on ' + new Date(cert.emailSentAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''}${cert.emailSentBy ? ' by ' + cert.emailSentBy : ''}${cert.emailSentCount && cert.emailSentCount > 1 ? ` (${cert.emailSentCount}x)` : ''} — click to resend`
+                                : 'Send certificate email')
                             : 'No email on file'}
                         >
                           {sendingId === cert.id
@@ -873,6 +997,7 @@ export default function CertificatesPage() {
       <AddModal    open={showAdd}    onClose={() => setShowAdd(false)}    onSuccess={fetchCerts} />
       <EditModal   cert={editCert}   onClose={() => setEditCert(null)}    onSuccess={fetchCerts} />
       <DeleteModal cert={deleteCert} onClose={() => setDeleteCert(null)}  onSuccess={fetchCerts} />
+      <ViewModal   cert={viewCert}   onClose={() => setViewCert(null)} />
 
       {/* Toast */}
       <AnimatePresence>
