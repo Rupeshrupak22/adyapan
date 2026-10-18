@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import Analytics from '@/components/Analytics';
+import WebsiteTracker from '@/components/WebsiteTracker';
 import InactivityTimeout from '@/components/InactivityTimeout';
 
 const inter = Inter({
@@ -152,8 +152,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Analytics />
         <InactivityTimeout />
-        {/* Adyapan tracker */}
-        <Script src="https://api.adyapancrm.in/tracker.js" strategy="afterInteractive" />
+        {/* Adyapan first-party website tracker (replaces the former external
+            api.adyapancrm.in/tracker.js integration). */}
+        <WebsiteTracker />
       </body>
     </html>
   );

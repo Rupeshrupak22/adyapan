@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { getBrochureFile, getBrochureHref, getThumbnail, getYouTubeEmbedUrl, ALL_PROGRAMS } from '@/lib/courseData';
 import PricingModal from '@/components/PricingModal';
+import { track } from '@/lib/tracker';
 
 function seededHash(str: string): number {
   let h = 0;
@@ -504,7 +505,11 @@ export default function CoursePageClient() {
                   {brochureError && <p className="text-xs text-red-500 mt-1.5 text-center">{brochureError}</p>}
                 </div>
                 <button
-                  onClick={() => setIsPricingOpen(true)}
+                  onClick={() => {
+                    track('cta_click', `/courses/${slug}`, { label: 'enroll_now', courseId: slug });
+                    track('checkout_start', `/courses/${slug}`, { courseId: slug });
+                    setIsPricingOpen(true);
+                  }}
                   className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
                 >
                   <span>Enroll now</span>

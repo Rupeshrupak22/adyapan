@@ -8,6 +8,7 @@ import NameField from '@/components/forms/NameField';
 import { isIndianMobile, INDIAN_MOBILE_MESSAGE } from '@/lib/phone';
 import { isValidEmail, EMAIL_FORMAT_MESSAGE } from '@/lib/email-format';
 import { isValidName, NAME_FORMAT_MESSAGE } from '@/lib/name-format';
+import { trackEnquirySubmit } from '@/lib/tracker';
 
 const CONTACT_INFO = [
   { icon: Phone, label: 'Phone', value: '+91 81791 24566', href: 'tel:+918179124566', color: 'from-green-500 to-emerald-600' },
@@ -69,6 +70,9 @@ export default function ContactPageClient() {
       });
       if (res.ok) {
         setStatus('success');
+        // First-party signal only (no PII sent) — the lead itself is stored
+        // server-side by /api/contact.
+        trackEnquirySubmit('/contact');
         setForm({ name: '', email: '', phone: '', subject: '', message: '' });
       } else {
         const data = await res.json().catch(() => ({}));
