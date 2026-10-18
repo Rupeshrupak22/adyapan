@@ -1,5 +1,7 @@
 /* ─── External imports MUST come first (CSS spec + Turbopack requirement) ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Inter is loaded via next/font/google in app/layout.tsx (metric-matched
+   fallback + display:swap), so the previous render-blocking Google Fonts
+   @import was removed to avoid a duplicate load and font-swap reflow (CLS). */
 
 /* ─── Tailwind directives ────────────────────────────────────── */
 @tailwind base;

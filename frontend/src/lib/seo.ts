@@ -14,7 +14,9 @@ export const BASE_URL =
 
 export const SITE_NAME = 'Adyapan';
 export const SITE_TAGLINE = 'Learn, Earn & Get Placed';
-export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
+// NOTE: Points to an existing asset. For best social cards, replace with a
+// dedicated 1200x630 /og-image.png and update this constant.
+export const DEFAULT_OG_IMAGE = `${BASE_URL}/icon-512x512.png`;
 export const TWITTER_HANDLE = '@adyapan';
 export const ORGANIZATION_NAME = 'Adyapan Edutech Pvt. Ltd.';
 
@@ -86,7 +88,7 @@ export function buildMetadata({
       siteName: SITE_NAME,
       title: fullTitle,
       description,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: fullTitle }],
+      images: [{ url: ogImage, alt: fullTitle }],
       ...(publishedTime && { publishedTime }),
       ...(modifiedTime && { modifiedTime }),
     },
@@ -207,6 +209,7 @@ export function courseSchema({
     description,
     url,
     image,
+    about: category,
     provider: {
       '@type': 'Organization',
       name: provider,
@@ -216,21 +219,46 @@ export function courseSchema({
     courseMode: ['online', 'onsite'],
     educationalLevel: 'Beginner to Advanced',
     inLanguage: 'en-IN',
+    // NOTE: No aggregateRating/review markup is emitted here on purpose.
+    // Google requires rating markup to reflect genuine, verifiable user
+    // reviews; fabricated ratings violate the structured-data guidelines.
     offers: {
       '@type': 'Offer',
       price,
       priceCurrency: 'INR',
+      category: 'Paid',
       availability: 'https://schema.org/InStock',
       url,
     },
     hasCourseInstance: {
       '@type': 'CourseInstance',
       courseMode: 'online',
+      courseWorkload: duration,
       instructor: {
         '@type': 'Organization',
         name: provider,
       },
     },
+  };
+}
+
+/** ItemList schema - helps Google discover and list every course under the brand */
+export interface ItemListEntry {
+  name: string;
+  url: string;
+}
+export function itemListSchema(name: string, items: ItemListEntry[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+    })),
   };
 }
 

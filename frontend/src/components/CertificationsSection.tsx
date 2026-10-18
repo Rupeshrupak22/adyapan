@@ -263,6 +263,10 @@ function CertificationsSection() {
             </div>
           ))}
         </div>
+        <p className="mt-5 text-center text-[11px] text-gray-400">
+          *Placement rate is based on our last recorded placement data for eligible
+          students who completed the program and opted in to placement support.
+        </p>
       </div>
     </section>
   );

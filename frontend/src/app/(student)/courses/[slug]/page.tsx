@@ -26,22 +26,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       .join(' ');
     return buildMetadata({
       title: `${title} Course - Live Classes & Placement Support`,
-      description: `Master ${title} with Adyapan's live online course. Industry experts, real projects, and guaranteed placement support. Enroll for Rs. 3,000.`,
+      description: `Master ${title} with Adyapan's live online course. Industry mentors, real projects, and placement support. Enroll for Rs. 3,000.`,
       path: `/courses/${slug}`,
       ogType: 'article',
     });
   }
 
+  const t = course.title.toLowerCase();
   return buildMetadata({
-    title: `${course.title} Course - Live Classes & Placement Support | Adyapan`,
-    description: `${course.description || `Master ${course.title} with Adyapan.`} Live online classes, real projects, industry certification, and placement support. Enroll for ${course.price || 'Rs. 3,000'}.`,
+    title: `${course.title} Course Online - Live Classes & Placement Support | Adyapan`,
+    description: `Learn ${course.title} online with Adyapan. ${course.description || `Master ${course.title} with hands-on projects.`} Live classes, industry mentors, certification, and placement support. Enroll for ${course.price || 'Rs. 3,000'}.`,
     keywords: [
-      course.title.toLowerCase(),
-      `${course.title.toLowerCase()} course`,
-      `${course.title.toLowerCase()} online`,
-      `${course.title.toLowerCase()} india`,
+      t,
+      `${t} course`,
+      `${t} course online`,
+      `${t} online course`,
+      `${t} course in india`,
+      `${t} training`,
+      `${t} course with placement`,
+      `${t} course fees`,
+      `learn ${t}`,
+      `best ${t} course`,
+      `${t} certification`,
       (course.category || 'adyapan programs').toLowerCase(),
-      'adyapan course', 'placement support', 'live classes',
+      'adyapan course', 'placement support', 'live classes', 'online course india',
     ],
     path: `/courses/${slug}`,
     ogImage: course.thumbnail ? `${BASE_URL}${course.thumbnail}` : undefined,

@@ -17,7 +17,7 @@ const testimonials = [
     initials: 'RA',
     name: 'Rukhsana Azami',
     role: 'Data Analyst',
-    company: '.....',
+    company: '',
     tag: 'Data Science',
     quote:
       'The skills assessment was eye-opening. I thought I knew Python, but the gap analysis showed me I was missing SQL and visualization. Fixed those gaps and landed the role.',
@@ -26,7 +26,7 @@ const testimonials = [
     initials: 'KR',
     name: 'Kabita',
     role: 'Growth Marketer',
-    company: '....',
+    company: '',
     tag: 'Digital Marketing',
     quote:
       'I completed 4 marketplace tasks for a D2C brand. They liked my work so much, they offered me a full-time position. The platform literally created my career.',
@@ -35,7 +35,7 @@ const testimonials = [
     initials: 'RV',
     name: 'R Verma',
     role: 'UX Designer',
-    company: '...',
+    company: '',
     tag: 'Design',
     quote:
       'The verified credentials gave me proof beyond certificates. Employers could see my actual project work, not just a badge. That made all the difference.',
@@ -70,7 +70,10 @@ const TestimonialsSection = () => {
                 alt="Adyapan Character"
                 loading="lazy"
                 decoding="async"
-                className="w-full max-w-sm lg:max-w-md object-contain mix-blend-multiply opacity-95"
+                width={448}
+                height={560}
+                className="w-full max-w-sm lg:max-w-md h-auto object-contain mix-blend-multiply opacity-95"
+                style={{ aspectRatio: '448 / 560' }}
               />
             </div>
           </div>
@@ -102,7 +105,7 @@ const TestimonialsSection = () => {
                     </div>
 
                     <div className="text-xs text-[#666]">
-                      {t.role} at {t.company}
+                      {t.company ? `${t.role} at ${t.company}` : t.role}
                     </div>
 
                     <div

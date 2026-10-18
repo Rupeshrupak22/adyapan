@@ -401,6 +401,10 @@ export default function CompanyAboutPage() {
               </div>
             ))}
           </div>
+          <p className="mt-8 text-center text-xs text-gray-500">
+            *Placement rate is based on our last recorded placement data for eligible
+            students who completed their program and participated in placement support.
+          </p>
         </div>
       </section>
 

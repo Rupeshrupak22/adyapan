@@ -15,11 +15,17 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/checkout/',
           '/auth/',
+          '/login/',
+          '/signup/',
+          '/reset-password/',
           '/organization/',
-          '/certifications/',
+          // Keep the public certifications landing + detail pages crawlable,
+          // but block the private exam-taking route.
+          '/certifications/test',
           '/passport/',
           '/assessment/',
           '/marketplace/',
+          '/modal-test/',
         ],
       },
       // Block AI training bots

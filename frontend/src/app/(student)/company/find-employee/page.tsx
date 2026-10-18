@@ -536,6 +536,14 @@ export default function FindEmployeePage() {
     }
   }, [search, skillFilter, courseFilter, eduFilter, expFilter, availFilter, sortBy, activeTab]);
 
+  // Open directly on a tab when linked via hash, e.g. /company/find-employee#shortlisted
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'shortlisted' || hash === 'hired' || hash === 'placed') {
+      setActiveTab(hash);
+    }
+  }, []);
+
   // Initial load
   useEffect(() => { fetchTalents(); }, []);
 

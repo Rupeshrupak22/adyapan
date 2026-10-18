@@ -516,6 +516,10 @@ export default function AboutPageClient() {
               </div>
             ))}
           </div>
+          <p className="mt-8 text-center text-xs text-gray-400">
+            *Placement rate is based on our last recorded placement data for eligible
+            students who completed their program and participated in placement support.
+          </p>
         </div>
       </section>
 

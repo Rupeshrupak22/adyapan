@@ -177,7 +177,7 @@ function HeroSection() {
       {/* Overlay */}
       <div className="absolute inset-0 pointer-events-none" style={{
         zIndex: 1,
-        background: 'transparent(105deg, rgba(250, 239, 239, 0.72) 0%, rgba(253, 246, 246, 0.57) 55%, rgba(248, 245, 245, 0.72) 100%)',
+        background: 'linear-gradient(105deg, rgba(250, 239, 239, 0.72) 0%, rgba(253, 246, 246, 0.57) 55%, rgba(248, 245, 245, 0.72) 100%)',
       }} />
 
       {/* Main content */}
@@ -329,6 +329,9 @@ function HeroSection() {
                 </div>
               ))}
             </div>
+            <p className="text-white/50 text-[11px] -mt-4">
+              *Placement rate based on our last recorded placement data for eligible students.
+            </p>
 
             {/* Hiring Partners */}
             <div>

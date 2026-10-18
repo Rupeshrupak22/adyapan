@@ -585,7 +585,7 @@ function CheckoutPageInner() {
 
             {/* bottom links */}
             <div className="flex items-center gap-4 text-sm text-gray-400 pb-4">
-              <Link href="/programs" className="hover:text-orange-600 transition-colors">Rs. Go back to program</Link>
+              <Link href="/programs" className="hover:text-orange-600 transition-colors">&larr; Go back to programs</Link>
               <span>|</span>
               <a href="mailto:support@adyapan.com" className="hover:text-orange-600 transition-colors">Contact Support</a>
             </div>

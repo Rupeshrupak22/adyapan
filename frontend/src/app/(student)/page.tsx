@@ -17,7 +17,7 @@ export default function Home() {
     {
       question: 'What is Adyapan?',
       answer:
-        'Adyapan is an Indian EdTech platform offering 65+ industry-relevant courses with live classes, real internship experience, and guaranteed placement support.',
+        'Adyapan is an Indian EdTech platform offering 65+ industry-relevant courses with live classes, real internship experience, and dedicated placement support.',
     },
     {
       question: 'How much do Adyapan courses cost?',

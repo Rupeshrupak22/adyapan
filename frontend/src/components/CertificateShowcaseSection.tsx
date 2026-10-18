@@ -112,8 +112,9 @@ function CertificateShowcaseSection() {
             />
           </div>
 
-          {/* Text content */}
-          <div>
+          {/* Text content — reserved min-height so switching tabs (variable-length
+              copy) does not shift the layout below it. */}
+          <div className="lg:min-h-[420px]">
             <span className="inline-block px-3 py-1 rounded-full text-xs font-bold text-orange-600 bg-orange-100 border border-orange-200 mb-4">
               {certificates[active].subtitle}
             </span>

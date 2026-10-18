@@ -528,7 +528,7 @@ export default function ProfileDropdown({ user, onUserUpdate }: Props) {
                 {['COMPANY', 'ADMIN', 'SUPERADMIN'].includes(userRole) && (
                   <>
                     <MenuItem icon={ICONS.courses}     label="Find Employees"       onClick={() => { setOpen(false); router.push('/company/find-employee'); }} />
-                    <MenuItem icon={ICONS.wishlist}    label="My Shortlists"        onClick={() => { setOpen(false); router.push('/company/shortlists'); }} />
+                    <MenuItem icon={ICONS.wishlist}    label="My Shortlists"        onClick={() => { setOpen(false); router.push('/company/find-employee#shortlisted'); }} />
                   </>
                 )}
 
