@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { buildMetadata, breadcrumbSchema, BASE_URL } from '@/lib/seo';
 import JsonLd from '@/components/JsonLd';
 import ContactPageClient from './ContactPageClient';
@@ -6,10 +7,10 @@ import ContactPageClient from './ContactPageClient';
 export const metadata: Metadata = buildMetadata({
   title: 'Contact Adyapan - Get in Touch with Our Team',
   description:
-    'Have questions about our courses, internships, or placement support? Contact Adyapan Edutech - we\'re here to help you launch your career.',
+    'Have questions about our courses, custom software development, or corporate solutions? Contact Adyapan Edutech - we\'re here to help.',
   keywords: [
     'contact adyapan', 'adyapan support', 'adyapan helpline',
-    'edtech customer support', 'course enquiry india',
+    'edtech customer support', 'software development inquiry hyderabad',
   ],
   path: '/contact',
 });
@@ -48,7 +49,9 @@ export default function ContactPage() {
     <>
       <JsonLd schema={breadcrumb} />
       <JsonLd schema={localBusiness} />
-      <ContactPageClient />
+      <Suspense fallback={<div className="min-h-screen bg-[#fafafa] flex items-center justify-center text-sm text-gray-500">Loading form...</div>}>
+        <ContactPageClient />
+      </Suspense>
     </>
   );
 }
