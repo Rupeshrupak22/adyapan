@@ -417,6 +417,11 @@ export async function sendCertificateReadyEmail(p: CertificateEmailPayload): Pro
   const date = new Date(p.issuedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
   const downloadUrl = `${APP_URL}/api/certificates/${p.courseSlug}/download`;
   const dashboardUrl = `${APP_URL}/dashboard/student`;
+  const linkedinUrl = 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all';
+  const isLocal = !APP_URL || APP_URL.includes('localhost') || APP_URL.includes('127.0.0.1');
+  const linkedinIconUrl = isLocal
+    ? 'https://cdn-icons-png.flaticon.com/512/174/174857.png'
+    : `${APP_URL}/linkedin-icon.png`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -468,6 +473,49 @@ export async function sendCertificateReadyEmail(p: CertificateEmailPayload): Pro
     <p style="text-align:center;margin:0 0 32px;">
       <a href="${dashboardUrl}" style="font-size:13px;color:#ea580c;font-weight:600;">View in Dashboard</a>
     </p>
+    <!-- LINKEDIN NOTE / SHARE ON LINKEDIN -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8fd;border:1px solid #cbe2fb;border-left:5px solid #0a66c2;border-radius:12px;margin:0 0 28px;">
+      <tr>
+        <td style="padding:20px 22px;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td valign="middle" style="width:44px;padding-right:14px;">
+                <a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-block;" title="Adyapan on LinkedIn">
+                  <img src="${linkedinIconUrl}" alt="LinkedIn" width="40" height="40" style="display:block;width:40px;height:40px;border-radius:8px;border:0;outline:none;" />
+                </a>
+              </td>
+              <td valign="middle">
+                <span style="display:inline-block;background:#0a66c2;color:#ffffff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:0.7px;text-transform:uppercase;">
+                  NOTE &bull; SHARE YOUR ACHIEVEMENT
+                </span>
+                <p style="margin:4px 0 0;font-size:15px;font-weight:700;color:#0a66c2;line-height:1.3;">
+                  Share your certificate on LinkedIn &amp; tag Adyapan!
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <p style="margin:13px 0 14px;font-size:13px;color:#374151;line-height:1.75;">
+            Celebrate your achievement with your professional network! Post your certificate on LinkedIn, share your learning journey, and tag <strong>@Adyapan Edutech Pvt. Ltd.</strong> so we can celebrate your success and feature you on our official page.
+          </p>
+
+          <table cellpadding="0" cellspacing="0" style="margin:0 0 12px;">
+            <tr>
+              <td style="border-radius:8px;background:#0a66c2;box-shadow:0 3px 10px rgba(10,102,194,0.25);">
+                <a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 22px;color:#ffffff;font-size:13px;font-weight:700;text-decoration:none;border-radius:8px;">
+                  Post &amp; Tag Adyapan on LinkedIn &rarr;
+                </a>
+              </td>
+            </tr>
+          </table>
+
+          <p style="margin:0;font-size:12px;color:#6b7280;line-height:1.5;">
+            💡 <strong>Pro Tip:</strong> Mention <strong>@Adyapan Edutech Pvt. Ltd.</strong> and add <strong>#Adyapan #Certified #Upskilling #Achievement</strong> to your post.
+          </p>
+        </td>
+      </tr>
+    </table>
+
     <p style="margin:0 0 36px;font-size:14px;color:#374151;line-height:1.7;">
       Share your achievement on LinkedIn and tag <strong>@AdyapanSkills</strong>!<br/>
       Questions? Email us at <a href="mailto:support@adyapan.com" style="color:#ea580c;font-weight:600;">support@adyapan.com</a>
@@ -495,6 +543,10 @@ Your certificate is ready:
 
 Download: ${downloadUrl}
 Dashboard: ${dashboardUrl}
+
+NOTE - SHARE ON LINKEDIN
+Post your certificate on LinkedIn and tag @Adyapan Edutech Pvt. Ltd.!
+Open LinkedIn: ${linkedinUrl}
 
 - Adyapan Skills Team`;
 
@@ -597,6 +649,11 @@ export async function sendAdminCertificateEmail(p: AdminCertificateEmailPayload)
   const verifyUrl = p.verifyUrl || `${APP_URL}/verify-certificate`;
   const date = new Date(p.issuedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
   const logoUrl = `${APP_URL}/adyapan-logo.png`;
+  const linkedinUrl = 'https://www.linkedin.com/company/adyapan-edutech-pvt-ltd/posts/?feedView=all';
+  const isLocal = !APP_URL || APP_URL.includes('localhost') || APP_URL.includes('127.0.0.1');
+  const linkedinIconUrl = isLocal
+    ? 'https://cdn-icons-png.flaticon.com/512/174/174857.png'
+    : `${APP_URL}/linkedin-icon.png`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -671,6 +728,49 @@ export async function sendAdminCertificateEmail(p: AdminCertificateEmailPayload)
       </td></tr>
     </table>
 
+    <!-- LINKEDIN NOTE / SHARE ON LINKEDIN -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8fd;border:1px solid #cbe2fb;border-left:5px solid #0a66c2;border-radius:12px;margin:0 0 28px;">
+      <tr>
+        <td style="padding:20px 22px;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td valign="middle" style="width:44px;padding-right:14px;">
+                <a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-block;" title="Adyapan on LinkedIn">
+                  <img src="${linkedinIconUrl}" alt="LinkedIn" width="40" height="40" style="display:block;width:40px;height:40px;border-radius:8px;border:0;outline:none;" />
+                </a>
+              </td>
+              <td valign="middle">
+                <span style="display:inline-block;background:#0a66c2;color:#ffffff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:0.7px;text-transform:uppercase;">
+                  NOTE &bull; SHARE YOUR ACHIEVEMENT
+                </span>
+                <p style="margin:4px 0 0;font-size:15px;font-weight:700;color:#0a66c2;line-height:1.3;">
+                  Share your certificate on LinkedIn &amp; tag Adyapan!
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <p style="margin:13px 0 14px;font-size:13px;color:#374151;line-height:1.75;">
+            Celebrate your achievement with your professional network! Post your certificate on LinkedIn, share your learning journey, and tag <strong>@Adyapan Edutech Pvt. Ltd.</strong> so we can celebrate your success and feature you on our official page.
+          </p>
+
+          <table cellpadding="0" cellspacing="0" style="margin:0 0 12px;">
+            <tr>
+              <td style="border-radius:8px;background:#0a66c2;box-shadow:0 3px 10px rgba(10,102,194,0.25);">
+                <a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 22px;color:#ffffff;font-size:13px;font-weight:700;text-decoration:none;border-radius:8px;">
+                  Post &amp; Tag Adyapan on LinkedIn &rarr;
+                </a>
+              </td>
+            </tr>
+          </table>
+
+          <p style="margin:0;font-size:12px;color:#6b7280;line-height:1.5;">
+            💡 <strong>Pro Tip:</strong> Mention <strong>@Adyapan Edutech Pvt. Ltd.</strong> and add <strong>#Adyapan #Certified #Upskilling #Achievement</strong> to your post.
+          </p>
+        </td>
+      </tr>
+    </table>
+
     <p style="margin:0 0 16px;font-size:14px;color:#4b5563;line-height:1.9;">
       We truly appreciate your dedication, participation, and commitment throughout the learning journey.
       We hope the knowledge and experience gained through this program will support you in achieving your
@@ -736,6 +836,11 @@ Certificate Details:
 
 VERIFY YOUR CERTIFICATE
 Verify online: ${verifyUrl}
+
+NOTE - SHARE YOUR ACHIEVEMENT ON LINKEDIN
+Celebrate your achievement with your professional network! Post your certificate on LinkedIn and tag @Adyapan Edutech Pvt. Ltd. so we can celebrate your journey together.
+Open LinkedIn & Tag Us: ${linkedinUrl}
+Pro Tip: Mention @Adyapan Edutech Pvt. Ltd. and use #Adyapan #Certified #Upskilling
 
 We truly appreciate your dedication, participation, and commitment throughout the learning journey.
 
