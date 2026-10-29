@@ -435,7 +435,7 @@ export default function AboutPageClient() {
           </div>
 
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-6xl mx-auto"
           >
             {[
               {
@@ -447,6 +447,11 @@ export default function AboutPageClient() {
                 name: 'Niranjan Reddy',
                 role: 'Co-Founder',
                 image: s3Url('/images/niranjan-reddy.jpeg')
+              },
+              {
+                name: 'Rupesh Kumar Rupak',
+                role: 'Tech & IT Lead',
+                image: s3Url('/images/rup.jpeg')
               },
               {
                 name: 'Monika Y',

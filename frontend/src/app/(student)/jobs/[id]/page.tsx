@@ -200,10 +200,6 @@ export default function JobDetailPage() {
   }, [id]);
 
   const handleApplyClick = () => {
-    if (!user) {
-      router.push(`/auth?redirect=/jobs/${id}`);
-      return;
-    }
     setShowApply(true);
   };
 

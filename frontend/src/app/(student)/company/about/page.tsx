@@ -353,11 +353,12 @@ export default function CompanyAboutPage() {
           </div>
 
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-6xl mx-auto"
           >
             {[
               { name: 'Sai Charan', role: 'Founder', image: s3Url('/images/sai-charan.jpeg') },
               { name: 'Niranjan Reddy', role: 'Co-Founder', image: s3Url('/images/niranjan-reddy.jpeg') },
+              { name: 'Rupesh Kumar Rupak', role: 'Tech & IT Lead', image: s3Url('/images/rup.jpeg') },
               { name: 'Monika Y', role: 'Core Team', image: s3Url('/images/monika-y.jpeg') },
               { name: 'Dr. Dhiraj Singh', role: 'Head, Training & Placement Cell', image: s3Url('/images/Dr. Dhiraj Singh.jpeg') }
             ].map((member, i) => (

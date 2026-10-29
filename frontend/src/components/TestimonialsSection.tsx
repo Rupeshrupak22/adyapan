@@ -5,10 +5,10 @@ import React from 'react';
 
 const testimonials = [
   {
-    initials: 'R',
-    name: 'Ronak',
+    initials: 'DY',
+    name: 'Doma Yadav',
     role: 'Full stack Developer',
-    company: 'Tift',
+    company: '',
     tag: 'Web Development',
     quote:
       'The Career GPS showed me exactly what I was missing. Within 3 months of following the roadmap and completing marketplace tasks, I had my first real job offer.',
@@ -23,7 +23,7 @@ const testimonials = [
       'The skills assessment was eye-opening. I thought I knew Python, but the gap analysis showed me I was missing SQL and visualization. Fixed those gaps and landed the role.',
   },
   {
-    initials: 'KR',
+    initials: 'KY',
     name: 'Kabita',
     role: 'Growth Marketer',
     company: '',
@@ -32,11 +32,20 @@ const testimonials = [
       'I completed 4 marketplace tasks for a D2C brand. They liked my work so much, they offered me a full-time position. The platform literally created my career.',
   },
   {
-    initials: 'RV',
-    name: 'R Verma',
+    initials: 'RW',
+    name: 'Ruchika Wad',
     role: 'UX Designer',
     company: '',
     tag: 'Design',
+    quote:
+      'The verified credentials gave me proof beyond certificates. Employers could see my actual project work, not just a badge. That made all the difference.',
+  },
+  {
+    initials: 'KK',
+    name: 'Komal',
+    role: 'Content Writer',
+    company: '',
+    tag: 'Content',
     quote:
       'The verified credentials gave me proof beyond certificates. Employers could see my actual project work, not just a badge. That made all the difference.',
   },

@@ -1114,6 +1114,14 @@ export const VERIFIED_LEADERSHIP: LeadershipMember[] = [
     linkedInUrl: 'https://www.linkedin.com/in/niranjan-reddy-abb1861b6/',
   },
   {
+    name: 'Rupesh Kumar Rupak',
+    role: 'Tech & IT Lead',
+    imagePath: '/images/rup.jpeg',
+    bio: 'Leads end-to-end technology architecture, software engineering, and cloud deployment across Adyapan web platforms and mobile applications.',
+    quote: 'We engineer robust, high-concurrency digital platforms that transform how students learn, build projects, and launch successful tech careers.',
+    linkedInUrl: 'https://www.linkedin.com/in/rupesh-kumar-rupak-bb4b44265/',
+  },
+  {
     name: 'Monika Y',
     role: 'Core Team',
     imagePath: '/images/monika-y.jpeg',

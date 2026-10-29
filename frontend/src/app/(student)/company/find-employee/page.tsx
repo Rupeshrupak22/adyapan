@@ -156,7 +156,7 @@ function ProfileModal({ talent, onClose }: { talent: Talent; onClose: () => void
           {/* Social links */}
           <div className="mt-4 flex flex-wrap gap-2">
             {talent.portfolio && (
-              <a href={talent.portfolio} target="_blank" rel="noopener noreferrer"
+              <a href={talent.portfolio.startsWith('http') ? talent.portfolio : `https://${talent.portfolio}`} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-1.5 rounded-xl bg-white/20 px-3 py-1.5 text-xs font-bold hover:bg-white/30 transition-colors">
                 <ExternalLink className="h-3.5 w-3.5" /> Portfolio
               </a>

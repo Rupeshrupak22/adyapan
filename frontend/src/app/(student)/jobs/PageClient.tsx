@@ -7,7 +7,7 @@ import Image from 'next/image';
 import {
   Search, Briefcase, Building2, CheckCircle, ChevronDown,
   ChevronUp, Filter, AlertCircle, MapPin, Clock, DollarSign,
-  Loader2, X,
+  Loader2, X, ArrowRight,
 } from 'lucide-react';
 
 interface Job {
@@ -150,6 +150,19 @@ export default function JobsPage() {
         <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none"/>
         <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none"/>
         <div className="relative max-w-3xl mx-auto text-center">
+          {/* Dual Navigation Tabs: Find Jobs / Post a Job */}
+          <div className="inline-flex items-center gap-2 p-1.5 rounded-2xl bg-black/20 backdrop-blur-md border border-white/20 mb-6">
+            <span className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold bg-white text-orange-600 shadow-sm cursor-default">
+              <Search className="w-4 h-4" /> Find Jobs
+            </span>
+            <Link
+              href="/organization/jobs/post"
+              className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+            >
+              <Briefcase className="w-4 h-4" /> Post a Job
+            </Link>
+          </div>
+
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2 tracking-tight">Find Your Next Opportunity</h1>
           <p className="text-orange-100 text-base mb-8">Explore internships, full-time roles, and freelance gigs curated for students.</p>
           <div className="relative max-w-xl mx-auto">
@@ -238,6 +251,36 @@ export default function JobsPage() {
             <button onClick={()=>setPage(p=>Math.min(totalPages,p+1))} disabled={page===totalPages} className="px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 bg-white text-gray-600 hover:border-orange-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all">Next ?</button>
           </div>
         )}
+
+        {/* Post a Job Employer Card */}
+        <div className="mt-16 max-w-2xl mx-auto">
+          <div className="bg-white rounded-3xl border-2 border-orange-200 p-8 shadow-lg hover:shadow-xl transition-all text-center sm:text-left flex flex-col sm:flex-row items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-orange-50 border-2 border-orange-200 flex items-center justify-center flex-shrink-0">
+              <Briefcase className="w-8 h-8 text-orange-500" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xl font-extrabold text-gray-900 mb-1">Are you hiring talent?</h3>
+              <p className="text-gray-500 text-sm mb-4 leading-relaxed">
+                Post verified jobs, internships, part-time, full-time, and project opportunities directly to 1,000+ job-ready Adyapan students.
+              </p>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                <Link
+                  href="/organization/jobs/post"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-white shadow-md shadow-orange-200 hover:shadow-lg transition-all text-sm"
+                  style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)' }}
+                >
+                  Post a Job <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/organization/login"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-orange-600 transition-all text-sm"
+                >
+                  Organization Login
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

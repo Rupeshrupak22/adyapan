@@ -176,7 +176,7 @@ export default function DeveloperPage() {
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10">
                 <div className="flex items-center gap-2 text-sm text-gray-400 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
                   <MapPin className="w-3.5 h-3.5 text-orange-400" />
-                  India
+                  Hyderabad, Telangana
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-400 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
                   <Briefcase className="w-3.5 h-3.5 text-orange-400" />
@@ -191,12 +191,21 @@ export default function DeveloperPage() {
               {/* CTA Buttons */}
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
                 <a
-                  href="/resume-rupesh.pdf"
-                  download
+                  href="https://rupeshrupak.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-[0_0_30px_rgba(255,165,0,0.3)] hover:shadow-[0_0_50px_rgba(255,165,0,0.5)] hover:scale-105"
                 >
+                  <ExternalLink className="w-5 h-5" />
+                  View Portfolio
+                </a>
+                <a
+                  href="/resume-rupesh.pdf"
+                  download
+                  className="group inline-flex items-center gap-2 px-7 py-3.5 border border-white/10 text-gray-300 font-bold rounded-xl hover:bg-white/5 hover:border-white/20 transition-all duration-300 hover:scale-105"
+                >
                   <Download className="w-5 h-5 group-hover:animate-bounce" />
-                  Download Resume
+                  Resume
                 </a>
                 <a
                   href="https://www.linkedin.com/in/rupesh-kumar-rupak-bb4b44265"
@@ -518,12 +527,21 @@ export default function DeveloperPage() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <a
-                  href="/resume-rupesh.pdf"
-                  download
+                  href="https://rupeshrupak.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-[0_0_30px_rgba(255,165,0,0.3)] hover:shadow-[0_0_50px_rgba(255,165,0,0.5)] hover:scale-105"
                 >
+                  <ExternalLink className="w-5 h-5" />
+                  View Portfolio
+                </a>
+                <a
+                  href="/resume-rupesh.pdf"
+                  download
+                  className="group inline-flex items-center gap-2 px-8 py-4 border border-white/10 text-gray-300 font-bold rounded-xl hover:bg-white/5 hover:border-white/20 transition-all duration-300 hover:scale-105"
+                >
                   <Download className="w-5 h-5 group-hover:animate-bounce" />
-                  Download Resume
+                  Resume
                 </a>
                 <a
                   href="https://www.linkedin.com/in/rupesh-kumar-rupak-bb4b44265"

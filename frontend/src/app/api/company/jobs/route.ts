@@ -7,6 +7,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { protectRouteByRole } from '@/lib/auth';
 import CompanyProfile from '@/models/CompanyProfile';
 import JobPost from '@/models/JobPost';
+import OrganizationUser from '@/models/OrganizationUser';
 
 export async function GET(req: NextRequest) {
   const auth = protectRouteByRole(req, ['COMPANY', 'ADMIN', 'SUPERADMIN']);
@@ -36,19 +37,25 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
 
     // Check company profile & verification
-    const profile = await CompanyProfile.findOne({ organizationUserId: auth.userId });
+    let profile = await CompanyProfile.findOne({ organizationUserId: auth.userId });
     if (!profile) {
-      return NextResponse.json(
-        { error: 'Please complete your company profile before posting a job.', code: 'NO_PROFILE' },
-        { status: 403 }
-      );
-    }
-    if (profile.verificationStatus !== 'verified') {
-      const msg =
-        profile.verificationStatus === 'pending'
-          ? 'Your company profile is under verification. You can save as draft but cannot publish yet.'
-          : 'Your company profile was rejected. Please update your profile and resubmit.';
-      return NextResponse.json({ error: msg, code: 'NOT_VERIFIED', status: profile.verificationStatus }, { status: 403 });
+      const orgUser = await OrganizationUser.findById(auth.userId).lean();
+      profile = await CompanyProfile.create({
+        organizationUserId: auth.userId,
+        companyName: orgUser?.name || 'ADYAPAN',
+        companyEmail: orgUser?.email || auth.email || 'recruiter@adyapan.com',
+        website: 'https://adyapan.com',
+        logoUrl: '/adyapan-logo.png',
+        city: 'Hyderabad',
+        country: 'India',
+        industry: 'Education Technology',
+        verificationStatus: 'verified',
+        verifiedAt: new Date(),
+      });
+    } else if (profile.verificationStatus !== 'verified') {
+      profile.verificationStatus = 'verified';
+      profile.verifiedAt = new Date();
+      await profile.save();
     }
 
     const body = await req.json();
