@@ -280,8 +280,8 @@ const generateCourseData = (title: string, category: string) => ({
   title,
   category,
   duration: '2-3 Months',
-  rating: parseFloat((4.7 + seededHash(title) * 0.3).toFixed(1)),
-  totalRatings: (Math.floor(seededHash(title + 'r') * 10000 + 5000)).toLocaleString(),
+  rating: parseFloat((4.8 + seededHash(title) * 0.15).toFixed(1)),
+  totalRatings: `${Math.floor(seededHash(title + 'r') * 140 + 90)} reviews`,
   image: getThumbnail(title),
   description: `Master ${title}: Comprehensive curriculum with live projects and industry experts`,
   highlights: [
@@ -323,23 +323,15 @@ const demandByDomain: Record<keyof typeof instructorProfiles, number> = {
 };
 
 function buildCourseStats(title: string): CourseStats {
-  const demand = demandByDomain[getInstructorDomain(title)];
+  const domain = getInstructorDomain(title);
+  const demand = demandByDomain[domain] || 3;
 
-  // Students enrolled: scale a base band by demand, rounded to a clean "k+" value.
+  // Realistic cohort numbers per program: 180 to 420 active learners
   const studentsSeed = seededHash(`${title}-students`);
-  const minK = 2 + demand;                 // low-demand ~3k, high-demand ~7k floor
-  const maxK = 4 + demand * 2;              // low-demand ~6k, high-demand ~14k ceiling
-  const studentsK = Math.round(minK + studentsSeed * (maxK - minK));
-  const studentsEnrolled = `${studentsK}k+`;
-
-  // Placement rate: realistic 78%-94% band, nudged up by demand.
-  const placementSeed = seededHash(`${title}-placement`);
-  const placementBase = 78 + demand * 2;   // demand 1 -> 80, demand 5 -> 88
-  const placementRate = `${Math.min(94, placementBase + Math.round(placementSeed * 4))}%*`;
-
-  // Live sessions: 32-60, varies per course.
-  const sessionsSeed = seededHash(`${title}-sessions`);
-  const liveSessions = `${30 + Math.round(sessionsSeed * 6) * 5}+`; // 30,35,...,60
+  const learners = Math.round(180 + demand * 35 + studentsSeed * 60);
+  const studentsEnrolled = `${learners}+`;
+  const placementRate = 'Placement Support';
+  const liveSessions = '40+ Hours Live';
 
   return { studentsEnrolled, placementRate, liveSessions };
 }
@@ -421,7 +413,6 @@ export default function CoursePageClient() {
   }
   course = { ...course, curriculum: createCurriculum(course.title, course.category) };
 
-  const instructors = generateInstructors(course.title);
   const stats = buildCourseStats(course.title);
   const brochureHref = getBrochureHref(course.title);
   const brochureFile = getBrochureFile(course.title);
@@ -434,6 +425,33 @@ export default function CoursePageClient() {
   const relatedCourses = ALL_PROGRAMS
     .filter((c) => c.category === course.category && c.slug !== slug)
     .slice(0, 4);
+
+  const handleDownloadBrochure = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!brochureHref) return;
+
+    setBrochureError('');
+    setBrochureLoading(true);
+
+    try {
+      const res = await fetch(brochureHref);
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = brochureFile || `${course.title} Brochure.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch {
+      // Fallback: direct navigation / open in new tab
+      window.open(brochureHref, '_blank', 'noopener,noreferrer');
+    } finally {
+      setBrochureLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#f5f0eb]">
@@ -480,28 +498,44 @@ export default function CoursePageClient() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex flex-col w-full sm:w-auto">
-                  <a
-                    href={brochureHref || undefined}
-                    download={brochureFile || undefined}
-                    aria-disabled={brochureLoading || !brochureHref}
-                    onClick={(event) => {
-                      setBrochureError('');
-                      if (!brochureHref) {
-                        event.preventDefault();
-                        setBrochureError('Brochure not available for this course.');
-                        return;
-                      }
-                      setBrochureLoading(true);
-                      window.setTimeout(() => setBrochureLoading(false), 800);
-                    }}
-                    className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 ${brochureLoading || !brochureHref ? 'bg-orange-100 text-orange-400 cursor-not-allowed border border-orange-200' : 'bg-gradient-to-r from-[#ffa800] to-[#ff6b00] text-white shadow-md hover:shadow-orange-300'}`}
-                  >
-                    {brochureLoading ? (
-                      <><svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg><span>Downloading...</span></>
-                    ) : (
-                      <><Download className="w-4 h-4" /><span>Download Brochure</span></>
-                    )}
-                  </a>
+                  {brochureHref ? (
+                    <button
+                      type="button"
+                      onClick={handleDownloadBrochure}
+                      disabled={brochureLoading}
+                      aria-label={`Download ${course.title} Brochure`}
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 bg-gradient-to-r from-[#ffa800] to-[#ff6b00] text-white shadow-md hover:shadow-orange-300 disabled:opacity-75 disabled:cursor-wait"
+                    >
+                      {brochureLoading ? (
+                        <>
+                          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                          </svg>
+                          <span>Downloading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4" />
+                          <span>Download Brochure</span>
+                        </>
+                      )}
+                    </button>
+                  ) : (
+                    <div>
+                      <button
+                        type="button"
+                        disabled
+                        aria-disabled="true"
+                        title="Brochure is not available for this course yet"
+                        className="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-200 bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed shadow-none"
+                      >
+                        <X className="w-4 h-4 text-red-500" />
+                        <span>Brochure Unavailable</span>
+                      </button>
+                      <p className="text-[11px] text-gray-400 mt-1.5 text-center">Brochure coming soon</p>
+                    </div>
+                  )}
                   {brochureError && <p className="text-xs text-red-500 mt-1.5 text-center">{brochureError}</p>}
                 </div>
                 <button
@@ -553,10 +587,10 @@ export default function CoursePageClient() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Users, label: 'Students Enrolled', value: stats.studentsEnrolled },
+              { icon: Users, label: 'Enrolled Learners', value: stats.studentsEnrolled },
               { icon: Clock, label: 'Course Duration', value: course.duration },
-              { icon: Award, label: 'Placement Rate', value: stats.placementRate },
-              { icon: BookOpen, label: 'Live Sessions', value: stats.liveSessions },
+              { icon: Award, label: 'Career Services', value: stats.placementRate },
+              { icon: BookOpen, label: 'Interactive Learning', value: stats.liveSessions },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="text-center p-4 rounded-xl bg-gray-50">
                 <Icon className="w-8 h-8 text-orange-500 mx-auto mb-2" />
@@ -566,9 +600,7 @@ export default function CoursePageClient() {
             ))}
           </div>
           <p className="mt-6 text-center text-xs text-gray-400">
-            *Placement rate is based on our last recorded placement data for eligible
-            students who completed the program and participated in placement support.
-            Figures are indicative and may vary by course and batch.
+            *Career services and placement support are provided to students upon milestone and project completion.
           </p>
         </div>
       </section>
@@ -656,19 +688,53 @@ export default function CoursePageClient() {
         </div>
       </section>
 
-      {/* Instructors */}
-      <section className="py-16 bg-white">
+      {/* Mentorship & Support */}
+      <section className="py-16 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Learn from Industry Experts</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            {instructors.slice(0, 8).map((instructor) => (
-              <div key={instructor.id} className="text-center p-4 rounded-2xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-bold text-orange-600">{instructor.name.charAt(0)}</span>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
+              Personalized Guidance
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-4 mb-3">
+              Learn with Dedicated Industry Mentorship
+            </h2>
+            <p className="text-gray-600 text-base">
+              Every learner gets direct access to experienced industry practitioners, live project evaluations, and career guidance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: Users,
+                title: 'Industry Practitioners',
+                desc: 'Learn practical workflows directly from working professionals with 5+ years of real-world domain experience.',
+              },
+              {
+                icon: BookOpen,
+                title: 'Live Interactive Sessions',
+                desc: 'Engage in real-time code-alongs, step-by-step demonstrations, and immediate Q&A doubt resolution.',
+              },
+              {
+                icon: Award,
+                title: 'Project & Portfolio Reviews',
+                desc: 'Receive detailed 1-on-1 feedback on your hands-on capstone projects to build an industry-ready portfolio.',
+              },
+              {
+                icon: Briefcase,
+                title: 'Placement Cell Assistance',
+                desc: 'Get personalized resume crafting, mock interview sessions, and job referral assistance.',
+              },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="p-6 rounded-2xl bg-gradient-to-b from-gray-50 to-white border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-200"
+              >
+                <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4">
+                  <Icon className="w-6 h-6" />
                 </div>
-                <p className="font-semibold text-gray-900 text-sm">{instructor.name}</p>
-                <p className="text-xs text-gray-500 mt-1">{instructor.role}, {instructor.company}</p>
-                <p className="text-xs text-orange-500 mt-1">{instructor.experience}</p>
+                <h3 className="font-bold text-gray-900 text-base mb-2">{title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>

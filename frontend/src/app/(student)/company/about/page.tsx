@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { s3Url } from '@/lib/s3Url';
 import Link from 'next/link';
@@ -353,12 +353,11 @@ export default function CompanyAboutPage() {
           </div>
 
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto"
           >
             {[
               { name: 'Sai Charan', role: 'Founder', image: s3Url('/images/sai-charan.jpeg') },
               { name: 'Niranjan Reddy', role: 'Co-Founder', image: s3Url('/images/niranjan-reddy.jpeg') },
-              { name: 'Gunjan Avasthi', role: 'Human Resource Manager', image: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg' },
               { name: 'Monika Y', role: 'Core Team', image: s3Url('/images/monika-y.jpeg') },
               { name: 'Dr. Dhiraj Singh', role: 'Head, Training & Placement Cell', image: s3Url('/images/Dr. Dhiraj Singh.jpeg') }
             ].map((member, i) => (

@@ -441,7 +441,7 @@ function CheckoutPageInner() {
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-white text-xs font-semibold">
               <span> Only 12 Seats Left</span>
               <span className="hidden sm:block">|</span>
-              <span className="hidden sm:inline">20,000+ Students Joined</span>
+              <span className="hidden sm:inline">5,000+ Learners Joined</span>
               <span className="hidden sm:block">|</span>
               <span className="hidden sm:inline"> 4.9 Rating</span>
             </div>

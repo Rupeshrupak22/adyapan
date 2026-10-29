@@ -152,7 +152,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, planLabel, planP
                 {tab === 'login' ? 'Welcome Back' : 'Create Your Account'}
               </h2>
               <p className="text-xs text-gray-500 mt-1">
-                {tab === 'login' ? 'Sign in to continue your enrollment' : 'Join 20,000+ students on Adyapan'}
+                {tab === 'login' ? 'Sign in to continue your enrollment' : 'Join thousands of learners on Adyapan'}
               </p>
             </div>
 
@@ -314,7 +314,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess, planLabel, planP
             <div className="px-6 pb-5 flex items-center justify-center gap-4 text-xs text-gray-400 border-t border-gray-100 pt-3">
               <span>SSL Secured</span>
               <span>|</span>
-              <span>20,000+ Students</span>
+              <span>5,000+ Learners</span>
               <span>|</span>
               <span>4.9 Rating</span>
             </div>

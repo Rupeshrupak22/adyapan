@@ -194,11 +194,11 @@ const generateCertificationContent = (certification: string, companyName: string
   const isUnity = companyName === 'Unity';
   const isMeta = companyName === 'Meta';
   const isApple = companyName === 'Apple';
-  
+
   let acronym = '';
   let description = '';
   let pathwayText = '';
-  
+
   if (isAdobe) {
     acronym = '(ACP)';
     description = `${certification} is the industry-recognized certification that demonstrates mastery of Adobe Creative Cloud software and must-have knowledge for digital media careers. Each exam is integrated with an Adobe application and designed by experts, allowing for an authentic assessment of job-ready skills.`;
@@ -224,7 +224,7 @@ const generateCertificationContent = (certification: string, companyName: string
     description = `${certification} is an industry-recognized certification that validates your professional skills and expertise. This certification demonstrates your commitment to excellence and helps advance your career in your chosen field.`;
     pathwayText = `Adyapan provides comprehensive training and preparation for the ${certification}. Our expert instructors and practical approach ensure you're fully prepared for success.`;
   }
-  
+
   return { acronym, description, pathwayText };
 };
 
@@ -235,72 +235,72 @@ function getCertificateImage(certName: string, companyName: string): string {
 
   // Adobe
   if (c.includes('adobe')) {
-    if (n.includes('photoshop'))    return 'Adobe Photoshop.png';
-    if (n.includes('illustrator'))  return 'Adobe Illustrator.png';
-    if (n.includes('indesign'))     return 'Adobe InDesign.png';
-    if (n.includes('after effects'))return 'Adobe After Effects.png';
-    if (n.includes('premiere'))     return 'Adobe Premiere Pro.png';
-    if (n.includes('animate'))      return 'Adobe Animate.png';
-    if (n.includes('dreamweaver'))  return 'Adobe Dreamweaver.png';
-    if (n.includes('acrobat'))      return 'Adobe Acrobat Pro.png';
-    if (n.includes('express'))      return 'Adobe Express.png';
+    if (n.includes('photoshop')) return 'Adobe Photoshop.png';
+    if (n.includes('illustrator')) return 'Adobe Illustrator.png';
+    if (n.includes('indesign')) return 'Adobe InDesign.png';
+    if (n.includes('after effects')) return 'Adobe After Effects.png';
+    if (n.includes('premiere')) return 'Adobe Premiere Pro.png';
+    if (n.includes('animate')) return 'Adobe Animate.png';
+    if (n.includes('dreamweaver')) return 'Adobe Dreamweaver.png';
+    if (n.includes('acrobat')) return 'Adobe Acrobat Pro.png';
+    if (n.includes('express')) return 'Adobe Express.png';
     return 'Adobe Photoshop.png';
   }
   // Apple
   if (c.includes('apple')) {
-    if (n.includes('associate'))    return 'App Development with Swift Associate.png';
+    if (n.includes('associate')) return 'App Development with Swift Associate.png';
     return 'App Development with Swift Certified User.png';
   }
   // Autodesk
   if (c.includes('autodesk')) {
-    if (n.includes('autocad'))      return 'Autodesk AutoCAD.png';
-    if (n.includes('fusion'))       return 'Autodesk Fusion360.png';
-    if (n.includes('inventor'))     return 'Autodesk Inventor.png';
-    if (n.includes('revit'))        return 'Autodesk Revit.png';
-    if (n.includes('3ds'))          return 'Autodesk 3ds Max.png';
-    if (n.includes('maya'))         return 'Autodesk Maya.png';
+    if (n.includes('autocad')) return 'Autodesk AutoCAD.png';
+    if (n.includes('fusion')) return 'Autodesk Fusion360.png';
+    if (n.includes('inventor')) return 'Autodesk Inventor.png';
+    if (n.includes('revit')) return 'Autodesk Revit.png';
+    if (n.includes('3ds')) return 'Autodesk 3ds Max.png';
+    if (n.includes('maya')) return 'Autodesk Maya.png';
     return 'Autodesk AutoCAD.png';
   }
   // Cisco
   if (c.includes('cisco')) {
-    if (n.includes('cyber'))        return 'Cisco Cybersecurity.png';
+    if (n.includes('cyber')) return 'Cisco Cybersecurity.png';
     return 'Cisco Networking.png';
   }
   // Communication Skills
   if (c.includes('communication')) {
-    if (n.includes('english'))      return 'CSB English for IT.png';
+    if (n.includes('english')) return 'CSB English for IT.png';
     return 'CSB Professional Communication.png';
   }
   // IC3
-  if (c.includes('ic3'))            return 'IC3 Digital Literacy.png';
+  if (c.includes('ic3')) return 'IC3 Digital Literacy.png';
   // Intuit
-  if (c.includes('intuit'))         return 'Intuit QuickBooks Certified User.png';
+  if (c.includes('intuit')) return 'Intuit QuickBooks Certified User.png';
   // ITS
   if (c.includes('information technology specialist') || c.includes('its'))
-                                    return 'ITS Certificate.png';
+    return 'ITS Certificate.png';
   // Microsoft Certified Educator
-  if (c.includes('educator'))       return 'MCE.png';
+  if (c.includes('educator')) return 'MCE.png';
   // Microsoft Certified Fundamentals
-  if (c.includes('fundamentals'))   return 'MCF Certificate.png';
+  if (c.includes('fundamentals')) return 'MCF Certificate.png';
   // Meta
-  if (c.includes('meta'))           return 'Meta.png';
+  if (c.includes('meta')) return 'Meta.png';
   // MOS
   if (c.includes('office specialist') || c.includes('mos')) {
-    if (n.includes('word expert'))  return 'MOS Word Expert.png';
-    if (n.includes('word'))         return 'MOS Word Associate.png';
+    if (n.includes('word expert')) return 'MOS Word Expert.png';
+    if (n.includes('word')) return 'MOS Word Associate.png';
     if (n.includes('excel expert')) return 'MOS Excel Expert.png';
-    if (n.includes('excel'))        return 'MOS Excel Associate.png';
-    if (n.includes('powerpoint'))   return 'MOS PowerPoint Associate.png';
-    if (n.includes('outlook'))      return 'MOS Outlook Associate.png';
-    if (n.includes('access'))       return 'MOS Access Expert.png';
+    if (n.includes('excel')) return 'MOS Excel Associate.png';
+    if (n.includes('powerpoint')) return 'MOS PowerPoint Associate.png';
+    if (n.includes('outlook')) return 'MOS Outlook Associate.png';
+    if (n.includes('access')) return 'MOS Access Expert.png';
     return 'MOS Excel Associate.png';
   }
   // PMI
-  if (c.includes('pmi'))            return 'PMI.png';
+  if (c.includes('pmi')) return 'PMI.png';
   // Unity
   if (c.includes('unity')) {
-    if (n.includes('vr'))           return 'Unity VR.png';
-    if (n.includes('artist'))       return 'Unity Artist.png';
+    if (n.includes('vr')) return 'Unity VR.png';
+    if (n.includes('artist')) return 'Unity Artist.png';
     return 'Unity Programmer.png';
   }
   // ESB / CCS / default
@@ -313,15 +313,15 @@ function getSyllabusPdf(certName: string, companyName: string): string | null {
   const c = companyName.toLowerCase();
 
   if (c.includes('adobe')) {
-    if (n.includes('photoshop'))     return 'Adobe Photoshop.pdf';
-    if (n.includes('illustrator'))   return 'Adobe Illustrator.pdf';
-    if (n.includes('indesign'))      return 'Adobe InDesign.pdf';
+    if (n.includes('photoshop')) return 'Adobe Photoshop.pdf';
+    if (n.includes('illustrator')) return 'Adobe Illustrator.pdf';
+    if (n.includes('indesign')) return 'Adobe InDesign.pdf';
     if (n.includes('after effects')) return 'Adobe After Effects.pdf';
-    if (n.includes('premiere'))      return 'Adobe Premiere Pro.pdf';
-    if (n.includes('animate'))       return 'Adobe Animate.pdf';
-    if (n.includes('dreamweaver'))   return 'Adobe Dreamweaver.pdf';
-    if (n.includes('acrobat'))       return 'Adobe Acrobat Pro.pdf';
-    if (n.includes('express'))       return 'Adobe Express.pdf';
+    if (n.includes('premiere')) return 'Adobe Premiere Pro.pdf';
+    if (n.includes('animate')) return 'Adobe Animate.pdf';
+    if (n.includes('dreamweaver')) return 'Adobe Dreamweaver.pdf';
+    if (n.includes('acrobat')) return 'Adobe Acrobat Pro.pdf';
+    if (n.includes('express')) return 'Adobe Express.pdf';
     return null;
   }
 
@@ -331,12 +331,12 @@ function getSyllabusPdf(certName: string, companyName: string): string | null {
   }
 
   if (c.includes('autodesk')) {
-    if (n.includes('autocad'))  return 'Autodesk AutoCAD.pdf';
-    if (n.includes('fusion'))   return 'Autodesk Fusion360.pdf';
+    if (n.includes('autocad')) return 'Autodesk AutoCAD.pdf';
+    if (n.includes('fusion')) return 'Autodesk Fusion360.pdf';
     if (n.includes('inventor')) return 'Autodesk Inventor.pdf';
-    if (n.includes('revit'))    return 'Autodesk Revit.pdf';
-    if (n.includes('3ds'))      return 'Autodesk 3ds Max.pdf';
-    if (n.includes('maya'))     return 'Autodesk Maya.pdf';
+    if (n.includes('revit')) return 'Autodesk Revit.pdf';
+    if (n.includes('3ds')) return 'Autodesk 3ds Max.pdf';
+    if (n.includes('maya')) return 'Autodesk Maya.pdf';
     return null;
   }
 
@@ -358,52 +358,52 @@ function getSyllabusPdf(certName: string, companyName: string): string | null {
 
   if (c.includes('information technology specialist') || c.includes('its')) {
     if (n.includes('artificial intelligence')) return 'ITS AI.pdf';
-    if (n.includes('cloud computing'))         return 'ITS Cloud Computing.pdf';
-    if (n.includes('computational thinking'))  return 'ITS Computational Thinking.pdf';
-    if (n.includes('cybersecurity'))           return 'ITS Cybersecurity.pdf';
-    if (n.includes('data analytics'))          return 'ITS Data Analytics.pdf';
-    if (n.includes('databases'))               return 'ITS Databases.pdf';
-    if (n.includes('device'))                  return 'ITS Devices.pdf';
-    if (n.includes('html5'))                   return 'ITS HTML App Development.pdf';
-    if (n.includes('html and css'))            return 'ITS HTML and CSS.pdf';
-    if (n === 'java')                          return 'ITS Java.pdf';
-    if (n.includes('javascript'))              return 'ITS Javascript.pdf';
-    if (n.includes('network security'))        return 'ITS Network Security.pdf';
-    if (n.includes('networking'))              return 'ITS Networking.pdf';
-    if (n.includes('python'))                  return 'ITS Python.pdf';
-    if (n.includes('software development'))    return 'ITS Software Development.pdf';
+    if (n.includes('cloud computing')) return 'ITS Cloud Computing.pdf';
+    if (n.includes('computational thinking')) return 'ITS Computational Thinking.pdf';
+    if (n.includes('cybersecurity')) return 'ITS Cybersecurity.pdf';
+    if (n.includes('data analytics')) return 'ITS Data Analytics.pdf';
+    if (n.includes('databases')) return 'ITS Databases.pdf';
+    if (n.includes('device')) return 'ITS Devices.pdf';
+    if (n.includes('html5')) return 'ITS HTML App Development.pdf';
+    if (n.includes('html and css')) return 'ITS HTML and CSS.pdf';
+    if (n === 'java') return 'ITS Java.pdf';
+    if (n.includes('javascript')) return 'ITS Javascript.pdf';
+    if (n.includes('network security')) return 'ITS Network Security.pdf';
+    if (n.includes('networking')) return 'ITS Networking.pdf';
+    if (n.includes('python')) return 'ITS Python.pdf';
+    if (n.includes('software development')) return 'ITS Software Development.pdf';
     return null;
   }
 
   if (c.includes('educator')) return 'MCE.pdf';
 
   if (c.includes('fundamentals')) {
-    if (n.includes('365'))            return 'MCF 365 Fundamentals.pdf';
-    if (n.includes('azure ai'))       return 'MCF Azure AI.pdf';
-    if (n.includes('azure data'))     return 'MCF Azure Data.pdf';
-    if (n.includes('azure'))          return 'MCF Azure.pdf';
-    if (n.includes('mb-910'))         return 'MCF Dynamic 365 MB-910 Fundamentals.pdf';
-    if (n.includes('mb-920'))         return 'MCF Dynamic 365 MB-920 Fundamentals.pdf';
+    if (n.includes('365')) return 'MCF 365 Fundamentals.pdf';
+    if (n.includes('azure ai')) return 'MCF Azure AI.pdf';
+    if (n.includes('azure data')) return 'MCF Azure Data.pdf';
+    if (n.includes('azure')) return 'MCF Azure.pdf';
+    if (n.includes('mb-910')) return 'MCF Dynamic 365 MB-910 Fundamentals.pdf';
+    if (n.includes('mb-920')) return 'MCF Dynamic 365 MB-920 Fundamentals.pdf';
     if (n.includes('power platform')) return 'MCF Power Platform Fundamentals.pdf';
-    if (n.includes('security'))       return 'MCF Security Fundamentals.pdf';
+    if (n.includes('security')) return 'MCF Security Fundamentals.pdf';
     return null;
   }
 
   if (c.includes('office specialist') || c.includes('mos')) {
-    if (n.includes('word expert'))  return 'MOS Word Expert.pdf';
-    if (n.includes('word'))         return 'MOS Word Associate.pdf';
+    if (n.includes('word expert')) return 'MOS Word Expert.pdf';
+    if (n.includes('word')) return 'MOS Word Associate.pdf';
     if (n.includes('excel expert')) return 'MOS Excel Expert.pdf';
-    if (n.includes('excel'))        return 'MOS Excel Associate.pdf';
-    if (n.includes('powerpoint'))   return 'MOS Powerpoint Associate.pdf';
-    if (n.includes('outlook'))      return 'MOS Outlook Associate.pdf';
-    if (n.includes('access'))       return 'MOS Access Expert.pdf';
+    if (n.includes('excel')) return 'MOS Excel Associate.pdf';
+    if (n.includes('powerpoint')) return 'MOS Powerpoint Associate.pdf';
+    if (n.includes('outlook')) return 'MOS Outlook Associate.pdf';
+    if (n.includes('access')) return 'MOS Access Expert.pdf';
     return null;
   }
 
   if (c.includes('pmi')) return 'PMI.pdf';
 
   if (c.includes('unity')) {
-    if (n.includes('vr'))     return 'Unity VR Developer.pdf';
+    if (n.includes('vr')) return 'Unity VR Developer.pdf';
     if (n.includes('artist')) return 'Unity Artist .pdf';
     return 'Unity Programmer.pdf';
   }
@@ -418,7 +418,7 @@ export default function CertificationPage() {
   const slug = (params?.slug as string) || '';
   const [modalOpen, setModalOpen] = useState(false);
   const [certificateImageFailed, setCertificateImageFailed] = useState(false);
-  
+
   // Find the certification and company based on slug
   const findCertificationBySlug = (slug: string) => {
     // Normalize the incoming slug the same way we generate slugs from cert names
@@ -427,7 +427,7 @@ export default function CertificationPage() {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
-    
+
     for (const company of certificationCompanies) {
       for (const cert of company.certifications) {
         const certSlug = cert.toLowerCase()
@@ -435,7 +435,7 @@ export default function CertificationPage() {
           .replace(/\s+/g, '-')
           .replace(/-+/g, '-')
           .trim();
-        
+
         if (certSlug === normalizedSlug) {
           return { certification: cert, company };
         }
@@ -445,7 +445,7 @@ export default function CertificationPage() {
   };
 
   const result = findCertificationBySlug(slug);
-  
+
   if (!result) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -462,7 +462,7 @@ export default function CertificationPage() {
   const { certification, company } = result;
   const { acronym, description, pathwayText } = generateCertificationContent(certification, company.name);
   const syllabusPdf = getSyllabusPdf(certification, company.name);
-  const syllabusHref = syllabusPdf ? `/certification-brochures/${encodeURIComponent(syllabusPdf)}` : null;
+  const syllabusHref = syllabusPdf ? s3Url(`/certification-brochures/${encodeURIComponent(syllabusPdf)}`) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50">
@@ -510,7 +510,7 @@ export default function CertificationPage() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
                 {certification} {acronym}
               </h1>
-              
+
               {/* Rating */}
               <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6">
                 <div className="flex items-center space-x-1">
@@ -518,7 +518,7 @@ export default function CertificationPage() {
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <span className="text-sm font-medium text-gray-700">4.8 (2,450 reviews)</span>
+                <span className="text-sm font-medium text-gray-700">4.9 (180+ Reviews)</span>
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-semibold rounded-full">
                   Industry Recognized
                 </span>
@@ -551,10 +551,12 @@ export default function CertificationPage() {
                 <a
                   href={syllabusHref}
                   download={syllabusPdf || undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex-1 bg-white border-2 border-orange-300 text-orange-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-orange-500 hover:text-orange-800 hover:bg-orange-50 transition-all flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   <Download className="w-5 h-5" />
-                  <span>Download Syllabus â†"</span>
+                  <span>Download Syllabus</span>
                 </a>
               ) : (
                 <button
@@ -585,8 +587,8 @@ export default function CertificationPage() {
                   'Career support and placement assistance',
                   'Student support and certification guidance'
                 ].map((feature, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-all"
                   >
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -608,7 +610,7 @@ export default function CertificationPage() {
                 <span>Course Information</span>
               </h3>
               <div className="space-y-4">
-                <div 
+                <div
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
                 >
                   <Clock className="w-5 h-5 text-orange-400" />
@@ -617,16 +619,16 @@ export default function CertificationPage() {
                     <div className="text-sm text-gray-600">2-3 Months</div>
                   </div>
                 </div>
-                <div 
+                <div
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
                 >
                   <Users className="w-5 h-5 text-orange-400" />
                   <div>
                     <div className="font-semibold text-gray-900">Students Enrolled</div>
-                    <div className="text-sm text-gray-600">2,450+ Students</div>
+                    <div className="text-sm text-gray-600">350+ Certified</div>
                   </div>
                 </div>
-                <div 
+                <div
                   className="flex items-center space-x-3 p-3 bg-white rounded-lg shadow-sm"
                 >
                   <Award className="w-5 h-5 text-orange-400" />
@@ -657,7 +659,7 @@ export default function CertificationPage() {
                   </div>
                 ) : (
                   <img
-                    src={`/certificates/${getCertificateImage(certification, company.name)}`}
+                    src={s3Url(`/certificates/${encodeURIComponent(getCertificateImage(certification, company.name))}`)}
                     alt={`${certification} Sample Certificate`}
                     className="w-full h-auto object-contain bg-white"
                     onError={() => setCertificateImageFailed(true)}

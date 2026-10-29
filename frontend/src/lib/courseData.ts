@@ -217,7 +217,7 @@ export function getBrochureFile(title: string): string | null {
 
 export function getBrochureHref(title: string): string | null {
   const file = getBrochureFile(title);
-  return file ? `/brochures/${encodeURIComponent(file)}` : null;
+  return file ? s3Url(`/brochures/${encodeURIComponent(file)}`) : null;
 }
 
 const courseThumb = (file: string) => s3Url(`/course-thumbnails/${file}.webp`);

@@ -139,7 +139,7 @@ const WelcomePopup = () => {
                     className="mb-6 pb-6 border-b border-white/20 relative z-10"
                   >
                     <p className="text-white text-xs font-semibold">
-                       Trusted by 20,000+ students | 500+ universities
+                       Industry-Recognized Programs | Live Mentorship & Certification
                     </p>
                   </motion.div>
 

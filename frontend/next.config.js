@@ -168,6 +168,40 @@ const nextConfig = {
       ] : []),
     ];
   },
+
+  // ─── Rewrites (S3 fallback for all media) ────────────────────────────────
+  async rewrites() {
+    return [
+      {
+        source: '/certificates/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/certificates/:path*',
+      },
+      {
+        source: '/brochures/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/brochures/:path*',
+      },
+      {
+        source: '/certification-brochures/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/certification-brochures/:path*',
+      },
+      {
+        source: '/course-thumbnails/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/course-thumbnails/:path*',
+      },
+      {
+        source: '/logos/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/logos/:path*',
+      },
+      {
+        source: '/images/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/images/:path*',
+      },
+      {
+        source: '/videos/:path*',
+        destination: 'https://adyapan-website-storage.s3.ap-south-1.amazonaws.com/videos/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

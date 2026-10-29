@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { s3Url } from '@/lib/s3Url';
 import { useState } from 'react';
@@ -550,7 +550,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
                 {/* Certificate image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                   <img
-                    src={`/certificates/${current.file}`}
+                    src={s3Url(`/certificates/${encodeURIComponent(current.file)}`)}
                     alt={current.name}
                     className="w-full h-auto object-contain bg-white"
                   />
@@ -598,7 +598,7 @@ function CertificateShowcase({ onEnroll }: { onEnroll: (cert: string, company: s
                 }`}
               >
                 <img
-                  src={`/certificates/${cert.file}`}
+                  src={s3Url(`/certificates/${encodeURIComponent(cert.file)}`)}
                   alt={cert.name}
                   className="w-full h-28 object-cover bg-white group-hover:scale-105 transition-transform duration-300"
                 />

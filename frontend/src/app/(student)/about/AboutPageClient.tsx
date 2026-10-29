@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { s3Url } from '@/lib/s3Url';
 import Link from 'next/link';
@@ -435,7 +435,7 @@ export default function AboutPageClient() {
           </div>
 
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto"
           >
             {[
               {
@@ -447,11 +447,6 @@ export default function AboutPageClient() {
                 name: 'Niranjan Reddy',
                 role: 'Co-Founder',
                 image: s3Url('/images/niranjan-reddy.jpeg')
-              },
-              {
-                name: 'Gunjan Avasthi',
-                role: 'Human Resource Manager',
-                image: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg'
               },
               {
                 name: 'Monika Y',
@@ -493,10 +488,10 @@ export default function AboutPageClient() {
             className="grid grid-cols-1 md:grid-cols-4 gap-8"
           >
             {[
-              { number: '20K+', label: 'Students Trained' },
-              { number: '70+', label: 'Programs Offered' },
-              { number: '95%*', label: 'Placement Rate' },
-              { number: '150+', label: 'Partner Companies' }
+              { number: '5,000+', label: 'Learners Trained' },
+              { number: '65+', label: 'Programs Offered' },
+              { number: '100%', label: 'Placement Assistance' },
+              { number: '150+', label: 'Hiring Network' }
             ].map((stat, i) => (
               <div
                 key={i}

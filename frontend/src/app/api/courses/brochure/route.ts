@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Redirect to the S3 URL for the brochure
-  const brochureUrl = s3Url(`/brochures/${matchedFile}`);
+  const brochureUrl = s3Url(`/brochures/${encodeURIComponent(matchedFile)}`);
 
   return NextResponse.redirect(brochureUrl, { status: 302 });
 }

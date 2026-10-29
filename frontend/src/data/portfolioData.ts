@@ -732,7 +732,7 @@ export const INDUSTRY_SOLUTIONS: IndustrySolutionItem[] = [
       'Administrative mobile apps for executive oversight and faculty coordination',
     ],
     applicableProducts: ['Adyapan LMS', 'ADYAPANLMS Android App', 'ADYAPANADMIN Console'],
-    highlightMetric: 'Trained and managed cohorts exceeding 20,000+ students.',
+    highlightMetric: 'Trained and managed academic cohorts exceeding 5,000+ students.',
   },
   {
     id: 'training-edutech',
@@ -1112,12 +1112,6 @@ export const VERIFIED_LEADERSHIP: LeadershipMember[] = [
     bio: 'Co-leads operations, product delivery, and corporate technology initiatives. Steers the company’s enterprise mobile applications and institutional partnership ecosystems.',
     quote: 'The world is full of opportunities, but students need the right direction. Adyapan helps them access global careers without feeling lost.',
     linkedInUrl: 'https://www.linkedin.com/in/niranjan-reddy-abb1861b6/',
-  },
-  {
-    name: 'Gunjan Avasthi',
-    role: 'Human Resource Manager',
-    imagePath: 'https://static.vecteezy.com/system/resources/thumbnails/046/654/168/small/a-smiling-young-indian-businesswoman-in-a-light-grey-suit-stands-with-her-arms-crossed-in-a-modern-office-building-photo.jpeg',
-    bio: 'Oversees talent recruitment, organizational culture, and team enablement across engineering, academic operations, and corporate relations.',
   },
   {
     name: 'Monika Y',

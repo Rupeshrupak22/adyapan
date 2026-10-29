@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { FormEvent, useState, useEffect, Suspense } from 'react';
@@ -220,7 +220,7 @@ function SignupContent() {
                 <span className="text-2xl font-extrabold text-gray-900 tracking-tight">Adyapan</span>
               </Link>
               <h1 className="text-2xl font-extrabold text-gray-900">Create your account </h1>
-              <p className="text-gray-500 text-sm mt-1">Join 10,000+ learners and companies</p>
+              <p className="text-gray-500 text-sm mt-1">Start your learning journey with Adyapan</p>
             </div>
 
             {/* Program banner */}
