@@ -352,6 +352,8 @@ const courseData: Record<string, any> = {
     ],
     curriculum: {
       title: 'Advanced AI Curriculum To Help You Master Machine Learning, Deep Learning & Neural Networks',
+      summary: 'A comprehensive path through AI and machine learning with guided labs and capstone portfolio projects.',
+      badges: ['Live guided practice', 'Industry case work', 'Portfolio output'],
       modules: [
         { id: 1, title: 'AI Fundamentals', description: 'Introduction to AI, History, Applications', topics: { 'Python for AI': ['Python Basics', 'NumPy and Pandas', 'Data Manipulation', 'Visualization'], 'Mathematics for AI': ['Linear Algebra', 'Statistics', 'Calculus', 'Optimization'] } },
         { id: 2, title: 'Machine Learning', description: 'Supervised and Unsupervised Learning', topics: { 'Supervised Learning': ['Linear Regression', 'Logistic Regression', 'Decision Trees', 'Random Forest', 'SVM'], 'Unsupervised Learning': ['K-Means', 'Hierarchical Clustering', 'PCA', 'Association Rules'] } },
@@ -378,6 +380,8 @@ const courseData: Record<string, any> = {
     ],
     curriculum: {
       title: 'Advanced Data Science Curriculum',
+      summary: 'Master Data Science, Python, SQL, ML, and Power BI through hands-on project work.',
+      badges: ['Live guided practice', 'Industry case work', 'Portfolio output'],
       modules: [
         { id: 1, title: 'Programming', description: 'Python and SQL fundamentals', topics: { 'SQL': ['Intro to SQL', 'Joins', 'Aggregation', 'CTEs', 'Window Functions'], 'Python': ['Python Refresher', 'OOP', 'NumPy', 'Pandas', 'Visualization'] } },
         { id: 2, title: 'Data Engineering Fundamentals', description: 'ETL and data pipelines', topics: { 'ETL': ['Extract Transform Load', 'Pipeline Design', 'Data Quality'], 'Big Data': ['Distributed Computing', 'MapReduce', 'Hadoop', 'Spark'] } },
@@ -421,10 +425,13 @@ export default function CoursePageClient() {
         `Earn a recognized ${catalogueEntry.title} certificate`,
         'Work on real projects and build an industry-ready portfolio'
       ],
-      curriculum: existingDetailedCourse?.curriculum || createCurriculum(catalogueEntry.title, catalogueEntry.category),
+      curriculum: createCurriculum(catalogueEntry.title, catalogueEntry.category),
     };
   } else if (existingDetailedCourse) {
-    course = existingDetailedCourse;
+    course = {
+      ...existingDetailedCourse,
+      curriculum: createCurriculum(existingDetailedCourse.title, existingDetailedCourse.category || 'CSE / IT DOMAINS'),
+    };
   } else {
     // Fallback for unknown slugs not in catalog
     const courseTitle = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -437,7 +444,7 @@ export default function CoursePageClient() {
     else if (['civil', 'construction'].some(k => slug.includes(k))) category = 'CIVIL ENGINEERING';
     course = generateCourseData(courseTitle, category);
   }
-  course = { ...course, curriculum: course.curriculum || createCurriculum(course.title, course.category) };
+  course = { ...course, curriculum: createCurriculum(course.title, course.category) };
 
   const stats = buildCourseStats(course.title);
   const brochureHref = getBrochureHref(course.title);
@@ -634,10 +641,10 @@ export default function CoursePageClient() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="mx-auto mb-10 max-w-4xl text-center">
             <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-orange-600">Curriculum Roadmap</p>
-            <h2 className="text-3xl font-bold leading-tight text-gray-900 md:text-4xl">{course.curriculum.title}</h2>
-            <p className="mt-4 text-base leading-7 text-gray-600">{course.curriculum.summary}</p>
+            <h2 className="text-3xl font-bold leading-tight text-gray-900 md:text-4xl">{course?.curriculum?.title || 'Comprehensive Curriculum'}</h2>
+            <p className="mt-4 text-base leading-7 text-gray-600">{course?.curriculum?.summary || ''}</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-              {course.curriculum.badges.map((badge: string) => (
+              {(course?.curriculum?.badges || ['Live guided practice', 'Industry case work', 'Portfolio output']).map((badge: string) => (
                 <span key={badge} className="rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
                   {badge}
                 </span>
@@ -646,7 +653,7 @@ export default function CoursePageClient() {
           </div>
 
           <div className="space-y-5">
-            {course.curriculum.modules.map((module: any, index: number) => (
+            {(course?.curriculum?.modules || []).map((module: any, index: number) => (
               <div
                 key={module.id}
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-lg"
