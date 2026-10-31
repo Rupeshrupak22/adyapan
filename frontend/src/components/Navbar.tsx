@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProfileDropdown from './ProfileDropdown';
-import { getThumbnail } from '@/lib/courseData';
+import { getThumbnail, getCourseSlug } from '@/lib/courseData';
 import { useAuthContext } from '@/context/AuthContext';
 
 interface NavUser {
@@ -275,8 +275,7 @@ const Navbar = () => {
                         }
 
                         return coursesToShow.map((course, i) => {
-                        const slug = course.name.toLowerCase()
-                          .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+                        const slug = getCourseSlug(course.name);
                         return (
                           <motion.div
                             key={i}

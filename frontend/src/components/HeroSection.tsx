@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { s3Url } from '@/lib/s3Url';
+import { getCourseSlug } from '@/lib/courseData';
 import InternshipModal from './InternshipModal';
 
 const WORDS = ['Sell', 'Launch', 'Brand', 'Grow', 'Build'];
@@ -132,15 +133,12 @@ function HeroSection() {
     } catch {}
   }, []);
 
-  const slug = (s: string) =>
-    s.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
-
   const navigate = useCallback((term: string) => {
     saveToHistory(term);
     setShowDrop(false);
     setQuery(term);
     const match = ALL_COURSES.find(c => c.toLowerCase().includes(term.toLowerCase()));
-    router.push(`/courses/${slug(match || term)}`);
+    router.push(`/courses/${getCourseSlug(match || term)}`);
   }, [router, saveToHistory]);
 
   const go = useCallback(() => { if (query.trim()) navigate(query.trim()); }, [query, navigate]);

@@ -9,7 +9,7 @@ import {
   Users, Clock, Award, BookOpen, Briefcase, TrendingUp,
   Phone, Mail, MessageCircle, X,
 } from 'lucide-react';
-import { getBrochureFile, getBrochureHref, getThumbnail, getYouTubeEmbedUrl, ALL_PROGRAMS } from '@/lib/courseData';
+import { getBrochureFile, getBrochureHref, getThumbnail, getYouTubeEmbedUrl, ALL_PROGRAMS, findCourse, getCourseSlug } from '@/lib/courseData';
 import PricingModal from '@/components/PricingModal';
 import { track } from '@/lib/tracker';
 
@@ -392,33 +392,57 @@ const courseData: Record<string, any> = {
 
 export default function CoursePageClient() {
   const params = useParams();
-  const slug = (params?.slug as string) || '';
+  const rawSlug = (params?.slug as string) || '';
   const [activeModule, setActiveModule] = useState(0);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
   const [brochureLoading, setBrochureLoading] = useState(false);
   const [brochureError, setBrochureError] = useState('');
 
-  let course = courseData[slug];
+  // 1. Resolve canonical course from ALL_PROGRAMS
+  const catalogueEntry = findCourse(rawSlug);
+  const slug = catalogueEntry?.slug || rawSlug;
 
-  if (!course) {
+  // 2. Build course data
+  let course: any = null;
+  const existingDetailedCourse = courseData[slug] || (rawSlug !== slug ? courseData[rawSlug] : null);
+
+  if (catalogueEntry) {
+    course = {
+      title: catalogueEntry.title,
+      category: catalogueEntry.category,
+      duration: catalogueEntry.duration || existingDetailedCourse?.duration || '2-3 Months',
+      rating: existingDetailedCourse?.rating || parseFloat((4.8 + seededHash(catalogueEntry.title) * 0.15).toFixed(1)),
+      totalRatings: existingDetailedCourse?.totalRatings || `${Math.floor(seededHash(catalogueEntry.title + 'r') * 140 + 90)} reviews`,
+      image: catalogueEntry.thumbnail || existingDetailedCourse?.image || getThumbnail(catalogueEntry.title),
+      description: catalogueEntry.description || existingDetailedCourse?.description || `Master ${catalogueEntry.title}: Comprehensive curriculum with live projects and industry experts`,
+      highlights: existingDetailedCourse?.highlights || [
+        'Live online interactive sessions from Adyapan faculty & top industry experts',
+        'Dedicated placement support with our career services for freshers and professionals',
+        `Earn a recognized ${catalogueEntry.title} certificate`,
+        'Work on real projects and build an industry-ready portfolio'
+      ],
+      curriculum: existingDetailedCourse?.curriculum || createCurriculum(catalogueEntry.title, catalogueEntry.category),
+    };
+  } else if (existingDetailedCourse) {
+    course = existingDetailedCourse;
+  } else {
+    // Fallback for unknown slugs not in catalog
     const courseTitle = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     let category = 'CSE / IT DOMAINS';
-    if (['finance', 'investment', 'marketing', 'hrm', 'management', 'sales', 'commerce'].some(k => slug.includes(k))) category = 'MANAGEMENT & COMMERCE';
+    if (['finance', 'investment', 'marketing', 'hrm', 'management', 'sales', 'commerce', 'sap', 'acca', 'cfa'].some(k => slug.includes(k))) category = 'MANAGEMENT & COMMERCE';
     else if (['embedded', 'vlsi', 'iot', 'robotics', 'power'].some(k => slug.includes(k))) category = 'ECE DOMAINS';
-    else if (['economics', 'financial'].some(k => slug.includes(k))) category = 'ECONOMICS';
-    else if (['autocad', 'catia', 'design', 'mechanical'].some(k => slug.includes(k))) category = 'MECHANICAL ENGINEERING';
-    else if (['bio', 'bioinformatics', 'microbiology', 'molecular', 'genetic', 'pharma', 'nano', 'food', 'nutrition', 'medical'].some(k => slug.includes(k))) category = 'BIO & LIFE SCIENCES';
+    else if (['economics'].some(k => slug.includes(k))) category = 'ECONOMICS';
+    else if (['autocad', 'catia', 'car-design', 'mechanical'].some(k => slug.includes(k))) category = 'MECHANICAL ENGINEERING';
+    else if (['bio', 'microbiology', 'molecular', 'genetic', 'pharma', 'nano', 'food', 'nutrition', 'sensory', 'medical'].some(k => slug.includes(k))) category = 'BIO & LIFE SCIENCES';
     else if (['civil', 'construction'].some(k => slug.includes(k))) category = 'CIVIL ENGINEERING';
     course = generateCourseData(courseTitle, category);
   }
-  course = { ...course, curriculum: createCurriculum(course.title, course.category) };
+  course = { ...course, curriculum: course.curriculum || createCurriculum(course.title, course.category) };
 
   const stats = buildCourseStats(course.title);
   const brochureHref = getBrochureHref(course.title);
   const brochureFile = getBrochureFile(course.title);
 
-  // Real catalogue entry (source of truth for the unique course overview + links).
-  const catalogueEntry = ALL_PROGRAMS.find((c) => c.slug === slug);
   const overview = catalogueEntry?.description || course.description;
 
   // Related courses from the same category (excludes the current course).

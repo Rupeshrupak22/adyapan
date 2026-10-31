@@ -1,8 +1,8 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ALL_PROGRAMS } from '@/lib/courseData';
+import { ALL_PROGRAMS, getCourseSlug } from '@/lib/courseData';
 import { Search, X } from 'lucide-react';
 
 const programs = [
@@ -122,19 +122,8 @@ const programs = [
   },
 ];
 
-const normalize = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-
-const courseSlugByTitle = new Map(
-  ALL_PROGRAMS.map((course) => [normalize(course.title), course.slug])
-);
-
 function getCourseHref(courseTitle: string) {
-  const slug = courseSlugByTitle.get(normalize(courseTitle));
+  const slug = getCourseSlug(courseTitle);
   return slug ? `/courses/${slug}` : '/programs';
 }
 

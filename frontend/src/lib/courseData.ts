@@ -425,6 +425,78 @@ export const ALL_PROGRAMS: CourseProgram[] = [
   { title: 'Construction Planning',        slug: 'construction-planning',        category: 'CIVIL ENGINEERING',   description: 'Learn project planning, scheduling, cost estimation, and construction management techniques.',                         price: 'Rs. 3,000', duration: '2-3 Months', thumbnail: getThumbnail('Construction') },
 ];
 
+// ── Course Slug Aliases & Normalization ──────────────────────────────────────
+export const COURSE_SLUG_ALIASES: Record<string, string> = {
+  'uiux-design': 'ui-ux-design',
+  'uiuxdesign': 'ui-ux-design',
+  'ui/ux-design': 'ui-ux-design',
+  'ui/ux': 'ui-ux-design',
+  'ui ux': 'ui-ux-design',
+  'uiux': 'ui-ux-design',
+  'arvr-development': 'ar-vr-development',
+  'arvrdevelopment': 'ar-vr-development',
+  'ar/vr-development': 'ar-vr-development',
+  'ar/vr': 'ar-vr-development',
+  'ar vr': 'ar-vr-development',
+  'arvr': 'ar-vr-development',
+  'database-management': 'database-management-dbms',
+  'dbms': 'database-management-dbms',
+  'python-programming': 'python-programming-curriculum',
+  'python': 'python-programming-curriculum',
+  'java': 'java-programming',
+};
+
+const cleanCourseKey = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+const courseBySlugMap = new Map<string, CourseProgram>();
+const courseByCleanKeyMap = new Map<string, CourseProgram>();
+
+ALL_PROGRAMS.forEach((course) => {
+  courseBySlugMap.set(course.slug, course);
+  courseByCleanKeyMap.set(cleanCourseKey(course.slug), course);
+  courseByCleanKeyMap.set(cleanCourseKey(course.title), course);
+});
+
+Object.entries(COURSE_SLUG_ALIASES).forEach(([alias, targetSlug]) => {
+  const target = courseBySlugMap.get(targetSlug);
+  if (target) {
+    courseByCleanKeyMap.set(cleanCourseKey(alias), target);
+  }
+});
+
+/**
+ * Resolves any course title, slug variant, or alias into the official CourseProgram entry.
+ */
+export function findCourse(slugOrTitle?: string | null): CourseProgram | undefined {
+  if (!slugOrTitle) return undefined;
+  const raw = slugOrTitle.trim();
+  const direct = courseBySlugMap.get(raw);
+  if (direct) return direct;
+
+  const aliasedSlug = COURSE_SLUG_ALIASES[raw.toLowerCase()];
+  if (aliasedSlug && courseBySlugMap.has(aliasedSlug)) {
+    return courseBySlugMap.get(aliasedSlug);
+  }
+
+  const cleaned = cleanCourseKey(raw);
+  return courseByCleanKeyMap.get(cleaned);
+}
+
+/**
+ * Resolves any course title or slug variant into the official canonical URL slug.
+ */
+export function getCourseSlug(slugOrTitle?: string | null): string {
+  if (!slugOrTitle) return '';
+  const found = findCourse(slugOrTitle);
+  if (found) return found.slug;
+  return slugOrTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
 export const COURSE_CATALOGUE = [
   {
     slug: 'plan-1',

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ALL_PROGRAMS } from '@/lib/courseData';
+import { ALL_PROGRAMS, findCourse } from '@/lib/courseData';
 import { buildMetadata, courseSchema, breadcrumbSchema, BASE_URL } from '@/lib/seo';
 import JsonLd from '@/components/JsonLd';
 import CoursePageClient from './CoursePageClient';
@@ -16,7 +16,7 @@ export function generateStaticParams() {
 // â"€â"€ Dynamic metadata per course â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const course = ALL_PROGRAMS.find((c) => c.slug === slug);
+  const course = findCourse(slug);
 
   if (!course) {
     // Fallback for dynamically generated courses not in ALL_PROGRAMS
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // â"€â"€ Page component â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 export default async function CoursePage({ params }: Props) {
   const { slug } = await params;
-  const course = ALL_PROGRAMS.find((c) => c.slug === slug);
+  const course = findCourse(slug);
 
   const breadcrumb = breadcrumbSchema([
     { name: 'Home', url: BASE_URL },
