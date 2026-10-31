@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { FormEvent, useState, useEffect, Suspense } from 'react';
@@ -55,7 +55,7 @@ function LoginContent() {
   useEffect(() => {
     fetch('/api/auth/me')
       .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.user) router.replace('/'); else setChecking(false); })
+      .then(data => { if (data?.user) router.replace('/dashboard'); else setChecking(false); })
       .catch(() => setChecking(false));
   }, [router]);
 
@@ -98,7 +98,7 @@ function LoginContent() {
         if (amt) p.set('amount', amt);
         setTimeout(() => router.push(`/dashboard?${p.toString()}`), 900);
       } else {
-        setTimeout(() => router.push('/'), 900);
+        setTimeout(() => router.push('/dashboard'), 900);
       }
     } catch (err: any) {
       setError(err?.response?.data?.error || 'Login failed. Please check your credentials.');
@@ -121,7 +121,7 @@ function LoginContent() {
       if (amt) redirect.set('amount', amt);
       p.set('redirect', `/dashboard?${redirect.toString()}`);
     } else {
-      p.set('redirect', '/');
+      p.set('redirect', '/dashboard');
     }
 
     window.location.href = `/api/auth/google/start?${p.toString()}`;

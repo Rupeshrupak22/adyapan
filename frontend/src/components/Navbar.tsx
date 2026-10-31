@@ -30,7 +30,7 @@ const Navbar = () => {
     ? { name: authUser.name, email: authUser.email, role: authUser.role }
     : null;
 
-  const links = [
+  const publicLinks = [
     { label: 'Home',              href: '/' },
     { label: 'Get Certification', href: '/certifications', shortLabel: 'Certification' },
     { label: 'Offline Services',  href: '/offline-services', shortLabel: 'Offline' },
@@ -39,6 +39,18 @@ const Navbar = () => {
     { label: 'Campus Ambassador', href: '/campus-ambassador', desktopClass: 'hidden 2xl:block', shortLabel: 'Campus' },
     { label: 'Contact',           href: '/contact', desktopClass: 'hidden xl:block' },
   ];
+
+  const isStudent = Boolean(user && (!user.role || user.role === 'STUDENT'));
+
+  const studentLinks = [
+    { label: 'Dashboard',             href: '/dashboard', shortLabel: 'Dashboard' },
+    { label: 'Explore Courses',       href: '/dashboard/student?tab=explore', shortLabel: 'Courses' },
+    { label: 'My Enrollments',        href: '/dashboard/student?tab=courses', shortLabel: 'My Courses' },
+    { label: 'Certificates',          href: '/dashboard/student?tab=certificates', shortLabel: 'Certificates' },
+    { label: 'LMS Platform',          href: '/dashboard/student?tab=lms', shortLabel: 'LMS' },
+  ];
+
+  const activeLinks = isStudent ? studentLinks : publicLinks;
 
   const categories = [
     { name: 'CSE / IT DOMAINS',        count: '26 COURSES' },
@@ -304,7 +316,7 @@ const Navbar = () => {
 
         {/* Nav links */}
         <div className="hidden xl:flex items-center justify-start gap-5 2xl:gap-6 min-w-0 overflow-visible">
-          {links.map((l, i) => (
+          {activeLinks.map((l: any, i: number) => (
             <motion.div
               key={l.label}
               initial={{ opacity: 0, y: -10 }}
@@ -333,40 +345,44 @@ const Navbar = () => {
             </motion.div>
           ))}
 
-          {/* Recruiter button */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + links.length * 0.07, duration: 0.4 }}
-          >
-            <Link
-              href="/company"
-              className={`text-[13px] 2xl:text-sm font-semibold px-3 2xl:px-4 py-1.5 rounded-full border transition-all duration-200 whitespace-nowrap shrink-0 ${
-                pathname.startsWith('/company')
-                  ? 'bg-[#ffa800] text-white border-[#ffa800]'
-                  : 'border-[#ffa800] text-[#ffa800] hover:bg-[#ffa800] hover:text-white'
-              }`}
-            >
-              Recruiter
-            </Link>
-          </motion.div>
+          {!isStudent && (
+            <>
+              {/* Recruiter button */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + activeLinks.length * 0.07, duration: 0.4 }}
+              >
+                <Link
+                  href="/company"
+                  className={`text-[13px] 2xl:text-sm font-semibold px-3 2xl:px-4 py-1.5 rounded-full border transition-all duration-200 whitespace-nowrap shrink-0 ${
+                    pathname.startsWith('/company')
+                      ? 'bg-[#ffa800] text-white border-[#ffa800]'
+                      : 'border-[#ffa800] text-[#ffa800] hover:bg-[#ffa800] hover:text-white'
+                  }`}
+                >
+                  Recruiter
+                </Link>
+              </motion.div>
 
-          {/* Career link */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + (links.length + 1) * 0.07, duration: 0.4 }}
-          >
-            <a
-              href="https://career.adyapan.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[13px] 2xl:text-sm font-medium text-white hover:text-[#ffa800] transition-colors duration-200 whitespace-nowrap relative group"
-            >
-              Career
-              <span className="absolute -bottom-0.5 left-0 h-0.5 bg-[#ffa800] w-0 group-hover:w-full transition-all duration-300" />
-            </a>
-          </motion.div>
+              {/* Career link */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + (activeLinks.length + 1) * 0.07, duration: 0.4 }}
+              >
+                <a
+                  href="https://career.adyapan.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] 2xl:text-sm font-medium text-white hover:text-[#ffa800] transition-colors duration-200 whitespace-nowrap relative group"
+                >
+                  Career
+                  <span className="absolute -bottom-0.5 left-0 h-0.5 bg-[#ffa800] w-0 group-hover:w-full transition-all duration-300" />
+                </a>
+              </motion.div>
+            </>
+          )}
 
           {user ? (
             <ProfileDropdown
@@ -374,19 +390,14 @@ const Navbar = () => {
               onUserUpdate={() => {}}
             />
           ) : (
-            <>
-              <Link href="/auth?mode=login" className="text-[13px] 2xl:text-sm font-medium text-white hover:text-[#ffa800] transition-colors whitespace-nowrap">
-                Login
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/auth?mode=login"
+                className="block px-4 2xl:px-5 py-2 bg-[#ffa800] text-white rounded-full text-[13px] 2xl:text-sm font-semibold hover:bg-[#e69500] transition-colors whitespace-nowrap shrink-0 shadow-sm"
+              >
+                Sign In
               </Link>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link
-                  href="/auth?mode=signup"
-                  className="block px-4 2xl:px-5 py-2 bg-[#ffa800] text-white rounded-full text-[13px] 2xl:text-sm font-semibold hover:bg-[#e69500] transition-colors whitespace-nowrap shrink-0"
-                >
-                  Sign Up
-                </Link>
-              </motion.div>
-            </>
+            </motion.div>
           )}
         </div>
 
@@ -428,7 +439,7 @@ const Navbar = () => {
             className="xl:hidden overflow-hidden border-t border-white/10"
           >
             <div className="px-6 py-4 flex flex-col gap-3">
-              {links.map(l => (
+              {activeLinks.map((l: any) => (
                 <Link
                   key={l.label}
                   href={l.href}
@@ -440,24 +451,28 @@ const Navbar = () => {
                   {l.label}
                 </Link>
               ))}
-              <Link
-                href="/company"
-                onClick={() => setShowMobile(false)}
-                className={`text-sm font-semibold py-2 transition-colors duration-200 ${
-                  pathname.startsWith('/company') ? 'text-[#ffa800]' : 'text-[#ffa800] hover:text-white'
-                }`}
-              >
-                Recruiter
-              </Link>
-              <a
-                href="https://career.adyapan.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setShowMobile(false)}
-                className="text-sm font-medium py-2 text-white hover:text-[#ffa800] transition-colors duration-200"
-              >
-                Career
-              </a>
+              {!isStudent && (
+                <>
+                  <Link
+                    href="/company"
+                    onClick={() => setShowMobile(false)}
+                    className={`text-sm font-semibold py-2 transition-colors duration-200 ${
+                      pathname.startsWith('/company') ? 'text-[#ffa800]' : 'text-[#ffa800] hover:text-white'
+                    }`}
+                  >
+                    Recruiter
+                  </Link>
+                  <a
+                    href="https://career.adyapan.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShowMobile(false)}
+                    className="text-sm font-medium py-2 text-white hover:text-[#ffa800] transition-colors duration-200"
+                  >
+                    Career
+                  </a>
+                </>
+              )}
               <div className="border-t border-white/10 pt-3 flex gap-3">
                 {user ? (
                   <button
@@ -467,19 +482,18 @@ const Navbar = () => {
                       setShowMobile(false);
                       window.dispatchEvent(new Event('auth-change'));
                     }}
-                    className="flex-1 text-center py-2 text-sm font-semibold bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors"
+                    className="w-full text-center py-2.5 text-sm font-semibold bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors"
                   >
                     Logout
                   </button>
                 ) : (
-                  <>
-                    <Link href="/auth?mode=login" onClick={() => setShowMobile(false)} className="flex-1 text-center py-2 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-colors">
-                      Login
-                    </Link>
-                    <Link href="/auth?mode=signup" onClick={() => setShowMobile(false)} className="flex-1 text-center py-2 text-sm font-semibold bg-[#ffa800] text-white rounded-full hover:bg-[#e69500] transition-colors">
-                      Sign Up
-                    </Link>
-                  </>
+                  <Link
+                    href="/auth?mode=login"
+                    onClick={() => setShowMobile(false)}
+                    className="w-full text-center py-2.5 text-sm font-semibold bg-[#ffa800] text-white rounded-full hover:bg-[#e69500] transition-colors"
+                  >
+                    Sign In
+                  </Link>
                 )}
               </div>
             </div>

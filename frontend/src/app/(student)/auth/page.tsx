@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import api from '@/lib/api';
 import { useState, useEffect, Suspense } from 'react';
@@ -208,7 +208,7 @@ function AuthPageContent() {
           const role = data.user.role;
           if (role === 'ADMIN') router.replace('/admin');
           else if (role === 'COMPANY') router.replace('/organization');
-          else router.replace('/');
+          else router.replace('/dashboard');
         } else {
           setChecking(false);
         }

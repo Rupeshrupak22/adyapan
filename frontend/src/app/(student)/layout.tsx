@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { AuthProvider } from '@/context/AuthContext';
@@ -14,13 +15,16 @@ const CookieConsent      = dynamic(() => import('@/components/CookieConsent'),  
 const WhatsAppButton     = dynamic(() => import('@/components/WhatappButton'),      { ssr: false });
 
 export default function StudentLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isDashboard = pathname?.startsWith('/dashboard');
+
   return (
     <AuthProvider>
       <AnimatedBackground />
       <Navbar />
       <main className="flex-grow w-full">{children}</main>
-      <Footer />
-      <WelcomePopup />
+      {!isDashboard && <Footer />}
+      {!isDashboard && <WelcomePopup />}
       <CookieConsent />
       <WhatsAppButton />
     </AuthProvider>
